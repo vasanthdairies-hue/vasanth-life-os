@@ -1,42 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vasanth Life OS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vasanth Life OS</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0b0f19;
+    color: #ffffff;
+    padding: 25px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.date {
+    color: #8d96a8;
+    font-size: 14px;
+}
+
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #8d96a8;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: #151b28;
+    border: 1px solid #252d3d;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.card-title {
+    color: #8d96a8;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.card-value {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.section {
+    background: #151b28;
+    border: 1px solid #252d3d;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #252d3d;
+}
+
+.task:last-child {
+    border-bottom: none;
+}
+
+.task input {
+    width: 18px;
+    height: 18px;
+}
+
+.life-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.life-item {
+    background: #0f1420;
+    border: 1px solid #252d3d;
+    border-radius: 12px;
+    padding: 18px;
+    font-size: 16px;
+}
+
+.progress {
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 9px;
+    background: #252d3d;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+.quote {
+    color: #b4bdcc;
+    line-height: 1.6;
+}
+
+.footer {
+    text-align: center;
+    color: #626c7e;
+    margin-top: 30px;
+    font-size: 13px;
+}
+
+@media (max-width: 800px) {
+    body {
+        padding: 15px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome h1 {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 450px) {
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .card-value {
+        font-size: 24px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <h1>VASANTH LIFE OS</h1>
+<div class="container">
 
-    <h2>Welcome, Vasanth 👋</h2>
+    <div class="header">
+        <div class="logo">⚡ VASANTH LIFE OS</div>
+        <div class="date" id="date"></div>
+    </div>
 
-    <p>Your life. Your goals. Your progress.</p>
+    <div class="welcome">
+        <h1>Welcome back, Vasanth 👋</h1>
+        <p>Build your life. Track your progress. Become better every day.</p>
+    </div>
 
-    <hr>
+    <div class="stats">
 
-    <h2>📊 Today's Overview</h2>
+        <div class="card">
+            <div class="card-title">🎯 Goals</div>
+            <div class="card-value">0</div>
+        </div>
 
-    <p>🎯 Goals: 0</p>
-    <p>⏳ Pending Tasks: 0</p>
-    <p>✅ Completed Tasks: 0</p>
-    <p>🔥 Streak: 0 days</p>
+        <div class="card">
+            <div class="card-title">⏳ Pending</div>
+            <div class="card-value">0</div>
+        </div>
 
-    <hr>
+        <div class="card">
+            <div class="card-title">✅ Completed</div>
+            <div class="card-value">0</div>
+        </div>
 
-    <h2>🚀 Life Areas</h2>
+        <div class="card">
+            <div class="card-title">🔥 Streak</div>
+            <div class="card-value">0</div>
+        </div>
 
-    <p>📚 Education</p>
-    <p>💪 Fitness</p>
-    <p>💼 Career</p>
-    <p>💻 Projects</p>
-    <p>🧠 Skills</p>
-    <p>📔 Diary</p>
+    </div>
 
-    <hr>
+    <div class="dashboard">
 
-    <p>VASANTH LIFE OS — Building my life every day.</p>
+        <div>
+
+            <div class="section">
+                <h2>🎯 Today's Tasks</h2>
+
+                <div class="task">
+                    <input type="checkbox">
+                    <span>Morning routine</span>
+                </div>
+
+                <div class="task">
+                    <input type="checkbox">
+                    <span>Study / B.Tech</span>
+                </div>
+
+                <div class="task">
+                    <input type="checkbox">
+                    <span>Fitness / Running</span>
+                </div>
+
+                <div class="task">
+                    <input type="checkbox">
+                    <span>Work on personal project</span>
+                </div>
+
+            </div>
+
+            <div class="section">
+                <h2>🚀 My Life Areas</h2>
+
+                <div class="life-grid">
+
+                    <div class="life-item">📚 Education</div>
+                    <div class="life-item">💪 Fitness</div>
+                    <div class="life-item">💼 Career</div>
+                    <div class="life-item">💻 Projects</div>
+                    <div class="life-item">🧠 Skills</div>
+                    <div class="life-item">📔 Diary</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div>
+
+            <div class="section">
+                <h2>📈 Life Progress</h2>
+
+                <p>Education</p>
+                <div class="progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <br>
+
+                <p>Fitness</p>
+                <div class="progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <br>
+
+                <p>Career</p>
+                <div class="progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="section">
+                <h2>🧠 Today's Mindset</h2>
+
+                <p class="quote">
+                    “Small progress every day becomes a completely different life.”
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        VASANTH LIFE OS • Building my future every day.
+    </div>
+
+</div>
+
+<script>
+const today = new Date();
+
+document.getElementById("date").innerText =
+    today.toLocaleDateString("en-IN", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+</script>
 
 </body>
 </html>
