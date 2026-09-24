@@ -503,6 +503,24 @@ new Date().toLocaleDateString("en-IN", {
 renderTasks();
 
 </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
+    authDomain: "vasanth-lise-os.firebaseapp.com",
+    projectId: "vasanth-lise-os",
+    storageBucket: "vasanth-lise-os.firebasestorage.app",
+    messagingSenderId: "847181528785",
+    appId: "1:847181528785:web:f02eb43c041c9e90fc4ff0",
+    measurementId: "G-WMPYW2EDLZ"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  console.log("🔥 Firebase connected!");
+</script>
 </body>
 </html>
