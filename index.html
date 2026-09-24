@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -29,6 +30,7 @@ body{
     justify-content:space-between;
     align-items:center;
     margin-bottom:30px;
+    gap:15px;
 }
 
 .logo{
@@ -39,6 +41,17 @@ body{
 .date{
     color:#8d96a8;
     font-size:14px;
+}
+
+.auth-box{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.auth-user{
+    color:#8d96a8;
+    font-size:13px;
 }
 
 .welcome{
@@ -124,6 +137,16 @@ button{
     font-weight:bold;
 }
 
+.logout-btn{
+    background:#252d3d;
+    color:#fff;
+}
+
+.login-btn{
+    background:#fff;
+    color:#000;
+}
+
 .task{
     display:flex;
     align-items:center;
@@ -206,6 +229,12 @@ button{
     padding:20px 0;
 }
 
+.login-message{
+    color:#8d96a8;
+    font-size:14px;
+    margin-bottom:15px;
+}
+
 @media(max-width:800px){
     .stats{
         grid-template-columns:repeat(2,1fr);
@@ -216,15 +245,24 @@ button{
     }
 }
 
+@media(max-width:600px){
+    .header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .auth-box{
+        width:100%;
+    }
+
+    .auth-box button{
+        flex:1;
+    }
+}
+
 @media(max-width:500px){
     body{
         padding:12px;
-    }
-
-    .header{
-        align-items:flex-start;
-        gap:10px;
-        flex-direction:column;
     }
 
     .welcome h1{
@@ -240,6 +278,7 @@ button{
     }
 }
 </style>
+
 </head>
 
 <body>
@@ -247,8 +286,20 @@ button{
 <div class="container">
 
 <div class="header">
+
+```
+<div>
     <div class="logo">⚡ VASANTH LIFE OS</div>
     <div class="date" id="date"></div>
+</div>
+
+<div class="auth-box" id="authBox">
+    <button class="login-btn" onclick="loginWithGoogle()">
+        🔐 Sign in with Google
+    </button>
+</div>
+```
+
 </div>
 
 <div class="welcome">
@@ -258,25 +309,27 @@ button{
 
 <div class="stats">
 
-    <div class="card">
-        <div class="card-title">🎯 Total Tasks</div>
-        <div class="card-value" id="totalTasks">0</div>
-    </div>
+```
+<div class="card">
+    <div class="card-title">🎯 Total Tasks</div>
+    <div class="card-value" id="totalTasks">0</div>
+</div>
 
-    <div class="card">
-        <div class="card-title">⏳ Pending</div>
-        <div class="card-value" id="pendingTasks">0</div>
-    </div>
+<div class="card">
+    <div class="card-title">⏳ Pending</div>
+    <div class="card-value" id="pendingTasks">0</div>
+</div>
 
-    <div class="card">
-        <div class="card-title">✅ Completed</div>
-        <div class="card-value" id="completedTasks">0</div>
-    </div>
+<div class="card">
+    <div class="card-title">✅ Completed</div>
+    <div class="card-value" id="completedTasks">0</div>
+</div>
 
-    <div class="card">
-        <div class="card-title">📊 Progress</div>
-        <div class="card-value" id="progressText">0%</div>
-    </div>
+<div class="card">
+    <div class="card-title">📊 Progress</div>
+    <div class="card-value" id="progressText">0%</div>
+</div>
+```
 
 </div>
 
@@ -287,6 +340,10 @@ button{
 <div class="section">
 
 <h2>🎯 My Tasks</h2>
+
+<div id="loginMessage" class="login-message">
+    Sign in with Google to save your tasks in the cloud ☁️
+</div>
 
 <div class="add-task">
     <input id="taskInput" type="text" placeholder="Enter a new task...">
@@ -355,216 +412,573 @@ VASANTH LIFE OS • Building my future every day.
 
 </div>
 
-<script>
+<!-- Firebase + Task System -->
 
-let tasks = JSON.parse(localStorage.getItem("vasanthTasks")) || [];
-
-function saveTasks(){
-    localStorage.setItem("vasanthTasks", JSON.stringify(tasks));
-}
-
-function addTask(){
-
-    const input = document.getElementById("taskInput");
-    const name = input.value.trim();
-
-    if(name === ""){
-        alert("Please enter a task.");
-        return;
-    }
-
-    tasks.push({
-        id: Date.now(),
-        name: name,
-        completed: false
-    });
-
-    input.value = "";
-
-    saveTasks();
-    renderTasks();
-}
-
-function toggleTask(id){
-
-    tasks = tasks.map(task => {
-
-        if(task.id === id){
-            task.completed = !task.completed;
-        }
-
-        return task;
-    });
-
-    saveTasks();
-    renderTasks();
-}
-
-function deleteTask(id){
-
-    tasks = tasks.filter(task => task.id !== id);
-
-    saveTasks();
-    renderTasks();
-}
-
-function renderTasks(){
-
-    const list = document.getElementById("taskList");
-
-    if(tasks.length === 0){
-
-        list.innerHTML =
-        '<div class="empty">No tasks yet. Add your first task 🚀</div>';
-
-    }else{
-
-        list.innerHTML = tasks.map(task => `
-
-        <div class="task">
-
-            <input
-                type="checkbox"
-                ${task.completed ? "checked" : ""}
-                onchange="toggleTask(${task.id})"
-            >
-
-            <span class="task-name ${task.completed ? "completed" : ""}">
-                ${escapeHTML(task.name)}
-            </span>
-
-            <button
-                class="delete"
-                onclick="deleteTask(${task.id})">
-                🗑️
-            </button>
-
-        </div>
-
-        `).join("");
-    }
-
-    updateStats();
-}
-
-function updateStats(){
-
-    const total = tasks.length;
-
-    const completed =
-        tasks.filter(task => task.completed).length;
-
-    const pending = total - completed;
-
-    const percentage =
-        total === 0 ? 0 : Math.round((completed / total) * 100);
-
-    document.getElementById("totalTasks").innerText = total;
-
-    document.getElementById("pendingTasks").innerText = pending;
-
-    document.getElementById("completedTasks").innerText = completed;
-
-    document.getElementById("progressText").innerText =
-        percentage + "%";
-
-    document.getElementById("progressLabel").innerText =
-        percentage + "% completed";
-
-    document.getElementById("progressBar").style.width =
-        percentage + "%";
-}
-
-function escapeHTML(text){
-
-    const div = document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-}
-
-document.getElementById("taskInput").addEventListener("keydown", function(event){
-
-    if(event.key === "Enter"){
-        addTask();
-    }
-
-});
-
-document.getElementById("date").innerText =
-new Date().toLocaleDateString("en-IN", {
-    weekday:"long",
-    year:"numeric",
-    month:"long",
-    day:"numeric"
-});
-
-renderTasks();
-
-</script>
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-  import { getFirestore } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
-    authDomain: "vasanth-lise-os.firebaseapp.com",
-    projectId: "vasanth-lise-os",
-    storageBucket: "vasanth-lise-os.firebasestorage.app",
-    messagingSenderId: "847181528785",
-    appId: "1:847181528785:web:f02eb43c041c9e90fc4ff0",
-    measurementId: "G-WMPYW2EDLZ"
-  };
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  console.log("🔥 Firebase connected!");
-</script>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-  import {
+import {
     getAuth,
     GoogleAuthProvider,
     signInWithPopup,
     onAuthStateChanged,
     signOut
-  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-  const firebaseConfig = {
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+    onSnapshot,
+    query,
+    orderBy
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
     apiKey: "AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
+
     authDomain: "vasanth-lise-os.firebaseapp.com",
+
     projectId: "vasanth-lise-os",
+
     storageBucket: "vasanth-lise-os.firebasestorage.app",
+
     messagingSenderId: "847181528785",
-    appId: "1:847181528785:web:f02eb43c041c9e90fc4ff0"
-  };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
+    appId: "1:847181528785:web:f02eb43c041c9e90fc4ff0",
 
-  window.loginWithGoogle = async function () {
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error("Login error:", error);
-      alert(error.message);
+    measurementId: "G-WMPYW2EDLZ"
+};
+
+
+/* =========================
+   ONE FIREBASE APP ONLY
+========================= */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+const provider = new GoogleAuthProvider();
+
+
+let tasks = [];
+
+let currentUser = null;
+
+let unsubscribeTasks = null;
+
+
+/* =========================
+   GOOGLE LOGIN
+========================= */
+
+window.loginWithGoogle = async function(){
+
+    try{
+
+        await signInWithPopup(auth, provider);
+
+    }catch(error){
+
+        console.error("Login error:", error);
+
+        alert(error.message);
+
     }
-  };
 
-  window.logout = async function () {
-    await signOut(auth);
-  };
+};
 
-  onAuthStateChanged(auth, (user) => {
-    console.log(user ? "Logged in: " + user.email : "Logged out");
-  });
+
+/* =========================
+   LOGOUT
+========================= */
+
+window.logout = async function(){
+
+    try{
+
+        await signOut(auth);
+
+    }catch(error){
+
+        console.error("Logout error:", error);
+
+    }
+
+};
+
+
+/* =========================
+   AUTH STATE
+========================= */
+
+onAuthStateChanged(auth, (user) => {
+
+    currentUser = user;
+
+    const authBox =
+        document.getElementById("authBox");
+
+    const loginMessage =
+        document.getElementById("loginMessage");
+
+
+    if(user){
+
+        authBox.innerHTML = `
+
+            <span class="auth-user">
+                👤 ${escapeHTML(user.displayName || user.email)}
+            </span>
+
+            <button class="logout-btn"
+                onclick="logout()">
+                Logout
+            </button>
+
+        `;
+
+        loginMessage.innerText =
+            "☁️ Your tasks are being saved to Firebase.";
+
+        loadCloudTasks();
+
+    }else{
+
+        authBox.innerHTML = `
+
+            <button class="login-btn"
+                onclick="loginWithGoogle()">
+                🔐 Sign in with Google
+            </button>
+
+        `;
+
+        loginMessage.innerText =
+            "Sign in with Google to save your tasks in the cloud ☁️";
+
+        if(unsubscribeTasks){
+
+            unsubscribeTasks();
+
+            unsubscribeTasks = null;
+
+        }
+
+        tasks = [];
+
+        renderTasks();
+
+    }
+
+});
+
+
+/* =========================
+   LOAD CLOUD TASKS
+========================= */
+
+function loadCloudTasks(){
+
+    if(!currentUser) return;
+
+
+    const tasksRef = collection(
+        db,
+        "users",
+        currentUser.uid,
+        "tasks"
+    );
+
+
+    const tasksQuery =
+        query(tasksRef, orderBy("createdAt", "asc"));
+
+
+    if(unsubscribeTasks){
+
+        unsubscribeTasks();
+
+    }
+
+
+    unsubscribeTasks = onSnapshot(
+        tasksQuery,
+        (snapshot) => {
+
+            tasks = snapshot.docs.map(item => ({
+
+                id: item.id,
+
+                name: item.data().name,
+
+                completed:
+                    item.data().completed || false
+
+            }));
+
+            renderTasks();
+
+        },
+        (error) => {
+
+            console.error(
+                "Firestore error:",
+                error
+            );
+
+            alert(
+                "Could not load tasks. Please check Firebase Firestore Rules."
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   ADD TASK
+========================= */
+
+window.addTask = async function(){
+
+    const input =
+        document.getElementById("taskInput");
+
+    const name =
+        input.value.trim();
+
+
+    if(name === ""){
+
+        alert("Please enter a task.");
+
+        return;
+
+    }
+
+
+    if(!currentUser){
+
+        alert(
+            "Please sign in with Google first."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        await addDoc(
+
+            collection(
+                db,
+                "users",
+                currentUser.uid,
+                "tasks"
+            ),
+
+            {
+                name: name,
+
+                completed: false,
+
+                createdAt: Date.now()
+            }
+
+        );
+
+
+        input.value = "";
+
+
+    }catch(error){
+
+        console.error(
+            "Add task error:",
+            error
+        );
+
+        alert(
+            "Task could not be added. Check Firebase Rules."
+        );
+
+    }
+
+};
+
+
+/* =========================
+   COMPLETE / UNCOMPLETE
+========================= */
+
+window.toggleTask = async function(id){
+
+    if(!currentUser) return;
+
+
+    const taskRef = doc(
+        db,
+        "users",
+        currentUser.uid,
+        "tasks",
+        id
+    );
+
+
+    const task =
+        tasks.find(item => item.id === id);
+
+
+    if(!task) return;
+
+
+    try{
+
+        await updateDoc(
+            taskRef,
+            {
+                completed: !task.completed
+            }
+        );
+
+    }catch(error){
+
+        console.error(
+            "Update task error:",
+            error
+        );
+
+    }
+
+};
+
+
+/* =========================
+   DELETE TASK
+========================= */
+
+window.deleteTask = async function(id){
+
+    if(!currentUser) return;
+
+
+    const taskRef = doc(
+        db,
+        "users",
+        currentUser.uid,
+        "tasks",
+        id
+    );
+
+
+    try{
+
+        await deleteDoc(taskRef);
+
+    }catch(error){
+
+        console.error(
+            "Delete task error:",
+            error
+        );
+
+    }
+
+};
+
+
+/* =========================
+   RENDER TASKS
+========================= */
+
+function renderTasks(){
+
+    const list =
+        document.getElementById("taskList");
+
+
+    if(tasks.length === 0){
+
+        list.innerHTML =
+            '<div class="empty">No tasks yet. Add your first task 🚀</div>';
+
+    }else{
+
+        list.innerHTML = tasks.map(task => `
+
+            <div class="task">
+
+                <input
+                    type="checkbox"
+                    ${task.completed ? "checked" : ""}
+                    onchange="toggleTask('${task.id}')"
+                >
+
+                <span class="task-name ${task.completed ? "completed" : ""}">
+                    ${escapeHTML(task.name)}
+                </span>
+
+                <button
+                    class="delete"
+                    onclick="deleteTask('${task.id}')">
+                    🗑️
+                </button>
+
+            </div>
+
+        `).join("");
+
+    }
+
+
+    updateStats();
+
+}
+
+
+/* =========================
+   UPDATE STATISTICS
+========================= */
+
+function updateStats(){
+
+    const total =
+        tasks.length;
+
+
+    const completed =
+        tasks.filter(
+            task => task.completed
+        ).length;
+
+
+    const pending =
+        total - completed;
+
+
+    const percentage =
+        total === 0
+        ? 0
+        : Math.round(
+            (completed / total) * 100
+        );
+
+
+    document.getElementById(
+        "totalTasks"
+    ).innerText = total;
+
+
+    document.getElementById(
+        "pendingTasks"
+    ).innerText = pending;
+
+
+    document.getElementById(
+        "completedTasks"
+    ).innerText = completed;
+
+
+    document.getElementById(
+        "progressText"
+    ).innerText =
+        percentage + "%";
+
+
+    document.getElementById(
+        "progressLabel"
+    ).innerText =
+        percentage + "% completed";
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        percentage + "%";
+
+}
+
+
+/* =========================
+   HTML SECURITY
+========================= */
+
+function escapeHTML(text){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================
+   ENTER KEY
+========================= */
+
+document
+    .getElementById("taskInput")
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key === "Enter"){
+
+                window.addTask();
+
+            }
+
+        }
+    );
+
+
+/* =========================
+   DATE
+========================= */
+
+document.getElementById(
+    "date"
+).innerText =
+
+new Date().toLocaleDateString(
+    "en-IN",
+    {
+        weekday:"long",
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+    }
+);
+
+
+/* Initial screen */
+
+renderTasks();
+
 </script>
+
 </body>
-<div id="authBox">
-  <button onclick="loginWithGoogle()">🔐 Sign in with Google</button>
-  <button onclick="logout()">Logout</button>
-</div>
 </html>
