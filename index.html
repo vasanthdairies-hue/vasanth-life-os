@@ -179,6 +179,12 @@ button{
     padding:5px 8px;
 }
 
+.edit{
+    background:transparent;
+    color:#fff;
+    padding:5px 8px;
+}
+
 .life-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -287,7 +293,6 @@ button{
 
 <div class="header">
 
-```
 <div>
     <div class="logo">⚡ VASANTH LIFE OS</div>
     <div class="date" id="date"></div>
@@ -298,7 +303,6 @@ button{
         🔐 Sign in with Google
     </button>
 </div>
-```
 
 </div>
 
@@ -309,7 +313,6 @@ button{
 
 <div class="stats">
 
-```
 <div class="card">
     <div class="card-title">🎯 Total Tasks</div>
     <div class="card-value" id="totalTasks">0</div>
@@ -331,17 +334,16 @@ button{
 </div>
 
 </div>
-```
-
-</div>
 
 <div class="dashboard">
+
 <div class="section">
 
 <h2>🎯 My Goals</h2>
 
 <div class="add-task">
-    <input
+
+<input
     id="goalInput"
     type="text"
     placeholder="Enter a new goal..."
@@ -351,6 +353,7 @@ button{
     id="goalDate"
     type="date"
 >
+
 <input
     id="goalProgress"
     type="number"
@@ -358,14 +361,17 @@ button{
     max="100"
     placeholder="Progress %"
 >
+
 <button onclick="addGoal()">
     + Add Goal
-</button> 
+</button>
+
 </div>
 
 <div id="goalList"></div>
 
 </div>
+
 
 <div>
 
@@ -378,30 +384,43 @@ button{
 </div>
 
 <div class="add-task">
-    <input id="taskInput" type="text" placeholder="Enter a new task...">
-    <button onclick="addTask()">+ Add Task</button>
+
+<input
+    id="taskInput"
+    type="text"
+    placeholder="Enter a new task..."
+>
+
+<button onclick="addTask()">
+    + Add Task
+</button>
+
 </div>
 
 <div id="taskList"></div>
 
 </div>
 
+
 <div class="section">
 
 <h2>🚀 My Life Areas</h2>
 
 <div class="life-grid">
-    <div class="life-item">📚 Education</div>
-    <div class="life-item">💪 Fitness</div>
-    <div class="life-item">💼 Career</div>
-    <div class="life-item">💻 Projects</div>
-    <div class="life-item">🧠 Skills</div>
-    <div class="life-item">📔 Diary</div>
-</div>
+
+<div class="life-item">📚 Education</div>
+<div class="life-item">💪 Fitness</div>
+<div class="life-item">💼 Career</div>
+<div class="life-item">💻 Projects</div>
+<div class="life-item">🧠 Skills</div>
+<div class="life-item">📔 Diary</div>
 
 </div>
 
 </div>
+
+</div>
+
 
 <div>
 
@@ -412,9 +431,16 @@ button{
 <p id="progressLabel">0% completed</p>
 
 <div class="progress">
-    <div class="progress-bar">
-        <div class="progress-fill" id="progressBar"></div>
-    </div>
+
+<div class="progress-bar">
+
+<div
+    class="progress-fill"
+    id="progressBar">
+</div>
+
+</div>
+
 </div>
 
 <p class="quote">
@@ -423,13 +449,17 @@ button{
 
 </div>
 
+
 <div class="section">
 
 <h2>🔥 Daily Rule</h2>
 
 <p class="quote">
+
 Don't try to change your whole life in one day.<br><br>
+
 Just make today better than yesterday.
+
 </p>
 
 </div>
@@ -439,10 +469,13 @@ Just make today better than yesterday.
 </div>
 
 <div class="footer">
+
 VASANTH LIFE OS • Building my future every day.
+
 </div>
 
 </div>
+
 
 <!-- Firebase + Task System -->
 
@@ -494,11 +527,12 @@ const firebaseConfig = {
     appId: "1:847181528785:web:f02eb43c041c9e90fc4ff0",
 
     measurementId: "G-WMPYW2EDLZ"
+
 };
 
 
 /* =========================
-   ONE FIREBASE APP ONLY
+   FIREBASE
 ========================= */
 
 const app = initializeApp(firebaseConfig);
@@ -617,7 +651,10 @@ onAuthStateChanged(auth, (user) => {
 
         tasks = [];
 
+        goals = [];
+
         renderTasks();
+        renderGoals();
 
     }
 
@@ -762,7 +799,7 @@ window.addTask = async function(){
 
 
 /* =========================
-   COMPLETE / UNCOMPLETE
+   COMPLETE / UNCOMPLETE TASK
 ========================= */
 
 window.toggleTask = async function(id){
@@ -1008,72 +1045,118 @@ new Date().toLocaleDateString(
 );
 
 
-/* Initial screen */
-
-renderTasks();
 /* =========================
    GOALS SYSTEM
 ========================= */
 
 let goals = [];
 
+
+/* =========================
+   ADD GOAL
+========================= */
+
 window.addGoal = async function(){
 
-    const input = document.getElementById("goalInput");
-    const name = input.value.trim();
-    const dateInput = document.getElementById("goalDate");
-    const targetDate = dateInput.value;
-    const progressInput = document.getElementById("goalProgress");
-    const progress = Number(progressInput.value) || 0;
+    const input =
+        document.getElementById("goalInput");
+
+    const name =
+        input.value.trim();
+
+    const dateInput =
+        document.getElementById("goalDate");
+
+    const targetDate =
+        dateInput.value;
+
+    const progressInput =
+        document.getElementById("goalProgress");
+
+    const progress =
+        Number(progressInput.value) || 0;
+
 
     if(name === ""){
+
         alert("Please enter a goal.");
+
         return;
+
     }
 
+
     if(!currentUser){
-        alert("Please sign in with Google first.");
+
+        alert(
+            "Please sign in with Google first."
+        );
+
         return;
+
     }
+
 
     try{
 
         await addDoc(
+
             collection(
                 db,
                 "users",
                 currentUser.uid,
                 "goals"
             ),
+
             {
                 name: name,
+
                 completed: false,
+
                 progress: progress,
+
                 targetDate: targetDate,
+
                 createdAt: Date.now()
             }
+
         );
 
+
         input.value = "";
+
         dateInput.value = "";
+
         progressInput.value = "";
+
 
         loadGoals();
 
+
     }catch(error){
 
-        console.error("Add goal error:", error);
+        console.error(
+            "Add goal error:",
+            error
+        );
 
-        alert("Goal could not be added.");
+        alert(
+            "Goal could not be added."
+        );
 
     }
 
 };
 
 
+/* =========================
+   LOAD GOALS
+========================= */
+
 async function loadGoals(){
 
     if(!currentUser) return;
+
 
     const goalsRef = collection(
         db,
@@ -1082,35 +1165,53 @@ async function loadGoals(){
         "goals"
     );
 
-    const snapshot = await getDocs(goalsRef);
+
+    const snapshot =
+        await getDocs(goalsRef);
+
 
     goals = snapshot.docs.map(item => ({
 
         id: item.id,
+
         name: item.data().name,
-        completed: item.data().completed || false,
-        targetDate: item.data().targetDate || "",
-        progress: item.data().progress || 0
+
+        completed:
+            item.data().completed || false,
+
+        targetDate:
+            item.data().targetDate || "",
+
+        progress:
+            item.data().progress || 0
 
     }));
+
 
     renderGoals();
 
 }
 
 
+/* =========================
+   RENDER GOALS
+========================= */
+
 function renderGoals(){
 
-    const list = document.getElementById("goalList");
+    const list =
+        document.getElementById("goalList");
+
 
     if(goals.length === 0){
 
         list.innerHTML =
-        '<div class="empty">No goals yet. Create your first goal 🎯</div>';
+            '<div class="empty">No goals yet. Create your first goal 🎯</div>';
 
         return;
 
     }
+
 
     list.innerHTML = goals.map(goal => `
 
@@ -1122,23 +1223,43 @@ function renderGoals(){
                 onchange="toggleGoal('${goal.id}')"
             >
 
-         <div style="display:flex; flex-direction:column; gap:4px;">
 
-    <span class="task-name ${goal.completed ? "completed" : ""}">
-        ${escapeHTML(goal.name)}
-    </span>
+            <div style="display:flex; flex-direction:column; gap:4px; flex:1;">
 
-    ${
-        goal.targetDate
-        ? `<small>📅 Target: ${goal.targetDate}</small>`
-        : ""
-    }
-    <small>📊 Progress: ${goal.progress}%</small>
-    <div style="width:100%; background:#ddd; height:8px; border-radius:5px; margin-top:5px;">
-    <div style="width:${goal.progress}%; height:8px; border-radius:5px; background:#4caf50;"></div>
-</div>
+                <span class="task-name ${goal.completed ? "completed" : ""}">
+                    ${escapeHTML(goal.name)}
+                </span>
 
-</div>
+
+                ${
+                    goal.targetDate
+                    ? `<small>📅 Target: ${goal.targetDate}</small>`
+                    : ""
+                }
+
+
+                <small>
+                    📊 Progress: ${goal.progress}%
+                </small>
+
+
+                <div style="width:100%; background:#ddd; height:8px; border-radius:5px; margin-top:5px;">
+
+                    <div
+                        style="width:${goal.progress}%; height:8px; border-radius:5px; background:#4caf50;">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="edit"
+                onclick="editGoal('${goal.id}')">
+                ✏️
+            </button>
+
 
             <button
                 class="delete"
@@ -1153,49 +1274,223 @@ function renderGoals(){
 }
 
 
+/* =========================
+   EDIT GOAL
+========================= */
+
+window.editGoal = async function(id){
+
+    if(!currentUser) return;
+
+
+    const goal =
+        goals.find(item => item.id === id);
+
+
+    if(!goal) return;
+
+
+    const newName =
+        prompt(
+            "Edit goal name:",
+            goal.name
+        );
+
+
+    if(newName === null) return;
+
+
+    const name =
+        newName.trim();
+
+
+    if(name === ""){
+
+        alert("Goal name cannot be empty.");
+
+        return;
+
+    }
+
+
+    const newDate =
+        prompt(
+            "Edit target date (YYYY-MM-DD):",
+            goal.targetDate
+        );
+
+
+    if(newDate === null) return;
+
+
+    const newProgress =
+        prompt(
+            "Edit progress (0-100):",
+            goal.progress
+        );
+
+
+    if(newProgress === null) return;
+
+
+    const progress =
+        Number(newProgress);
+
+
+    if(
+        isNaN(progress) ||
+        progress < 0 ||
+        progress > 100
+    ){
+
+        alert(
+            "Progress must be between 0 and 100."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        await updateDoc(
+
+            doc(
+                db,
+                "users",
+                currentUser.uid,
+                "goals",
+                id
+            ),
+
+            {
+                name: name,
+
+                targetDate: newDate,
+
+                progress: progress
+            }
+
+        );
+
+
+        loadGoals();
+
+
+    }catch(error){
+
+        console.error(
+            "Edit goal error:",
+            error
+        );
+
+        alert(
+            "Goal could not be updated."
+        );
+
+    }
+
+};
+
+
+/* =========================
+   COMPLETE / UNCOMPLETE GOAL
+========================= */
+
 window.toggleGoal = async function(id){
 
     if(!currentUser) return;
 
-    const goal = goals.find(item => item.id === id);
+
+    const goal =
+        goals.find(item => item.id === id);
+
 
     if(!goal) return;
 
-    await updateDoc(
-        doc(
-            db,
-            "users",
-            currentUser.uid,
-            "goals",
-            id
-        ),
-        {
-            completed: !goal.completed
-        }
-    );
 
-    loadGoals();
+    try{
+
+        await updateDoc(
+
+            doc(
+                db,
+                "users",
+                currentUser.uid,
+                "goals",
+                id
+            ),
+
+            {
+                completed:
+                    !goal.completed
+            }
+
+        );
+
+
+        loadGoals();
+
+
+    }catch(error){
+
+        console.error(
+            "Toggle goal error:",
+            error
+        );
+
+    }
 
 };
 
+
+/* =========================
+   DELETE GOAL
+========================= */
 
 window.deleteGoal = async function(id){
 
     if(!currentUser) return;
 
-    await deleteDoc(
-        doc(
-            db,
-            "users",
-            currentUser.uid,
-            "goals",
-            id
-        )
-    );
 
-    loadGoals();
+    try{
+
+        await deleteDoc(
+
+            doc(
+                db,
+                "users",
+                currentUser.uid,
+                "goals",
+                id
+            )
+
+        );
+
+
+        loadGoals();
+
+
+    }catch(error){
+
+        console.error(
+            "Delete goal error:",
+            error
+        );
+
+    }
 
 };
+
+
+/* =========================
+   INITIAL SCREEN
+========================= */
+
+renderTasks();
+
+renderGoals();
 
 </script>
 
