@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Vasanth Life OS</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -185,6 +189,12 @@ button{
     padding:5px 8px;
 }
 
+.plan-time{
+    color:#8d96a8;
+    font-size:13px;
+    min-width:65px;
+}
+
 .life-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -241,7 +251,15 @@ button{
     margin-bottom:15px;
 }
 
+.today-label{
+    color:#8d96a8;
+    font-size:13px;
+    margin-top:-10px;
+    margin-bottom:18px;
+}
+
 @media(max-width:800px){
+
     .stats{
         grid-template-columns:repeat(2,1fr);
     }
@@ -249,9 +267,11 @@ button{
     .dashboard{
         grid-template-columns:1fr;
     }
+
 }
 
 @media(max-width:600px){
+
     .header{
         flex-direction:column;
         align-items:flex-start;
@@ -264,9 +284,11 @@ button{
     .auth-box button{
         flex:1;
     }
+
 }
 
 @media(max-width:500px){
+
     body{
         padding:12px;
     }
@@ -282,218 +304,448 @@ button{
     .life-grid{
         grid-template-columns:1fr;
     }
+
 }
+
 </style>
 
 </head>
+
 
 <body>
 
 <div class="container">
 
+
 <div class="header">
 
 <div>
-    <div class="logo">⚡ VASANTH LIFE OS</div>
-    <div class="date" id="date"></div>
+
+    <div class="logo">
+        ⚡ VASANTH LIFE OS
+    </div>
+
+    <div
+        class="date"
+        id="date">
+    </div>
+
 </div>
 
-<div class="auth-box" id="authBox">
-    <button class="login-btn" onclick="loginWithGoogle()">
+
+<div
+    class="auth-box"
+    id="authBox">
+
+    <button
+        class="login-btn"
+        onclick="loginWithGoogle()">
+
         🔐 Sign in with Google
+
     </button>
+
 </div>
 
 </div>
+
 
 <div class="welcome">
-    <h1>Welcome back, Vasanth 👋</h1>
-    <p>Build your life. Track your progress. Become better every day.</p>
+
+    <h1>
+        Welcome back, Vasanth 👋
+    </h1>
+
+    <p>
+        Build your life. Track your progress. Become better every day.
+    </p>
+
 </div>
+
 
 <div class="stats">
 
-<div class="card">
-    <div class="card-title">🎯 Total Tasks</div>
-    <div class="card-value" id="totalTasks">0</div>
-</div>
 
 <div class="card">
-    <div class="card-title">⏳ Pending</div>
-    <div class="card-value" id="pendingTasks">0</div>
+
+    <div class="card-title">
+        🎯 Total Tasks
+    </div>
+
+    <div
+        class="card-value"
+        id="totalTasks">
+
+        0
+
+    </div>
+
 </div>
+
 
 <div class="card">
-    <div class="card-title">✅ Completed</div>
-    <div class="card-value" id="completedTasks">0</div>
+
+    <div class="card-title">
+        ⏳ Pending
+    </div>
+
+    <div
+        class="card-value"
+        id="pendingTasks">
+
+        0
+
+    </div>
+
 </div>
+
 
 <div class="card">
-    <div class="card-title">📊 Progress</div>
-    <div class="card-value" id="progressText">0%</div>
-</div>
+
+    <div class="card-title">
+        ✅ Completed
+    </div>
+
+    <div
+        class="card-value"
+        id="completedTasks">
+
+        0
+
+    </div>
 
 </div>
+
+
+<div class="card">
+
+    <div class="card-title">
+        📊 Progress
+    </div>
+
+    <div
+        class="card-value"
+        id="progressText">
+
+        0%
+
+    </div>
+
+</div>
+
+
+</div>
+
 
 <div class="dashboard">
 
-<div class="section">
 
-<h2>🎯 My Goals</h2>
-
-<div class="add-task">
-
-<input
-    id="goalInput"
-    type="text"
-    placeholder="Enter a new goal..."
->
-
-<input
-    id="goalDate"
-    type="date"
->
-
-<input
-    id="goalProgress"
-    type="number"
-    min="0"
-    max="100"
-    placeholder="Progress %"
->
-
-<button onclick="addGoal()">
-    + Add Goal
-</button>
-
-</div>
-
-<div id="goalList"></div>
-
-</div>
+<!-- =========================
+     LEFT SIDE
+========================= -->
 
 
 <div>
 
-<div class="section">
 
-<h2>🎯 My Tasks</h2>
-
-<div id="loginMessage" class="login-message">
-    Sign in with Google to save your tasks in the cloud ☁️
-</div>
-
-<div class="add-task">
-
-<input
-    id="taskInput"
-    type="text"
-    placeholder="Enter a new task..."
->
-
-<button onclick="addTask()">
-    + Add Task
-</button>
-
-</div>
-
-<div id="taskList"></div>
-
-</div>
-
+<!-- DAILY PLANNER -->
 
 <div class="section">
 
-<h2>🚀 My Life Areas</h2>
+    <h2>
+        📅 Daily Planner
+    </h2>
 
-<div class="life-grid">
+    <div class="today-label">
+        Plan your day and complete it step by step.
+    </div>
 
-<div class="life-item">📚 Education</div>
-<div class="life-item">💪 Fitness</div>
-<div class="life-item">💼 Career</div>
-<div class="life-item">💻 Projects</div>
-<div class="life-item">🧠 Skills</div>
-<div class="life-item">📔 Diary</div>
+
+    <div class="add-task">
+
+        <input
+            id="planInput"
+            type="text"
+            placeholder="What do you want to do today?"
+        >
+
+
+        <input
+            id="planTime"
+            type="time"
+        >
+
+
+        <button
+            onclick="addPlan()">
+
+            + Add Plan
+
+        </button>
+
+    </div>
+
+
+    <div id="planList"></div>
 
 </div>
 
-</div>
+
+<!-- GOALS -->
+
+<div class="section">
+
+    <h2>
+        🎯 My Goals
+    </h2>
+
+
+    <div class="add-task">
+
+
+        <input
+            id="goalInput"
+            type="text"
+            placeholder="Enter a new goal..."
+        >
+
+
+        <input
+            id="goalDate"
+            type="date"
+        >
+
+
+        <input
+            id="goalProgress"
+            type="number"
+            min="0"
+            max="100"
+            placeholder="Progress %"
+        >
+
+
+        <button
+            onclick="addGoal()">
+
+            + Add Goal
+
+        </button>
+
+
+    </div>
+
+
+    <div id="goalList"></div>
 
 </div>
 
+
+<!-- TASKS -->
+
+<div class="section">
+
+    <h2>
+        🎯 My Tasks
+    </h2>
+
+
+    <div
+        id="loginMessage"
+        class="login-message">
+
+        Sign in with Google to save your tasks in the cloud ☁️
+
+    </div>
+
+
+    <div class="add-task">
+
+
+        <input
+            id="taskInput"
+            type="text"
+            placeholder="Enter a new task..."
+        >
+
+
+        <button
+            onclick="addTask()">
+
+            + Add Task
+
+        </button>
+
+
+    </div>
+
+
+    <div id="taskList"></div>
+
+</div>
+
+
+<!-- LIFE AREAS -->
+
+<div class="section">
+
+    <h2>
+        🚀 My Life Areas
+    </h2>
+
+
+    <div class="life-grid">
+
+
+        <div class="life-item">
+            📚 Education
+        </div>
+
+
+        <div class="life-item">
+            💪 Fitness
+        </div>
+
+
+        <div class="life-item">
+            💼 Career
+        </div>
+
+
+        <div class="life-item">
+            💻 Projects
+        </div>
+
+
+        <div class="life-item">
+            🧠 Skills
+        </div>
+
+
+        <div class="life-item">
+            📔 Diary
+        </div>
+
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<!-- RIGHT SIDE -->
 
 <div>
 
-<div class="section">
 
-<h2>📈 Task Progress</h2>
-
-<p id="progressLabel">0% completed</p>
-
-<div class="progress">
-
-<div class="progress-bar">
-
-<div
-    class="progress-fill"
-    id="progressBar">
-</div>
-
-</div>
-
-</div>
-
-<p class="quote">
-“Small progress every day becomes a completely different life.”
-</p>
-
-</div>
-
+<!-- TASK PROGRESS -->
 
 <div class="section">
 
-<h2>🔥 Daily Rule</h2>
+    <h2>
+        📈 Task Progress
+    </h2>
 
-<p class="quote">
 
-Don't try to change your whole life in one day.<br><br>
+    <p id="progressLabel">
+        0% completed
+    </p>
 
-Just make today better than yesterday.
 
-</p>
+    <div class="progress">
+
+
+        <div class="progress-bar">
+
+
+            <div
+                class="progress-fill"
+                id="progressBar">
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <p class="quote">
+
+        “Small progress every day becomes a completely different life.”
+
+    </p>
+
 
 </div>
 
-</div>
+
+<!-- DAILY RULE -->
+
+<div class="section">
+
+    <h2>
+        🔥 Daily Rule
+    </h2>
+
+
+    <p class="quote">
+
+        Don't try to change your whole life in one day.
+        <br><br>
+        Just make today better than yesterday.
+
+    </p>
 
 </div>
+
+
+</div>
+
+
+</div>
+
 
 <div class="footer">
 
-VASANTH LIFE OS • Building my future every day.
+    VASANTH LIFE OS • Building my future every day.
 
 </div>
 
+
 </div>
 
-
-<!-- Firebase + Task System -->
 
 <script type="module">
 
+
+/* =========================
+   FIREBASE IMPORTS
+========================= */
+
+
 import { initializeApp }
+
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
+
 import {
+
     getAuth,
     GoogleAuthProvider,
     signInWithPopup,
     onAuthStateChanged,
     signOut
+
 }
+
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
+
 import {
+
     getFirestore,
     collection,
     addDoc,
@@ -504,7 +756,9 @@ import {
     query,
     orderBy,
     getDocs
+
 }
+
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
@@ -512,21 +766,29 @@ from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
    FIREBASE CONFIG
 ========================= */
 
+
 const firebaseConfig = {
 
-    apiKey: "AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
+    apiKey:
+        "AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
 
-    authDomain: "vasanth-lise-os.firebaseapp.com",
+    authDomain:
+        "vasanth-lise-os.firebaseapp.com",
 
-    projectId: "vasanth-lise-os",
+    projectId:
+        "vasanth-lise-os",
 
-    storageBucket: "vasanth-lise-os.firebasestorage.app",
+    storageBucket:
+        "vasanth-lise-os.firebasestorage.app",
 
-    messagingSenderId: "847181528785",
+    messagingSenderId:
+        "847181528785",
 
-    appId: "1:847181528785:web:f02eb43c041c9e90fc4ff0",
+    appId:
+        "1:847181528785:web:f02eb43c041c9e90fc4ff0",
 
-    measurementId: "G-WMPYW2EDLZ"
+    measurementId:
+        "G-WMPYW2EDLZ"
 
 };
 
@@ -535,37 +797,90 @@ const firebaseConfig = {
    FIREBASE
 ========================= */
 
-const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
-
-const db = getFirestore(app);
-
-const provider = new GoogleAuthProvider();
+const app =
+    initializeApp(firebaseConfig);
 
 
-let tasks = [];
+const auth =
+    getAuth(app);
 
-let currentUser = null;
 
-let unsubscribeTasks = null;
+const db =
+    getFirestore(app);
+
+
+const provider =
+    new GoogleAuthProvider();
+
+
+let currentUser =
+    null;
+
+
+let tasks =
+    [];
+
+
+let goals =
+    [];
+
+
+let plans =
+    [];
+
+
+let unsubscribeTasks =
+    null;
+
+
+let unsubscribePlans =
+    null;
+
+
+/* =========================
+   HTML SECURITY
+========================= */
+
+
+function escapeHTML(text){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
 
 
 /* =========================
    GOOGLE LOGIN
 ========================= */
 
-window.loginWithGoogle = async function(){
+
+window.loginWithGoogle =
+async function(){
 
     try{
 
-        await signInWithPopup(auth, provider);
+        await signInWithPopup(
+            auth,
+            provider
+        );
 
     }catch(error){
 
-        console.error("Login error:", error);
+        console.error(
+            "Login error:",
+            error
+        );
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
     }
 
@@ -576,7 +891,9 @@ window.loginWithGoogle = async function(){
    LOGOUT
 ========================= */
 
-window.logout = async function(){
+
+window.logout =
+async function(){
 
     try{
 
@@ -584,7 +901,10 @@ window.logout = async function(){
 
     }catch(error){
 
-        console.error("Logout error:", error);
+        console.error(
+            "Logout error:",
+            error
+        );
 
     }
 
@@ -595,91 +915,159 @@ window.logout = async function(){
    AUTH STATE
 ========================= */
 
-onAuthStateChanged(auth, (user) => {
 
-    currentUser = user;
+onAuthStateChanged(
+    auth,
+    (user) => {
 
-    const authBox =
-        document.getElementById("authBox");
-
-    const loginMessage =
-        document.getElementById("loginMessage");
+        currentUser =
+            user;
 
 
-    if(user){
+        const authBox =
+            document.getElementById(
+                "authBox"
+            );
 
-        authBox.innerHTML = `
 
-            <span class="auth-user">
-                👤 ${escapeHTML(user.displayName || user.email)}
-            </span>
+        const loginMessage =
+            document.getElementById(
+                "loginMessage"
+            );
 
-            <button class="logout-btn"
-                onclick="logout()">
-                Logout
-            </button>
 
-        `;
+        if(user){
 
-        loginMessage.innerText =
-            "☁️ Your tasks are being saved to Firebase.";
+            authBox.innerHTML = `
 
-        loadCloudTasks();
-        loadGoals();
+                <span class="auth-user">
 
-    }else{
+                    👤 ${
+                        escapeHTML(
+                            user.displayName ||
+                            user.email
+                        )
+                    }
 
-        authBox.innerHTML = `
+                </span>
 
-            <button class="login-btn"
-                onclick="loginWithGoogle()">
-                🔐 Sign in with Google
-            </button>
 
-        `;
+                <button
+                    class="logout-btn"
+                    onclick="logout()">
 
-        loginMessage.innerText =
-            "Sign in with Google to save your tasks in the cloud ☁️";
+                    Logout
 
-        if(unsubscribeTasks){
+                </button>
 
-            unsubscribeTasks();
+            `;
 
-            unsubscribeTasks = null;
+
+            loginMessage.innerText =
+                "☁️ Your data is being saved to Firebase.";
+
+
+            loadCloudTasks();
+
+            loadGoals();
+
+            loadPlans();
+
+
+        }else{
+
+
+            authBox.innerHTML = `
+
+                <button
+                    class="login-btn"
+                    onclick="loginWithGoogle()">
+
+                    🔐 Sign in with Google
+
+                </button>
+
+            `;
+
+
+            loginMessage.innerText =
+                "Sign in with Google to save your data in the cloud ☁️";
+
+
+            if(unsubscribeTasks){
+
+                unsubscribeTasks();
+
+                unsubscribeTasks =
+                    null;
+
+            }
+
+
+            if(unsubscribePlans){
+
+                unsubscribePlans();
+
+                unsubscribePlans =
+                    null;
+
+            }
+
+
+            currentUser =
+                null;
+
+
+            tasks =
+                [];
+
+            goals =
+                [];
+
+            plans =
+                [];
+
+
+            renderTasks();
+
+            renderGoals();
+
+            renderPlans();
 
         }
 
-        tasks = [];
-
-        goals = [];
-
-        renderTasks();
-        renderGoals();
-
     }
-
-});
+);
 
 
 /* =========================
-   LOAD CLOUD TASKS
+   TASKS
 ========================= */
+
 
 function loadCloudTasks(){
 
-    if(!currentUser) return;
+    if(!currentUser)
+        return;
 
 
-    const tasksRef = collection(
-        db,
-        "users",
-        currentUser.uid,
-        "tasks"
-    );
+    const tasksRef =
+        collection(
+            db,
+            "users",
+            currentUser.uid,
+            "tasks"
+        );
 
 
     const tasksQuery =
-        query(tasksRef, orderBy("createdAt", "asc"));
+        query(
+            tasksRef,
+            orderBy(
+                "createdAt",
+                "asc"
+            )
+        );
 
 
     if(unsubscribeTasks){
@@ -689,37 +1077,51 @@ function loadCloudTasks(){
     }
 
 
-    unsubscribeTasks = onSnapshot(
-        tasksQuery,
-        (snapshot) => {
+    unsubscribeTasks =
+        onSnapshot(
 
-            tasks = snapshot.docs.map(item => ({
+            tasksQuery,
 
-                id: item.id,
+            (snapshot) => {
 
-                name: item.data().name,
 
-                completed:
-                    item.data().completed || false
+                tasks =
+                    snapshot.docs.map(
+                        item => ({
 
-            }));
+                            id:
+                                item.id,
 
-            renderTasks();
+                            name:
+                                item.data().name,
 
-        },
-        (error) => {
+                            completed:
+                                item.data().completed ||
+                                false
 
-            console.error(
-                "Firestore error:",
-                error
-            );
+                        })
+                    );
 
-            alert(
-                "Could not load tasks. Please check Firebase Firestore Rules."
-            );
 
-        }
-    );
+                renderTasks();
+
+            },
+
+
+            (error) => {
+
+                console.error(
+                    "Firestore task error:",
+                    error
+                );
+
+                alert(
+                    "Could not load tasks. Check Firebase Rules."
+                );
+
+            }
+
+        );
 
 }
 
@@ -728,10 +1130,15 @@ function loadCloudTasks(){
    ADD TASK
 ========================= */
 
-window.addTask = async function(){
+
+window.addTask =
+async function(){
 
     const input =
-        document.getElementById("taskInput");
+        document.getElementById(
+            "taskInput"
+        );
+
 
     const name =
         input.value.trim();
@@ -739,7 +1146,9 @@ window.addTask = async function(){
 
     if(name === ""){
 
-        alert("Please enter a task.");
+        alert(
+            "Please enter a task."
+        );
 
         return;
 
@@ -769,17 +1178,23 @@ window.addTask = async function(){
             ),
 
             {
-                name: name,
 
-                completed: false,
+                name:
+                    name,
 
-                createdAt: Date.now()
+                completed:
+                    false,
+
+                createdAt:
+                    Date.now()
+
             }
 
         );
 
 
-        input.value = "";
+        input.value =
+            "";
 
 
     }catch(error){
@@ -790,7 +1205,7 @@ window.addTask = async function(){
         );
 
         alert(
-            "Task could not be added. Check Firebase Rules."
+            "Task could not be added."
         );
 
     }
@@ -799,37 +1214,46 @@ window.addTask = async function(){
 
 
 /* =========================
-   COMPLETE / UNCOMPLETE TASK
+   TOGGLE TASK
 ========================= */
 
-window.toggleTask = async function(id){
 
-    if(!currentUser) return;
+window.toggleTask =
+async function(id){
 
-
-    const taskRef = doc(
-        db,
-        "users",
-        currentUser.uid,
-        "tasks",
-        id
-    );
+    if(!currentUser)
+        return;
 
 
     const task =
-        tasks.find(item => item.id === id);
+        tasks.find(
+            item => item.id === id
+        );
 
 
-    if(!task) return;
+    if(!task)
+        return;
 
 
     try{
 
         await updateDoc(
-            taskRef,
+
+            doc(
+                db,
+                "users",
+                currentUser.uid,
+                "tasks",
+                id
+            ),
+
             {
-                completed: !task.completed
+
+                completed:
+                    !task.completed
+
             }
+
         );
 
     }catch(error){
@@ -848,23 +1272,27 @@ window.toggleTask = async function(id){
    DELETE TASK
 ========================= */
 
-window.deleteTask = async function(id){
 
-    if(!currentUser) return;
+window.deleteTask =
+async function(id){
 
-
-    const taskRef = doc(
-        db,
-        "users",
-        currentUser.uid,
-        "tasks",
-        id
-    );
+    if(!currentUser)
+        return;
 
 
     try{
 
-        await deleteDoc(taskRef);
+        await deleteDoc(
+
+            doc(
+                db,
+                "users",
+                currentUser.uid,
+                "tasks",
+                id
+            )
+
+        );
 
     }catch(error){
 
@@ -882,10 +1310,13 @@ window.deleteTask = async function(id){
    RENDER TASKS
 ========================= */
 
+
 function renderTasks(){
 
     const list =
-        document.getElementById("taskList");
+        document.getElementById(
+            "taskList"
+        );
 
 
     if(tasks.length === 0){
@@ -895,29 +1326,52 @@ function renderTasks(){
 
     }else{
 
-        list.innerHTML = tasks.map(task => `
+        list.innerHTML =
+            tasks.map(
+                task => `
 
-            <div class="task">
+                <div class="task">
 
-                <input
-                    type="checkbox"
-                    ${task.completed ? "checked" : ""}
-                    onchange="toggleTask('${task.id}')"
-                >
+                    <input
+                        type="checkbox"
+                        ${
+                            task.completed
+                            ? "checked"
+                            : ""
+                        }
+                        onchange="toggleTask('${task.id}')"
+                    >
 
-                <span class="task-name ${task.completed ? "completed" : ""}">
-                    ${escapeHTML(task.name)}
-                </span>
 
-                <button
-                    class="delete"
-                    onclick="deleteTask('${task.id}')">
-                    🗑️
-                </button>
+                    <span
+                        class="task-name ${
+                            task.completed
+                            ? "completed"
+                            : ""
+                        }">
 
-            </div>
+                        ${
+                            escapeHTML(
+                                task.name
+                            )
+                        }
 
-        `).join("");
+                    </span>
+
+
+                    <button
+                        class="delete"
+                        onclick="deleteTask('${task.id}')">
+
+                        🗑️
+
+                    </button>
+
+
+                </div>
+
+            `
+            ).join("");
 
     }
 
@@ -928,8 +1382,9 @@ function renderTasks(){
 
 
 /* =========================
-   UPDATE STATISTICS
+   TASK STATISTICS
 ========================= */
+
 
 function updateStats(){
 
@@ -939,35 +1394,43 @@ function updateStats(){
 
     const completed =
         tasks.filter(
-            task => task.completed
+            task =>
+                task.completed
         ).length;
 
 
     const pending =
-        total - completed;
+        total -
+        completed;
 
 
     const percentage =
         total === 0
         ? 0
         : Math.round(
-            (completed / total) * 100
+            (
+                completed /
+                total
+            ) * 100
         );
 
 
     document.getElementById(
         "totalTasks"
-    ).innerText = total;
+    ).innerText =
+        total;
 
 
     document.getElementById(
         "pendingTasks"
-    ).innerText = pending;
+    ).innerText =
+        pending;
 
 
     document.getElementById(
         "completedTasks"
-    ).innerText = completed;
+    ).innerText =
+        completed;
 
 
     document.getElementById(
@@ -979,7 +1442,8 @@ function updateStats(){
     document.getElementById(
         "progressLabel"
     ).innerText =
-        percentage + "% completed";
+        percentage +
+        "% completed";
 
 
     document.getElementById(
@@ -991,95 +1455,50 @@ function updateStats(){
 
 
 /* =========================
-   HTML SECURITY
+   GOALS
 ========================= */
 
-function escapeHTML(text){
 
-    const div =
-        document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-
-}
-
-
-/* =========================
-   ENTER KEY
-========================= */
-
-document
-    .getElementById("taskInput")
-    .addEventListener(
-        "keydown",
-        function(event){
-
-            if(event.key === "Enter"){
-
-                window.addTask();
-
-            }
-
-        }
-    );
-
-
-/* =========================
-   DATE
-========================= */
-
-document.getElementById(
-    "date"
-).innerText =
-
-new Date().toLocaleDateString(
-    "en-IN",
-    {
-        weekday:"long",
-        year:"numeric",
-        month:"long",
-        day:"numeric"
-    }
-);
-
-
-/* =========================
-   GOALS SYSTEM
-========================= */
-
-let goals = [];
-
-
-/* =========================
-   ADD GOAL
-========================= */
-
-window.addGoal = async function(){
+window.addGoal =
+async function(){
 
     const input =
-        document.getElementById("goalInput");
+        document.getElementById(
+            "goalInput"
+        );
+
 
     const name =
         input.value.trim();
 
+
     const dateInput =
-        document.getElementById("goalDate");
+        document.getElementById(
+            "goalDate"
+        );
+
 
     const targetDate =
         dateInput.value;
 
+
     const progressInput =
-        document.getElementById("goalProgress");
+        document.getElementById(
+            "goalProgress"
+        );
+
 
     const progress =
-        Number(progressInput.value) || 0;
+        Number(
+            progressInput.value
+        ) || 0;
 
 
     if(name === ""){
 
-        alert("Please enter a goal.");
+        alert(
+            "Please enter a goal."
+        );
 
         return;
 
@@ -1090,6 +1509,20 @@ window.addGoal = async function(){
 
         alert(
             "Please sign in with Google first."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        progress < 0 ||
+        progress > 100
+    ){
+
+        alert(
+            "Progress must be between 0 and 100."
         );
 
         return;
@@ -1109,29 +1542,40 @@ window.addGoal = async function(){
             ),
 
             {
-                name: name,
 
-                completed: false,
+                name:
+                    name,
 
-                progress: progress,
+                completed:
+                    false,
 
-                targetDate: targetDate,
+                progress:
+                    progress,
 
-                createdAt: Date.now()
+                targetDate:
+                    targetDate,
+
+                createdAt:
+                    Date.now()
+
             }
 
         );
 
 
-        input.value = "";
+        input.value =
+            "";
 
-        dateInput.value = "";
 
-        progressInput.value = "";
+        dateInput.value =
+            "";
+
+
+        progressInput.value =
+            "";
 
 
         loadGoals();
-
 
     }catch(error){
 
@@ -1153,42 +1597,66 @@ window.addGoal = async function(){
    LOAD GOALS
 ========================= */
 
+
 async function loadGoals(){
 
-    if(!currentUser) return;
+    if(!currentUser)
+        return;
 
 
-    const goalsRef = collection(
-        db,
-        "users",
-        currentUser.uid,
-        "goals"
-    );
+    try{
+
+        const goalsRef =
+            collection(
+                db,
+                "users",
+                currentUser.uid,
+                "goals"
+            );
 
 
-    const snapshot =
-        await getDocs(goalsRef);
+        const snapshot =
+            await getDocs(
+                goalsRef
+            );
 
 
-    goals = snapshot.docs.map(item => ({
+        goals =
+            snapshot.docs.map(
+                item => ({
 
-        id: item.id,
+                    id:
+                        item.id,
 
-        name: item.data().name,
+                    name:
+                        item.data().name,
 
-        completed:
-            item.data().completed || false,
+                    completed:
+                        item.data().completed ||
+                        false,
 
-        targetDate:
-            item.data().targetDate || "",
+                    targetDate:
+                        item.data().targetDate ||
+                        "",
 
-        progress:
-            item.data().progress || 0
+                    progress:
+                        item.data().progress ||
+                        0
 
-    }));
+                })
+            );
 
 
-    renderGoals();
+        renderGoals();
+
+    }catch(error){
+
+        console.error(
+            "Load goals error:",
+            error
+        );
+
+    }
 
 }
 
@@ -1197,10 +1665,13 @@ async function loadGoals(){
    RENDER GOALS
 ========================= */
 
+
 function renderGoals(){
 
     const list =
-        document.getElementById("goalList");
+        document.getElementById(
+            "goalList"
+        );
 
 
     if(goals.length === 0){
@@ -1213,63 +1684,113 @@ function renderGoals(){
     }
 
 
-    list.innerHTML = goals.map(goal => `
+    list.innerHTML =
+        goals.map(
+            goal => `
 
-        <div class="task">
-
-            <input
-                type="checkbox"
-                ${goal.completed ? "checked" : ""}
-                onchange="toggleGoal('${goal.id}')"
-            >
+            <div class="task">
 
 
-            <div style="display:flex; flex-direction:column; gap:4px; flex:1;">
-
-                <span class="task-name ${goal.completed ? "completed" : ""}">
-                    ${escapeHTML(goal.name)}
-                </span>
-
-
-                ${
-                    goal.targetDate
-                    ? `<small>📅 Target: ${goal.targetDate}</small>`
-                    : ""
-                }
+                <input
+                    type="checkbox"
+                    ${
+                        goal.completed
+                        ? "checked"
+                        : ""
+                    }
+                    onchange="toggleGoal('${goal.id}')"
+                >
 
 
-                <small>
-                    📊 Progress: ${goal.progress}%
-                </small>
+                <div
+                    style="
+                        display:flex;
+                        flex-direction:column;
+                        gap:4px;
+                        flex:1;
+                    ">
 
 
-                <div style="width:100%; background:#ddd; height:8px; border-radius:5px; margin-top:5px;">
+                    <span
+                        class="task-name ${
+                            goal.completed
+                            ? "completed"
+                            : ""
+                        }">
+
+                        ${
+                            escapeHTML(
+                                goal.name
+                            )
+                        }
+
+                    </span>
+
+
+                    ${
+                        goal.targetDate
+                        ?
+                        `<small>
+                            📅 Target: ${goal.targetDate}
+                        </small>`
+                        :
+                        ""
+                    }
+
+
+                    <small>
+                        📊 Progress: ${goal.progress}%
+                    </small>
+
 
                     <div
-                        style="width:${goal.progress}%; height:8px; border-radius:5px; background:#4caf50;">
+                        style="
+                            width:100%;
+                            background:#ddd;
+                            height:8px;
+                            border-radius:5px;
+                            margin-top:5px;
+                        ">
+
+
+                        <div
+                            style="
+                                width:${goal.progress}%;
+                                height:8px;
+                                border-radius:5px;
+                                background:#4caf50;
+                            ">
+                        </div>
+
+
                     </div>
+
 
                 </div>
 
+
+                <button
+                    class="edit"
+                    onclick="editGoal('${goal.id}')">
+
+                    ✏️
+
+                </button>
+
+
+                <button
+                    class="delete"
+                    onclick="deleteGoal('${goal.id}')">
+
+                    🗑️
+
+                </button>
+
+
             </div>
 
-
-            <button
-                class="edit"
-                onclick="editGoal('${goal.id}')">
-                ✏️
-            </button>
-
-
-            <button
-                class="delete"
-                onclick="deleteGoal('${goal.id}')">
-                🗑️
-            </button>
-
-        </div>
-
-    `).join("");
+        `
+        ).join("");
 
 }
 
@@ -1278,16 +1799,22 @@ function renderGoals(){
    EDIT GOAL
 ========================= */
 
-window.editGoal = async function(id){
 
-    if(!currentUser) return;
+window.editGoal =
+async function(id){
+
+    if(!currentUser)
+        return;
 
 
     const goal =
-        goals.find(item => item.id === id);
+        goals.find(
+            item => item.id === id
+        );
 
 
-    if(!goal) return;
+    if(!goal)
+        return;
 
 
     const newName =
@@ -1297,7 +1824,8 @@ window.editGoal = async function(id){
         );
 
 
-    if(newName === null) return;
+    if(newName === null)
+        return;
 
 
     const name =
@@ -1306,7 +1834,9 @@ window.editGoal = async function(id){
 
     if(name === ""){
 
-        alert("Goal name cannot be empty.");
+        alert(
+            "Goal name cannot be empty."
+        );
 
         return;
 
@@ -1320,7 +1850,8 @@ window.editGoal = async function(id){
         );
 
 
-    if(newDate === null) return;
+    if(newDate === null)
+        return;
 
 
     const newProgress =
@@ -1330,11 +1861,14 @@ window.editGoal = async function(id){
         );
 
 
-    if(newProgress === null) return;
+    if(newProgress === null)
+        return;
 
 
     const progress =
-        Number(newProgress);
+        Number(
+            newProgress
+        );
 
 
     if(
@@ -1365,18 +1899,22 @@ window.editGoal = async function(id){
             ),
 
             {
-                name: name,
 
-                targetDate: newDate,
+                name:
+                    name,
 
-                progress: progress
+                targetDate:
+                    newDate,
+
+                progress:
+                    progress
+
             }
 
         );
 
 
         loadGoals();
-
 
     }catch(error){
 
@@ -1395,19 +1933,25 @@ window.editGoal = async function(id){
 
 
 /* =========================
-   COMPLETE / UNCOMPLETE GOAL
+   TOGGLE GOAL
 ========================= */
 
-window.toggleGoal = async function(id){
 
-    if(!currentUser) return;
+window.toggleGoal =
+async function(id){
+
+    if(!currentUser)
+        return;
 
 
     const goal =
-        goals.find(item => item.id === id);
+        goals.find(
+            item => item.id === id
+        );
 
 
-    if(!goal) return;
+    if(!goal)
+        return;
 
 
     try{
@@ -1423,15 +1967,16 @@ window.toggleGoal = async function(id){
             ),
 
             {
+
                 completed:
                     !goal.completed
+
             }
 
         );
 
 
         loadGoals();
-
 
     }catch(error){
 
@@ -1449,9 +1994,12 @@ window.toggleGoal = async function(id){
    DELETE GOAL
 ========================= */
 
-window.deleteGoal = async function(id){
 
-    if(!currentUser) return;
+window.deleteGoal =
+async function(id){
+
+    if(!currentUser)
+        return;
 
 
     try{
@@ -1471,7 +2019,6 @@ window.deleteGoal = async function(id){
 
         loadGoals();
 
-
     }catch(error){
 
         console.error(
@@ -1484,15 +2031,526 @@ window.deleteGoal = async function(id){
 };
 
 
+/* =================================================
+   DAILY PLANNER
+================================================= */
+
+
+/* =========================
+   LOAD DAILY PLANS
+========================= */
+
+
+function loadPlans(){
+
+    if(!currentUser)
+        return;
+
+
+    const plansRef =
+        collection(
+            db,
+            "users",
+            currentUser.uid,
+            "plans"
+        );
+
+
+    const plansQuery =
+        query(
+            plansRef,
+            orderBy(
+                "createdAt",
+                "asc"
+            )
+        );
+
+
+    if(unsubscribePlans){
+
+        unsubscribePlans();
+
+    }
+
+
+    unsubscribePlans =
+        onSnapshot(
+
+            plansQuery,
+
+            (snapshot) => {
+
+                plans =
+                    snapshot.docs.map(
+                        item => ({
+
+                            id:
+                                item.id,
+
+                            name:
+                                item.data().name,
+
+                            time:
+                                item.data().time ||
+                                "",
+
+                            completed:
+                                item.data().completed ||
+                                false,
+
+                            planDate:
+                                item.data().planDate ||
+                                ""
+
+                        })
+                    );
+
+
+                renderPlans();
+
+            },
+
+
+            (error) => {
+
+                console.error(
+                    "Planner Firestore error:",
+                    error
+                );
+
+                alert(
+                    "Could not load Daily Planner. Check Firebase Rules."
+                );
+
+            }
+
+        );
+
+}
+
+
+/* =========================
+   ADD PLAN
+========================= */
+
+
+window.addPlan =
+async function(){
+
+    const input =
+        document.getElementById(
+            "planInput"
+        );
+
+
+    const timeInput =
+        document.getElementById(
+            "planTime"
+        );
+
+
+    const name =
+        input.value.trim();
+
+
+    const time =
+        timeInput.value;
+
+
+    if(name === ""){
+
+        alert(
+            "Please enter your plan."
+        );
+
+        return;
+
+    }
+
+
+    if(!currentUser){
+
+        alert(
+            "Please sign in with Google first."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        await addDoc(
+
+            collection(
+                db,
+                "users",
+                currentUser.uid,
+                "plans"
+            ),
+
+            {
+
+                name:
+                    name,
+
+                time:
+                    time,
+
+                completed:
+                    false,
+
+                planDate:
+                    getTodayDate(),
+
+                createdAt:
+                    Date.now()
+
+            }
+
+        );
+
+
+        input.value =
+            "";
+
+
+        timeInput.value =
+            "";
+
+
+    }catch(error){
+
+        console.error(
+            "Add plan error:",
+            error
+        );
+
+        alert(
+            "Plan could not be added. Check Firebase Rules."
+        );
+
+    }
+
+};
+
+
+/* =========================
+   TODAY DATE
+========================= */
+
+
+function getTodayDate(){
+
+    const today =
+        new Date();
+
+
+    const year =
+        today.getFullYear();
+
+
+    const month =
+        String(
+            today.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const day =
+        String(
+            today.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
+    );
+
+}
+
+
+/* =========================
+   TOGGLE PLAN
+========================= */
+
+
+window.togglePlan =
+async function(id){
+
+    if(!currentUser)
+        return;
+
+
+    const plan =
+        plans.find(
+            item => item.id === id
+        );
+
+
+    if(!plan)
+        return;
+
+
+    try{
+
+        await updateDoc(
+
+            doc(
+                db,
+                "users",
+                currentUser.uid,
+                "plans",
+                id
+            ),
+
+            {
+
+                completed:
+                    !plan.completed
+
+            }
+
+        );
+
+    }catch(error){
+
+        console.error(
+            "Toggle plan error:",
+            error
+        );
+
+    }
+
+};
+
+
+/* =========================
+   DELETE PLAN
+========================= */
+
+
+window.deletePlan =
+async function(id){
+
+    if(!currentUser)
+        return;
+
+
+    try{
+
+        await deleteDoc(
+
+            doc(
+                db,
+                "users",
+                currentUser.uid,
+                "plans",
+                id
+            )
+
+        );
+
+    }catch(error){
+
+        console.error(
+            "Delete plan error:",
+            error
+        );
+
+    }
+
+};
+
+
+/* =========================
+   RENDER PLANS
+========================= */
+
+
+function renderPlans(){
+
+    const list =
+        document.getElementById(
+            "planList"
+        );
+
+
+    if(plans.length === 0){
+
+        list.innerHTML =
+            '<div class="empty">No plans for today. Add your first plan 📅</div>';
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        plans.map(
+            plan => `
+
+            <div class="task">
+
+
+                <input
+                    type="checkbox"
+                    ${
+                        plan.completed
+                        ? "checked"
+                        : ""
+                    }
+                    onchange="togglePlan('${plan.id}')"
+                >
+
+
+                ${
+                    plan.time
+                    ?
+                    `<span class="plan-time">
+                        ⏰ ${plan.time}
+                    </span>`
+                    :
+                    ""
+                }
+
+
+                <span
+                    class="task-name ${
+                        plan.completed
+                        ? "completed"
+                        : ""
+                    }">
+
+                    ${
+                        escapeHTML(
+                            plan.name
+                        )
+                    }
+
+                </span>
+
+
+                <button
+                    class="delete"
+                    onclick="deletePlan('${plan.id}')">
+
+                    🗑️
+
+                </button>
+
+
+            </div>
+
+        `
+        ).join("");
+
+}
+
+
+/* =========================
+   ENTER KEY TASK
+========================= */
+
+
+document
+    .getElementById(
+        "taskInput"
+    )
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key === "Enter"
+            ){
+
+                window.addTask();
+
+            }
+
+        }
+    );
+
+
+/* =========================
+   ENTER KEY DAILY PLAN
+========================= */
+
+
+document
+    .getElementById(
+        "planInput"
+    )
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key === "Enter"
+            ){
+
+                window.addPlan();
+
+            }
+
+        }
+    );
+
+
+/* =========================
+   DATE DISPLAY
+========================= */
+
+
+document.getElementById(
+    "date"
+).innerText =
+
+new Date().toLocaleDateString(
+    "en-IN",
+    {
+
+        weekday:
+            "long",
+
+        year:
+            "numeric",
+
+        month:
+            "long",
+
+        day:
+            "numeric"
+
+    }
+);
+
+
 /* =========================
    INITIAL SCREEN
 ========================= */
+
 
 renderTasks();
 
 renderGoals();
 
+renderPlans();
+
+
 </script>
 
 </body>
+
 </html>
