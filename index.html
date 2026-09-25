@@ -387,6 +387,112 @@ grid-template-columns:1fr;
 }
 
 }
+/* MOBILE RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+
+  body {
+    padding: 10px !important;
+    font-size: 15px;
+  }
+
+  .container,
+  main,
+  .dashboard {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .card {
+    width: 100% !important;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    padding: 15px !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  .stat-box {
+    min-width: 0 !important;
+    padding: 12px !important;
+    box-sizing: border-box;
+  }
+
+  .stat-box h3 {
+    font-size: 14px !important;
+  }
+
+  .stat-box p {
+    font-size: 14px !important;
+    word-break: break-word;
+  }
+
+  button {
+    width: 100%;
+    min-height: 46px;
+    margin-top: 8px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100% !important;
+    box-sizing: border-box;
+    min-height: 44px;
+    font-size: 16px !important;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+
+  h1 {
+    font-size: 25px !important;
+  }
+
+  h2 {
+    font-size: 21px !important;
+  }
+
+  h3 {
+    font-size: 17px !important;
+  }
+
+  canvas {
+    max-width: 100% !important;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+  }
+}
+
+/* SMALL PHONES */
+@media (max-width: 480px) {
+
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .card {
+    padding: 12px !important;
+  }
+
+  h1 {
+    font-size: 22px !important;
+  }
+
+  h2 {
+    font-size: 19px !important;
+  }
+
+}
 </style>
 </head>
 
