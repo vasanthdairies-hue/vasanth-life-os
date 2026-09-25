@@ -339,8 +339,16 @@ button{
 <h2>🎯 My Goals</h2>
 
 <div class="add-task">
-    <input id="goalInput" type="text" placeholder="Enter a new goal...">
-    <button onclick="addGoal()">+ Add Goal</button>
+    <input
+    id="goalInput"
+    type="text"
+    placeholder="Enter a new goal..."
+>
+
+<input
+    id="goalDate"
+    type="date"
+>
 </div>
 
 <div id="goalList"></div>
@@ -1001,6 +1009,8 @@ window.addGoal = async function(){
 
     const input = document.getElementById("goalInput");
     const name = input.value.trim();
+    const dateInput = document.getElementById("goalDate");
+    const targetDate = dateInput.value;
 
     if(name === ""){
         alert("Please enter a goal.");
@@ -1024,11 +1034,13 @@ window.addGoal = async function(){
             {
                 name: name,
                 completed: false,
+                targetDate: targetDate,
                 createdAt: Date.now()
             }
         );
 
         input.value = "";
+        dateInput.value = "";
 
         loadGoals();
 
@@ -1060,7 +1072,8 @@ async function loadGoals(){
 
         id: item.id,
         name: item.data().name,
-        completed: item.data().completed || false
+        completed: item.data().completed || false,
+         targetDate: item.data().targetDate || ""
 
     }));
 
@@ -1092,9 +1105,19 @@ function renderGoals(){
                 onchange="toggleGoal('${goal.id}')"
             >
 
-            <span class="task-name ${goal.completed ? "completed" : ""}">
-                ${escapeHTML(goal.name)}
-            </span>
+         <div style="display:flex; flex-direction:column; gap:4px;">
+
+    <span class="task-name ${goal.completed ? "completed" : ""}">
+        ${escapeHTML(goal.name)}
+    </span>
+
+    ${
+        goal.targetDate
+        ? `<small>📅 Target: ${goal.targetDate}</small>`
+        : ""
+    }
+
+</div>
 
             <button
                 class="delete"
