@@ -94,7 +94,7 @@ button{
   margin-bottom:15px;
 }
 
-input,select{
+input,select,textarea{
   width:100%;
   padding:12px;
   border-radius:8px;
@@ -102,9 +102,15 @@ input,select{
   background:#0c1326;
   color:white;
   outline:none;
+  font-family:Arial,sans-serif;
 }
 
-input:focus,select:focus{
+textarea{
+  resize:vertical;
+  min-height:90px;
+}
+
+input:focus,select:focus,textarea:focus{
   border-color:#4f7cff;
 }
 
@@ -195,12 +201,30 @@ input:focus,select:focus{
   color:white;
 }
 
+.diary-rating{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.diary-label{
+  display:block;
+  color:#8f9bb7;
+  font-size:13px;
+  margin-bottom:6px;
+}
+
 @media(max-width:800px){
   .stats,.run-stats{
     grid-template-columns:repeat(2,1fr);
   }
 
   .form{
+    grid-template-columns:1fr;
+  }
+
+  .diary-rating{
     grid-template-columns:1fr;
   }
 
@@ -249,7 +273,7 @@ input:focus,select:focus{
     <h2>Welcome to Vasanth Life OS</h2>
 
     <p style="color:#8f9bb7;margin:15px 0">
-      Track your goals, tasks, studies, fitness and money.
+      Track your goals, tasks, studies, fitness, money and daily life.
     </p>
 
     <button class="primary" onclick="loginWithGoogle()">
@@ -519,7 +543,6 @@ input:focus,select:focus{
       placeholder="Note e.g. Freelancing / Food"
       style="margin-bottom:15px">
 
-
     <div id="moneyList"></div>
 
 
@@ -546,6 +569,84 @@ input:focus,select:focus{
     </div>
 
     <div id="jobList"></div>
+
+  </div>
+
+
+  <!-- DAILY DIARY -->
+  <div class="card">
+
+    <h2>📖 Daily Diary</h2>
+
+    <div class="diary-rating">
+
+      <div>
+        <label class="diary-label">
+          Date
+        </label>
+
+        <input
+          id="diaryDate"
+          type="date">
+      </div>
+
+      <div>
+        <label class="diary-label">
+          ⭐ Day Rating
+        </label>
+
+        <select id="diaryRating">
+
+          <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+          <option value="4">⭐⭐⭐⭐ Good</option>
+          <option value="3">⭐⭐⭐ Average</option>
+          <option value="2">⭐⭐ Difficult</option>
+          <option value="1">⭐ Very Difficult</option>
+
+        </select>
+      </div>
+
+    </div>
+
+
+    <label class="diary-label">
+      📝 What did I do today?
+    </label>
+
+    <textarea
+      id="diaryWork"
+      placeholder="Write what you did today..."></textarea>
+
+
+    <label class="diary-label" style="margin-top:12px">
+      🎯 What did I learn?
+    </label>
+
+    <textarea
+      id="diaryLearned"
+      placeholder="Write what you learned today..."></textarea>
+
+
+    <label class="diary-label" style="margin-top:12px">
+      💭 Thoughts / Feelings
+    </label>
+
+    <textarea
+      id="diaryThoughts"
+      placeholder="Write your thoughts..."></textarea>
+
+
+    <button
+      class="primary"
+      onclick="addDiary()"
+      style="margin-top:12px">
+
+      📖 Save Diary
+
+    </button>
+
+
+    <div id="diaryList" style="margin-top:15px"></div>
 
   </div>
 
@@ -622,6 +723,7 @@ let studies = [];
 let runs = [];
 let money = [];
 let jobs = [];
+let diaries = [];
 
 
 let unsubscribeTasks = null;
@@ -631,6 +733,7 @@ let unsubscribeStudies = null;
 let unsubscribeRuns = null;
 let unsubscribeMoney = null;
 let unsubscribeJobs = null;
+let unsubscribeDiaries = null;
 
 
 /* =========================
@@ -698,6 +801,9 @@ onAuthStateChanged(auth,user => {
     loadRuns();
     loadMoney();
     loadJobs();
+    loadDiaries();
+
+    document.getElementById("diaryDate").value = today();
 
   }else{
 
@@ -2301,6 +2407,300 @@ function renderJobs(){
     `).join("");
 
   }
+
+}
+
+
+/* =========================
+DAILY DIARY
+========================= */
+
+function loadDiaries(){
+
+  const ref =
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "diary"
+    );
+
+  unsubscribeDiaries =
+    onSnapshot(ref,snapshot => {
+
+      diaries =
+        snapshot.docs.map(item => ({
+          id:item.id,
+          ...item.data()
+        }));
+
+      renderDiaries();
+
+    });
+
+}
+
+
+window.addDiary = async function(){
+
+  const diaryDate =
+    document.getElementById("diaryDate").value;
+
+  const rating =
+    Number(
+      document.getElementById("diaryRating").value
+    );
+
+  const work =
+    document.getElementById("diaryWork")
+      .value.trim();
+
+  const learned =
+    document.getElementById("diaryLearned")
+      .value.trim();
+
+  const thoughts =
+    document.getElementById("diaryThoughts")
+      .value.trim();
+
+
+  if(!diaryDate)
+    return alert("Select date");
+
+  if(!work)
+    return alert("Write what you did today");
+
+
+  await addDoc(
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "diary"
+    ),
+    {
+      diaryDate,
+      rating,
+      work,
+      learned,
+      thoughts,
+      createdAt:Date.now()
+    }
+  );
+
+
+  document.getElementById("diaryWork").value="";
+  document.getElementById("diaryLearned").value="";
+  document.getElementById("diaryThoughts").value="";
+
+};
+
+
+window.editDiary = async function(id){
+
+  const diary =
+    diaries.find(d => d.id === id);
+
+  if(!diary)
+    return;
+
+
+  const work =
+    prompt(
+      "What did you do?",
+      diary.work || ""
+    );
+
+  if(work === null)
+    return;
+
+
+  const learned =
+    prompt(
+      "What did you learn?",
+      diary.learned || ""
+    );
+
+  if(learned === null)
+    return;
+
+
+  const thoughts =
+    prompt(
+      "Thoughts / Feelings",
+      diary.thoughts || ""
+    );
+
+  if(thoughts === null)
+    return;
+
+
+  const rating =
+    prompt(
+      "Day rating (1-5)",
+      diary.rating || 5
+    );
+
+  if(rating === null)
+    return;
+
+
+  let value =
+    Number(rating);
+
+  if(isNaN(value))
+    value = 5;
+
+  value =
+    Math.max(
+      1,
+      Math.min(5,value)
+    );
+
+
+  await updateDoc(
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "diary",
+      id
+    ),
+    {
+      work:work.trim(),
+      learned:learned.trim(),
+      thoughts:thoughts.trim(),
+      rating:value
+    }
+  );
+
+};
+
+
+window.deleteDiary = async function(id){
+
+  await deleteDoc(
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "diary",
+      id
+    )
+  );
+
+};
+
+
+function renderDiaries(){
+
+  const list =
+    document.getElementById("diaryList");
+
+
+  if(diaries.length === 0){
+
+    list.innerHTML =
+      `<div class="empty">
+        No diary entries yet.
+      </div>`;
+
+    return;
+
+  }
+
+
+  const sorted =
+    [...diaries].sort(
+      (a,b) =>
+        String(b.diaryDate || "")
+          .localeCompare(
+            String(a.diaryDate || "")
+          )
+    );
+
+
+  list.innerHTML =
+    sorted.map(d => `
+
+      <div class="item">
+
+        <div class="item-main">
+
+          <div class="item-title">
+
+            📖 ${escapeHtml(d.diaryDate || "")}
+
+            •
+            ${"⭐".repeat(
+              Math.max(
+                1,
+                Math.min(
+                  5,
+                  Number(d.rating || 1)
+                )
+              )
+            )}
+
+          </div>
+
+
+          <div class="item-info"
+               style="margin-top:10px">
+
+            <strong>📝 What I did:</strong><br>
+
+            ${escapeHtml(d.work || "Not written")}
+
+          </div>
+
+
+          <div class="item-info"
+               style="margin-top:10px">
+
+            <strong>🎯 What I learned:</strong><br>
+
+            ${escapeHtml(d.learned || "Not written")}
+
+          </div>
+
+
+          <div class="item-info"
+               style="margin-top:10px">
+
+            <strong>💭 Thoughts:</strong><br>
+
+            ${escapeHtml(d.thoughts || "Not written")}
+
+          </div>
+
+        </div>
+
+
+        <div class="actions">
+
+          <button
+            class="secondary"
+            onclick="editDiary('${d.id}')">
+
+            ✏️
+
+          </button>
+
+
+          <button
+            class="danger"
+            onclick="deleteDiary('${d.id}')">
+
+            🗑️
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
 
 }
 
