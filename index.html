@@ -285,6 +285,7 @@ input:focus,select:focus,textarea:focus{
 <div id="app" class="container" style="display:none">
 
   <!-- DASHBOARD -->
+
   <div class="stats">
 
     <div class="stat">
@@ -311,6 +312,7 @@ input:focus,select:focus,textarea:focus{
 
 
   <!-- TASKS -->
+
   <div class="card">
 
     <h2>✅ Tasks</h2>
@@ -333,6 +335,7 @@ input:focus,select:focus,textarea:focus{
 
 
   <!-- GOALS -->
+
   <div class="card">
 
     <h2>🎯 Goals</h2>
@@ -355,6 +358,7 @@ input:focus,select:focus,textarea:focus{
 
 
   <!-- DAILY PLANNER -->
+
   <div class="card">
 
     <h2>📅 Daily Planner</h2>
@@ -377,6 +381,7 @@ input:focus,select:focus,textarea:focus{
 
 
   <!-- STUDY -->
+
   <div class="card">
 
     <h2>📚 Study Tracker</h2>
@@ -423,6 +428,7 @@ input:focus,select:focus,textarea:focus{
 
 
   <!-- RUNNING -->
+
   <div class="card">
 
     <h2>🏃 Fitness & Running Tracker</h2>
@@ -477,6 +483,7 @@ input:focus,select:focus,textarea:focus{
 
 
   <!-- CAREER & MONEY -->
+
   <div class="card">
 
     <h2>💰 Career & Money Tracker</h2>
@@ -504,7 +511,6 @@ input:focus,select:focus,textarea:focus{
       </div>
 
     </div>
-
 
     <h3 style="margin:20px 0 10px">
       💵 Money
@@ -572,170 +578,188 @@ input:focus,select:focus,textarea:focus{
 
   </div>
 
-<!-- LIFE STATISTICS -->
 
-<div class="card">
+  <!-- LIFE STATISTICS -->
 
-  <h2>📊 Life Statistics & Progress</h2>
+  <div class="card">
 
-  <div class="run-stats">
+    <h2>📊 Life Statistics & Progress</h2>
 
-    <div class="run-stat">
-      <small>Life Score</small>
-      <strong id="lifeScore">0%</strong>
+    <div class="run-stats">
+
+      <div class="run-stat">
+        <small>Life Score</small>
+        <strong id="lifeScore">0%</strong>
+      </div>
+
+      <div class="run-stat">
+        <small>Tasks Done</small>
+        <strong id="statsTasks">0%</strong>
+      </div>
+
+      <div class="run-stat">
+        <small>Goals Progress</small>
+        <strong id="statsGoals">0%</strong>
+      </div>
+
+      <div class="run-stat">
+        <small>Diary Days</small>
+        <strong id="statsDiary">0</strong>
+      </div>
+
     </div>
 
-    <div class="run-stat">
-      <small>Tasks Done</small>
-      <strong id="statsTasks">0%</strong>
-    </div>
+    <div style="margin-top:20px">
 
-    <div class="run-stat">
-      <small>Goals Progress</small>
-      <strong id="statsGoals">0%</strong>
-    </div>
+      <div class="item">
+        <div class="item-main">
 
-    <div class="run-stat">
-      <small>Diary Days</small>
-      <strong id="statsDiary">0</strong>
+          <div class="item-title">✅ Tasks</div>
+
+          <div class="progress">
+            <div
+              id="taskProgressBar"
+              class="progress-bar"
+              style="width:0%">
+            </div>
+          </div>
+
+          <div
+            id="taskProgressText"
+            class="item-info"
+            style="margin-top:8px">
+            0 / 0 completed
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="item">
+        <div class="item-main">
+
+          <div class="item-title">🎯 Goals</div>
+
+          <div class="progress">
+            <div
+              id="goalProgressBar"
+              class="progress-bar"
+              style="width:0%">
+            </div>
+          </div>
+
+          <div
+            id="goalProgressText"
+            class="item-info"
+            style="margin-top:8px">
+            0 / 0 completed
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="item">
+        <div class="item-main">
+
+          <div class="item-title">📚 Study</div>
+
+          <div
+            id="statsStudyText"
+            class="item-info">
+            0 hours studied
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="item">
+        <div class="item-main">
+
+          <div class="item-title">🏃 Running</div>
+
+          <div
+            id="statsRunText"
+            class="item-info">
+            0 KM completed
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="item">
+        <div class="item-main">
+
+          <div class="item-title">💰 Money</div>
+
+          <div
+            id="statsMoneyText"
+            class="item-info">
+            Income ₹0 • Expense ₹0 • Balance ₹0
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="item">
+        <div class="item-main">
+
+          <div class="item-title">💼 Career</div>
+
+          <div
+            id="statsJobText"
+            class="item-info">
+            0 job applications
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
   </div>
 
-  <div style="margin-top:20px">
 
-    <div class="item">
-      <div class="item-main">
-        <div class="item-title">✅ Tasks</div>
-
-        <div class="progress">
-          <div
-            id="taskProgressBar"
-            class="progress-bar"
-            style="width:0%">
-          </div>
-        </div>
-
-        <div
-          id="taskProgressText"
-          class="item-info"
-          style="margin-top:8px">
-          0 / 0 completed
-        </div>
-      </div>
-    </div>
-
-
-    <div class="item">
-      <div class="item-main">
-        <div class="item-title">🎯 Goals</div>
-
-        <div class="progress">
-          <div
-            id="goalProgressBar"
-            class="progress-bar"
-            style="width:0%">
-          </div>
-        </div>
-
-        <div
-          id="goalProgressText"
-          class="item-info"
-          style="margin-top:8px">
-          0 / 0 completed
-        </div>
-      </div>
-    </div>
-
-
-    <div class="item">
-      <div class="item-main">
-        <div class="item-title">📚 Study</div>
-
-        <div
-          id="statsStudyText"
-          class="item-info">
-          0 hours studied
-        </div>
-      </div>
-    </div>
-
-
-    <div class="item">
-      <div class="item-main">
-        <div class="item-title">🏃 Running</div>
-
-        <div
-          id="statsRunText"
-          class="item-info">
-          0 KM completed
-        </div>
-      </div>
-    </div>
-
-
-    <div class="item">
-      <div class="item-main">
-        <div class="item-title">💰 Money</div>
-
-        <div
-          id="statsMoneyText"
-          class="item-info">
-          Income ₹0 • Expense ₹0 • Balance ₹0
-        </div>
-      </div>
-    </div>
-
-
-    <div class="item">
-      <div class="item-main">
-        <div class="item-title">💼 Career</div>
-
-        <div
-          id="statsJobText"
-          class="item-info">
-          0 job applications
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-</div>
   <!-- STREAK TRACKER -->
 
-<div class="card">
+  <div class="card">
 
-  <h2>🔥 Streak Tracker</h2>
+    <h2>🔥 Streak Tracker</h2>
 
-  <div class="run-stats">
+    <div class="run-stats">
 
-    <div class="run-stat">
-      <small>Current Streak</small>
-      <strong id="currentStreak">0 days</strong>
+      <div class="run-stat">
+        <small>Current Streak</small>
+        <strong id="currentStreak">0 days</strong>
+      </div>
+
+      <div class="run-stat">
+        <small>Best Streak</small>
+        <strong id="bestStreak">0 days</strong>
+      </div>
+
+      <div class="run-stat">
+        <small>Active Days</small>
+        <strong id="activeDays">0</strong>
+      </div>
+
     </div>
 
-    <div class="run-stat">
-      <small>Best Streak</small>
-      <strong id="bestStreak">0 days</strong>
-    </div>
-
-    <div class="run-stat">
-      <small>Active Days</small>
-      <strong id="activeDays">0</strong>
+    <div
+      id="streakMessage"
+      class="item-info"
+      style="margin-top:20px;text-align:center">
+      Start your streak today 🚀
     </div>
 
   </div>
 
-  <div
-    id="streakMessage"
-    class="item-info"
-    style="margin-top:20px;text-align:center">
-    Start your streak today 🚀
-  </div>
 
-</div>
   <!-- DAILY DIARY -->
+
   <div class="card">
 
     <h2>📖 Daily Diary</h2>
@@ -743,6 +767,7 @@ input:focus,select:focus,textarea:focus{
     <div class="diary-rating">
 
       <div>
+
         <label class="diary-label">
           Date
         </label>
@@ -750,9 +775,11 @@ input:focus,select:focus,textarea:focus{
         <input
           id="diaryDate"
           type="date">
+
       </div>
 
       <div>
+
         <label class="diary-label">
           ⭐ Day Rating
         </label>
@@ -766,6 +793,7 @@ input:focus,select:focus,textarea:focus{
           <option value="1">⭐ Very Difficult</option>
 
         </select>
+
       </div>
 
     </div>
@@ -1601,6 +1629,8 @@ function renderPlans(){
 
   }
 
+  updateStats();
+
 }
 
 
@@ -2391,6 +2421,8 @@ function renderMoney(){
 
   }
 
+  updateStats();
+
 }
 
 
@@ -2569,6 +2601,8 @@ function renderJobs(){
     `).join("");
 
   }
+
+  updateStats();
 
 }
 
@@ -2767,6 +2801,8 @@ function renderDiaries(){
         No diary entries yet.
       </div>`;
 
+    updateStats();
+
     return;
 
   }
@@ -2794,6 +2830,7 @@ function renderDiaries(){
             📖 ${escapeHtml(d.diaryDate || "")}
 
             •
+
             ${"⭐".repeat(
               Math.max(
                 1,
@@ -2864,6 +2901,241 @@ function renderDiaries(){
 
     `).join("");
 
+  updateStats();
+
+}
+
+
+/* =========================
+STREAK TRACKER
+========================= */
+
+function updateStreak(){
+
+  const dates = new Set();
+
+
+  /* TASKS */
+
+  tasks.forEach(t => {
+
+    if(t.completed && t.createdAt){
+
+      const date =
+        new Date(t.createdAt)
+          .toISOString()
+          .split("T")[0];
+
+      dates.add(date);
+
+    }
+
+  });
+
+
+  /* PLANS */
+
+  plans.forEach(p => {
+
+    if(p.completed && p.planDate){
+
+      dates.add(p.planDate);
+
+    }
+
+  });
+
+
+  /* STUDY */
+
+  studies.forEach(s => {
+
+    if(s.studyDate){
+
+      dates.add(s.studyDate);
+
+    }
+
+  });
+
+
+  /* RUNNING */
+
+  runs.forEach(r => {
+
+    if(r.runDate){
+
+      dates.add(r.runDate);
+
+    }
+
+  });
+
+
+  /* DIARY */
+
+  diaries.forEach(d => {
+
+    if(d.diaryDate){
+
+      dates.add(d.diaryDate);
+
+    }
+
+  });
+
+
+  const sortedDates =
+    Array.from(dates).sort();
+
+
+  const activeDays =
+    sortedDates.length;
+
+
+  let bestStreak = 0;
+  let streak = 0;
+
+
+  for(let i = 0; i < sortedDates.length; i++){
+
+    if(i === 0){
+
+      streak = 1;
+
+    }else{
+
+      const previous =
+        new Date(sortedDates[i - 1]);
+
+      const current =
+        new Date(sortedDates[i]);
+
+      const difference =
+        Math.round(
+          (current - previous) /
+          (1000 * 60 * 60 * 24)
+        );
+
+
+      if(difference === 1){
+
+        streak++;
+
+      }else{
+
+        streak = 1;
+
+      }
+
+    }
+
+
+    if(streak > bestStreak){
+
+      bestStreak = streak;
+
+    }
+
+  }
+
+
+  const todayDate =
+    today();
+
+
+  let currentStreak = 0;
+
+
+  if(sortedDates.includes(todayDate)){
+
+    currentStreak = 1;
+
+
+    for(
+      let i = sortedDates.length - 1;
+      i > 0;
+      i--
+    ){
+
+      const current =
+        new Date(sortedDates[i]);
+
+      const previous =
+        new Date(sortedDates[i - 1]);
+
+
+      const difference =
+        Math.round(
+          (current - previous) /
+          (1000 * 60 * 60 * 24)
+        );
+
+
+      if(difference === 1){
+
+        currentStreak++;
+
+      }else{
+
+        break;
+
+      }
+
+    }
+
+  }
+
+
+  const currentElement =
+    document.getElementById("currentStreak");
+
+  const bestElement =
+    document.getElementById("bestStreak");
+
+  const activeElement =
+    document.getElementById("activeDays");
+
+  const messageElement =
+    document.getElementById("streakMessage");
+
+
+  if(currentElement)
+    currentElement.textContent =
+      currentStreak + " days";
+
+
+  if(bestElement)
+    bestElement.textContent =
+      bestStreak + " days";
+
+
+  if(activeElement)
+    activeElement.textContent =
+      activeDays;
+
+
+  if(messageElement){
+
+    if(currentStreak >= 7){
+
+      messageElement.textContent =
+        "🔥 7+ day streak! Keep building your life.";
+
+    }else if(currentStreak > 0){
+
+      messageElement.textContent =
+        "🔥 Keep going! Don't break the streak.";
+
+    }else{
+
+      messageElement.textContent =
+        "Start your streak today 🚀";
+
+    }
+
+  }
+
 }
 
 
@@ -2873,9 +3145,7 @@ DASHBOARD STATS
 
 function updateStats(){
 
-  /* =====================
-     TASK STATS
-  ===================== */
+  /* TASK STATS */
 
   const completedTasks =
     tasks.filter(t => t.completed).length;
@@ -2885,7 +3155,9 @@ function updateStats(){
 
   const taskPercent =
     totalTasks > 0
-      ? Math.round((completedTasks / totalTasks) * 100)
+      ? Math.round(
+          (completedTasks / totalTasks) * 100
+        )
       : 0;
 
 
@@ -2894,9 +3166,7 @@ function updateStats(){
     completedTasks + "/" + totalTasks;
 
 
-  /* =====================
-     GOAL STATS
-  ===================== */
+  /* GOAL STATS */
 
   const completedGoals =
     goals.filter(g => g.completed).length;
@@ -2906,7 +3176,9 @@ function updateStats(){
 
   const goalPercent =
     totalGoals > 0
-      ? Math.round((completedGoals / totalGoals) * 100)
+      ? Math.round(
+          (completedGoals / totalGoals) * 100
+        )
       : 0;
 
 
@@ -2915,9 +3187,7 @@ function updateStats(){
     completedGoals + "/" + totalGoals;
 
 
-  /* =====================
-     STUDY STATS
-  ===================== */
+  /* STUDY STATS */
 
   const totalStudy =
     studies.reduce(
@@ -2932,9 +3202,7 @@ function updateStats(){
     totalStudy.toFixed(1);
 
 
-  /* =====================
-     RUNNING STATS
-  ===================== */
+  /* RUNNING STATS */
 
   const totalKm =
     runs.reduce(
@@ -2949,9 +3217,7 @@ function updateStats(){
     totalKm.toFixed(2);
 
 
-  /* =====================
-     MONEY STATS
-  ===================== */
+  /* MONEY STATS */
 
   let income = 0;
   let expense = 0;
@@ -2972,9 +3238,7 @@ function updateStats(){
     income - expense;
 
 
-  /* =====================
-     LIFE SCORE
-  ===================== */
+  /* LIFE SCORE */
 
   const studyScore =
     totalStudy > 0 ? 100 : 0;
@@ -2998,9 +3262,7 @@ function updateStats(){
     );
 
 
-  /* =====================
-     UPDATE STATISTICS
-  ===================== */
+  /* STATISTICS */
 
   const lifeScoreElement =
     document.getElementById("lifeScore");
@@ -3034,9 +3296,7 @@ function updateStats(){
       diaries.length;
 
 
-  /* =====================
-     PROGRESS BARS
-  ===================== */
+  /* PROGRESS BARS */
 
   const taskBar =
     document.getElementById("taskProgressBar");
@@ -3076,9 +3336,7 @@ function updateStats(){
       " completed";
 
 
-  /* =====================
-     OTHER STATISTICS
-  ===================== */
+  /* OTHER STATISTICS */
 
   const statsStudyText =
     document.getElementById("statsStudyText");
@@ -3119,7 +3377,13 @@ function updateStats(){
       jobs.length +
       " job applications";
 
+
+  /* UPDATE STREAK */
+
+  updateStreak();
+
 }
+
 
 /* =========================
 ENTER KEY
@@ -3133,6 +3397,7 @@ document.getElementById("taskInput")
 
 });
 
+
 document.getElementById("goalInput")
 .addEventListener("keydown",e => {
 
@@ -3140,6 +3405,7 @@ document.getElementById("goalInput")
     addGoal();
 
 });
+
 
 document.getElementById("planInput")
 .addEventListener("keydown",e => {
@@ -3149,6 +3415,7 @@ document.getElementById("planInput")
 
 });
 
+
 document.getElementById("studySubject")
 .addEventListener("keydown",e => {
 
@@ -3156,6 +3423,7 @@ document.getElementById("studySubject")
     addStudy();
 
 });
+
 
 document.getElementById("runDistance")
 .addEventListener("keydown",e => {
@@ -3165,6 +3433,7 @@ document.getElementById("runDistance")
 
 });
 
+
 document.getElementById("runTime")
 .addEventListener("keydown",e => {
 
@@ -3173,6 +3442,7 @@ document.getElementById("runTime")
 
 });
 
+
 document.getElementById("moneyAmount")
 .addEventListener("keydown",e => {
 
@@ -3180,6 +3450,7 @@ document.getElementById("moneyAmount")
     addMoney();
 
 });
+
 
 document.getElementById("jobCompany")
 .addEventListener("keydown",e => {
