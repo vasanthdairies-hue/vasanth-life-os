@@ -80,6 +80,7 @@ button{
 }
 
 .stat small{color:#8f9bb7}
+
 .stat strong{
   display:block;
   font-size:26px;
@@ -93,7 +94,7 @@ button{
   margin-bottom:15px;
 }
 
-input{
+input,select{
   width:100%;
   padding:12px;
   border-radius:8px;
@@ -103,7 +104,9 @@ input{
   outline:none;
 }
 
-input:focus{border-color:#4f7cff}
+input:focus,select:focus{
+  border-color:#4f7cff;
+}
 
 .item{
   display:flex;
@@ -117,9 +120,7 @@ input:focus{border-color:#4f7cff}
   margin-top:10px;
 }
 
-.item-main{
-  flex:1;
-}
+.item-main{flex:1}
 
 .item-main.completed{
   opacity:.55;
@@ -186,14 +187,16 @@ input:focus{border-color:#4f7cff}
   margin-top:5px;
 }
 
+.money-positive{color:#20b486}
+.money-negative{color:#e74c3c}
+
 .logout{
   background:#303b58;
   color:white;
 }
 
 @media(max-width:800px){
-  .stats,
-  .run-stats{
+  .stats,.run-stats{
     grid-template-columns:repeat(2,1fr);
   }
 
@@ -209,8 +212,8 @@ input:focus{border-color:#4f7cff}
 
 @media(max-width:500px){
   .container{padding:12px}
-  .stats,
-  .run-stats{
+
+  .stats,.run-stats{
     grid-template-columns:1fr 1fr;
   }
 
@@ -219,9 +222,7 @@ input:focus{border-color:#4f7cff}
     flex-direction:column;
   }
 
-  .actions{
-    width:100%;
-  }
+  .actions{width:100%}
 }
 </style>
 </head>
@@ -246,9 +247,11 @@ input:focus{border-color:#4f7cff}
 <div id="loginScreen" class="container">
   <div class="card login-box">
     <h2>Welcome to Vasanth Life OS</h2>
+
     <p style="color:#8f9bb7;margin:15px 0">
-      Track your goals, tasks, studies, plans and fitness.
+      Track your goals, tasks, studies, fitness and money.
     </p>
+
     <button class="primary" onclick="loginWithGoogle()">
       🔐 Login with Google
     </button>
@@ -257,8 +260,9 @@ input:focus{border-color:#4f7cff}
 
 <div id="app" class="container" style="display:none">
 
-  <!-- DASHBOARD STATS -->
+  <!-- DASHBOARD -->
   <div class="stats">
+
     <div class="stat">
       <small>Tasks</small>
       <strong id="taskStat">0/0</strong>
@@ -278,52 +282,83 @@ input:focus{border-color:#4f7cff}
       <small>Running KM</small>
       <strong id="totalKmStat">0</strong>
     </div>
+
   </div>
+
 
   <!-- TASKS -->
   <div class="card">
+
     <h2>✅ Tasks</h2>
 
     <div class="form">
+
       <input id="taskInput" placeholder="Enter a task">
+
       <div></div>
-      <button class="primary" onclick="addTask()">Add Task</button>
+
+      <button class="primary" onclick="addTask()">
+        Add Task
+      </button>
+
     </div>
 
     <div id="taskList"></div>
+
   </div>
+
 
   <!-- GOALS -->
   <div class="card">
+
     <h2>🎯 Goals</h2>
 
     <div class="form">
+
       <input id="goalInput" placeholder="Enter your goal">
+
       <input id="goalDate" type="date">
-      <button class="primary" onclick="addGoal()">Add Goal</button>
+
+      <button class="primary" onclick="addGoal()">
+        Add Goal
+      </button>
+
     </div>
 
     <div id="goalList"></div>
+
   </div>
+
 
   <!-- DAILY PLANNER -->
   <div class="card">
+
     <h2>📅 Daily Planner</h2>
 
     <div class="form">
+
       <input id="planInput" placeholder="What will you do?">
+
       <input id="planTime" type="time">
-      <button class="primary" onclick="addPlan()">Add Plan</button>
+
+      <button class="primary" onclick="addPlan()">
+        Add Plan
+      </button>
+
     </div>
 
     <div id="planList"></div>
+
   </div>
 
-  <!-- STUDY TRACKER -->
+
+  <!-- STUDY -->
   <div class="card">
+
     <h2>📚 Study Tracker</h2>
 
     <div class="run-stats">
+
       <div class="run-stat">
         <small>Total Hours</small>
         <strong id="studyTotalHours">0</strong>
@@ -338,22 +373,38 @@ input:focus{border-color:#4f7cff}
         <small>Completed</small>
         <strong id="studyCompleted">0</strong>
       </div>
+
     </div>
 
     <div class="form">
+
       <input id="studySubject" placeholder="Subject">
-      <input id="studyHours" type="number" step="0.5" min="0" placeholder="Hours">
-      <button class="primary" onclick="addStudy()">Add Study</button>
+
+      <input
+        id="studyHours"
+        type="number"
+        step="0.5"
+        min="0"
+        placeholder="Hours">
+
+      <button class="primary" onclick="addStudy()">
+        Add Study
+      </button>
+
     </div>
 
     <div id="studyList"></div>
+
   </div>
 
-  <!-- FITNESS & RUNNING -->
+
+  <!-- RUNNING -->
   <div class="card">
+
     <h2>🏃 Fitness & Running Tracker</h2>
 
     <div class="run-stats">
+
       <div class="run-stat">
         <small>Total KM</small>
         <strong id="runTotalKm">0</strong>
@@ -373,23 +424,138 @@ input:focus{border-color:#4f7cff}
         <small>Average Pace</small>
         <strong id="runAvgPace">--</strong>
       </div>
+
     </div>
 
     <div class="form">
-      <input id="runDistance" type="number" step="0.01" min="0" placeholder="Distance (KM)">
-      <input id="runTime" type="text" placeholder="Time e.g. 6:03">
-      <button class="primary" onclick="addRun()">Add Run</button>
+
+      <input
+        id="runDistance"
+        type="number"
+        step="0.01"
+        min="0"
+        placeholder="Distance (KM)">
+
+      <input
+        id="runTime"
+        type="text"
+        placeholder="Time e.g. 6:03">
+
+      <button class="primary" onclick="addRun()">
+        Add Run
+      </button>
+
     </div>
 
     <div id="runList"></div>
+
+  </div>
+
+
+  <!-- CAREER & MONEY -->
+  <div class="card">
+
+    <h2>💰 Career & Money Tracker</h2>
+
+    <div class="run-stats">
+
+      <div class="run-stat">
+        <small>Income</small>
+        <strong id="totalIncome">₹0</strong>
+      </div>
+
+      <div class="run-stat">
+        <small>Expenses</small>
+        <strong id="totalExpense">₹0</strong>
+      </div>
+
+      <div class="run-stat">
+        <small>Balance</small>
+        <strong id="moneyBalance">₹0</strong>
+      </div>
+
+      <div class="run-stat">
+        <small>Applications</small>
+        <strong id="jobApplications">0</strong>
+      </div>
+
+    </div>
+
+
+    <h3 style="margin:20px 0 10px">
+      💵 Money
+    </h3>
+
+    <div class="form">
+
+      <select id="moneyType">
+
+        <option value="income">
+          Income
+        </option>
+
+        <option value="expense">
+          Expense
+        </option>
+
+      </select>
+
+      <input
+        id="moneyAmount"
+        type="number"
+        min="0"
+        placeholder="Amount ₹">
+
+      <button
+        class="primary"
+        onclick="addMoney()">
+        Add Money
+      </button>
+
+    </div>
+
+    <input
+      id="moneyNote"
+      placeholder="Note e.g. Freelancing / Food"
+      style="margin-bottom:15px">
+
+
+    <div id="moneyList"></div>
+
+
+    <h3 style="margin:25px 0 10px">
+      💼 Job Applications
+    </h3>
+
+    <div class="form">
+
+      <input
+        id="jobCompany"
+        placeholder="Company">
+
+      <input
+        id="jobRole"
+        placeholder="Job role">
+
+      <button
+        class="primary"
+        onclick="addJob()">
+        Add Job
+      </button>
+
+    </div>
+
+    <div id="jobList"></div>
+
   </div>
 
 </div>
 
+
 <script type="module">
 
-import { initializeApp } from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 import {
   getAuth,
@@ -397,8 +563,8 @@ import {
   signInWithPopup,
   onAuthStateChanged,
   signOut
-} from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 import {
   getFirestore,
@@ -407,27 +573,43 @@ import {
   deleteDoc,
   updateDoc,
   doc,
-  onSnapshot,
-  query,
-  orderBy
-} from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+  onSnapshot
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
-  authDomain: "vasanth-lise-os.firebaseapp.com",
-  projectId: "vasanth-lise-os",
-  storageBucket: "vasanth-lise-os.firebasestorage.app",
-  messagingSenderId: "847181528785",
-  appId: "1:847181528785:web:f02eb43c041c9e90fc4ff0",
-  measurementId: "G-WMPYW2EDLZ"
+
+  apiKey:
+    "AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
+
+  authDomain:
+    "vasanth-lise-os.firebaseapp.com",
+
+  projectId:
+    "vasanth-lise-os",
+
+  storageBucket:
+    "vasanth-lise-os.firebasestorage.app",
+
+  messagingSenderId:
+    "847181528785",
+
+  appId:
+    "1:847181528785:web:f02eb43c041c9e90fc4ff0",
+
+  measurementId:
+    "G-WMPYW2EDLZ"
+
 };
 
 
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
+
 const db = getFirestore(app);
+
 const provider = new GoogleAuthProvider();
 
 
@@ -438,27 +620,33 @@ let goals = [];
 let plans = [];
 let studies = [];
 let runs = [];
+let money = [];
+let jobs = [];
+
 
 let unsubscribeTasks = null;
 let unsubscribeGoals = null;
 let unsubscribePlans = null;
 let unsubscribeStudies = null;
 let unsubscribeRuns = null;
+let unsubscribeMoney = null;
+let unsubscribeJobs = null;
 
 
 /* =========================
-   AUTH
+AUTH
 ========================= */
 
 window.loginWithGoogle = async function(){
 
   try{
 
-    await signInWithPopup(auth, provider);
+    await signInWithPopup(auth,provider);
 
   }catch(error){
 
     console.error(error);
+
     alert("Login failed: " + error.message);
 
   }
@@ -481,43 +669,63 @@ window.logout = async function(){
 };
 
 
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth,user => {
 
   currentUser = user;
 
   if(user){
 
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("app").style.display = "block";
+    document.getElementById("loginScreen").style.display =
+      "none";
 
-    document.getElementById("loginBtn").style.display = "none";
-    document.getElementById("logoutBtn").style.display = "block";
+    document.getElementById("app").style.display =
+      "block";
+
+    document.getElementById("loginBtn").style.display =
+      "none";
+
+    document.getElementById("logoutBtn").style.display =
+      "block";
 
     document.getElementById("welcome").textContent =
       "Hello " + (user.displayName || "Vasanth") + " 👋";
+
 
     loadCloudTasks();
     loadGoals();
     loadPlans();
     loadStudies();
     loadRuns();
+    loadMoney();
+    loadJobs();
 
   }else{
 
-    document.getElementById("loginScreen").style.display = "block";
-    document.getElementById("app").style.display = "none";
+    document.getElementById("loginScreen").style.display =
+      "block";
 
-    document.getElementById("loginBtn").style.display = "block";
-    document.getElementById("logoutBtn").style.display = "none";
+    document.getElementById("app").style.display =
+      "none";
+
+    document.getElementById("loginBtn").style.display =
+      "block";
+
+    document.getElementById("logoutBtn").style.display =
+      "none";
 
   }
 
 });
 
 
-/* =========================
-   HELPER
-========================= */
+function today(){
+
+  return new Date()
+    .toISOString()
+    .split("T")[0];
+
+}
+
 
 function escapeHtml(text){
 
@@ -531,51 +739,54 @@ function escapeHtml(text){
 }
 
 
-function today(){
-
-  return new Date().toISOString().split("T")[0];
-
-}
-
-
 /* =========================
-   TASKS
+TASKS
 ========================= */
 
 function loadCloudTasks(){
 
-  if(!currentUser) return;
+  const ref =
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "tasks"
+    );
 
-  const ref = collection(
-    db,
-    "users",
-    currentUser.uid,
-    "tasks"
-  );
+  unsubscribeTasks =
+    onSnapshot(ref,snapshot => {
 
-  unsubscribeTasks = onSnapshot(ref, snapshot => {
+      tasks =
+        snapshot.docs.map(item => ({
+          id:item.id,
+          ...item.data()
+        }));
 
-    tasks = snapshot.docs.map(item => ({
-      id:item.id,
-      ...item.data()
-    }));
+      renderTasks();
 
-    renderTasks();
-
-  });
+    });
 
 }
 
 
 window.addTask = async function(){
 
-  const input = document.getElementById("taskInput");
-  const name = input.value.trim();
+  const input =
+    document.getElementById("taskInput");
 
-  if(!name) return alert("Enter a task");
+  const name =
+    input.value.trim();
+
+  if(!name)
+    return alert("Enter a task");
 
   await addDoc(
-    collection(db,"users",currentUser.uid,"tasks"),
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "tasks"
+    ),
     {
       name,
       completed:false,
@@ -588,11 +799,19 @@ window.addTask = async function(){
 };
 
 
-window.toggleTask = async function(id, completed){
+window.toggleTask = async function(id,completed){
 
   await updateDoc(
-    doc(db,"users",currentUser.uid,"tasks",id),
-    {completed:!completed}
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "tasks",
+      id
+    ),
+    {
+      completed:!completed
+    }
   );
 
 };
@@ -601,7 +820,13 @@ window.toggleTask = async function(id, completed){
 window.deleteTask = async function(id){
 
   await deleteDoc(
-    doc(db,"users",currentUser.uid,"tasks",id)
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "tasks",
+      id
+    )
   );
 
 };
@@ -609,19 +834,24 @@ window.deleteTask = async function(id){
 
 function renderTasks(){
 
-  const list = document.getElementById("taskList");
+  const list =
+    document.getElementById("taskList");
 
   if(tasks.length === 0){
 
-    list.innerHTML = `<div class="empty">No tasks yet.</div>`;
+    list.innerHTML =
+      `<div class="empty">No tasks yet.</div>`;
 
   }else{
 
-    list.innerHTML = tasks.map(t => `
+    list.innerHTML =
+      tasks.map(t => `
 
       <div class="item">
 
-        <div class="item-main ${t.completed ? "completed" : ""}">
+        <div class="item-main ${
+          t.completed ? "completed" : ""
+        }">
 
           <div class="item-title">
             ${escapeHtml(t.name)}
@@ -633,14 +863,21 @@ function renderTasks(){
 
           <button
             class="success"
-            onclick="toggleTask('${t.id}',${!!t.completed})">
+            onclick="toggleTask(
+              '${t.id}',
+              ${!!t.completed}
+            )">
+
             ${t.completed ? "↩️" : "☑️"}
+
           </button>
 
           <button
             class="danger"
             onclick="deleteTask('${t.id}')">
+
             🗑️
+
           </button>
 
         </div>
@@ -656,53 +893,29 @@ function renderTasks(){
 }
 
 
-function updateStats(){
-
-  const completed =
-    tasks.filter(t => t.completed).length;
-
-  document.getElementById("taskStat").textContent =
-    completed + "/" + tasks.length;
-
-  const completedGoals =
-    goals.filter(g => g.completed).length;
-
-  document.getElementById("goalStat").textContent =
-    completedGoals + "/" + goals.length;
-
-  const totalStudy =
-    studies.reduce((sum,s) =>
-      sum + Number(s.hours || 0),0);
-
-  document.getElementById("studyHourStat").textContent =
-    totalStudy.toFixed(1);
-
-  const totalKm =
-    runs.reduce((sum,r) =>
-      sum + Number(r.distance || 0),0);
-
-  document.getElementById("totalKmStat").textContent =
-    totalKm.toFixed(2);
-
-}
-
-
 /* =========================
-   GOALS
+GOALS
 ========================= */
 
 window.addGoal = async function(){
 
   const name =
-    document.getElementById("goalInput").value.trim();
+    document.getElementById("goalInput")
+      .value.trim();
 
   const targetDate =
     document.getElementById("goalDate").value;
 
-  if(!name) return alert("Enter a goal");
+  if(!name)
+    return alert("Enter a goal");
 
   await addDoc(
-    collection(db,"users",currentUser.uid,"goals"),
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "goals"
+    ),
     {
       name,
       targetDate,
@@ -712,8 +925,8 @@ window.addGoal = async function(){
     }
   );
 
-  document.getElementById("goalInput").value = "";
-  document.getElementById("goalDate").value = "";
+  document.getElementById("goalInput").value="";
+  document.getElementById("goalDate").value="";
 
 };
 
@@ -721,18 +934,25 @@ window.addGoal = async function(){
 function loadGoals(){
 
   const ref =
-    collection(db,"users",currentUser.uid,"goals");
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "goals"
+    );
 
-  unsubscribeGoals = onSnapshot(ref,snapshot => {
+  unsubscribeGoals =
+    onSnapshot(ref,snapshot => {
 
-    goals = snapshot.docs.map(item => ({
-      id:item.id,
-      ...item.data()
-    }));
+      goals =
+        snapshot.docs.map(item => ({
+          id:item.id,
+          ...item.data()
+        }));
 
-    renderGoals();
+      renderGoals();
 
-  });
+    });
 
 }
 
@@ -749,31 +969,40 @@ function renderGoals(){
 
   }else{
 
-    list.innerHTML = goals.map(g => {
+    list.innerHTML =
+      goals.map(g => {
 
-      const progress =
-        Number(g.progress || 0);
+        const progress =
+          Number(g.progress || 0);
 
-      return `
+        return `
 
         <div class="item">
 
-          <div class="item-main ${g.completed ? "completed" : ""}">
+          <div class="item-main ${
+            g.completed ? "completed" : ""
+          }">
 
             <div class="item-title">
               ${escapeHtml(g.name)}
             </div>
 
             <div class="item-info">
-              Target: ${g.targetDate || "No date"}
+              Target:
+              ${g.targetDate || "No date"}
               • ${progress}%
             </div>
 
             <div class="progress">
+
               <div
                 class="progress-bar"
-                style="width:${Math.min(progress,100)}%">
+                style="width:${Math.min(
+                  progress,
+                  100
+                )}%">
               </div>
+
             </div>
 
           </div>
@@ -782,14 +1011,22 @@ function renderGoals(){
 
             <button
               class="secondary"
-              onclick="editGoal('${g.id}',${progress})">
+              onclick="editGoal(
+                '${g.id}',
+                ${progress}
+              )">
               ✏️
             </button>
 
             <button
               class="success"
-              onclick="toggleGoal('${g.id}',${!!g.completed})">
+              onclick="toggleGoal(
+                '${g.id}',
+                ${!!g.completed}
+              )">
+
               ${g.completed ? "↩️" : "☑️"}
+
             </button>
 
             <button
@@ -802,9 +1039,9 @@ function renderGoals(){
 
         </div>
 
-      `;
+        `;
 
-    }).join("");
+      }).join("");
 
   }
 
@@ -813,21 +1050,39 @@ function renderGoals(){
 }
 
 
-window.editGoal = async function(id,currentProgress){
+window.editGoal = async function(
+  id,
+  currentProgress
+){
 
   const progress =
-    prompt("Progress % (0-100)",currentProgress);
+    prompt(
+      "Progress % (0-100)",
+      currentProgress
+    );
 
-  if(progress === null) return;
+  if(progress === null)
+    return;
 
   let value = Number(progress);
 
-  if(isNaN(value)) return;
+  if(isNaN(value))
+    return;
 
-  value = Math.max(0,Math.min(100,value));
+  value =
+    Math.max(
+      0,
+      Math.min(100,value)
+    );
 
   await updateDoc(
-    doc(db,"users",currentUser.uid,"goals",id),
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "goals",
+      id
+    ),
     {
       progress:value,
       completed:value >= 100
@@ -837,11 +1092,22 @@ window.editGoal = async function(id,currentProgress){
 };
 
 
-window.toggleGoal = async function(id,completed){
+window.toggleGoal = async function(
+  id,
+  completed
+){
 
   await updateDoc(
-    doc(db,"users",currentUser.uid,"goals",id),
-    {completed:!completed}
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "goals",
+      id
+    ),
+    {
+      completed:!completed
+    }
   );
 
 };
@@ -850,31 +1116,44 @@ window.toggleGoal = async function(id,completed){
 window.deleteGoal = async function(id){
 
   await deleteDoc(
-    doc(db,"users",currentUser.uid,"goals",id)
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "goals",
+      id
+    )
   );
 
 };
 
 
 /* =========================
-   DAILY PLANNER
+DAILY PLANNER
 ========================= */
 
 function loadPlans(){
 
   const ref =
-    collection(db,"users",currentUser.uid,"plans");
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "plans"
+    );
 
-  unsubscribePlans = onSnapshot(ref,snapshot => {
+  unsubscribePlans =
+    onSnapshot(ref,snapshot => {
 
-    plans = snapshot.docs.map(item => ({
-      id:item.id,
-      ...item.data()
-    }));
+      plans =
+        snapshot.docs.map(item => ({
+          id:item.id,
+          ...item.data()
+        }));
 
-    renderPlans();
+      renderPlans();
 
-  });
+    });
 
 }
 
@@ -882,15 +1161,22 @@ function loadPlans(){
 window.addPlan = async function(){
 
   const text =
-    document.getElementById("planInput").value.trim();
+    document.getElementById("planInput")
+      .value.trim();
 
   const time =
     document.getElementById("planTime").value;
 
-  if(!text) return alert("Enter your plan");
+  if(!text)
+    return alert("Enter your plan");
 
   await addDoc(
-    collection(db,"users",currentUser.uid,"plans"),
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "plans"
+    ),
     {
       text,
       time,
@@ -900,8 +1186,8 @@ window.addPlan = async function(){
     }
   );
 
-  document.getElementById("planInput").value = "";
-  document.getElementById("planTime").value = "";
+  document.getElementById("planInput").value="";
+  document.getElementById("planTime").value="";
 
 };
 
@@ -911,18 +1197,32 @@ window.editPlan = async function(id){
   const plan =
     plans.find(p => p.id === id);
 
-  if(!plan) return;
+  if(!plan)
+    return;
 
   const text =
-    prompt("Edit plan",plan.text);
+    prompt(
+      "Edit plan",
+      plan.text
+    );
 
-  if(text === null || !text.trim()) return;
+  if(text === null || !text.trim())
+    return;
 
   const time =
-    prompt("Edit time (HH:MM)",plan.time || "");
+    prompt(
+      "Edit time (HH:MM)",
+      plan.time || ""
+    );
 
   await updateDoc(
-    doc(db,"users",currentUser.uid,"plans",id),
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "plans",
+      id
+    ),
     {
       text:text.trim(),
       time:time || ""
@@ -932,11 +1232,22 @@ window.editPlan = async function(id){
 };
 
 
-window.togglePlan = async function(id,completed){
+window.togglePlan = async function(
+  id,
+  completed
+){
 
   await updateDoc(
-    doc(db,"users",currentUser.uid,"plans",id),
-    {completed:!completed}
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "plans",
+      id
+    ),
+    {
+      completed:!completed
+    }
   );
 
 };
@@ -945,7 +1256,13 @@ window.togglePlan = async function(id,completed){
 window.deletePlan = async function(id){
 
   await deleteDoc(
-    doc(db,"users",currentUser.uid,"plans",id)
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "plans",
+      id
+    )
   );
 
 };
@@ -963,18 +1280,22 @@ function renderPlans(){
 
   }else{
 
-    list.innerHTML = plans.map(p => `
+    list.innerHTML =
+      plans.map(p => `
 
       <div class="item">
 
-        <div class="item-main ${p.completed ? "completed" : ""}">
+        <div class="item-main ${
+          p.completed ? "completed" : ""
+        }">
 
           <div class="item-title">
             ${escapeHtml(p.text)}
           </div>
 
           <div class="item-info">
-            ${p.time || "No time"} • ${p.planDate || ""}
+            ${p.time || "No time"}
+            • ${p.planDate || ""}
           </div>
 
         </div>
@@ -989,8 +1310,13 @@ function renderPlans(){
 
           <button
             class="success"
-            onclick="togglePlan('${p.id}',${!!p.completed})">
+            onclick="togglePlan(
+              '${p.id}',
+              ${!!p.completed}
+            )">
+
             ${p.completed ? "↩️" : "☑️"}
+
           </button>
 
           <button
@@ -1011,24 +1337,31 @@ function renderPlans(){
 
 
 /* =========================
-   STUDY TRACKER
+STUDY
 ========================= */
 
 function loadStudies(){
 
   const ref =
-    collection(db,"users",currentUser.uid,"studies");
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "studies"
+    );
 
-  unsubscribeStudies = onSnapshot(ref,snapshot => {
+  unsubscribeStudies =
+    onSnapshot(ref,snapshot => {
 
-    studies = snapshot.docs.map(item => ({
-      id:item.id,
-      ...item.data()
-    }));
+      studies =
+        snapshot.docs.map(item => ({
+          id:item.id,
+          ...item.data()
+        }));
 
-    renderStudies();
+      renderStudies();
 
-  });
+    });
 
 }
 
@@ -1036,18 +1369,27 @@ function loadStudies(){
 window.addStudy = async function(){
 
   const subject =
-    document.getElementById("studySubject").value.trim();
+    document.getElementById("studySubject")
+      .value.trim();
 
   const hours =
-    Number(document.getElementById("studyHours").value);
+    Number(
+      document.getElementById("studyHours").value
+    );
 
-  if(!subject) return alert("Enter subject");
+  if(!subject)
+    return alert("Enter subject");
 
   if(!hours || hours <= 0)
     return alert("Enter valid hours");
 
   await addDoc(
-    collection(db,"users",currentUser.uid,"studies"),
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "studies"
+    ),
     {
       subject,
       hours,
@@ -1057,17 +1399,28 @@ window.addStudy = async function(){
     }
   );
 
-  document.getElementById("studySubject").value = "";
-  document.getElementById("studyHours").value = "";
+  document.getElementById("studySubject").value="";
+  document.getElementById("studyHours").value="";
 
 };
 
 
-window.toggleStudy = async function(id,completed){
+window.toggleStudy = async function(
+  id,
+  completed
+){
 
   await updateDoc(
-    doc(db,"users",currentUser.uid,"studies",id),
-    {completed:!completed}
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "studies",
+      id
+    ),
+    {
+      completed:!completed
+    }
   );
 
 };
@@ -1078,24 +1431,44 @@ window.editStudy = async function(id){
   const study =
     studies.find(s => s.id === id);
 
-  if(!study) return;
+  if(!study)
+    return;
 
   const subject =
-    prompt("Subject",study.subject);
+    prompt(
+      "Subject",
+      study.subject
+    );
 
-  if(subject === null || !subject.trim()) return;
+  if(
+    subject === null ||
+    !subject.trim()
+  )
+    return;
 
   const hours =
-    prompt("Hours",study.hours);
+    prompt(
+      "Hours",
+      study.hours
+    );
 
-  if(hours === null) return;
+  if(hours === null)
+    return;
 
-  const value = Number(hours);
+  const value =
+    Number(hours);
 
-  if(!value || value <= 0) return;
+  if(!value || value <= 0)
+    return;
 
   await updateDoc(
-    doc(db,"users",currentUser.uid,"studies",id),
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "studies",
+      id
+    ),
     {
       subject:subject.trim(),
       hours:value
@@ -1108,7 +1481,13 @@ window.editStudy = async function(id){
 window.deleteStudy = async function(id){
 
   await deleteDoc(
-    doc(db,"users",currentUser.uid,"studies",id)
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "studies",
+      id
+    )
   );
 
 };
@@ -1121,40 +1500,54 @@ function renderStudies(){
 
   const totalHours =
     studies.reduce(
-      (sum,s) => sum + Number(s.hours || 0),0
+      (sum,s) =>
+        sum + Number(s.hours || 0),
+      0
     );
 
   const completed =
-    studies.filter(s => s.completed).length;
+    studies.filter(
+      s => s.completed
+    ).length;
 
-  document.getElementById("studyTotalHours").textContent =
+  document.getElementById("studyTotalHours")
+    .textContent =
     totalHours.toFixed(1);
 
-  document.getElementById("studySessions").textContent =
+  document.getElementById("studySessions")
+    .textContent =
     studies.length;
 
-  document.getElementById("studyCompleted").textContent =
+  document.getElementById("studyCompleted")
+    .textContent =
     completed;
+
 
   if(studies.length === 0){
 
     list.innerHTML =
-      `<div class="empty">No study sessions yet.</div>`;
+      `<div class="empty">
+        No study sessions yet.
+      </div>`;
 
   }else{
 
-    list.innerHTML = studies.map(s => `
+    list.innerHTML =
+      studies.map(s => `
 
       <div class="item">
 
-        <div class="item-main ${s.completed ? "completed" : ""}">
+        <div class="item-main ${
+          s.completed ? "completed" : ""
+        }">
 
           <div class="item-title">
             📖 ${escapeHtml(s.subject)}
           </div>
 
           <div class="item-info">
-            ${Number(s.hours).toFixed(1)} hours •
+            ${Number(s.hours).toFixed(1)}
+            hours •
             ${s.studyDate || ""}
           </div>
 
@@ -1170,8 +1563,13 @@ function renderStudies(){
 
           <button
             class="success"
-            onclick="toggleStudy('${s.id}',${!!s.completed})">
+            onclick="toggleStudy(
+              '${s.id}',
+              ${!!s.completed}
+            )">
+
             ${s.completed ? "↩️" : "☑️"}
+
           </button>
 
           <button
@@ -1194,24 +1592,31 @@ function renderStudies(){
 
 
 /* =========================
-   FITNESS & RUNNING
+RUNNING
 ========================= */
 
 function loadRuns(){
 
   const ref =
-    collection(db,"users",currentUser.uid,"runs");
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "runs"
+    );
 
-  unsubscribeRuns = onSnapshot(ref,snapshot => {
+  unsubscribeRuns =
+    onSnapshot(ref,snapshot => {
 
-    runs = snapshot.docs.map(item => ({
-      id:item.id,
-      ...item.data()
-    }));
+      runs =
+        snapshot.docs.map(item => ({
+          id:item.id,
+          ...item.data()
+        }));
 
-    renderRuns();
+      renderRuns();
 
-  });
+    });
 
 }
 
@@ -1220,11 +1625,13 @@ window.addRun = async function(){
 
   const distance =
     Number(
-      document.getElementById("runDistance").value
+      document.getElementById("runDistance")
+        .value
     );
 
   const time =
-    document.getElementById("runTime").value.trim();
+    document.getElementById("runTime")
+      .value.trim();
 
   if(!distance || distance <= 0)
     return alert("Enter valid distance");
@@ -1233,10 +1640,17 @@ window.addRun = async function(){
     return alert("Enter time e.g. 6:03");
 
   if(!isValidTime(time))
-    return alert("Time format should be MM:SS or H:MM:SS");
+    return alert(
+      "Time format should be MM:SS or H:MM:SS"
+    );
 
   await addDoc(
-    collection(db,"users",currentUser.uid,"runs"),
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "runs"
+    ),
     {
       distance,
       time,
@@ -1246,31 +1660,38 @@ window.addRun = async function(){
     }
   );
 
-  document.getElementById("runDistance").value = "";
-  document.getElementById("runTime").value = "";
+  document.getElementById("runDistance").value="";
+  document.getElementById("runTime").value="";
 
 };
 
 
 function isValidTime(time){
 
-  const parts = time.split(":");
+  const parts =
+    time.split(":");
 
-  if(parts.length !== 2 && parts.length !== 3)
+  if(
+    parts.length !== 2 &&
+    parts.length !== 3
+  )
     return false;
 
-  const nums = parts.map(Number);
+  const nums =
+    parts.map(Number);
 
-  if(nums.some(n => isNaN(n) || n < 0))
+  if(
+    nums.some(
+      n => isNaN(n) || n < 0
+    )
+  )
     return false;
 
-  if(parts.length === 2){
-
+  if(parts.length === 2)
     return nums[1] < 60;
 
-  }
-
-  return nums[1] < 60 && nums[2] < 60;
+  return nums[1] < 60 &&
+         nums[2] < 60;
 
 }
 
@@ -1280,11 +1701,8 @@ function timeToSeconds(time){
   const parts =
     time.split(":").map(Number);
 
-  if(parts.length === 2){
-
+  if(parts.length === 2)
     return parts[0] * 60 + parts[1];
-
-  }
 
   return parts[0] * 3600 +
          parts[1] * 60 +
@@ -1295,7 +1713,8 @@ function timeToSeconds(time){
 
 function secondsToTime(seconds){
 
-  seconds = Math.round(seconds);
+  seconds =
+    Math.round(seconds);
 
   const hours =
     Math.floor(seconds / 3600);
@@ -1310,21 +1729,28 @@ function secondsToTime(seconds){
 
   if(hours > 0){
 
-    return `${hours}:${String(minutes).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
+    return `${hours}:${String(minutes)
+      .padStart(2,"0")}:${String(secs)
+      .padStart(2,"0")}`;
 
   }
 
-  return `${minutes}:${String(secs).padStart(2,"0")}`;
+  return `${minutes}:${String(secs)
+    .padStart(2,"0")}`;
 
 }
 
 
-function calculatePace(distance,time){
+function calculatePace(
+  distance,
+  time
+){
 
   const seconds =
     timeToSeconds(time);
 
-  if(!distance) return 0;
+  if(!distance)
+    return 0;
 
   return seconds / distance;
 
@@ -1338,22 +1764,32 @@ function renderRuns(){
 
   const totalKm =
     runs.reduce(
-      (sum,r) => sum + Number(r.distance || 0),0
+      (sum,r) =>
+        sum + Number(r.distance || 0),
+      0
     );
 
-  document.getElementById("runTotalKm").textContent =
+  document.getElementById("runTotalKm")
+    .textContent =
     totalKm.toFixed(2);
 
-  document.getElementById("runSessions").textContent =
+  document.getElementById("runSessions")
+    .textContent =
     runs.length;
+
 
   if(runs.length === 0){
 
-    document.getElementById("runBestTime").textContent = "--";
-    document.getElementById("runAvgPace").textContent = "--";
+    document.getElementById("runBestTime")
+      .textContent = "--";
+
+    document.getElementById("runAvgPace")
+      .textContent = "--";
 
     list.innerHTML =
-      `<div class="empty">No runs recorded yet.</div>`;
+      `<div class="empty">
+        No runs recorded yet.
+      </div>`;
 
     updateStats();
 
@@ -1369,7 +1805,8 @@ function renderRuns(){
         timeToSeconds(b.time)
     )[0];
 
-  document.getElementById("runBestTime").textContent =
+  document.getElementById("runBestTime")
+    .textContent =
     best.time;
 
 
@@ -1385,25 +1822,32 @@ function renderRuns(){
       ? totalSeconds / totalKm
       : 0;
 
-  document.getElementById("runAvgPace").textContent =
+  document.getElementById("runAvgPace")
+    .textContent =
     secondsToTime(avgPace) + "/km";
 
 
-  list.innerHTML = runs.map(r => {
+  list.innerHTML =
+    runs.map(r => {
 
-    const pace =
-      secondsToTime(
-        calculatePace(r.distance,r.time)
-      );
+      const pace =
+        secondsToTime(
+          calculatePace(
+            r.distance,
+            r.time
+          )
+        );
 
-    return `
+      return `
 
       <div class="item">
 
         <div class="item-main">
 
           <div class="item-title">
-            🏃 ${Number(r.distance).toFixed(2)} KM
+            🏃
+            ${Number(r.distance).toFixed(2)}
+            KM
           </div>
 
           <div class="item-info">
@@ -1432,9 +1876,9 @@ function renderRuns(){
 
       </div>
 
-    `;
+      `;
 
-  }).join("");
+    }).join("");
 
   updateStats();
 
@@ -1446,27 +1890,44 @@ window.editRun = async function(id){
   const run =
     runs.find(r => r.id === id);
 
-  if(!run) return;
+  if(!run)
+    return;
 
   const distance =
-    prompt("Distance (KM)",run.distance);
+    prompt(
+      "Distance (KM)",
+      run.distance
+    );
 
-  if(distance === null) return;
+  if(distance === null)
+    return;
 
-  const d = Number(distance);
+  const d =
+    Number(distance);
 
-  if(!d || d <= 0) return;
+  if(!d || d <= 0)
+    return;
 
   const time =
-    prompt("Time e.g. 6:03",run.time);
+    prompt(
+      "Time e.g. 6:03",
+      run.time
+    );
 
-  if(time === null) return;
+  if(time === null)
+    return;
 
   if(!isValidTime(time))
     return alert("Invalid time format");
 
   await updateDoc(
-    doc(db,"users",currentUser.uid,"runs",id),
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "runs",
+      id
+    ),
     {
       distance:d,
       time:time.trim()
@@ -1479,14 +1940,421 @@ window.editRun = async function(id){
 window.deleteRun = async function(id){
 
   await deleteDoc(
-    doc(db,"users",currentUser.uid,"runs",id)
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "runs",
+      id
+    )
   );
 
 };
 
 
 /* =========================
-   ENTER KEY SUPPORT
+MONEY
+========================= */
+
+function loadMoney(){
+
+  const ref =
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "money"
+    );
+
+  unsubscribeMoney =
+    onSnapshot(ref,snapshot => {
+
+      money =
+        snapshot.docs.map(item => ({
+          id:item.id,
+          ...item.data()
+        }));
+
+      renderMoney();
+
+    });
+
+}
+
+
+window.addMoney = async function(){
+
+  const type =
+    document.getElementById("moneyType").value;
+
+  const amount =
+    Number(
+      document.getElementById("moneyAmount").value
+    );
+
+  const note =
+    document.getElementById("moneyNote")
+      .value.trim();
+
+  if(!amount || amount <= 0)
+    return alert("Enter valid amount");
+
+  await addDoc(
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "money"
+    ),
+    {
+      type,
+      amount,
+      note,
+      moneyDate:today(),
+      createdAt:Date.now()
+    }
+  );
+
+  document.getElementById("moneyAmount").value="";
+  document.getElementById("moneyNote").value="";
+
+};
+
+
+window.deleteMoney = async function(id){
+
+  await deleteDoc(
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "money",
+      id
+    )
+  );
+
+};
+
+
+function renderMoney(){
+
+  const list =
+    document.getElementById("moneyList");
+
+  let income = 0;
+  let expense = 0;
+
+  money.forEach(m => {
+
+    if(m.type === "income")
+      income += Number(m.amount || 0);
+
+    if(m.type === "expense")
+      expense += Number(m.amount || 0);
+
+  });
+
+  const balance =
+    income - expense;
+
+  document.getElementById("totalIncome")
+    .textContent =
+    "₹" + income.toFixed(2);
+
+  document.getElementById("totalExpense")
+    .textContent =
+    "₹" + expense.toFixed(2);
+
+  document.getElementById("moneyBalance")
+    .textContent =
+    "₹" + balance.toFixed(2);
+
+
+  if(money.length === 0){
+
+    list.innerHTML =
+      `<div class="empty">
+        No money records yet.
+      </div>`;
+
+  }else{
+
+    list.innerHTML =
+      money.map(m => `
+
+      <div class="item">
+
+        <div class="item-main">
+
+          <div class="item-title">
+
+            ${
+              m.type === "income"
+              ? "💵 Income"
+              : "💸 Expense"
+            }
+
+            ₹${Number(m.amount).toFixed(2)}
+
+          </div>
+
+          <div class="item-info">
+
+            ${escapeHtml(m.note || "No note")}
+            • ${m.moneyDate || ""}
+
+          </div>
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="danger"
+            onclick="deleteMoney('${m.id}')">
+            🗑️
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+  }
+
+}
+
+
+/* =========================
+JOBS
+========================= */
+
+function loadJobs(){
+
+  const ref =
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "jobs"
+    );
+
+  unsubscribeJobs =
+    onSnapshot(ref,snapshot => {
+
+      jobs =
+        snapshot.docs.map(item => ({
+          id:item.id,
+          ...item.data()
+        }));
+
+      renderJobs();
+
+    });
+
+}
+
+
+window.addJob = async function(){
+
+  const company =
+    document.getElementById("jobCompany")
+      .value.trim();
+
+  const role =
+    document.getElementById("jobRole")
+      .value.trim();
+
+  if(!company)
+    return alert("Enter company");
+
+  if(!role)
+    return alert("Enter job role");
+
+  await addDoc(
+    collection(
+      db,
+      "users",
+      currentUser.uid,
+      "jobs"
+    ),
+    {
+      company,
+      role,
+      status:"Applied",
+      applicationDate:today(),
+      createdAt:Date.now()
+    }
+  );
+
+  document.getElementById("jobCompany").value="";
+  document.getElementById("jobRole").value="";
+
+};
+
+
+window.editJob = async function(id){
+
+  const job =
+    jobs.find(j => j.id === id);
+
+  if(!job)
+    return;
+
+  const status =
+    prompt(
+      "Status: Applied / Interview / Selected / Rejected",
+      job.status
+    );
+
+  if(status === null)
+    return;
+
+  await updateDoc(
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "jobs",
+      id
+    ),
+    {
+      status:status.trim()
+    }
+  );
+
+};
+
+
+window.deleteJob = async function(id){
+
+  await deleteDoc(
+    doc(
+      db,
+      "users",
+      currentUser.uid,
+      "jobs",
+      id
+    )
+  );
+
+};
+
+
+function renderJobs(){
+
+  const list =
+    document.getElementById("jobList");
+
+  document.getElementById("jobApplications")
+    .textContent =
+    jobs.length;
+
+
+  if(jobs.length === 0){
+
+    list.innerHTML =
+      `<div class="empty">
+        No job applications yet.
+      </div>`;
+
+  }else{
+
+    list.innerHTML =
+      jobs.map(j => `
+
+      <div class="item">
+
+        <div class="item-main">
+
+          <div class="item-title">
+            💼 ${escapeHtml(j.company)}
+          </div>
+
+          <div class="item-info">
+            ${escapeHtml(j.role)}
+            • Status: ${escapeHtml(j.status)}
+            • ${j.applicationDate || ""}
+          </div>
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="secondary"
+            onclick="editJob('${j.id}')">
+            ✏️
+          </button>
+
+          <button
+            class="danger"
+            onclick="deleteJob('${j.id}')">
+            🗑️
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+  }
+
+}
+
+
+/* =========================
+DASHBOARD STATS
+========================= */
+
+function updateStats(){
+
+  const completedTasks =
+    tasks.filter(t => t.completed).length;
+
+  document.getElementById("taskStat")
+    .textContent =
+    completedTasks + "/" + tasks.length;
+
+
+  const completedGoals =
+    goals.filter(g => g.completed).length;
+
+  document.getElementById("goalStat")
+    .textContent =
+    completedGoals + "/" + goals.length;
+
+
+  const totalStudy =
+    studies.reduce(
+      (sum,s) =>
+        sum + Number(s.hours || 0),
+      0
+    );
+
+  document.getElementById("studyHourStat")
+    .textContent =
+    totalStudy.toFixed(1);
+
+
+  const totalKm =
+    runs.reduce(
+      (sum,r) =>
+        sum + Number(r.distance || 0),
+      0
+    );
+
+  document.getElementById("totalKmStat")
+    .textContent =
+    totalKm.toFixed(2);
+
+}
+
+
+/* =========================
+ENTER KEY
 ========================= */
 
 document.getElementById("taskInput")
@@ -1497,7 +2365,6 @@ document.getElementById("taskInput")
 
 });
 
-
 document.getElementById("goalInput")
 .addEventListener("keydown",e => {
 
@@ -1505,7 +2372,6 @@ document.getElementById("goalInput")
     addGoal();
 
 });
-
 
 document.getElementById("planInput")
 .addEventListener("keydown",e => {
@@ -1515,7 +2381,6 @@ document.getElementById("planInput")
 
 });
 
-
 document.getElementById("studySubject")
 .addEventListener("keydown",e => {
 
@@ -1523,7 +2388,6 @@ document.getElementById("studySubject")
     addStudy();
 
 });
-
 
 document.getElementById("runDistance")
 .addEventListener("keydown",e => {
@@ -1533,12 +2397,27 @@ document.getElementById("runDistance")
 
 });
 
-
 document.getElementById("runTime")
 .addEventListener("keydown",e => {
 
   if(e.key === "Enter")
     addRun();
+
+});
+
+document.getElementById("moneyAmount")
+.addEventListener("keydown",e => {
+
+  if(e.key === "Enter")
+    addMoney();
+
+});
+
+document.getElementById("jobCompany")
+.addEventListener("keydown",e => {
+
+  if(e.key === "Enter")
+    addJob();
 
 });
 
