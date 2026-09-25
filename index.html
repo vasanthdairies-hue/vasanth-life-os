@@ -4446,4 +4446,169 @@ value ?? ""
 </script>
 
 </body>
+<!-- WEEKLY PERFORMANCE REPORT -->
+<section class="card">
+  <h2>📈 Weekly Performance Report</h2>
+
+  <div class="stats-grid">
+    <div class="stat-box">
+      <h3>📚 Study</h3>
+      <p id="weeklyStudy">0 hrs</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>🏃 Running</h3>
+      <p id="weeklyRun">0 km</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>✅ Tasks</h3>
+      <p id="weeklyTasks">0</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>🎯 Target</h3>
+      <p id="weeklyTarget">0%</p>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>⭐ Weekly Life Score</h3>
+    <div class="progress-bar">
+      <div id="weeklyScoreBar" class="progress-fill" style="width:0%"></div>
+    </div>
+    <p id="weeklyScoreText">0 / 100</p>
+  </div>
+
+  <button onclick="updateWeeklyReport()">🔄 Update Weekly Report</button>
+</section>
+
+<script>
+function updateWeeklyReport() {
+
+  let studyTotal = 0;
+  let runTotal = 0;
+  let taskTotal = 0;
+  let targetTotal = 0;
+  let targetCount = 0;
+
+  const now = new Date();
+
+  // Last 7 days
+  const dates = [];
+
+  for(let i = 0; i < 7; i++){
+    const d = new Date(now);
+    d.setDate(now.getDate() - i);
+
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2,"0");
+    const dd = String(d.getDate()).padStart(2,"0");
+
+    dates.push(`${yyyy}-${mm}-${dd}`);
+  }
+
+  // STUDY
+  if(typeof studyRecords !== "undefined"){
+    studyRecords.forEach(item => {
+      if(dates.includes(item.studyDate)){
+        studyTotal += Number(item.hours) || 0;
+      }
+    });
+  }
+
+  // RUNNING
+  if(typeof runRecords !== "undefined"){
+    runRecords.forEach(item => {
+      if(dates.includes(item.runDate)){
+        runTotal += Number(item.distance) || 0;
+      }
+    });
+  }
+
+  // TASKS
+  if(typeof tasks !== "undefined"){
+    tasks.forEach(item => {
+      if(item.completed && item.createdAt){
+        const date = new Date(item.createdAt);
+
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2,"0");
+        const dd = String(date.getDate()).padStart(2,"0");
+
+        const taskDate = `${yyyy}-${mm}-${dd}`;
+
+        if(dates.includes(taskDate)){
+          taskTotal++;
+        }
+      }
+    });
+  }
+
+  // TARGETS
+  if(typeof targets !== "undefined"){
+    Object.values(targets).forEach(item => {
+
+      if(Number(item.studyTarget) > 0){
+        targetTotal += Math.min(
+          100,
+          (Number(item.studyActual || 0) /
+          Number(item.studyTarget)) * 100
+        );
+        targetCount++;
+      }
+
+      if(Number(item.runTarget) > 0){
+        targetTotal += Math.min(
+          100,
+          (Number(item.runActual || 0) /
+          Number(item.runTarget)) * 100
+        );
+        targetCount++;
+      }
+
+      if(Number(item.taskTarget) > 0){
+        targetTotal += Math.min(
+          100,
+          (Number(item.taskActual || 0) /
+          Number(item.taskTarget)) * 100
+        );
+        targetCount++;
+      }
+    });
+  }
+
+  const targetPercent =
+    targetCount > 0
+      ? Math.round(targetTotal / targetCount)
+      : 0;
+
+  // WEEKLY SCORE
+  const studyScore = Math.min(100, studyTotal * 5);
+  const runScore = Math.min(100, runTotal * 10);
+  const taskScore = Math.min(100, taskTotal * 5);
+
+  const weeklyScore = Math.round(
+    (studyScore + runScore + taskScore + targetPercent) / 4
+  );
+
+  document.getElementById("weeklyStudy").textContent =
+    studyTotal.toFixed(1) + " hrs";
+
+  document.getElementById("weeklyRun").textContent =
+    runTotal.toFixed(1) + " km";
+
+  document.getElementById("weeklyTasks").textContent =
+    taskTotal;
+
+  document.getElementById("weeklyTarget").textContent =
+    targetPercent + "%";
+
+  document.getElementById("weeklyScoreBar").style.width =
+    weeklyScore + "%";
+
+  document.getElementById("weeklyScoreText").textContent =
+    weeklyScore + " / 100";
+}
+</script>
 </html>
