@@ -5713,4 +5713,248 @@ function quickGo(searchText) {
   }
 }
 </script>
+<!-- DAILY REMINDER & FOCUS SYSTEM -->
+<section class="card">
+  <h2>🔔 Daily Reminder & Focus</h2>
+  <p id="reminderDate"></p>
+
+  <div class="stats-grid">
+
+    <div class="stat-box">
+      <h3>🎯 Main Focus</h3>
+      <p id="reminderFocus">Loading...</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>📚 Study</h3>
+      <p id="reminderStudy">Not completed</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>🏃 Running</h3>
+      <p id="reminderRun">Not completed</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>✅ Tasks</h3>
+      <p id="reminderTasks">Loading...</p>
+    </div>
+
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>⏰ Today's Reminder</h3>
+
+    <div id="dailyReminderMessage"
+         style="padding:15px;border-radius:12px;">
+      Loading...
+    </div>
+  </div>
+
+  <button onclick="updateDailyReminder()">
+    🔄 Refresh Reminder
+  </button>
+</section>
+
+<script>
+function updateDailyReminder() {
+
+  const now = new Date();
+
+  const todayDate =
+    now.toISOString().split("T")[0];
+
+  document.getElementById(
+    "reminderDate"
+  ).textContent =
+    now.toLocaleDateString("en-IN", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+
+  let completedTasks = 0;
+  let totalTasks = 0;
+  let studyToday = 0;
+  let runToday = 0;
+
+  // TASKS
+  if(typeof tasks !== "undefined") {
+
+    tasks.forEach(item => {
+
+      totalTasks++;
+
+      if(item.completed) {
+        completedTasks++;
+      }
+
+    });
+  }
+
+  // STUDY
+  if(typeof studyRecords !== "undefined") {
+
+    studyRecords.forEach(item => {
+
+      if(item.studyDate === todayDate) {
+        studyToday += Number(item.hours) || 0;
+      }
+
+    });
+  }
+
+  // RUNNING
+  if(typeof runRecords !== "undefined") {
+
+    runRecords.forEach(item => {
+
+      if(item.runDate === todayDate) {
+        runToday += Number(item.distance) || 0;
+      }
+
+    });
+  }
+
+  // TASK STATUS
+  let taskMessage;
+
+  if(totalTasks === 0) {
+
+    taskMessage =
+      "No tasks added yet.";
+
+  }
+  else if(completedTasks === totalTasks) {
+
+    taskMessage =
+      "All tasks completed 🎉";
+
+  }
+  else {
+
+    taskMessage =
+      completedTasks +
+      " / " +
+      totalTasks +
+      " completed";
+
+  }
+
+  document.getElementById(
+    "reminderTasks"
+  ).textContent = taskMessage;
+
+  // STUDY STATUS
+  document.getElementById(
+    "reminderStudy"
+  ).textContent =
+    studyToday > 0
+      ? studyToday.toFixed(1) + " hrs completed 📚"
+      : "Study session pending 📚";
+
+  // RUN STATUS
+  document.getElementById(
+    "reminderRun"
+  ).textContent =
+    runToday > 0
+      ? runToday.toFixed(1) + " km completed 🏃"
+      : "Running session pending 🏃";
+
+  // MAIN FOCUS
+  let focus =
+    "Complete your most important task 🎯";
+
+  if(totalTasks === 0) {
+
+    focus =
+      "Create today's first task.";
+
+  }
+  else if(completedTasks < totalTasks) {
+
+    focus =
+      "Finish your pending task.";
+
+  }
+  else if(studyToday === 0) {
+
+    focus =
+      "Focus on your study session.";
+
+  }
+  else if(runToday === 0) {
+
+    focus =
+      "Complete your running session.";
+
+  }
+  else {
+
+    focus =
+      "Great work! Review your progress.";
+
+  }
+
+  document.getElementById(
+    "reminderFocus"
+  ).textContent = focus;
+
+  // TIME BASED REMINDER
+  const hour = now.getHours();
+
+  let reminder = "";
+
+  if(hour < 6) {
+
+    reminder =
+      "🌅 Early morning — start calmly and focus.";
+
+  }
+  else if(hour < 12) {
+
+    reminder =
+      "☀️ Morning — finish your important work first.";
+
+  }
+  else if(hour < 17) {
+
+    reminder =
+      "🌤️ Afternoon — stay consistent and avoid distractions.";
+
+  }
+  else if(hour < 21) {
+
+    reminder =
+      "🌆 Evening — complete study/running before relaxing.";
+
+  }
+  else {
+
+    reminder =
+      "🌙 Night — review today's progress and prepare tomorrow.";
+
+  }
+
+  // PENDING ADDITION
+  if(studyToday === 0) {
+
+    reminder +=
+      " 📚 Study is still pending.";
+
+  }
+
+  if(runToday === 0) {
+
+    reminder +=
+      " 🏃 Running is still pending.";
+
+  }
+
+  document.getElementById(
+    "dailyReminderMessage"
+  ).textContent = reminder;
+}
+</script>
 </html>
