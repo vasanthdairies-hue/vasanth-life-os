@@ -5309,4 +5309,337 @@ function updateAchievements() {
     " achievements unlocked. Keep going! 🚀";
 }
 </script>
+<!-- SMART DAILY DASHBOARD -->
+<section class="card">
+  <h2>🧠 Smart Daily Dashboard</h2>
+  <p id="smartDate"></p>
+
+  <div class="stats-grid">
+
+    <div class="stat-box">
+      <h3>🎯 Today's Focus</h3>
+      <p id="smartFocus">Set your targets</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>🔥 Streak</h3>
+      <p id="smartStreak">0 days</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>📊 Target Progress</h3>
+      <p id="smartTarget">0%</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>🏅 Achievements</h3>
+      <p id="smartAchievements">0 unlocked</p>
+    </div>
+
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>💡 What to do next?</h3>
+    <div id="smartNext"
+         style="padding:15px;border-radius:12px;">
+      Loading...
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>⚠️ Today's Pending</h3>
+    <div id="smartPending"
+         style="padding:15px;border-radius:12px;">
+      Loading...
+    </div>
+  </div>
+
+  <button onclick="updateSmartDashboard()">
+    🔄 Refresh Dashboard
+  </button>
+</section>
+
+<script>
+function updateSmartDashboard() {
+
+  const now = new Date();
+
+  document.getElementById("smartDate").textContent =
+    now.toLocaleDateString("en-IN", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+
+  let completedTasks = 0;
+  let totalTasks = 0;
+
+  let studyToday = 0;
+  let runToday = 0;
+  let incomeToday = 0;
+
+  // TODAY
+  const todayDate =
+    now.toISOString().split("T")[0];
+
+  // TASKS
+  if(typeof tasks !== "undefined") {
+
+    tasks.forEach(item => {
+
+      totalTasks++;
+
+      if(item.completed) {
+        completedTasks++;
+      }
+
+    });
+  }
+
+  // STUDY
+  if(typeof studyRecords !== "undefined") {
+
+    studyRecords.forEach(item => {
+
+      if(item.studyDate === todayDate) {
+        studyToday += Number(item.hours) || 0;
+      }
+
+    });
+  }
+
+  // RUNNING
+  if(typeof runRecords !== "undefined") {
+
+    runRecords.forEach(item => {
+
+      if(item.runDate === todayDate) {
+        runToday += Number(item.distance) || 0;
+      }
+
+    });
+  }
+
+  // INCOME
+  if(typeof moneyRecords !== "undefined") {
+
+    moneyRecords.forEach(item => {
+
+      if(
+        item.type === "income" &&
+        item.moneyDate === todayDate
+      ) {
+        incomeToday += Number(item.amount) || 0;
+      }
+
+    });
+  }
+
+  // TARGET DATA
+  let targetPercent = 0;
+  let targetItems = 0;
+
+  if(typeof targets !== "undefined") {
+
+    Object.values(targets).forEach(item => {
+
+      if(Number(item.taskTarget) > 0) {
+
+        targetPercent += Math.min(
+          100,
+          (
+            Number(item.taskActual || 0) /
+            Number(item.taskTarget)
+          ) * 100
+        );
+
+        targetItems++;
+      }
+
+      if(Number(item.studyTarget) > 0) {
+
+        targetPercent += Math.min(
+          100,
+          (
+            Number(item.studyActual || 0) /
+            Number(item.studyTarget)
+          ) * 100
+        );
+
+        targetItems++;
+      }
+
+      if(Number(item.runTarget) > 0) {
+
+        targetPercent += Math.min(
+          100,
+          (
+            Number(item.runActual || 0) /
+            Number(item.runTarget)
+          ) * 100
+        );
+
+        targetItems++;
+      }
+
+      if(Number(item.incomeTarget) > 0) {
+
+        targetPercent += Math.min(
+          100,
+          (
+            Number(item.incomeActual || 0) /
+            Number(item.incomeTarget)
+          ) * 100
+        );
+
+        targetItems++;
+      }
+
+    });
+  }
+
+  const targetAverage =
+    targetItems > 0
+      ? Math.round(targetPercent / targetItems)
+      : 0;
+
+  // STREAK
+  let streak = 0;
+
+  if(typeof currentStreak !== "undefined") {
+    streak = Number(currentStreak) || 0;
+  }
+
+  // ACHIEVEMENTS
+  let unlocked = 0;
+
+  if(
+    typeof completedTasks !== "undefined" &&
+    completedTasks >= 100
+  ) unlocked++;
+
+  if(
+    typeof studyRecords !== "undefined"
+  ) {
+
+    let totalStudy = 0;
+
+    studyRecords.forEach(item => {
+      totalStudy += Number(item.hours) || 0;
+    });
+
+    if(totalStudy >= 50) unlocked++;
+  }
+
+  if(
+    typeof runRecords !== "undefined"
+  ) {
+
+    let totalRun = 0;
+
+    runRecords.forEach(item => {
+      totalRun += Number(item.distance) || 0;
+    });
+
+    if(totalRun >= 100) unlocked++;
+  }
+
+  if(streak >= 7) unlocked++;
+
+  // DISPLAY
+  document.getElementById("smartStreak").textContent =
+    streak + " days";
+
+  document.getElementById("smartTarget").textContent =
+    targetAverage + "%";
+
+  document.getElementById("smartAchievements").textContent =
+    unlocked + " unlocked";
+
+  // FOCUS
+  let focus = "Complete your targets 🎯";
+
+  if(
+    studyToday === 0 &&
+    runToday === 0 &&
+    completedTasks === 0
+  ) {
+    focus = "Start your first task today 🚀";
+  }
+  else if(studyToday === 0) {
+    focus = "Study session needed 📚";
+  }
+  else if(runToday === 0) {
+    focus = "Running session needed 🏃";
+  }
+  else if(targetAverage < 100) {
+    focus = "Push your targets 🎯";
+  }
+  else {
+    focus = "Excellent! Keep building 🔥";
+  }
+
+  document.getElementById("smartFocus").textContent =
+    focus;
+
+  // NEXT ACTION
+  let nextAction = "";
+
+  if(totalTasks === 0) {
+    nextAction = "Add today's first task.";
+  }
+  else if(completedTasks < totalTasks) {
+    nextAction =
+      "Complete your pending task(s).";
+  }
+  else if(studyToday === 0) {
+    nextAction =
+      "Do a focused study session.";
+  }
+  else if(runToday === 0) {
+    nextAction =
+      "Complete your running session.";
+  }
+  else {
+    nextAction =
+      "Review your targets and improve one thing.";
+  }
+
+  document.getElementById("smartNext").textContent =
+    "👉 " + nextAction;
+
+  // PENDING
+  let pending = [];
+
+  if(totalTasks > completedTasks) {
+    pending.push(
+      "✅ " +
+      (totalTasks - completedTasks) +
+      " task(s)"
+    );
+  }
+
+  if(studyToday === 0) {
+    pending.push("📚 Study");
+  }
+
+  if(runToday === 0) {
+    pending.push("🏃 Running");
+  }
+
+  if(targetAverage < 100) {
+    pending.push("🎯 Targets");
+  }
+
+  if(pending.length === 0) {
+    document.getElementById("smartPending").textContent =
+      "Nothing major pending. Great work! 🔥";
+  }
+  else {
+    document.getElementById("smartPending").textContent =
+      pending.join("  •  ");
+  }
+}
+</script>
 </html>
