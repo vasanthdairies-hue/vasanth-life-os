@@ -2,1848 +2,811 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Vasanth Life OS</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    background:#0b0f19;
-    color:#fff;
-    min-height:100vh;
-}
-
-.container{
-    width:92%;
-    max-width:1200px;
-    margin:auto;
-    padding:25px 0 50px;
-}
-
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-    gap:15px;
-}
-
-.logo{
-    font-size:26px;
-    font-weight:bold;
-}
-
-.date{
-    color:#aaa;
-}
-
-.auth-box{
-    background:#151b2b;
-    padding:18px;
-    border-radius:12px;
-    margin-bottom:20px;
-}
-
-.login-btn,
-.add-task button{
-    background:#2563eb;
-    color:white;
-    border:none;
-    padding:11px 18px;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-.login-btn:hover,
-.add-task button:hover{
-    opacity:.85;
-}
-
-.user-info{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-}
-
-.logout-btn{
-    background:#dc2626;
-    color:white;
-    border:none;
-    padding:9px 15px;
-    border-radius:7px;
-    cursor:pointer;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:25px;
-}
-
-.stat{
-    background:#151b2b;
-    padding:20px;
-    border-radius:12px;
-}
-
-.stat h3{
-    color:#aaa;
-    font-size:14px;
-    margin-bottom:8px;
-}
-
-.stat p{
-    font-size:25px;
-    font-weight:bold;
-}
-
-.dashboard{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:20px;
-}
-
-.section{
-    background:#151b2b;
-    padding:20px;
-    border-radius:12px;
-    margin-bottom:20px;
-}
-
-.section h2{
-    margin-bottom:15px;
-}
-
-.today-label{
-    color:#aaa;
-    margin-bottom:15px;
-    font-size:14px;
-}
-
-.add-task{
-    display:flex;
-    gap:8px;
-    margin-bottom:15px;
-}
-
-.add-task input{
-    flex:1;
-    min-width:0;
-    background:#0f1422;
-    color:white;
-    border:1px solid #293247;
-    padding:11px;
-    border-radius:8px;
-    outline:none;
-}
-
-.add-task input:focus{
-    border-color:#2563eb;
-}
-
-.task,
-.goal,
-.plan{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    background:#0f1422;
-    padding:12px;
-    border-radius:8px;
-    margin-bottom:8px;
-}
-
-.task span,
-.goal span,
-.plan span{
-    flex:1;
-    word-break:break-word;
-}
-
-.completed{
-    text-decoration:line-through;
-    opacity:.5;
-}
-
-.delete{
-    background:#dc2626;
-    color:white;
-    border:none;
-    padding:6px 9px;
-    border-radius:6px;
-    cursor:pointer;
-}
-
-.edit{
-    background:#ca8a04;
-    color:white;
-    border:none;
-    padding:6px 9px;
-    border-radius:6px;
-    cursor:pointer;
-}
-
-.progress-bar{
-    width:100%;
-    height:8px;
-    background:#293247;
-    border-radius:10px;
-    margin-top:8px;
-    overflow:hidden;
-}
-
-.progress-fill{
-    height:100%;
-    background:#22c55e;
-}
-
-.goal-info{
-    flex:1;
-}
-
-.goal-top{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-}
-
-.goal-date{
-    color:#888;
-    font-size:12px;
-    margin-top:4px;
-}
-
-.plan-time{
-    color:#60a5fa;
-    font-size:13px;
-    min-width:55px;
-}
-
-.empty{
-    color:#777;
-    padding:10px 0;
-}
-
-.life-area{
-    padding:12px;
-    background:#0f1422;
-    border-radius:8px;
-    margin-bottom:8px;
-}
-
-.progress-container{
-    margin-top:10px;
-}
-
-.progress-label{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:6px;
-    color:#aaa;
-}
-
-.big-progress{
-    height:12px;
-    width:100%;
-    background:#293247;
-    border-radius:10px;
-    overflow:hidden;
-}
-
-.big-progress-fill{
-    height:100%;
-    background:#22c55e;
-}
-
-.rule{
-    color:#bbb;
-    line-height:1.7;
-}
-
-@media(max-width:800px){
-    .dashboard{
-        grid-template-columns:1fr;
-    }
-
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-}
-
-@media(max-width:600px){
-    .header{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-    .add-task{
-        flex-direction:column;
-    }
-
-    .stats{
-        grid-template-columns:1fr 1fr;
-    }
-}
-
-@media(max-width:500px){
-    .container{
-        width:94%;
-    }
-
-    .stats{
-        grid-template-columns:1fr;
-    }
-
-    .task,
-    .goal,
-    .plan{
-        flex-wrap:wrap;
-    }
-
-    .plan-time{
-        min-width:auto;
-    }
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#0b0f19;color:#fff;min-height:100vh}
+.container{width:92%;max-width:1200px;margin:auto;padding:25px 0 50px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.logo{font-size:26px;font-weight:bold}.date{color:#aaa}
+.auth-box,.section,.stat{background:#151b2b;border-radius:12px}
+.auth-box{padding:18px;margin-bottom:20px}
+.login-btn,.add-btn{background:#2563eb;color:white;border:0;padding:11px 18px;border-radius:8px;cursor:pointer}
+.logout-btn,.delete{background:#dc2626;color:white;border:0;padding:7px 10px;border-radius:6px;cursor:pointer}
+.edit{background:#ca8a04;color:white;border:0;padding:7px 10px;border-radius:6px;cursor:pointer}
+.user-info{display:flex;justify-content:space-between;align-items:center}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
+.stat{padding:20px}.stat h3{color:#aaa;font-size:14px;margin-bottom:8px}.stat p{font-size:25px;font-weight:bold}
+.dashboard{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+.section{padding:20px;margin-bottom:20px}.section h2{margin-bottom:15px}
+.today-label,.empty{color:#888;font-size:14px;margin-bottom:15px}
+.add-task{display:flex;gap:8px;margin-bottom:15px}
+.add-task input{flex:1;min-width:0;background:#0f1422;color:white;border:1px solid #293247;padding:11px;border-radius:8px;outline:0}
+.item{display:flex;align-items:center;gap:10px;background:#0f1422;padding:12px;border-radius:8px;margin-bottom:8px}
+.item-main{flex:1;word-break:break-word}.completed{text-decoration:line-through;opacity:.5}
+.time{color:#60a5fa;font-size:13px}.small{color:#888;font-size:12px;margin-top:4px}
+.progress{height:8px;background:#293247;border-radius:10px;overflow:hidden;margin-top:8px}
+.fill{height:100%;background:#22c55e}
+.big-progress{height:12px;background:#293247;border-radius:10px;overflow:hidden}
+.life{padding:12px;background:#0f1422;border-radius:8px;margin-bottom:8px}
+.rule{color:#bbb;line-height:1.7}
+.study-summary{display:flex;gap:15px;margin-bottom:15px}
+.study-box{background:#0f1422;padding:12px;border-radius:8px;flex:1}
+.study-box span{display:block;color:#888;font-size:12px}.study-box b{font-size:20px}
+@media(max-width:800px){.dashboard{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.header{flex-direction:column;align-items:flex-start;gap:10px}.add-task{flex-direction:column}.study-summary{flex-direction:column}}
+@media(max-width:500px){.stats{grid-template-columns:1fr}.item{flex-wrap:wrap}}
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-    <div class="header">
-        <div class="logo">⚡ VASANTH LIFE OS</div>
-        <div class="date" id="date"></div>
-    </div>
-
-    <div class="auth-box" id="authBox">
-        <button class="login-btn" onclick="loginWithGoogle()">
-            🔐 Sign in with Google
-        </button>
-    </div>
-
-    <div class="stats">
-
-        <div class="stat">
-            <h3>Total Tasks</h3>
-            <p id="totalTasks">0</p>
-        </div>
-
-        <div class="stat">
-            <h3>Pending</h3>
-            <p id="pendingTasks">0</p>
-        </div>
-
-        <div class="stat">
-            <h3>Completed</h3>
-            <p id="completedTasks">0</p>
-        </div>
-
-        <div class="stat">
-            <h3>Progress</h3>
-            <p id="taskProgress">0%</p>
-        </div>
-
-    </div>
-
-    <div class="dashboard">
-
-        <div>
-
-            <!-- DAILY PLANNER -->
-
-            <div class="section">
-
-                <h2>📅 Daily Planner</h2>
-
-                <div class="today-label">
-                    Plan your day and complete it step by step.
-                </div>
-
-                <div class="add-task">
-
-                    <input
-                        id="planInput"
-                        type="text"
-                        placeholder="What do you want to do today?"
-                    >
-
-                    <input
-                        id="planTime"
-                        type="time"
-                    >
-
-                    <button onclick="addPlan()">
-                        + Add Plan
-                    </button>
-
-                </div>
-
-                <div id="planList"></div>
-
-            </div>
-
-
-            <!-- GOALS -->
-
-            <div class="section">
-
-                <h2>🎯 Goals</h2>
-
-                <div class="add-task">
-
-                    <input
-                        id="goalInput"
-                        type="text"
-                        placeholder="Enter your goal"
-                    >
-
-                    <input
-                        id="goalDate"
-                        type="date"
-                    >
-
-                    <input
-                        id="goalProgress"
-                        type="number"
-                        min="0"
-                        max="100"
-                        placeholder="%"
-                    >
-
-                    <button onclick="addGoal()">
-                        + Add Goal
-                    </button>
-
-                </div>
-
-                <div id="goalList"></div>
-
-            </div>
-
-
-            <!-- TASKS -->
-
-            <div class="section">
-
-                <h2>✅ Tasks</h2>
-
-                <div id="loginMessage" class="today-label">
-                    Sign in to save your tasks to the cloud.
-                </div>
-
-                <div class="add-task">
-
-                    <input
-                        id="taskInput"
-                        type="text"
-                        placeholder="Enter a task"
-                    >
-
-                    <button onclick="addTask()">
-                        + Add Task
-                    </button>
-
-                </div>
-
-                <div id="taskList"></div>
-
-            </div>
-
-
-            <!-- LIFE AREAS -->
-
-            <div class="section">
-
-                <h2>🧭 Life Areas</h2>
-
-                <div class="life-area">
-                    🎓 <b>Education</b>
-                </div>
-
-                <div class="life-area">
-                    🏃 <b>Fitness</b>
-                </div>
-
-                <div class="life-area">
-                    💼 <b>Career</b>
-                </div>
-
-                <div class="life-area">
-                    🚀 <b>Projects</b>
-                </div>
-
-                <div class="life-area">
-                    🧠 <b>Skills</b>
-                </div>
-
-                <div class="life-area">
-                    📔 <b>Diary</b>
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- RIGHT SIDE -->
-
-        <div>
-
-            <div class="section">
-
-                <h2>📊 Task Progress</h2>
-
-                <div class="progress-container">
-
-                    <div class="progress-label">
-                        <span>Overall Tasks</span>
-                        <span id="sideProgress">0%</span>
-                    </div>
-
-                    <div class="big-progress">
-
-                        <div
-                            class="big-progress-fill"
-                            id="sideProgressBar"
-                            style="width:0%"
-                        ></div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="section">
-
-                <h2>🔥 Daily Rule</h2>
-
-                <div class="rule">
-
-                    <p>1. Plan your day.</p>
-                    <p>2. Finish important tasks.</p>
-                    <p>3. Study every day.</p>
-                    <p>4. Train your body.</p>
-                    <p>5. Build your future.</p>
-                    <p>6. Improve 1% daily.</p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
+<div class="header">
+<div class="logo">⚡ VASANTH LIFE OS</div>
+<div class="date" id="date"></div>
+</div>
+
+<div class="auth-box" id="authBox">
+<button class="login-btn" onclick="loginWithGoogle()">🔐 Sign in with Google</button>
+</div>
+
+<div class="stats">
+<div class="stat"><h3>Total Tasks</h3><p id="totalTasks">0</p></div>
+<div class="stat"><h3>Pending</h3><p id="pendingTasks">0</p></div>
+<div class="stat"><h3>Completed</h3><p id="completedTasks">0</p></div>
+<div class="stat"><h3>Progress</h3><p id="taskProgress">0%</p></div>
+</div>
+
+<div class="dashboard">
+
+<div>
+
+<!-- DAILY PLANNER -->
+<div class="section">
+<h2>📅 Daily Planner</h2>
+<div class="today-label">Plan your day and complete it step by step.</div>
+
+<div class="add-task">
+<input id="planInput" placeholder="What do you want to do today?">
+<input id="planTime" type="time">
+<button class="add-btn" onclick="addPlan()">+ Add Plan</button>
+</div>
+
+<div id="planList"></div>
+</div>
+
+
+<!-- STUDY TRACKER -->
+<div class="section">
+<h2>📚 Study Tracker</h2>
+
+<div class="today-label">
+Track your subjects, study hours and completed sessions.
+</div>
+
+<div class="study-summary">
+<div class="study-box">
+<span>Total Hours</span>
+<b id="studyHours">0</b>
+</div>
+<div class="study-box">
+<span>Sessions</span>
+<b id="studySessions">0</b>
+</div>
+<div class="study-box">
+<span>Completed</span>
+<b id="studyCompleted">0</b>
+</div>
+</div>
+
+<div class="add-task">
+<input id="studySubject" placeholder="Subject e.g. Maths">
+<input id="studyHoursInput" type="number" min="0" step="0.5" placeholder="Hours">
+<button class="add-btn" onclick="addStudy()">+ Add Study</button>
+</div>
+
+<div id="studyList"></div>
+</div>
+
+
+<!-- GOALS -->
+<div class="section">
+<h2>🎯 Goals</h2>
+
+<div class="add-task">
+<input id="goalInput" placeholder="Enter your goal">
+<input id="goalDate" type="date">
+<input id="goalProgress" type="number" min="0" max="100" placeholder="%">
+<button class="add-btn" onclick="addGoal()">+ Add Goal</button>
+</div>
+
+<div id="goalList"></div>
+</div>
+
+
+<!-- TASKS -->
+<div class="section">
+<h2>✅ Tasks</h2>
+
+<div id="loginMessage" class="today-label">
+Sign in to save your tasks to the cloud.
+</div>
+
+<div class="add-task">
+<input id="taskInput" placeholder="Enter a task">
+<button class="add-btn" onclick="addTask()">+ Add Task</button>
+</div>
+
+<div id="taskList"></div>
+</div>
+
+
+<!-- LIFE AREAS -->
+<div class="section">
+<h2>🧭 Life Areas</h2>
+<div class="life">🎓 <b>Education</b></div>
+<div class="life">🏃 <b>Fitness</b></div>
+<div class="life">💼 <b>Career</b></div>
+<div class="life">🚀 <b>Projects</b></div>
+<div class="life">🧠 <b>Skills</b></div>
+<div class="life">📔 <b>Diary</b></div>
+</div>
+
+</div>
+
+
+<!-- RIGHT SIDE -->
+<div>
+
+<div class="section">
+<h2>📊 Task Progress</h2>
+
+<div style="display:flex;justify-content:space-between;color:#aaa;margin-bottom:6px">
+<span>Overall Tasks</span>
+<span id="sideProgress">0%</span>
+</div>
+
+<div class="big-progress">
+<div class="fill" id="sideProgressBar" style="width:0%"></div>
+</div>
+</div>
+
+<div class="section">
+<h2>🔥 Daily Rule</h2>
+<div class="rule">
+<p>1. Plan your day.</p>
+<p>2. Finish important tasks.</p>
+<p>3. Study every day.</p>
+<p>4. Train your body.</p>
+<p>5. Build your future.</p>
+<p>6. Improve 1% daily.</p>
+</div>
+</div>
+
+</div>
+</div>
 </div>
 
 
 <script type="module">
 
-import { initializeApp }
+import {initializeApp}
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 import {
-    getAuth,
-    GoogleAuthProvider,
-    signInWithPopup,
-    onAuthStateChanged,
-    signOut
+getAuth,GoogleAuthProvider,signInWithPopup,
+onAuthStateChanged,signOut
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 import {
-    getFirestore,
-    collection,
-    addDoc,
-    updateDoc,
-    deleteDoc,
-    doc,
-    onSnapshot,
-    query,
-    orderBy
+getFirestore,collection,addDoc,updateDoc,deleteDoc,
+doc,onSnapshot,query,orderBy
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-const firebaseConfig = {
+const firebaseConfig={
+apiKey:"AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
+authDomain:"vasanth-lise-os.firebaseapp.com",
+projectId:"vasanth-lise-os",
+storageBucket:"vasanth-lise-os.firebasestorage.app",
+messagingSenderId:"847181528785",
+appId:"1:847181528785:web:f02eb43c041c9e90fc4ff0",
+measurementId:"G-WMPYW2EDLZ"
+};
 
-    apiKey:
-    "AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const provider=new GoogleAuthProvider();
 
-    authDomain:
-    "vasanth-lise-os.firebaseapp.com",
+let currentUser=null;
+let tasks=[],goals=[],plans=[],studies=[];
+let unsubscribeTasks=null,unsubscribeGoals=null,
+unsubscribePlans=null,unsubscribeStudies=null;
 
-    projectId:
-    "vasanth-lise-os",
+document.getElementById("date").textContent=
+new Date().toLocaleDateString("en-IN",{
+weekday:"long",year:"numeric",month:"long",day:"numeric"
+});
 
-    storageBucket:
-    "vasanth-lise-os.firebasestorage.app",
 
-    messagingSenderId:
-    "847181528785",
-
-    appId:
-    "1:847181528785:web:f02eb43c041c9e90fc4ff0",
-
-    measurementId:
-    "G-WMPYW2EDLZ"
-
+window.loginWithGoogle=async function(){
+try{await signInWithPopup(auth,provider)}
+catch(e){console.error(e);alert("Login failed: "+e.message)}
 };
 
 
-const app = initializeApp(firebaseConfig);
+onAuthStateChanged(auth,user=>{
+currentUser=user;
 
-const auth = getAuth(app);
+if(user){
 
-const db = getFirestore(app);
+document.getElementById("authBox").innerHTML=`
+<div class="user-info">
+<div>👋 Welcome, <b>${escapeHtml(user.displayName||"Vasanth")}</b></div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>`;
 
-const provider = new GoogleAuthProvider();
+document.getElementById("loginMessage").textContent=
+"☁️ Your tasks are saved to the cloud.";
 
+loadCloudTasks();
+loadGoals();
+loadPlans();
+loadStudies();
 
-let currentUser = null;
+}else{
 
-let tasks = [];
+document.getElementById("authBox").innerHTML=
+`<button class="login-btn" onclick="loginWithGoogle()">🔐 Sign in with Google</button>`;
 
-let goals = [];
+document.getElementById("loginMessage").textContent=
+"Sign in to save your tasks to the cloud.";
 
-let plans = [];
+if(unsubscribeTasks)unsubscribeTasks();
+if(unsubscribeGoals)unsubscribeGoals();
+if(unsubscribePlans)unsubscribePlans();
+if(unsubscribeStudies)unsubscribeStudies();
 
-let unsubscribeTasks = null;
+unsubscribeTasks=unsubscribeGoals=unsubscribePlans=unsubscribeStudies=null;
 
-let unsubscribePlans = null;
+tasks=[];goals=[];plans=[];studies=[];
 
-let unsubscribeGoals = null;
+renderTasks();renderGoals();renderPlans();renderStudies();
+}
+});
 
 
-/* DATE */
+window.logout=async()=>await signOut(auth);
 
-document.getElementById("date").textContent =
-new Date().toLocaleDateString(
-    "en-IN",
-    {
-        weekday:"long",
-        year:"numeric",
-        month:"long",
-        day:"numeric"
-    }
-);
 
-
-/* GOOGLE LOGIN */
-
-window.loginWithGoogle = async function(){
-
-    try{
-
-        await signInWithPopup(
-            auth,
-            provider
-        );
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        alert(
-            "Login failed: " +
-            error.message
-        );
-
-    }
-
-};
-
-
-/* AUTH STATE */
-
-onAuthStateChanged(
-    auth,
-    user => {
-
-        currentUser = user;
-
-        const authBox =
-        document.getElementById("authBox");
-
-        if(user){
-
-            authBox.innerHTML = `
-
-                <div class="user-info">
-
-                    <div>
-                        👋 Welcome,
-                        <b>${user.displayName || "Vasanth"}</b>
-                    </div>
-
-                    <button
-                        class="logout-btn"
-                        onclick="logout()"
-                    >
-                        Logout
-                    </button>
-
-                </div>
-
-            `;
-
-            document.getElementById(
-                "loginMessage"
-            ).textContent =
-            "☁️ Your tasks are saved to the cloud.";
-
-            loadCloudTasks();
-
-            loadGoals();
-
-            loadPlans();
-
-        }
-        else{
-
-            authBox.innerHTML = `
-
-                <button
-                    class="login-btn"
-                    onclick="loginWithGoogle()"
-                >
-                    🔐 Sign in with Google
-                </button>
-
-            `;
-
-            document.getElementById(
-                "loginMessage"
-            ).textContent =
-            "Sign in to save your tasks to the cloud.";
-
-            if(unsubscribeTasks){
-                unsubscribeTasks();
-                unsubscribeTasks = null;
-            }
-
-            if(unsubscribePlans){
-                unsubscribePlans();
-                unsubscribePlans = null;
-            }
-
-            if(unsubscribeGoals){
-                unsubscribeGoals();
-                unsubscribeGoals = null;
-            }
-
-            tasks = [];
-
-            goals = [];
-
-            plans = [];
-
-            renderTasks();
-
-            renderGoals();
-
-            renderPlans();
-
-        }
-
-    }
-);
-
-
-/* LOGOUT */
-
-window.logout = async function(){
-
-    await signOut(auth);
-
-};
-
-
-/* =========================
-   TASKS
-========================= */
-
-
-/* LOAD TASKS */
+/* ================= TASKS ================= */
 
 function loadCloudTasks(){
 
-    const tasksRef =
-    collection(
-        db,
-        "users",
-        currentUser.uid,
-        "tasks"
-    );
+const ref=collection(db,"users",currentUser.uid,"tasks");
 
-    const tasksQuery =
-    query(
-        tasksRef,
-        orderBy("createdAt","asc")
-    );
-
-    unsubscribeTasks =
-    onSnapshot(
-        tasksQuery,
-        snapshot => {
-
-            tasks =
-            snapshot.docs.map(
-                item => ({
-
-                    id:item.id,
-
-                    name:
-                    item.data().name || "",
-
-                    completed:
-                    item.data().completed || false,
-
-                    createdAt:
-                    item.data().createdAt || 0
-
-                })
-            );
-
-            renderTasks();
-
-        },
-        error => {
-
-            console.error(error);
-
-            document.getElementById(
-                "taskList"
-            ).innerHTML =
-            `<div class="empty">
-                Could not load tasks. Check Firebase Rules.
-            </div>`;
-
-        }
-    );
-
+unsubscribeTasks=onSnapshot(
+query(ref,orderBy("createdAt","asc")),
+snap=>{
+tasks=snap.docs.map(x=>({
+id:x.id,
+name:x.data().name||"",
+completed:x.data().completed||false
+}));
+renderTasks();
+},
+e=>console.error(e)
+);
 }
 
+window.addTask=async function(){
 
-/* ADD TASK */
+if(!currentUser)return alert("Please sign in first.");
 
-window.addTask = async function(){
+const input=document.getElementById("taskInput");
+const name=input.value.trim();
 
-    if(!currentUser){
+if(!name)return;
 
-        alert("Please sign in first.");
+await addDoc(
+collection(db,"users",currentUser.uid,"tasks"),
+{name,completed:false,createdAt:Date.now()}
+);
 
-        return;
-
-    }
-
-    const input =
-    document.getElementById("taskInput");
-
-    const name =
-    input.value.trim();
-
-    if(!name) return;
-
-    try{
-
-        await addDoc(
-            collection(
-                db,
-                "users",
-                currentUser.uid,
-                "tasks"
-            ),
-            {
-
-                name:name,
-
-                completed:false,
-
-                createdAt:Date.now()
-
-            }
-        );
-
-        input.value = "";
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        alert(
-            "Could not add task: " +
-            error.message
-        );
-
-    }
-
+input.value="";
 };
 
-
-/* TOGGLE TASK */
-
-window.toggleTask = async function(
-    id,
-    completed
-){
-
-    if(!currentUser) return;
-
-    await updateDoc(
-
-        doc(
-            db,
-            "users",
-            currentUser.uid,
-            "tasks",
-            id
-        ),
-
-        {
-            completed:!completed
-        }
-
-    );
-
+window.toggleTask=async function(id,completed){
+await updateDoc(
+doc(db,"users",currentUser.uid,"tasks",id),
+{completed:!completed}
+);
 };
 
-
-/* DELETE TASK */
-
-window.deleteTask = async function(id){
-
-    if(!currentUser) return;
-
-    await deleteDoc(
-
-        doc(
-            db,
-            "users",
-            currentUser.uid,
-            "tasks",
-            id
-        )
-
-    );
-
+window.deleteTask=async function(id){
+await deleteDoc(doc(db,"users",currentUser.uid,"tasks",id));
 };
-
-
-/* RENDER TASKS */
 
 function renderTasks(){
 
-    const list =
-    document.getElementById("taskList");
+const list=document.getElementById("taskList");
 
-    if(tasks.length === 0){
-
-        list.innerHTML =
-        `<div class="empty">
-            No tasks yet.
-        </div>`;
-
-        updateStats();
-
-        return;
-
-    }
-
-    list.innerHTML =
-    tasks.map(
-        task => `
-
-        <div class="task">
-
-            <input
-                type="checkbox"
-                ${task.completed ? "checked" : ""}
-                onchange="toggleTask(
-                    '${task.id}',
-                    ${task.completed}
-                )"
-            >
-
-            <span
-                class="${task.completed ? "completed" : ""}"
-            >
-                ${escapeHtml(task.name)}
-            </span>
-
-            <button
-                class="delete"
-                onclick="deleteTask('${task.id}')"
-            >
-                🗑️
-            </button>
-
-        </div>
-
-        `
-    ).join("");
-
-    updateStats();
-
+if(!tasks.length){
+list.innerHTML=`<div class="empty">No tasks yet.</div>`;
+updateStats();
+return;
 }
 
+list.innerHTML=tasks.map(t=>`
+<div class="item">
+<input type="checkbox"
+${t.completed?"checked":""}
+onchange="toggleTask('${t.id}',${t.completed})">
 
-/* TASK STATS */
+<div class="item-main ${t.completed?"completed":""}">
+${escapeHtml(t.name)}
+</div>
+
+<button class="delete" onclick="deleteTask('${t.id}')">🗑️</button>
+</div>
+`).join("");
+
+updateStats();
+}
 
 function updateStats(){
 
-    const total =
-    tasks.length;
+const total=tasks.length;
+const completed=tasks.filter(x=>x.completed).length;
+const pending=total-completed;
+const progress=total?Math.round(completed/total*100):0;
 
-    const completed =
-    tasks.filter(
-        task => task.completed
-    ).length;
-
-    const pending =
-    total - completed;
-
-    const progress =
-    total === 0
-    ? 0
-    : Math.round(
-        (completed / total) * 100
-    );
-
-    document.getElementById(
-        "totalTasks"
-    ).textContent = total;
-
-    document.getElementById(
-        "completedTasks"
-    ).textContent = completed;
-
-    document.getElementById(
-        "pendingTasks"
-    ).textContent = pending;
-
-    document.getElementById(
-        "taskProgress"
-    ).textContent =
-    progress + "%";
-
-    document.getElementById(
-        "sideProgress"
-    ).textContent =
-    progress + "%";
-
-    document.getElementById(
-        "sideProgressBar"
-    ).style.width =
-    progress + "%";
-
+document.getElementById("totalTasks").textContent=total;
+document.getElementById("completedTasks").textContent=completed;
+document.getElementById("pendingTasks").textContent=pending;
+document.getElementById("taskProgress").textContent=progress+"%";
+document.getElementById("sideProgress").textContent=progress+"%";
+document.getElementById("sideProgressBar").style.width=progress+"%";
 }
 
 
-/* =========================
-   GOALS
-========================= */
+/* ================= GOALS ================= */
 
+window.addGoal=async function(){
 
-/* ADD GOAL */
+if(!currentUser)return alert("Please sign in first.");
 
-window.addGoal = async function(){
+const input=document.getElementById("goalInput");
+const date=document.getElementById("goalDate");
+const progressInput=document.getElementById("goalProgress");
 
-    if(!currentUser){
+const name=input.value.trim();
+if(!name)return;
 
-        alert("Please sign in first.");
+let progress=parseInt(progressInput.value);
+if(isNaN(progress))progress=0;
+progress=Math.max(0,Math.min(100,progress));
 
-        return;
+await addDoc(
+collection(db,"users",currentUser.uid,"goals"),
+{
+name,
+targetDate:date.value||"",
+progress,
+completed:progress>=100,
+createdAt:Date.now()
+}
+);
 
-    }
-
-    const input =
-    document.getElementById("goalInput");
-
-    const dateInput =
-    document.getElementById("goalDate");
-
-    const progressInput =
-    document.getElementById("goalProgress");
-
-    const name =
-    input.value.trim();
-
-    if(!name) return;
-
-    let progress =
-    parseInt(progressInput.value);
-
-    if(isNaN(progress))
-        progress = 0;
-
-    progress =
-    Math.max(
-        0,
-        Math.min(100,progress)
-    );
-
-    try{
-
-        await addDoc(
-
-            collection(
-                db,
-                "users",
-                currentUser.uid,
-                "goals"
-            ),
-
-            {
-
-                name:name,
-
-                targetDate:
-                dateInput.value || "",
-
-                progress:progress,
-
-                completed:
-                progress >= 100,
-
-                createdAt:
-                Date.now()
-
-            }
-
-        );
-
-        input.value = "";
-
-        dateInput.value = "";
-
-        progressInput.value = "";
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        alert(
-            "Could not add goal: " +
-            error.message
-        );
-
-    }
-
+input.value="";
+date.value="";
+progressInput.value="";
 };
 
-
-/* LOAD GOALS */
 
 function loadGoals(){
 
-    const goalsRef =
-    collection(
-        db,
-        "users",
-        currentUser.uid,
-        "goals"
-    );
+const ref=collection(db,"users",currentUser.uid,"goals");
 
-    const goalsQuery =
-    query(
-        goalsRef,
-        orderBy("createdAt","asc")
-    );
-
-    unsubscribeGoals =
-    onSnapshot(
-        goalsQuery,
-        snapshot => {
-
-            goals =
-            snapshot.docs.map(
-                item => ({
-
-                    id:item.id,
-
-                    name:
-                    item.data().name || "",
-
-                    targetDate:
-                    item.data().targetDate || "",
-
-                    progress:
-                    item.data().progress || 0,
-
-                    completed:
-                    item.data().completed || false,
-
-                    createdAt:
-                    item.data().createdAt || 0
-
-                })
-            );
-
-            renderGoals();
-
-        },
-        error => {
-
-            console.error(error);
-
-            document.getElementById(
-                "goalList"
-            ).innerHTML =
-            `<div class="empty">
-                Could not load goals. Check Firebase Rules.
-            </div>`;
-
-        }
-    );
-
+unsubscribeGoals=onSnapshot(
+query(ref,orderBy("createdAt","asc")),
+snap=>{
+goals=snap.docs.map(x=>({
+id:x.id,
+name:x.data().name||"",
+targetDate:x.data().targetDate||"",
+progress:x.data().progress||0,
+completed:x.data().completed||false
+}));
+renderGoals();
+},
+e=>console.error(e)
+);
 }
 
-
-/* RENDER GOALS */
 
 function renderGoals(){
 
-    const list =
-    document.getElementById("goalList");
+const list=document.getElementById("goalList");
 
-    if(goals.length === 0){
+if(!goals.length){
+list.innerHTML=`<div class="empty">No goals yet.</div>`;
+return;
+}
 
-        list.innerHTML =
-        `<div class="empty">
-            No goals yet.
-        </div>`;
+list.innerHTML=goals.map(g=>`
+<div class="item">
 
-        return;
+<input type="checkbox"
+${g.completed?"checked":""}
+onchange="toggleGoal('${g.id}',${g.completed})">
 
-    }
+<div class="item-main">
 
-    list.innerHTML =
-    goals.map(
-        goal => `
+<div class="${g.completed?"completed":""}">
+${escapeHtml(g.name)}
+</div>
 
-        <div class="goal">
+${g.targetDate?
+`<div class="small">🎯 Target: ${g.targetDate}</div>`:""}
 
-            <input
-                type="checkbox"
-                ${goal.completed ? "checked" : ""}
-                onchange="toggleGoal(
-                    '${goal.id}',
-                    ${goal.completed}
-                )"
-            >
+<div class="progress">
+<div class="fill" style="width:${g.progress}%"></div>
+</div>
 
-            <div class="goal-info">
+</div>
 
-                <div class="goal-top">
+<b>${g.progress}%</b>
 
-                    <span
-                        class="${goal.completed ? "completed" : ""}"
-                    >
-                        ${escapeHtml(goal.name)}
-                    </span>
+<button class="edit" onclick="editGoal('${g.id}')">✏️</button>
+<button class="delete" onclick="deleteGoal('${g.id}')">🗑️</button>
 
-                    <b>
-                        ${goal.progress}%
-                    </b>
-
-                </div>
-
-                ${
-                    goal.targetDate
-                    ?
-                    `<div class="goal-date">
-                        🎯 Target:
-                        ${goal.targetDate}
-                    </div>`
-                    :
-                    ""
-                }
-
-                <div class="progress-bar">
-
-                    <div
-                        class="progress-fill"
-                        style="width:${goal.progress}%"
-                    ></div>
-
-                </div>
-
-            </div>
-
-            <button
-                class="edit"
-                onclick="editGoal('${goal.id}')"
-            >
-                ✏️
-            </button>
-
-            <button
-                class="delete"
-                onclick="deleteGoal('${goal.id}')"
-            >
-                🗑️
-            </button>
-
-        </div>
-
-        `
-    ).join("");
-
+</div>
+`).join("");
 }
 
 
-/* EDIT GOAL */
+window.editGoal=async function(id){
 
-window.editGoal = async function(id){
+const g=goals.find(x=>x.id===id);
+if(!g)return;
 
-    const goal =
-    goals.find(
-        item => item.id === id
-    );
+const name=prompt("Edit goal name:",g.name);
+if(name===null)return;
 
-    if(!goal) return;
+const date=prompt("Edit target date (YYYY-MM-DD):",g.targetDate);
+if(date===null)return;
 
-    const newName =
-    prompt(
-        "Edit goal name:",
-        goal.name
-    );
+const p=prompt("Edit progress (0-100):",g.progress);
+if(p===null)return;
 
-    if(newName === null)
-        return;
+let progress=parseInt(p);
+if(isNaN(progress))progress=g.progress;
+progress=Math.max(0,Math.min(100,progress));
 
-    const newDate =
-    prompt(
-        "Edit target date (YYYY-MM-DD):",
-        goal.targetDate
-    );
-
-    if(newDate === null)
-        return;
-
-    const newProgress =
-    prompt(
-        "Edit progress (0-100):",
-        goal.progress
-    );
-
-    if(newProgress === null)
-        return;
-
-    let progress =
-    parseInt(newProgress);
-
-    if(isNaN(progress))
-        progress = goal.progress;
-
-    progress =
-    Math.max(
-        0,
-        Math.min(100,progress)
-    );
-
-    await updateDoc(
-
-        doc(
-            db,
-            "users",
-            currentUser.uid,
-            "goals",
-            id
-        ),
-
-        {
-
-            name:
-            newName.trim() || goal.name,
-
-            targetDate:
-            newDate,
-
-            progress:progress,
-
-            completed:
-            progress >= 100
-
-        }
-
-    );
-
+await updateDoc(
+doc(db,"users",currentUser.uid,"goals",id),
+{
+name:name.trim()||g.name,
+targetDate:date,
+progress,
+completed:progress>=100
+}
+);
 };
 
 
-/* TOGGLE GOAL */
+window.toggleGoal=async function(id,completed){
 
-window.toggleGoal = async function(
-    id,
-    completed
-){
+const g=goals.find(x=>x.id===id);
 
-    const goal =
-    goals.find(
-        item => item.id === id
-    );
-
-    if(!goal) return;
-
-    await updateDoc(
-
-        doc(
-            db,
-            "users",
-            currentUser.uid,
-            "goals",
-            id
-        ),
-
-        {
-
-            completed:!completed,
-
-            progress:
-            !completed
-            ? 100
-            : goal.progress >= 100
-            ? 0
-            : goal.progress
-
-        }
-
-    );
-
+await updateDoc(
+doc(db,"users",currentUser.uid,"goals",id),
+{
+completed:!completed,
+progress:!completed?100:(g.progress>=100?0:g.progress)
+}
+);
 };
 
 
-/* DELETE GOAL */
-
-window.deleteGoal = async function(id){
-
-    if(!currentUser) return;
-
-    await deleteDoc(
-
-        doc(
-            db,
-            "users",
-            currentUser.uid,
-            "goals",
-            id
-        )
-
-    );
-
+window.deleteGoal=async function(id){
+await deleteDoc(doc(db,"users",currentUser.uid,"goals",id));
 };
 
 
-/* =========================
-   DAILY PLANNER
-========================= */
+/* ================= DAILY PLANNER ================= */
 
+function today(){
 
-/* TODAY */
+const d=new Date();
 
-function getTodayDate(){
-
-    const now =
-    new Date();
-
-    const year =
-    now.getFullYear();
-
-    const month =
-    String(
-        now.getMonth()+1
-    ).padStart(2,"0");
-
-    const day =
-    String(
-        now.getDate()
-    ).padStart(2,"0");
-
-    return `${year}-${month}-${day}`;
-
+return d.getFullYear()+"-"+
+String(d.getMonth()+1).padStart(2,"0")+"-"+
+String(d.getDate()).padStart(2,"0");
 }
 
-
-/* LOAD PLANS */
 
 function loadPlans(){
 
-    const plansRef =
-    collection(
-        db,
-        "users",
-        currentUser.uid,
-        "plans"
-    );
+const ref=collection(db,"users",currentUser.uid,"plans");
 
-    const plansQuery =
-    query(
-        plansRef,
-        orderBy("createdAt","asc")
-    );
-
-    unsubscribePlans =
-    onSnapshot(
-        plansQuery,
-        snapshot => {
-
-            plans =
-            snapshot.docs.map(
-                item => ({
-
-                    id:item.id,
-
-                    name:
-                    item.data().name || "",
-
-                    time:
-                    item.data().time || "",
-
-                    completed:
-                    item.data().completed || false,
-
-                    planDate:
-                    item.data().planDate ||
-                    getTodayDate(),
-
-                    createdAt:
-                    item.data().createdAt || 0
-
-                })
-            );
-
-            renderPlans();
-
-        },
-        error => {
-
-            console.error(error);
-
-            document.getElementById(
-                "planList"
-            ).innerHTML =
-            `<div class="empty">
-                Could not load Daily Planner.
-                Check Firebase Rules.
-            </div>`;
-
-        }
-    );
-
+unsubscribePlans=onSnapshot(
+query(ref,orderBy("createdAt","asc")),
+snap=>{
+plans=snap.docs.map(x=>({
+id:x.id,
+name:x.data().name||"",
+time:x.data().time||"",
+completed:x.data().completed||false
+}));
+renderPlans();
+},
+e=>console.error(e)
+);
 }
 
 
-/* ADD PLAN */
+window.addPlan=async function(){
 
-window.addPlan = async function(){
+if(!currentUser)return alert("Please sign in first.");
 
-    if(!currentUser){
+const input=document.getElementById("planInput");
+const time=document.getElementById("planTime");
 
-        alert("Please sign in first.");
+const name=input.value.trim();
+if(!name)return alert("Enter a plan.");
 
-        return;
+await addDoc(
+collection(db,"users",currentUser.uid,"plans"),
+{
+name,
+time:time.value||"",
+completed:false,
+planDate:today(),
+createdAt:Date.now()
+}
+);
 
-    }
-
-    const input =
-    document.getElementById("planInput");
-
-    const timeInput =
-    document.getElementById("planTime");
-
-    const name =
-    input.value.trim();
-
-    const time =
-    timeInput.value;
-
-    if(!name){
-
-        alert("Enter a plan.");
-
-        return;
-
-    }
-
-    try{
-
-        await addDoc(
-
-            collection(
-                db,
-                "users",
-                currentUser.uid,
-                "plans"
-            ),
-
-            {
-
-                name:name,
-
-                time:time,
-
-                completed:false,
-
-                planDate:
-                getTodayDate(),
-
-                createdAt:
-                Date.now()
-
-            }
-
-        );
-
-        input.value = "";
-
-        timeInput.value = "";
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        alert(
-            "Could not add plan: " +
-            error.message
-        );
-
-    }
-
+input.value="";
+time.value="";
 };
 
 
-/* EDIT PLAN */
+window.editPlan=async function(id){
 
-window.editPlan = async function(id){
+const p=plans.find(x=>x.id===id);
+if(!p)return;
 
-    const plan =
-    plans.find(
-        item => item.id === id
-    );
+const name=prompt("Edit plan:",p.name);
+if(name===null)return;
 
-    if(!plan) return;
+const time=prompt("Edit time (HH:MM):",p.time);
+if(time===null)return;
 
-    const newName =
-    prompt(
-        "Edit plan:",
-        plan.name
-    );
+if(!name.trim())return alert("Plan name cannot be empty.");
 
-    if(newName === null)
-        return;
-
-    const newTime =
-    prompt(
-        "Edit time (HH:MM):",
-        plan.time
-    );
-
-    if(newTime === null)
-        return;
-
-    const cleanName =
-    newName.trim();
-
-    if(!cleanName){
-
-        alert("Plan name cannot be empty.");
-
-        return;
-
-    }
-
-    await updateDoc(
-
-        doc(
-            db,
-            "users",
-            currentUser.uid,
-            "plans",
-            id
-        ),
-
-        {
-
-            name:cleanName,
-
-            time:newTime
-
-        }
-
-    );
-
+await updateDoc(
+doc(db,"users",currentUser.uid,"plans",id),
+{name:name.trim(),time}
+);
 };
 
 
-/* TOGGLE PLAN */
+window.togglePlan=async function(id,completed){
 
-window.togglePlan = async function(
-    id,
-    completed
-){
-
-    if(!currentUser) return;
-
-    await updateDoc(
-
-        doc(
-            db,
-            "users",
-            currentUser.uid,
-            "plans",
-            id
-        ),
-
-        {
-            completed:!completed
-        }
-
-    );
-
+await updateDoc(
+doc(db,"users",currentUser.uid,"plans",id),
+{completed:!completed}
+);
 };
 
 
-/* DELETE PLAN */
+window.deletePlan=async function(id){
 
-window.deletePlan = async function(id){
-
-    if(!currentUser) return;
-
-    await deleteDoc(
-
-        doc(
-            db,
-            "users",
-            currentUser.uid,
-            "plans",
-            id
-        )
-
-    );
-
+await deleteDoc(
+doc(db,"users",currentUser.uid,"plans",id)
+);
 };
 
-
-/* RENDER PLANS */
 
 function renderPlans(){
 
-    const list =
-    document.getElementById("planList");
+const list=document.getElementById("planList");
 
-    if(plans.length === 0){
+if(!plans.length){
+list.innerHTML=`<div class="empty">No plans yet.</div>`;
+return;
+}
 
-        list.innerHTML =
-        `<div class="empty">
-            No plans yet.
-        </div>`;
+list.innerHTML=plans.map(p=>`
+<div class="item">
 
-        return;
+<input type="checkbox"
+${p.completed?"checked":""}
+onchange="togglePlan('${p.id}',${p.completed})">
 
-    }
+${p.time?`<span class="time">⏰ ${p.time}</span>`:""}
 
-    list.innerHTML =
-    plans.map(
-        plan => `
+<div class="item-main ${p.completed?"completed":""}">
+${escapeHtml(p.name)}
+</div>
 
-        <div class="plan">
+<button class="edit" onclick="editPlan('${p.id}')">✏️</button>
+<button class="delete" onclick="deletePlan('${p.id}')">🗑️</button>
 
-            <input
-                type="checkbox"
-                ${plan.completed ? "checked" : ""}
-                onchange="togglePlan(
-                    '${plan.id}',
-                    ${plan.completed}
-                )"
-            >
-
-            ${
-                plan.time
-                ?
-                `<span class="plan-time">
-                    ⏰ ${plan.time}
-                </span>`
-                :
-                ""
-            }
-
-            <span
-                class="${plan.completed ? "completed" : ""}"
-            >
-                ${escapeHtml(plan.name)}
-            </span>
-
-            <button
-                class="edit"
-                onclick="editPlan('${plan.id}')"
-            >
-                ✏️
-            </button>
-
-            <button
-                class="delete"
-                onclick="deletePlan('${plan.id}')"
-            >
-                🗑️
-            </button>
-
-        </div>
-
-        `
-    ).join("");
-
+</div>
+`).join("");
 }
 
 
-/* ENTER KEY */
+/* ================= STUDY TRACKER ================= */
 
-document.getElementById(
-    "planInput"
-).addEventListener(
-    "keydown",
-    event => {
+function loadStudies(){
 
-        if(event.key === "Enter"){
+const ref=collection(db,"users",currentUser.uid,"studies");
 
-            addPlan();
+unsubscribeStudies=onSnapshot(
+query(ref,orderBy("createdAt","asc")),
+snap=>{
 
-        }
+studies=snap.docs.map(x=>({
+id:x.id,
+subject:x.data().subject||"",
+hours:Number(x.data().hours)||0,
+studyDate:x.data().studyDate||today(),
+completed:x.data().completed||false
+}));
 
-    }
+renderStudies();
+
+},
+e=>console.error(e)
+);
+}
+
+
+window.addStudy=async function(){
+
+if(!currentUser)return alert("Please sign in first.");
+
+const subjectInput=document.getElementById("studySubject");
+const hoursInput=document.getElementById("studyHoursInput");
+
+const subject=subjectInput.value.trim();
+const hours=Number(hoursInput.value);
+
+if(!subject)return alert("Enter subject.");
+if(!hours || hours<=0)return alert("Enter study hours.");
+
+await addDoc(
+collection(db,"users",currentUser.uid,"studies"),
+{
+subject,
+hours,
+studyDate:today(),
+completed:false,
+createdAt:Date.now()
+}
 );
 
+subjectInput.value="";
+hoursInput.value="";
+};
 
-/* HTML SAFETY */
+
+window.toggleStudy=async function(id,completed){
+
+await updateDoc(
+doc(db,"users",currentUser.uid,"studies",id),
+{completed:!completed}
+);
+};
+
+
+window.editStudy=async function(id){
+
+const s=studies.find(x=>x.id===id);
+if(!s)return;
+
+const subject=prompt("Edit subject:",s.subject);
+if(subject===null)return;
+
+const hours=prompt("Edit study hours:",s.hours);
+if(hours===null)return;
+
+let h=Number(hours);
+if(!h || h<=0)return alert("Invalid hours.");
+
+await updateDoc(
+doc(db,"users",currentUser.uid,"studies",id),
+{
+subject:subject.trim()||s.subject,
+hours:h
+}
+);
+};
+
+
+window.deleteStudy=async function(id){
+
+await deleteDoc(
+doc(db,"users",currentUser.uid,"studies",id)
+);
+};
+
+
+function renderStudies(){
+
+const list=document.getElementById("studyList");
+
+const totalHours=studies.reduce((a,s)=>a+s.hours,0);
+const sessions=studies.length;
+const completed=studies.filter(s=>s.completed).length;
+
+document.getElementById("studyHours").textContent=
+totalHours.toFixed(1);
+
+document.getElementById("studySessions").textContent=sessions;
+
+document.getElementById("studyCompleted").textContent=completed;
+
+if(!studies.length){
+list.innerHTML=`<div class="empty">No study sessions yet.</div>`;
+return;
+}
+
+list.innerHTML=studies.map(s=>`
+<div class="item">
+
+<input type="checkbox"
+${s.completed?"checked":""}
+onchange="toggleStudy('${s.id}',${s.completed})">
+
+<div class="item-main">
+
+<div class="${s.completed?"completed":""}">
+📖 ${escapeHtml(s.subject)}
+</div>
+
+<div class="small">
+${s.hours} hour${s.hours==1?"":"s"} • ${s.studyDate}
+</div>
+
+</div>
+
+<button class="edit" onclick="editStudy('${s.id}')">✏️</button>
+
+<button class="delete" onclick="deleteStudy('${s.id}')">🗑️</button>
+
+</div>
+`).join("");
+}
+
+
+/* ================= UTIL ================= */
 
 function escapeHtml(text){
 
-    return String(text)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-
+return String(text)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 }
 
-</script>
 
+document.getElementById("planInput").addEventListener(
+"keydown",e=>{if(e.key==="Enter")addPlan()}
+);
+
+</script>
 </body>
 </html>
