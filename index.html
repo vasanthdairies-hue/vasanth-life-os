@@ -2,354 +2,1271 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vasanth Life OS</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#0b1020;color:#fff;min-height:100vh}
-header{padding:20px;background:#11182d;border-bottom:1px solid #27304a;display:flex;justify-content:space-between;align-items:center;gap:15px}
-header h1{font-size:24px}
-header p{color:#8f9bb7;font-size:13px;margin-top:5px}
-button{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:bold}
-.primary{background:#4f7cff;color:white}
-.danger{background:#e74c3c;color:white}
-.success{background:#20b486;color:white}
-.secondary,.logout{background:#303b58;color:white}
-.container{max-width:1200px;margin:auto;padding:20px}
-.login-box{text-align:center;padding:50px 20px}
-.card{background:#11182d;border:1px solid #27304a;border-radius:14px;padding:20px;margin-bottom:20px}
-.card h2{margin-bottom:15px;font-size:20px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}
-.stat{background:#151e36;border:1px solid #27304a;padding:18px;border-radius:12px}
-.stat small,.run-stat small{color:#8f9bb7}
-.stat strong{display:block;font-size:26px;margin-top:8px}
-.form{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin-bottom:15px}
-input,select,textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #35415f;background:#0c1326;color:white;outline:none;font-family:Arial,sans-serif}
-textarea{resize:vertical;min-height:90px}
-input:focus,select:focus,textarea:focus{border-color:#4f7cff}
-.item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border:1px solid #293550;background:#0e162b;border-radius:10px;margin-top:10px}
-.item-main{flex:1}
-.item-main.completed{opacity:.55;text-decoration:line-through}
-.item-title{font-weight:bold;margin-bottom:5px}
-.item-info{color:#8f9bb7;font-size:13px}
-.actions{display:flex;gap:6px;flex-wrap:wrap}
-.progress{height:8px;background:#27304a;border-radius:20px;overflow:hidden;margin-top:10px}
-.progress-bar{height:100%;background:#4f7cff}
-.empty{color:#77839f;text-align:center;padding:20px}
-.run-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}
-.run-stat{background:#151e36;padding:15px;border-radius:10px;text-align:center}
-.run-stat small{display:block}
-.run-stat strong{display:block;font-size:22px;margin-top:5px}
-.money-positive{color:#20b486}.money-negative{color:#e74c3c}
-.diary-rating{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
-.diary-label{display:block;color:#8f9bb7;font-size:13px;margin-bottom:6px}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
-/* GRAPHS */
-.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.chart-box{background:#0e162b;border:1px solid #293550;border-radius:12px;padding:15px}
-.chart-box h3{margin-bottom:12px;font-size:16px}
-.chart-box canvas{width:100%!important;height:280px!important}
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#0b1020;
+color:#fff;
+line-height:1.5;
+}
+
+header{
+background:#11182d;
+padding:15px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #293550;
+position:sticky;
+top:0;
+z-index:10;
+}
+
+header h1{
+font-size:21px;
+}
+
+button{
+border:none;
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.primary{
+background:#4f7cff;
+color:white;
+}
+
+.success{
+background:#20b486;
+color:white;
+}
+
+.danger{
+background:#e74c3c;
+color:white;
+}
+
+.secondary{
+background:#293550;
+color:white;
+}
+
+button:hover{
+opacity:.85;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:#11182d;
+border:1px solid #293550;
+border-radius:14px;
+padding:20px;
+margin-bottom:20px;
+}
+
+.card h2{
+margin-bottom:15px;
+font-size:20px;
+}
+
+.form{
+display:grid;
+grid-template-columns:1fr 1fr auto;
+gap:10px;
+margin-bottom:15px;
+}
+
+input,select,textarea{
+width:100%;
+background:#0e162b;
+border:1px solid #34415f;
+color:#fff;
+padding:11px;
+border-radius:8px;
+outline:none;
+}
+
+textarea{
+min-height:100px;
+resize:vertical;
+}
+
+input:focus,select:focus,textarea:focus{
+border-color:#4f7cff;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:20px;
+}
+
+.stat{
+background:#11182d;
+border:1px solid #293550;
+padding:18px;
+border-radius:12px;
+text-align:center;
+}
+
+.stat small,
+.run-stat small{
+display:block;
+color:#9da8c2;
+margin-bottom:5px;
+}
+
+.stat strong,
+.run-stat strong{
+font-size:24px;
+}
+
+.item{
+background:#0e162b;
+border:1px solid #293550;
+border-radius:10px;
+padding:14px;
+margin-bottom:10px;
+}
+
+.item-title{
+font-weight:bold;
+font-size:16px;
+}
+
+.item-info{
+color:#9da8c2;
+font-size:14px;
+margin-top:5px;
+}
+
+.item-actions{
+display:flex;
+gap:7px;
+flex-wrap:wrap;
+margin-top:10px;
+}
+
+.progress{
+height:10px;
+background:#293550;
+border-radius:10px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.progress-bar{
+height:100%;
+background:#4f7cff;
+border-radius:10px;
+transition:.3s;
+}
+
+.run-stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+}
+
+.run-stat{
+background:#0e162b;
+border:1px solid #293550;
+padding:15px;
+border-radius:10px;
+text-align:center;
+}
+
+.login-screen{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.login-box{
+width:100%;
+max-width:420px;
+background:#11182d;
+border:1px solid #293550;
+border-radius:15px;
+padding:30px;
+text-align:center;
+}
+
+.login-box h1{
+margin-bottom:10px;
+}
+
+.login-box p{
+color:#9da8c2;
+margin-bottom:20px;
+}
+
+.hidden{
+display:none!important;
+}
+
+.chart-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.chart-box{
+background:#0e162b;
+border:1px solid #293550;
+border-radius:12px;
+padding:15px;
+}
+
+.chart-box h3{
+margin-bottom:12px;
+font-size:16px;
+}
+
+.chart-box canvas{
+width:100%!important;
+height:280px!important;
+}
+
+.target-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+margin-bottom:15px;
+}
+
+.target-card{
+background:#0e162b;
+border:1px solid #293550;
+border-radius:12px;
+padding:15px;
+}
+
+.target-card h3{
+font-size:15px;
+margin-bottom:8px;
+}
+
+.target-value{
+font-size:22px;
+font-weight:bold;
+margin-top:8px;
+}
+
+.target-label{
+font-size:13px;
+color:#9da8c2;
+}
+
+.target-progress{
+margin-top:10px;
+height:9px;
+background:#293550;
+border-radius:10px;
+overflow:hidden;
+}
+
+.target-progress-bar{
+height:100%;
+background:#20b486;
+border-radius:10px;
+transition:.3s;
+}
+
+.overall-target{
+background:#0e162b;
+border:1px solid #293550;
+border-radius:12px;
+padding:18px;
+margin-top:15px;
+}
+
+.overall-target strong{
+font-size:28px;
+}
+
+.status-message{
+margin-top:12px;
+padding:12px;
+border-radius:8px;
+background:#17223c;
+color:#d8def0;
+}
+
+.two-col{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
 
 @media(max-width:800px){
-.stats,.run-stats{grid-template-columns:repeat(2,1fr)}
-.form{grid-template-columns:1fr}
-.diary-rating{grid-template-columns:1fr}
-.chart-grid{grid-template-columns:1fr}
-header{align-items:flex-start;flex-direction:column}
+
+.stats{
+grid-template-columns:1fr 1fr;
 }
+
+.run-stats{
+grid-template-columns:1fr 1fr;
+}
+
+.target-grid{
+grid-template-columns:1fr 1fr;
+}
+
+.form{
+grid-template-columns:1fr;
+}
+
+.chart-grid{
+grid-template-columns:1fr;
+}
+
+.two-col{
+grid-template-columns:1fr;
+}
+
+}
+
 @media(max-width:500px){
-.container{padding:12px}
-.stats,.run-stats{grid-template-columns:1fr 1fr}
-.item{align-items:flex-start;flex-direction:column}
-.actions{width:100%}
+
+.container{
+padding:12px;
+}
+
+header{
+padding:12px;
+}
+
+header h1{
+font-size:18px;
+}
+
+.stats{
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+.stat{
+padding:12px;
+}
+
+.stat strong,
+.run-stat strong{
+font-size:20px;
+}
+
+.run-stats{
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+.target-grid{
+grid-template-columns:1fr;
+}
+
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<div>
+<!-- LOGIN -->
+
+<div id="loginScreen" class="login-screen">
+
+<div class="login-box">
+
 <h1>🚀 Vasanth Life OS</h1>
-<p id="welcome">Personal Life Dashboard</p>
+
+<p>Your personal life management dashboard</p>
+
+<button class="primary" onclick="loginWithGoogle()">
+🔐 Continue with Google
+</button>
+
 </div>
 
-<button id="loginBtn" class="primary" onclick="loginWithGoogle()">Login with Google</button>
-<button id="logoutBtn" class="logout" onclick="logout()" style="display:none">Logout</button>
+</div>
+
+
+<!-- APP -->
+
+<div id="app" class="hidden">
+
+<header>
+
+<h1>🚀 Vasanth Life OS</h1>
+
+<div>
+
+<span id="userName"></span>
+
+<button class="secondary" onclick="logout()">
+Logout
+</button>
+
+</div>
+
 </header>
 
-<div id="loginScreen" class="container">
-<div class="card login-box">
-<h2>Welcome to Vasanth Life OS</h2>
-<p style="color:#8f9bb7;margin:15px 0">
-Track your goals, tasks, studies, fitness, money and daily life.
-</p>
-<button class="primary" onclick="loginWithGoogle()">🔐 Login with Google</button>
-</div>
-</div>
 
-<div id="app" class="container" style="display:none">
+<div class="container">
 
-<!-- DASHBOARD -->
+
+<!-- DASHBOARD STATS -->
+
 <div class="stats">
-<div class="stat"><small>Tasks</small><strong id="taskStat">0/0</strong></div>
-<div class="stat"><small>Goals</small><strong id="goalStat">0/0</strong></div>
-<div class="stat"><small>Study Hours</small><strong id="studyHourStat">0</strong></div>
-<div class="stat"><small>Running KM</small><strong id="totalKmStat">0</strong></div>
+
+<div class="stat">
+<small>Tasks</small>
+<strong id="taskStat">0/0</strong>
 </div>
+
+<div class="stat">
+<small>Goals</small>
+<strong id="goalStat">0%</strong>
+</div>
+
+<div class="stat">
+<small>Study Hours</small>
+<strong id="studyHourStat">0</strong>
+</div>
+
+<div class="stat">
+<small>Running KM</small>
+<strong id="totalKmStat">0</strong>
+</div>
+
+</div>
+
+
+<!-- TARGET DASHBOARD -->
+
+<div class="card">
+
+<h2>🎯 Goals & Targets Dashboard</h2>
+
+<div class="item-info">
+Today: <strong id="targetToday"></strong>
+</div>
+
+<br>
+
+<div class="form">
+
+<div>
+<label class="target-label">
+✅ Daily Task Target
+</label>
+
+<input
+id="targetTasks"
+type="number"
+min="0"
+placeholder="Example: 3">
+</div>
+
+
+<div>
+
+<label class="target-label">
+📚 Study Target (hours)
+</label>
+
+<input
+id="targetStudy"
+type="number"
+min="0"
+step="0.5"
+placeholder="Example: 2">
+
+</div>
+
+
+<div>
+
+<label class="target-label">
+🏃 Running Target (KM)
+</label>
+
+<input
+id="targetRun"
+type="number"
+min="0"
+step="0.1"
+placeholder="Example: 3">
+
+</div>
+
+</div>
+
+
+<div class="form">
+
+<div>
+
+<label class="target-label">
+💰 Income Target (₹)
+</label>
+
+<input
+id="targetMoney"
+type="number"
+min="0"
+placeholder="Example: 500">
+
+</div>
+
+<div></div>
+
+<div>
+
+<br>
+
+<button
+class="primary"
+onclick="saveTargets()">
+
+💾 Save Today's Targets
+
+</button>
+
+</div>
+
+</div>
+
+
+<div class="target-grid">
+
+
+<div class="target-card">
+
+<h3>✅ Tasks</h3>
+
+<div
+class="target-value"
+id="targetTaskActual">
+
+0 / 0
+
+</div>
+
+<div class="target-label">
+Completed today
+</div>
+
+<div class="target-progress">
+
+<div
+id="targetTaskBar"
+class="target-progress-bar"
+style="width:0%">
+</div>
+
+</div>
+
+<div
+class="target-label"
+id="targetTaskPercent">
+
+0%
+
+</div>
+
+</div>
+
+
+<div class="target-card">
+
+<h3>📚 Study</h3>
+
+<div
+class="target-value"
+id="targetStudyActual">
+
+0 / 0
+
+</div>
+
+<div class="target-label">
+Hours today
+</div>
+
+<div class="target-progress">
+
+<div
+id="targetStudyBar"
+class="target-progress-bar"
+style="width:0%">
+</div>
+
+</div>
+
+<div
+class="target-label"
+id="targetStudyPercent">
+
+0%
+
+</div>
+
+</div>
+
+
+<div class="target-card">
+
+<h3>🏃 Running</h3>
+
+<div
+class="target-value"
+id="targetRunActual">
+
+0 / 0
+
+</div>
+
+<div class="target-label">
+KM today
+</div>
+
+<div class="target-progress">
+
+<div
+id="targetRunBar"
+class="target-progress-bar"
+style="width:0%">
+</div>
+
+</div>
+
+<div
+class="target-label"
+id="targetRunPercent">
+
+0%
+
+</div>
+
+</div>
+
+
+<div class="target-card">
+
+<h3>💰 Income</h3>
+
+<div
+class="target-value"
+id="targetMoneyActual">
+
+₹0 / ₹0
+
+</div>
+
+<div class="target-label">
+Income today
+</div>
+
+<div class="target-progress">
+
+<div
+id="targetMoneyBar"
+class="target-progress-bar"
+style="width:0%">
+</div>
+
+</div>
+
+<div
+class="target-label"
+id="targetMoneyPercent">
+
+0%
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="overall-target">
+
+<div>
+<small>Overall Target Progress</small>
+</div>
+
+<strong id="overallTargetPercent">
+0%
+</strong>
+
+<div class="progress">
+
+<div
+id="overallTargetBar"
+class="progress-bar"
+style="width:0%">
+</div>
+
+</div>
+
+<div
+id="targetStatus"
+class="status-message">
+
+Set your targets for today 🚀
+
+</div>
+
+</div>
+
+</div>
+
 
 <!-- TASKS -->
+
 <div class="card">
+
 <h2>✅ Tasks</h2>
+
 <div class="form">
-<input id="taskInput" placeholder="Enter a task">
-<div></div>
-<button class="primary" onclick="addTask()">Add Task</button>
+
+<input
+id="taskInput"
+placeholder="Enter your task">
+
+<button
+class="primary"
+onclick="addTask()">
+
+Add Task
+
+</button>
+
 </div>
+
 <div id="taskList"></div>
+
 </div>
+
 
 <!-- GOALS -->
+
 <div class="card">
+
 <h2>🎯 Goals</h2>
+
 <div class="form">
-<input id="goalInput" placeholder="Enter your goal">
-<input id="goalDate" type="date">
-<button class="primary" onclick="addGoal()">Add Goal</button>
-</div>
-<div id="goalList"></div>
+
+<input
+id="goalInput"
+placeholder="Enter your goal">
+
+<input
+id="goalDate"
+type="date">
+
+<button
+class="primary"
+onclick="addGoal()">
+
+Add Goal
+
+</button>
+
 </div>
 
-<!-- PLANNER -->
+<div id="goalList"></div>
+
+</div>
+
+
+<!-- DAILY PLANNER -->
+
 <div class="card">
-<h2>📅 Daily Planner</h2>
+
+<h2>🗓️ Daily Planner</h2>
+
 <div class="form">
-<input id="planInput" placeholder="What will you do?">
-<input id="planTime" type="time">
-<button class="primary" onclick="addPlan()">Add Plan</button>
+
+<input
+id="planInput"
+placeholder="What do you need to do?">
+
+<input
+id="planTime"
+type="time">
+
+<button
+class="primary"
+onclick="addPlan()">
+
+Add Plan
+
+</button>
+
 </div>
+
 <div id="planList"></div>
+
 </div>
+
 
 <!-- STUDY -->
+
 <div class="card">
+
 <h2>📚 Study Tracker</h2>
 
-<div class="run-stats">
-<div class="run-stat"><small>Total Hours</small><strong id="studyTotalHours">0</strong></div>
-<div class="run-stat"><small>Sessions</small><strong id="studySessions">0</strong></div>
-<div class="run-stat"><small>Completed</small><strong id="studyCompleted">0</strong></div>
-</div>
-
 <div class="form">
-<input id="studySubject" placeholder="Subject">
-<input id="studyHours" type="number" step="0.5" min="0" placeholder="Hours">
-<button class="primary" onclick="addStudy()">Add Study</button>
+
+<input
+id="studySubject"
+placeholder="Subject">
+
+<input
+id="studyHours"
+type="number"
+min="0"
+step="0.5"
+placeholder="Hours">
+
+<button
+class="primary"
+onclick="addStudy()">
+
+Add Study
+
+</button>
+
 </div>
 
 <div id="studyList"></div>
+
 </div>
+
 
 <!-- RUNNING -->
-<div class="card">
-<h2>🏃 Fitness & Running Tracker</h2>
 
-<div class="run-stats">
-<div class="run-stat"><small>Total KM</small><strong id="runTotalKm">0</strong></div>
-<div class="run-stat"><small>Total Runs</small><strong id="runSessions">0</strong></div>
-<div class="run-stat"><small>Best Time</small><strong id="runBestTime">--</strong></div>
-<div class="run-stat"><small>Average Pace</small><strong id="runAvgPace">--</strong></div>
-</div>
+<div class="card">
+
+<h2>🏃 Fitness & Running</h2>
 
 <div class="form">
-<input id="runDistance" type="number" step="0.01" min="0" placeholder="Distance (KM)">
-<input id="runTime" type="text" placeholder="Time e.g. 6:03">
-<button class="primary" onclick="addRun()">Add Run</button>
+
+<input
+id="runDistance"
+type="number"
+min="0"
+step="0.1"
+placeholder="Distance KM">
+
+<input
+id="runTime"
+placeholder="Time e.g. 6:30">
+
+<button
+class="primary"
+onclick="addRun()">
+
+Add Run
+
+</button>
+
 </div>
 
 <div id="runList"></div>
+
 </div>
 
-<!-- CAREER MONEY -->
+
+<!-- MONEY + JOB -->
+
+<div class="two-col">
+
+
 <div class="card">
-<h2>💰 Career & Money Tracker</h2>
+
+<h2>💰 Career & Money</h2>
+
+<div class="form">
+
+<select id="moneyType">
+
+<option value="income">
+Income
+</option>
+
+<option value="expense">
+Expense
+</option>
+
+</select>
+
+<input
+id="moneyAmount"
+type="number"
+min="0"
+placeholder="Amount ₹">
+
+<button
+class="primary"
+onclick="addMoney()">
+
+Add
+
+</button>
+
+</div>
+
+<input
+id="moneyNote"
+placeholder="Note">
+
+<div
+id="moneyList"
+style="margin-top:15px">
+</div>
 
 <div class="run-stats">
-<div class="run-stat"><small>Income</small><strong id="totalIncome">₹0</strong></div>
-<div class="run-stat"><small>Expenses</small><strong id="totalExpense">₹0</strong></div>
-<div class="run-stat"><small>Balance</small><strong id="moneyBalance">₹0</strong></div>
-<div class="run-stat"><small>Applications</small><strong id="jobApplications">0</strong></div>
+
+<div class="run-stat">
+
+<small>Income</small>
+
+<strong id="incomeStat">
+₹0
+</strong>
+
 </div>
 
-<h3 style="margin:20px 0 10px">💵 Money</h3>
+<div class="run-stat">
+
+<small>Expense</small>
+
+<strong id="expenseStat">
+₹0
+</strong>
+
+</div>
+
+<div class="run-stat">
+
+<small>Balance</small>
+
+<strong id="balanceStat">
+₹0
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>💼 Job Applications</h2>
 
 <div class="form">
-<select id="moneyType">
-<option value="income">Income</option>
-<option value="expense">Expense</option>
+
+<input
+id="jobCompany"
+placeholder="Company">
+
+<input
+id="jobRole"
+placeholder="Role">
+
+<button
+class="primary"
+onclick="addJob()">
+
+Add Job
+
+</button>
+
+</div>
+
+<select id="jobStatus">
+
+<option>Applied</option>
+<option>Interview</option>
+<option>Selected</option>
+<option>Rejected</option>
+
 </select>
-<input id="moneyAmount" type="number" min="0" placeholder="Amount ₹">
-<button class="primary" onclick="addMoney()">Add Money</button>
+
+<div
+id="jobList"
+style="margin-top:15px">
 </div>
 
-<input id="moneyNote" placeholder="Note e.g. Freelancing / Food" style="margin-bottom:15px">
-<div id="moneyList"></div>
-
-<h3 style="margin:25px 0 10px">💼 Job Applications</h3>
-
-<div class="form">
-<input id="jobCompany" placeholder="Company">
-<input id="jobRole" placeholder="Job role">
-<button class="primary" onclick="addJob()">Add Job</button>
 </div>
 
-<div id="jobList"></div>
 </div>
+
 
 <!-- LIFE STATISTICS -->
+
 <div class="card">
+
 <h2>📊 Life Statistics & Progress</h2>
 
 <div class="run-stats">
-<div class="run-stat"><small>Life Score</small><strong id="lifeScore">0%</strong></div>
-<div class="run-stat"><small>Tasks Done</small><strong id="statsTasks">0%</strong></div>
-<div class="run-stat"><small>Goals Progress</small><strong id="statsGoals">0%</strong></div>
-<div class="run-stat"><small>Diary Days</small><strong id="statsDiary">0</strong></div>
+
+<div class="run-stat">
+
+<small>Life Score</small>
+
+<strong id="lifeScore">
+0%
+</strong>
+
 </div>
 
-<div style="margin-top:20px">
+<div class="run-stat">
 
-<div class="item">
-<div class="item-main">
-<div class="item-title">✅ Tasks</div>
-<div class="progress"><div id="taskProgressBar" class="progress-bar" style="width:0%"></div></div>
-<div id="taskProgressText" class="item-info" style="margin-top:8px">0 / 0 completed</div>
-</div>
-</div>
+<small>Tasks Done</small>
 
-<div class="item">
-<div class="item-main">
-<div class="item-title">🎯 Goals</div>
-<div class="progress"><div id="goalProgressBar" class="progress-bar" style="width:0%"></div></div>
-<div id="goalProgressText" class="item-info" style="margin-top:8px">0 / 0 completed</div>
-</div>
+<strong id="statsTasks">
+0%
+</strong>
+
 </div>
 
-<div class="item">
-<div class="item-main">
-<div class="item-title">📚 Study</div>
-<div id="statsStudyText" class="item-info">0 hours studied</div>
-</div>
+<div class="run-stat">
+
+<small>Goals Progress</small>
+
+<strong id="statsGoals">
+0%
+</strong>
+
 </div>
 
-<div class="item">
-<div class="item-main">
-<div class="item-title">🏃 Running</div>
-<div id="statsRunText" class="item-info">0 KM completed</div>
-</div>
-</div>
+<div class="run-stat">
 
-<div class="item">
-<div class="item-main">
-<div class="item-title">💰 Money</div>
-<div id="statsMoneyText" class="item-info">Income ₹0 • Expense ₹0 • Balance ₹0</div>
-</div>
-</div>
+<small>Diary Days</small>
 
-<div class="item">
-<div class="item-main">
-<div class="item-title">💼 Career</div>
-<div id="statsJobText" class="item-info">0 job applications</div>
-</div>
+<strong id="statsDiary">
+0
+</strong>
+
 </div>
 
 </div>
+
 </div>
 
-<!-- PROGRESS GRAPHS -->
+
+<!-- GRAPHS -->
+
 <div class="card">
+
 <h2>📈 Progress Graphs</h2>
 
 <div class="chart-grid">
 
 <div class="chart-box">
-<h3>📚 Study Hours — Last 7 Days</h3>
+
+<h3>
+📚 Study Hours — Last 7 Days
+</h3>
+
 <canvas id="studyChart"></canvas>
+
 </div>
 
+
 <div class="chart-box">
-<h3>🏃 Running KM — Last 7 Days</h3>
+
+<h3>
+🏃 Running KM — Last 7 Days
+</h3>
+
 <canvas id="runChart"></canvas>
+
 </div>
+
 
 <div class="chart-box">
-<h3>🚀 Overall Life Score</h3>
+
+<h3>
+🚀 Overall Life Score
+</h3>
+
 <canvas id="lifeChart"></canvas>
+
 </div>
 
 </div>
+
 </div>
+
 
 <!-- STREAK -->
+
 <div class="card">
+
 <h2>🔥 Streak Tracker</h2>
 
 <div class="run-stats">
-<div class="run-stat"><small>Current Streak</small><strong id="currentStreak">0 days</strong></div>
-<div class="run-stat"><small>Best Streak</small><strong id="bestStreak">0 days</strong></div>
-<div class="run-stat"><small>Active Days</small><strong id="activeDays">0</strong></div>
+
+<div class="run-stat">
+
+<small>Current Streak</small>
+
+<strong id="currentStreak">
+0 days
+</strong>
+
 </div>
 
-<div id="streakMessage" class="item-info" style="margin-top:20px;text-align:center">
+
+<div class="run-stat">
+
+<small>Best Streak</small>
+
+<strong id="bestStreak">
+0 days
+</strong>
+
+</div>
+
+
+<div class="run-stat">
+
+<small>Active Days</small>
+
+<strong id="activeDays">
+0
+</strong>
+
+</div>
+
+
+<div class="run-stat">
+
+<small>Target Streak</small>
+
+<strong id="targetStreak">
+0 days
+</strong>
+
+</div>
+
+</div>
+
+
+<div
+id="streakMessage"
+class="item-info"
+style="margin-top:20px;text-align:center">
+
 Start your streak today 🚀
+
 </div>
+
 </div>
+
 
 <!-- DIARY -->
+
 <div class="card">
-<h2>📖 Daily Diary</h2>
 
-<div class="diary-rating">
-<div>
-<label class="diary-label">Date</label>
-<input id="diaryDate" type="date">
-</div>
+<h2>📔 Daily Diary</h2>
 
-<div>
-<label class="diary-label">⭐ Day Rating</label>
+<div class="form">
+
+<input
+id="diaryDate"
+type="date">
+
 <select id="diaryRating">
-<option value="5">⭐⭐⭐⭐⭐ Excellent</option>
-<option value="4">⭐⭐⭐⭐ Good</option>
-<option value="3">⭐⭐⭐ Average</option>
-<option value="2">⭐⭐ Difficult</option>
-<option value="1">⭐ Very Difficult</option>
+
+<option value="1">1 ⭐</option>
+<option value="2">2 ⭐⭐</option>
+<option value="3">3 ⭐⭐⭐</option>
+<option value="4">4 ⭐⭐⭐⭐</option>
+<option value="5">5 ⭐⭐⭐⭐⭐</option>
+
 </select>
-</div>
-</div>
 
-<label class="diary-label">📝 What did I do today?</label>
-<textarea id="diaryWork" placeholder="Write what you did today..."></textarea>
+<button
+class="primary"
+onclick="saveDiary()">
 
-<label class="diary-label" style="margin-top:12px">🎯 What did I learn?</label>
-<textarea id="diaryLearned" placeholder="Write what you learned today..."></textarea>
+Save Diary
 
-<label class="diary-label" style="margin-top:12px">💭 Thoughts / Feelings</label>
-<textarea id="diaryThoughts" placeholder="Write your thoughts..."></textarea>
-
-<button class="primary" onclick="addDiary()" style="margin-top:12px">📖 Save Diary</button>
-
-<div id="diaryList" style="margin-top:15px"></div>
-</div>
+</button>
 
 </div>
+
+
+<textarea
+id="diaryWork"
+placeholder="What did I do today?">
+</textarea>
+
+<br><br>
+
+<textarea
+id="diaryLearned"
+placeholder="What did I learn today?">
+</textarea>
+
+<br><br>
+
+<textarea
+id="diaryThoughts"
+placeholder="Thoughts / feelings">
+</textarea>
+
+<br>
+
+<div
+id="diaryList"
+style="margin-top:15px">
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
 
 <script type="module">
 
-import {initializeApp}
+import {
+initializeApp
+}
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
 
 import {
 getAuth,
@@ -360,6 +1277,7 @@ signOut
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
+
 import {
 getFirestore,
 collection,
@@ -367,10 +1285,13 @@ addDoc,
 deleteDoc,
 updateDoc,
 doc,
+setDoc,
 onSnapshot
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+
+/* FIREBASE CONFIG */
 
 const firebaseConfig={
 apiKey:"AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
@@ -382,10 +1303,15 @@ appId:"1:847181528785:web:f02eb43c041c9e90fc4ff0",
 measurementId:"G-WMPYW2EDLZ"
 };
 
+
 const app=initializeApp(firebaseConfig);
+
 const auth=getAuth(app);
+
 const db=getFirestore(app);
-const provider=new GoogleAuthProvider();
+
+
+/* DATA */
 
 let currentUser=null;
 
@@ -398,6 +1324,8 @@ let money=[];
 let jobs=[];
 let diaries=[];
 
+let currentTarget=null;
+
 let unsubscribeTasks=null;
 let unsubscribeGoals=null;
 let unsubscribePlans=null;
@@ -406,40 +1334,88 @@ let unsubscribeRuns=null;
 let unsubscribeMoney=null;
 let unsubscribeJobs=null;
 let unsubscribeDiaries=null;
+let unsubscribeTargets=null;
+
+
+/* CHARTS */
+
+let studyChart=null;
+let runChart=null;
+let lifeChart=null;
+
+
+/* DATE */
+
+function today(){
+
+return new Date()
+.toISOString()
+.split("T")[0];
+
+}
+
+
+/* LOGIN */
+
+window.loginWithGoogle=async function(){
+
+try{
+
+const provider=new GoogleAuthProvider();
+
+await signInWithPopup(
+auth,
+provider
+);
+
+}catch(error){
+
+alert(
+"Login failed: "+error.message
+);
+
+}
+
+};
+
+
+window.logout=async function(){
+
+await signOut(auth);
+
+};
 
 
 /* AUTH */
 
-window.loginWithGoogle=async function(){
-try{
-await signInWithPopup(auth,provider);
-}catch(error){
-console.error(error);
-alert("Login failed: "+error.message);
-}
-};
-
-window.logout=async function(){
-try{
-await signOut(auth);
-}catch(error){
-alert(error.message);
-}
-};
-
-onAuthStateChanged(auth,user=>{
-
-currentUser=user;
+onAuthStateChanged(
+auth,
+user=>{
 
 if(user){
 
-document.getElementById("loginScreen").style.display="none";
-document.getElementById("app").style.display="block";
-document.getElementById("loginBtn").style.display="none";
-document.getElementById("logoutBtn").style.display="block";
+currentUser=user;
 
-document.getElementById("welcome").textContent=
-"Hello "+(user.displayName||"Vasanth")+" 👋";
+document
+.getElementById("loginScreen")
+.classList.add("hidden");
+
+document
+.getElementById("app")
+.classList.remove("hidden");
+
+document
+.getElementById("userName")
+.textContent=
+user.displayName || user.email;
+
+document
+.getElementById("diaryDate")
+.value=today();
+
+document
+.getElementById("targetToday")
+.textContent=today();
 
 loadCloudTasks();
 loadGoals();
@@ -449,62 +1425,138 @@ loadRuns();
 loadMoney();
 loadJobs();
 loadDiaries();
-
-document.getElementById("diaryDate").value=today();
+loadTargets();
 
 }else{
 
-document.getElementById("loginScreen").style.display="block";
-document.getElementById("app").style.display="none";
-document.getElementById("loginBtn").style.display="block";
-document.getElementById("logoutBtn").style.display="none";
+currentUser=null;
+
+document
+.getElementById("loginScreen")
+.classList.remove("hidden");
+
+document
+.getElementById("app")
+.classList.add("hidden");
 
 }
 
 });
 
-function today(){
-return new Date().toISOString().split("T")[0];
-}
 
-function escapeHtml(text){
-return String(text||"")
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-}
-
-
-/* TASKS */
+/* =========================
+TASKS
+========================= */
 
 function loadCloudTasks(){
 
-const ref=collection(db,"users",currentUser.uid,"tasks");
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"tasks"
+);
 
-unsubscribeTasks=onSnapshot(ref,snapshot=>{
+unsubscribeTasks=onSnapshot(
+ref,
+snapshot=>{
 
-tasks=snapshot.docs.map(item=>({
-id:item.id,
-...item.data()
-}));
+tasks=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
 
 renderTasks();
+
+updateStats();
+
+}
+);
+
+}
+
+
+function renderTasks(){
+
+const list=
+document.getElementById("taskList");
+
+list.innerHTML="";
+
+tasks.forEach(task=>{
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title"
+style="${
+task.completed
+?'text-decoration:line-through;color:#7f8ba8'
+:''
+}">
+${escapeHTML(task.name)}
+</div>
+
+<div class="item-info">
+${task.completed?"Completed":"Pending"}
+</div>
+
+<div class="item-actions">
+
+<button
+class="${
+task.completed
+?'secondary'
+:'success'
+}"
+onclick="toggleTask(
+'${task.id}',
+${task.completed}
+)">
+
+${task.completed?"Undo":"Complete"}
+
+</button>
+
+<button
+class="danger"
+onclick="deleteTask('${task.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
 
 });
 
 }
 
+
 window.addTask=async function(){
 
-const input=document.getElementById("taskInput");
+const input=
+document.getElementById("taskInput");
+
 const name=input.value.trim();
 
-if(!name)return alert("Enter a task");
+if(!name)return;
 
 await addDoc(
-collection(db,"users",currentUser.uid,"tasks"),
+collection(
+db,
+"users",
+currentUser.uid,
+"tasks"
+),
 {
 name,
 completed:false,
@@ -516,240 +1568,428 @@ input.value="";
 
 };
 
-window.toggleTask=async function(id,completed){
+
+window.toggleTask=async function(
+id,
+status
+){
 
 await updateDoc(
-doc(db,"users",currentUser.uid,"tasks",id),
-{completed:!completed}
+doc(
+db,
+"users",
+currentUser.uid,
+"tasks",
+id
+),
+{
+completed:!status
+}
 );
 
 };
+
 
 window.deleteTask=async function(id){
 
 await deleteDoc(
-doc(db,"users",currentUser.uid,"tasks",id)
+doc(
+db,
+"users",
+currentUser.uid,
+"tasks",
+id
+)
 );
 
 };
 
-function renderTasks(){
 
-const list=document.getElementById("taskList");
+/* =========================
+GOALS
+========================= */
 
-if(tasks.length===0){
+function loadGoals(){
 
-list.innerHTML=`<div class="empty">No tasks yet.</div>`;
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"goals"
+);
 
-}else{
+unsubscribeGoals=onSnapshot(
+ref,
+snapshot=>{
 
-list.innerHTML=tasks.map(t=>`
+goals=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
 
-<div class="item">
-
-<div class="item-main ${t.completed?"completed":""}">
-<div class="item-title">${escapeHtml(t.name)}</div>
-</div>
-
-<div class="actions">
-
-<button class="success"
-onclick="toggleTask('${t.id}',${!!t.completed})">
-${t.completed?"↩️":"☑️"}
-</button>
-
-<button class="danger"
-onclick="deleteTask('${t.id}')">
-🗑️
-</button>
-
-</div>
-</div>
-
-`).join("");
-
-}
+renderGoals();
 
 updateStats();
 
 }
+);
+
+}
 
 
-/* GOALS */
+function renderGoals(){
 
-function loadGoals(){
+const list=
+document.getElementById("goalList");
 
-const ref=collection(db,"users",currentUser.uid,"goals");
+list.innerHTML="";
 
-unsubscribeGoals=onSnapshot(ref,snapshot=>{
+goals.forEach(goal=>{
 
-goals=snapshot.docs.map(item=>({
-id:item.id,
-...item.data()
-}));
+let progress=Math.min(
+100,
+Math.max(
+0,
+Number(goal.progress||0)
+)
+);
 
-renderGoals();
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title">
+
+${escapeHTML(goal.name)}
+
+</div>
+
+<div class="item-info">
+
+Target:
+${goal.targetDate || "No date"}
+
+</div>
+
+<div class="item-info">
+
+Progress:
+${progress}%
+
+</div>
+
+<div class="progress">
+
+<div
+class="progress-bar"
+style="width:${progress}%">
+</div>
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="primary"
+onclick="editGoalProgress(
+'${goal.id}',
+${progress}
+)">
+
+Edit Progress
+
+</button>
+
+<button
+class="${
+goal.completed
+?'secondary'
+:'success'
+}"
+onclick="toggleGoal(
+'${goal.id}',
+${goal.completed}
+)">
+
+${
+goal.completed
+?"Undo"
+:"Complete"
+}
+
+</button>
+
+<button
+class="danger"
+onclick="deleteGoal('${goal.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
 
 });
 
 }
 
+
 window.addGoal=async function(){
 
-const name=document.getElementById("goalInput").value.trim();
-const targetDate=document.getElementById("goalDate").value;
+const input=
+document.getElementById("goalInput");
 
-if(!name)return alert("Enter a goal");
+const date=
+document.getElementById("goalDate");
+
+const name=input.value.trim();
+
+if(!name)return;
 
 await addDoc(
-collection(db,"users",currentUser.uid,"goals"),
+collection(
+db,
+"users",
+currentUser.uid,
+"goals"
+),
 {
 name,
-targetDate,
+targetDate:date.value,
 progress:0,
 completed:false,
 createdAt:Date.now()
 }
 );
 
-document.getElementById("goalInput").value="";
-document.getElementById("goalDate").value="";
+input.value="";
+date.value="";
 
 };
 
-function renderGoals(){
 
-const list=document.getElementById("goalList");
+window.editGoalProgress=async function(
+id,
+current
+){
 
-if(goals.length===0){
+const value=prompt(
+"Enter progress percentage (0-100):",
+current
+);
 
-list.innerHTML=`<div class="empty">No goals yet.</div>`;
+if(value===null)return;
 
-}else{
-
-list.innerHTML=goals.map(g=>{
-
-const progress=Number(g.progress||0);
-
-return `
-
-<div class="item">
-
-<div class="item-main ${g.completed?"completed":""}">
-
-<div class="item-title">${escapeHtml(g.name)}</div>
-
-<div class="item-info">
-Target: ${g.targetDate||"No date"} • ${progress}%
-</div>
-
-<div class="progress">
-<div class="progress-bar"
-style="width:${Math.min(progress,100)}%">
-</div>
-</div>
-
-</div>
-
-<div class="actions">
-
-<button class="secondary"
-onclick="editGoal('${g.id}',${progress})">
-✏️
-</button>
-
-<button class="success"
-onclick="toggleGoal('${g.id}',${!!g.completed})">
-${g.completed?"↩️":"☑️"}
-</button>
-
-<button class="danger"
-onclick="deleteGoal('${g.id}')">
-🗑️
-</button>
-
-</div>
-
-</div>
-
-`;
-
-}).join("");
-
-}
-
-updateStats();
-
-}
-
-window.editGoal=async function(id,currentProgress){
-
-const progress=prompt("Progress % (0-100)",currentProgress);
-
-if(progress===null)return;
-
-let value=Number(progress);
-
-if(isNaN(value))return;
-
-value=Math.max(0,Math.min(100,value));
+let progress=Math.min(
+100,
+Math.max(
+0,
+Number(value)
+)
+);
 
 await updateDoc(
-doc(db,"users",currentUser.uid,"goals",id),
+doc(
+db,
+"users",
+currentUser.uid,
+"goals",
+id
+),
 {
-progress:value,
-completed:value>=100
+progress,
+completed:progress>=100
 }
 );
 
 };
 
-window.toggleGoal=async function(id,completed){
+
+window.toggleGoal=async function(
+id,
+status
+){
 
 await updateDoc(
-doc(db,"users",currentUser.uid,"goals",id),
-{completed:!completed}
+doc(
+db,
+"users",
+currentUser.uid,
+"goals",
+id
+),
+{
+completed:!status,
+progress:!status?100:0
+}
 );
 
 };
+
 
 window.deleteGoal=async function(id){
 
 await deleteDoc(
-doc(db,"users",currentUser.uid,"goals",id)
+doc(
+db,
+"users",
+currentUser.uid,
+"goals",
+id
+)
 );
 
 };
 
 
-/* PLANNER */
+/* =========================
+DAILY PLANNER
+========================= */
 
 function loadPlans(){
 
-const ref=collection(db,"users",currentUser.uid,"plans");
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"plans"
+);
 
-unsubscribePlans=onSnapshot(ref,snapshot=>{
+unsubscribePlans=onSnapshot(
+ref,
+snapshot=>{
 
-plans=snapshot.docs.map(item=>({
-id:item.id,
-...item.data()
-}));
+plans=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
 
 renderPlans();
+
+updateStats();
+
+}
+);
+
+}
+
+
+function renderPlans(){
+
+const list=
+document.getElementById("planList");
+
+list.innerHTML="";
+
+plans
+.sort(
+(a,b)=>
+(a.time||"")
+.localeCompare(b.time||"")
+)
+.forEach(plan=>{
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div
+class="item-title"
+style="${
+plan.completed
+?'text-decoration:line-through'
+:''
+}">
+
+${plan.time ? plan.time+" — ":""}
+
+${escapeHTML(plan.text)}
+
+</div>
+
+<div class="item-info">
+
+${plan.planDate || ""}
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="${
+plan.completed
+?'secondary'
+:'success'
+}"
+onclick="togglePlan(
+'${plan.id}',
+${plan.completed}
+)">
+
+${
+plan.completed
+?"Undo"
+:"Complete"
+}
+
+</button>
+
+<button
+class="primary"
+onclick="editPlan('${plan.id}')">
+
+Edit
+
+</button>
+
+<button
+class="danger"
+onclick="deletePlan('${plan.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
 
 });
 
 }
 
+
 window.addPlan=async function(){
 
-const text=document.getElementById("planInput").value.trim();
-const time=document.getElementById("planTime").value;
+const text=
+document.getElementById("planInput")
+.value.trim();
 
-if(!text)return alert("Enter your plan");
+const time=
+document.getElementById("planTime")
+.value;
+
+if(!text)return;
 
 await addDoc(
-collection(db,"users",currentUser.uid,"plans"),
+collection(
+db,
+"users",
+currentUser.uid,
+"plans"
+),
 {
 text,
 time,
@@ -759,302 +1999,384 @@ createdAt:Date.now()
 }
 );
 
-document.getElementById("planInput").value="";
-document.getElementById("planTime").value="";
+document.getElementById(
+"planInput"
+).value="";
+
+document.getElementById(
+"planTime"
+).value="";
 
 };
 
-window.editPlan=async function(id){
 
-const plan=plans.find(p=>p.id===id);
-if(!plan)return;
-
-const text=prompt("Edit plan",plan.text);
-if(text===null||!text.trim())return;
-
-const time=prompt("Edit time (HH:MM)",plan.time||"");
+window.togglePlan=async function(
+id,
+status
+){
 
 await updateDoc(
-doc(db,"users",currentUser.uid,"plans",id),
+doc(
+db,
+"users",
+currentUser.uid,
+"plans",
+id
+),
 {
-text:text.trim(),
-time:time||""
+completed:!status
 }
 );
 
 };
 
-window.togglePlan=async function(id,completed){
+
+window.editPlan=async function(id){
+
+const plan=
+plans.find(
+x=>x.id===id
+);
+
+if(!plan)return;
+
+const text=prompt(
+"Edit plan:",
+plan.text
+);
+
+if(text===null)return;
 
 await updateDoc(
-doc(db,"users",currentUser.uid,"plans",id),
-{completed:!completed}
+doc(
+db,
+"users",
+currentUser.uid,
+"plans",
+id
+),
+{
+text:text.trim()
+}
 );
 
 };
+
 
 window.deletePlan=async function(id){
 
 await deleteDoc(
-doc(db,"users",currentUser.uid,"plans",id)
+doc(
+db,
+"users",
+currentUser.uid,
+"plans",
+id
+)
 );
 
 };
 
-function renderPlans(){
 
-const list=document.getElementById("planList");
+/* =========================
+STUDY
+========================= */
 
-if(plans.length===0){
+function loadStudies(){
 
-list.innerHTML=`<div class="empty">No plans yet.</div>`;
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"studies"
+);
 
-}else{
+unsubscribeStudies=onSnapshot(
+ref,
+snapshot=>{
 
-list.innerHTML=plans.map(p=>`
+studies=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
 
-<div class="item">
-
-<div class="item-main ${p.completed?"completed":""}">
-
-<div class="item-title">${escapeHtml(p.text)}</div>
-
-<div class="item-info">
-${p.time||"No time"} • ${p.planDate||""}
-</div>
-
-</div>
-
-<div class="actions">
-
-<button class="secondary"
-onclick="editPlan('${p.id}')">
-✏️
-</button>
-
-<button class="success"
-onclick="togglePlan('${p.id}',${!!p.completed})">
-${p.completed?"↩️":"☑️"}
-</button>
-
-<button class="danger"
-onclick="deletePlan('${p.id}')">
-🗑️
-</button>
-
-</div>
-
-</div>
-
-`).join("");
-
-}
+renderStudies();
 
 updateStats();
 
 }
+);
+
+}
 
 
-/* STUDY */
+function renderStudies(){
 
-function loadStudies(){
+const list=
+document.getElementById("studyList");
 
-const ref=collection(db,"users",currentUser.uid,"studies");
+list.innerHTML="";
 
-unsubscribeStudies=onSnapshot(ref,snapshot=>{
+studies.forEach(study=>{
 
-studies=snapshot.docs.map(item=>({
-id:item.id,
-...item.data()
-}));
+const div=document.createElement("div");
 
-renderStudies();
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title">
+
+${escapeHTML(study.subject)}
+
+</div>
+
+<div class="item-info">
+
+${study.hours}
+hours —
+${study.studyDate}
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="primary"
+onclick="editStudy('${study.id}')">
+
+Edit
+
+</button>
+
+<button
+class="danger"
+onclick="deleteStudy('${study.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
 
 });
 
 }
 
+
 window.addStudy=async function(){
 
-const subject=document.getElementById("studySubject").value.trim();
+const subject=
+document.getElementById(
+"studySubject"
+).value.trim();
 
 const hours=Number(
-document.getElementById("studyHours").value
+document.getElementById(
+"studyHours"
+).value
 );
 
-if(!subject)return alert("Enter subject");
-if(!hours||hours<=0)return alert("Enter valid hours");
+if(!subject || !hours)return;
 
 await addDoc(
-collection(db,"users",currentUser.uid,"studies"),
+collection(
+db,
+"users",
+currentUser.uid,
+"studies"
+),
 {
 subject,
 hours,
 studyDate:today(),
-completed:false,
+completed:true,
 createdAt:Date.now()
 }
 );
 
-document.getElementById("studySubject").value="";
-document.getElementById("studyHours").value="";
+document.getElementById(
+"studySubject"
+).value="";
+
+document.getElementById(
+"studyHours"
+).value="";
 
 };
 
-window.toggleStudy=async function(id,completed){
-
-await updateDoc(
-doc(db,"users",currentUser.uid,"studies",id),
-{completed:!completed}
-);
-
-};
 
 window.editStudy=async function(id){
 
-const study=studies.find(s=>s.id===id);
+const study=
+studies.find(
+x=>x.id===id
+);
+
 if(!study)return;
 
-const subject=prompt("Subject",study.subject);
-
-if(subject===null||!subject.trim())return;
-
-const hours=prompt("Hours",study.hours);
+const hours=prompt(
+"Edit study hours:",
+study.hours
+);
 
 if(hours===null)return;
 
-const value=Number(hours);
-
-if(!value||value<=0)return;
-
 await updateDoc(
-doc(db,"users",currentUser.uid,"studies",id),
+doc(
+db,
+"users",
+currentUser.uid,
+"studies",
+id
+),
 {
-subject:subject.trim(),
-hours:value
+hours:Number(hours)
 }
 );
 
 };
+
 
 window.deleteStudy=async function(id){
 
 await deleteDoc(
-doc(db,"users",currentUser.uid,"studies",id)
+doc(
+db,
+"users",
+currentUser.uid,
+"studies",
+id
+)
 );
 
 };
 
-function renderStudies(){
 
-const list=document.getElementById("studyList");
+/* =========================
+RUNNING
+========================= */
 
-const totalHours=studies.reduce(
-(sum,s)=>sum+Number(s.hours||0),0
+function loadRuns(){
+
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"runs"
 );
 
-const completed=studies.filter(s=>s.completed).length;
+unsubscribeRuns=onSnapshot(
+ref,
+snapshot=>{
 
-document.getElementById("studyTotalHours").textContent=
-totalHours.toFixed(1);
+runs=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
 
-document.getElementById("studySessions").textContent=
-studies.length;
-
-document.getElementById("studyCompleted").textContent=
-completed;
-
-if(studies.length===0){
-
-list.innerHTML=
-`<div class="empty">No study sessions yet.</div>`;
-
-}else{
-
-list.innerHTML=studies.map(s=>`
-
-<div class="item">
-
-<div class="item-main ${s.completed?"completed":""}">
-
-<div class="item-title">
-📖 ${escapeHtml(s.subject)}
-</div>
-
-<div class="item-info">
-${Number(s.hours).toFixed(1)} hours • ${s.studyDate||""}
-</div>
-
-</div>
-
-<div class="actions">
-
-<button class="secondary"
-onclick="editStudy('${s.id}')">
-✏️
-</button>
-
-<button class="success"
-onclick="toggleStudy('${s.id}',${!!s.completed})">
-${s.completed?"↩️":"☑️"}
-</button>
-
-<button class="danger"
-onclick="deleteStudy('${s.id}')">
-🗑️
-</button>
-
-</div>
-
-</div>
-
-`).join("");
-
-}
+renderRuns();
 
 updateStats();
 
 }
+);
+
+}
 
 
-/* RUNNING */
+function renderRuns(){
 
-function loadRuns(){
+const list=
+document.getElementById("runList");
 
-const ref=collection(db,"users",currentUser.uid,"runs");
+list.innerHTML="";
 
-unsubscribeRuns=onSnapshot(ref,snapshot=>{
+runs.forEach(run=>{
 
-runs=snapshot.docs.map(item=>({
-id:item.id,
-...item.data()
-}));
+const div=document.createElement("div");
 
-renderRuns();
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title">
+
+🏃 ${run.distance} KM
+
+</div>
+
+<div class="item-info">
+
+Time:
+${escapeHTML(run.time || "-")}
+
+</div>
+
+<div class="item-info">
+
+Date:
+${run.runDate}
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="primary"
+onclick="editRun('${run.id}')">
+
+Edit
+
+</button>
+
+<button
+class="danger"
+onclick="deleteRun('${run.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
 
 });
 
 }
 
+
 window.addRun=async function(){
 
 const distance=Number(
-document.getElementById("runDistance").value
+document.getElementById(
+"runDistance"
+).value
 );
 
-const time=document.getElementById("runTime").value.trim();
+const time=
+document.getElementById(
+"runTime"
+).value.trim();
 
-if(!distance||distance<=0)
-return alert("Enter valid distance");
-
-if(!time)
-return alert("Enter time e.g. 6:03");
-
-if(!isValidTime(time))
-return alert("Time format should be MM:SS or H:MM:SS");
+if(!distance)return;
 
 await addDoc(
-collection(db,"users",currentUser.uid,"runs"),
+collection(
+db,
+"users",
+currentUser.uid,
+"runs"
+),
 {
 distance,
 time,
@@ -1064,232 +2386,190 @@ createdAt:Date.now()
 }
 );
 
-document.getElementById("runDistance").value="";
-document.getElementById("runTime").value="";
+document.getElementById(
+"runDistance"
+).value="";
+
+document.getElementById(
+"runTime"
+).value="";
 
 };
 
-function isValidTime(time){
-
-const parts=time.split(":");
-
-if(parts.length!==2&&parts.length!==3)
-return false;
-
-const nums=parts.map(Number);
-
-if(nums.some(n=>isNaN(n)||n<0))
-return false;
-
-if(parts.length===2)
-return nums[1]<60;
-
-return nums[1]<60&&nums[2]<60;
-
-}
-
-function timeToSeconds(time){
-
-const parts=time.split(":").map(Number);
-
-if(parts.length===2)
-return parts[0]*60+parts[1];
-
-return parts[0]*3600+parts[1]*60+parts[2];
-
-}
-
-function secondsToTime(seconds){
-
-seconds=Math.round(seconds);
-
-const hours=Math.floor(seconds/3600);
-
-seconds%=3600;
-
-const minutes=Math.floor(seconds/60);
-const secs=seconds%60;
-
-if(hours>0)
-return `${hours}:${String(minutes).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
-
-return `${minutes}:${String(secs).padStart(2,"0")}`;
-
-}
-
-function calculatePace(distance,time){
-
-const seconds=timeToSeconds(time);
-
-if(!distance)return 0;
-
-return seconds/distance;
-
-}
-
-function renderRuns(){
-
-const list=document.getElementById("runList");
-
-const totalKm=runs.reduce(
-(sum,r)=>sum+Number(r.distance||0),0
-);
-
-document.getElementById("runTotalKm").textContent=
-totalKm.toFixed(2);
-
-document.getElementById("runSessions").textContent=
-runs.length;
-
-if(runs.length===0){
-
-document.getElementById("runBestTime").textContent="--";
-document.getElementById("runAvgPace").textContent="--";
-
-list.innerHTML=
-`<div class="empty">No runs recorded yet.</div>`;
-
-updateStats();
-return;
-
-}
-
-const best=[...runs].sort(
-(a,b)=>timeToSeconds(a.time)-timeToSeconds(b.time)
-)[0];
-
-document.getElementById("runBestTime").textContent=best.time;
-
-const totalSeconds=runs.reduce(
-(sum,r)=>sum+timeToSeconds(r.time),0
-);
-
-const avgPace=totalKm>0?totalSeconds/totalKm:0;
-
-document.getElementById("runAvgPace").textContent=
-secondsToTime(avgPace)+"/km";
-
-list.innerHTML=runs.map(r=>{
-
-const pace=secondsToTime(
-calculatePace(r.distance,r.time)
-);
-
-return `
-
-<div class="item">
-
-<div class="item-main">
-
-<div class="item-title">
-🏃 ${Number(r.distance).toFixed(2)} KM
-</div>
-
-<div class="item-info">
-⏱️ ${escapeHtml(r.time)}
-• Pace ${pace}/km
-• ${r.runDate||""}
-</div>
-
-</div>
-
-<div class="actions">
-
-<button class="secondary"
-onclick="editRun('${r.id}')">
-✏️
-</button>
-
-<button class="danger"
-onclick="deleteRun('${r.id}')">
-🗑️
-</button>
-
-</div>
-
-</div>
-
-`;
-
-}).join("");
-
-updateStats();
-
-}
 
 window.editRun=async function(id){
 
-const run=runs.find(r=>r.id===id);
+const run=
+runs.find(
+x=>x.id===id
+);
+
 if(!run)return;
 
-const distance=prompt("Distance (KM)",run.distance);
+const distance=prompt(
+"Distance KM:",
+run.distance
+);
 
 if(distance===null)return;
 
-const d=Number(distance);
-
-if(!d||d<=0)return;
-
-const time=prompt("Time e.g. 6:03",run.time);
-
-if(time===null)return;
-
-if(!isValidTime(time))
-return alert("Invalid time format");
+const time=prompt(
+"Time:",
+run.time || ""
+);
 
 await updateDoc(
-doc(db,"users",currentUser.uid,"runs",id),
+doc(
+db,
+"users",
+currentUser.uid,
+"runs",
+id
+),
 {
-distance:d,
-time:time.trim()
+distance:Number(distance),
+time:time || ""
 }
 );
 
 };
+
 
 window.deleteRun=async function(id){
 
 await deleteDoc(
-doc(db,"users",currentUser.uid,"runs",id)
+doc(
+db,
+"users",
+currentUser.uid,
+"runs",
+id
+)
 );
 
 };
 
 
-/* MONEY */
+/* =========================
+MONEY
+========================= */
 
 function loadMoney(){
 
-const ref=collection(db,"users",currentUser.uid,"money");
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"money"
+);
 
-unsubscribeMoney=onSnapshot(ref,snapshot=>{
+unsubscribeMoney=onSnapshot(
+ref,
+snapshot=>{
 
-money=snapshot.docs.map(item=>({
-id:item.id,
-...item.data()
-}));
+money=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
 
 renderMoney();
+
+updateStats();
+
+}
+);
+
+}
+
+
+function renderMoney(){
+
+const list=
+document.getElementById(
+"moneyList"
+);
+
+list.innerHTML="";
+
+money.forEach(item=>{
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title">
+
+${item.type==="income"?"💵":"💸"}
+
+₹${Number(item.amount).toFixed(2)}
+
+</div>
+
+<div class="item-info">
+
+${escapeHTML(
+item.note || "No note"
+)}
+
+</div>
+
+<div class="item-info">
+
+${item.moneyDate}
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="danger"
+onclick="deleteMoney('${item.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
 
 });
 
 }
 
+
 window.addMoney=async function(){
 
-const type=document.getElementById("moneyType").value;
+const type=
+document.getElementById(
+"moneyType"
+).value;
 
 const amount=Number(
-document.getElementById("moneyAmount").value
+document.getElementById(
+"moneyAmount"
+).value
 );
 
-const note=document.getElementById("moneyNote").value.trim();
+const note=
+document.getElementById(
+"moneyNote"
+).value.trim();
 
-if(!amount||amount<=0)
-return alert("Enter valid amount");
+if(!amount)return;
 
 await addDoc(
-collection(db,"users",currentUser.uid,"money"),
+collection(
+db,
+"users",
+currentUser.uid,
+"money"
+),
 {
 type,
 amount,
@@ -1299,254 +2579,394 @@ createdAt:Date.now()
 }
 );
 
-document.getElementById("moneyAmount").value="";
-document.getElementById("moneyNote").value="";
+document.getElementById(
+"moneyAmount"
+).value="";
+
+document.getElementById(
+"moneyNote"
+).value="";
 
 };
+
 
 window.deleteMoney=async function(id){
 
 await deleteDoc(
-doc(db,"users",currentUser.uid,"money",id)
+doc(
+db,
+"users",
+currentUser.uid,
+"money",
+id
+)
 );
 
 };
 
-function renderMoney(){
 
-const list=document.getElementById("moneyList");
-
-let income=0;
-let expense=0;
-
-money.forEach(m=>{
-
-if(m.type==="income")
-income+=Number(m.amount||0);
-
-if(m.type==="expense")
-expense+=Number(m.amount||0);
-
-});
-
-const balance=income-expense;
-
-document.getElementById("totalIncome").textContent=
-"₹"+income.toFixed(2);
-
-document.getElementById("totalExpense").textContent=
-"₹"+expense.toFixed(2);
-
-document.getElementById("moneyBalance").textContent=
-"₹"+balance.toFixed(2);
-
-if(money.length===0){
-
-list.innerHTML=
-`<div class="empty">No money records yet.</div>`;
-
-}else{
-
-list.innerHTML=money.map(m=>`
-
-<div class="item">
-
-<div class="item-main">
-
-<div class="item-title">
-${m.type==="income"?"💵 Income":"💸 Expense"}
-₹${Number(m.amount).toFixed(2)}
-</div>
-
-<div class="item-info">
-${escapeHtml(m.note||"No note")} • ${m.moneyDate||""}
-</div>
-
-</div>
-
-<div class="actions">
-
-<button class="danger"
-onclick="deleteMoney('${m.id}')">
-🗑️
-</button>
-
-</div>
-
-</div>
-
-`).join("");
-
-}
-
-updateStats();
-
-}
-
-
-/* JOBS */
+/* =========================
+JOBS
+========================= */
 
 function loadJobs(){
 
-const ref=collection(db,"users",currentUser.uid,"jobs");
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"jobs"
+);
 
-unsubscribeJobs=onSnapshot(ref,snapshot=>{
+unsubscribeJobs=onSnapshot(
+ref,
+snapshot=>{
 
-jobs=snapshot.docs.map(item=>({
-id:item.id,
-...item.data()
-}));
+jobs=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
 
 renderJobs();
+
+}
+);
+
+}
+
+
+function renderJobs(){
+
+const list=
+document.getElementById(
+"jobList"
+);
+
+list.innerHTML="";
+
+jobs.forEach(job=>{
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title">
+
+${escapeHTML(job.company)}
+
+</div>
+
+<div class="item-info">
+
+${escapeHTML(job.role)}
+
+</div>
+
+<div class="item-info">
+
+Status:
+${escapeHTML(job.status)}
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="primary"
+onclick="editJob('${job.id}')">
+
+Edit
+
+</button>
+
+<button
+class="danger"
+onclick="deleteJob('${job.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
 
 });
 
 }
 
+
 window.addJob=async function(){
 
-const company=document.getElementById("jobCompany").value.trim();
-const role=document.getElementById("jobRole").value.trim();
+const company=
+document.getElementById(
+"jobCompany"
+).value.trim();
 
-if(!company)return alert("Enter company");
-if(!role)return alert("Enter job role");
+const role=
+document.getElementById(
+"jobRole"
+).value.trim();
+
+const status=
+document.getElementById(
+"jobStatus"
+).value;
+
+if(!company || !role)return;
 
 await addDoc(
-collection(db,"users",currentUser.uid,"jobs"),
+collection(
+db,
+"users",
+currentUser.uid,
+"jobs"
+),
 {
 company,
 role,
-status:"Applied",
+status,
 applicationDate:today(),
 createdAt:Date.now()
 }
 );
 
-document.getElementById("jobCompany").value="";
-document.getElementById("jobRole").value="";
+document.getElementById(
+"jobCompany"
+).value="";
+
+document.getElementById(
+"jobRole"
+).value="";
 
 };
 
+
 window.editJob=async function(id){
 
-const job=jobs.find(j=>j.id===id);
+const job=
+jobs.find(
+x=>x.id===id
+);
+
 if(!job)return;
 
 const status=prompt(
-"Status: Applied / Interview / Selected / Rejected",
+"Enter status:",
 job.status
 );
 
 if(status===null)return;
 
 await updateDoc(
-doc(db,"users",currentUser.uid,"jobs",id),
-{status:status.trim()}
+doc(
+db,
+"users",
+currentUser.uid,
+"jobs",
+id
+),
+{
+status
+}
 );
 
 };
+
 
 window.deleteJob=async function(id){
 
 await deleteDoc(
-doc(db,"users",currentUser.uid,"jobs",id)
+doc(
+db,
+"users",
+currentUser.uid,
+"jobs",
+id
+)
 );
 
 };
 
-function renderJobs(){
 
-const list=document.getElementById("jobList");
+/* =========================
+DIARY
+========================= */
 
-document.getElementById("jobApplications").textContent=
-jobs.length;
+function loadDiaries(){
 
-if(jobs.length===0){
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"diary"
+);
 
-list.innerHTML=
-`<div class="empty">No job applications yet.</div>`;
+unsubscribeDiaries=onSnapshot(
+ref,
+snapshot=>{
 
-}else{
+diaries=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
 
-list.innerHTML=jobs.map(j=>`
-
-<div class="item">
-
-<div class="item-main">
-
-<div class="item-title">
-💼 ${escapeHtml(j.company)}
-</div>
-
-<div class="item-info">
-${escapeHtml(j.role)}
-• Status: ${escapeHtml(j.status)}
-• ${j.applicationDate||""}
-</div>
-
-</div>
-
-<div class="actions">
-
-<button class="secondary"
-onclick="editJob('${j.id}')">
-✏️
-</button>
-
-<button class="danger"
-onclick="deleteJob('${j.id}')">
-🗑️
-</button>
-
-</div>
-
-</div>
-
-`).join("");
-
-}
+renderDiaries();
 
 updateStats();
 
 }
+);
+
+}
 
 
-/* DIARY */
+function renderDiaries(){
 
-function loadDiaries(){
+const list=
+document.getElementById(
+"diaryList"
+);
 
-const ref=collection(db,"users",currentUser.uid,"diary");
+list.innerHTML="";
 
-unsubscribeDiaries=onSnapshot(ref,snapshot=>{
+diaries
+.sort(
+(a,b)=>
+(b.diaryDate||"")
+.localeCompare(
+a.diaryDate||""
+)
+)
+.forEach(diary=>{
 
-diaries=snapshot.docs.map(item=>({
-id:item.id,
-...item.data()
-}));
+const div=document.createElement("div");
 
-renderDiaries();
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title">
+
+📅 ${diary.diaryDate}
+—
+${"⭐".repeat(
+Number(diary.rating)
+)}
+
+</div>
+
+<div class="item-info">
+
+<strong>
+What I did:
+</strong>
+<br>
+
+${escapeHTML(
+diary.work || "-"
+)}
+
+</div>
+
+<div class="item-info">
+
+<strong>
+What I learned:
+</strong>
+<br>
+
+${escapeHTML(
+diary.learned || "-"
+)}
+
+</div>
+
+<div class="item-info">
+
+<strong>
+Thoughts:
+</strong>
+<br>
+
+${escapeHTML(
+diary.thoughts || "-"
+)}
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="primary"
+onclick="editDiary('${diary.id}')">
+
+Edit
+
+</button>
+
+<button
+class="danger"
+onclick="deleteDiary('${diary.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
 
 });
 
 }
 
-window.addDiary=async function(){
 
-const diaryDate=document.getElementById("diaryDate").value;
+window.saveDiary=async function(){
+
+const diaryDate=
+document.getElementById(
+"diaryDate"
+).value;
 
 const rating=Number(
-document.getElementById("diaryRating").value
+document.getElementById(
+"diaryRating"
+).value
 );
 
-const work=document.getElementById("diaryWork").value.trim();
-const learned=document.getElementById("diaryLearned").value.trim();
-const thoughts=document.getElementById("diaryThoughts").value.trim();
+const work=
+document.getElementById(
+"diaryWork"
+).value.trim();
 
-if(!diaryDate)return alert("Select date");
-if(!work)return alert("Write what you did today");
+const learned=
+document.getElementById(
+"diaryLearned"
+).value.trim();
+
+const thoughts=
+document.getElementById(
+"diaryThoughts"
+).value.trim();
+
+if(!diaryDate)return;
 
 await addDoc(
-collection(db,"users",currentUser.uid,"diary"),
+collection(
+db,
+"users",
+currentUser.uid,
+"diary"
+),
 {
 diaryDate,
 rating,
@@ -1557,474 +2977,725 @@ createdAt:Date.now()
 }
 );
 
-document.getElementById("diaryWork").value="";
-document.getElementById("diaryLearned").value="";
-document.getElementById("diaryThoughts").value="";
+document.getElementById(
+"diaryWork"
+).value="";
+
+document.getElementById(
+"diaryLearned"
+).value="";
+
+document.getElementById(
+"diaryThoughts"
+).value="";
 
 };
 
+
 window.editDiary=async function(id){
 
-const diary=diaries.find(d=>d.id===id);
+const diary=
+diaries.find(
+x=>x.id===id
+);
+
 if(!diary)return;
 
-const work=prompt("What did you do?",diary.work||"");
-if(work===null)return;
+const rating=prompt(
+"Rating 1-5:",
+diary.rating
+);
 
-const learned=prompt("What did you learn?",diary.learned||"");
-if(learned===null)return;
-
-const thoughts=prompt("Thoughts / Feelings",diary.thoughts||"");
-if(thoughts===null)return;
-
-const rating=prompt("Day rating (1-5)",diary.rating||5);
 if(rating===null)return;
 
-let value=Number(rating);
+const work=prompt(
+"What did you do?",
+diary.work || ""
+);
 
-if(isNaN(value))value=5;
+if(work===null)return;
 
-value=Math.max(1,Math.min(5,value));
+const learned=prompt(
+"What did you learn?",
+diary.learned || ""
+);
+
+if(learned===null)return;
+
+const thoughts=prompt(
+"Thoughts:",
+diary.thoughts || ""
+);
+
+if(thoughts===null)return;
 
 await updateDoc(
-doc(db,"users",currentUser.uid,"diary",id),
+doc(
+db,
+"users",
+currentUser.uid,
+"diary",
+id
+),
 {
-work:work.trim(),
-learned:learned.trim(),
-thoughts:thoughts.trim(),
-rating:value
+rating:Number(rating),
+work,
+learned,
+thoughts
 }
 );
 
 };
+
 
 window.deleteDiary=async function(id){
 
 await deleteDoc(
-doc(db,"users",currentUser.uid,"diary",id)
+doc(
+db,
+"users",
+currentUser.uid,
+"diary",
+id
+)
 );
 
 };
 
-function renderDiaries(){
 
-const list=document.getElementById("diaryList");
+/* =========================
+TARGET SYSTEM
+========================= */
 
-if(diaries.length===0){
+function loadTargets(){
 
-list.innerHTML=
-`<div class="empty">No diary entries yet.</div>`;
+const ref=doc(
+db,
+"users",
+currentUser.uid,
+"targets",
+today()
+);
 
-updateStats();
+unsubscribeTargets=onSnapshot(
+ref,
+snapshot=>{
+
+if(snapshot.exists()){
+
+currentTarget={
+id:snapshot.id,
+...snapshot.data()
+};
+
+}else{
+
+currentTarget=null;
+
+}
+
+renderTargetInputs();
+
+updateTargetDashboard();
+
+}
+);
+
+}
+
+
+function renderTargetInputs(){
+
+document.getElementById(
+"targetToday"
+).textContent=today();
+
+if(!currentTarget){
+
+document.getElementById(
+"targetTasks"
+).value="";
+
+document.getElementById(
+"targetStudy"
+).value="";
+
+document.getElementById(
+"targetRun"
+).value="";
+
+document.getElementById(
+"targetMoney"
+).value="";
+
 return;
 
 }
 
-const sorted=[...diaries].sort(
-(a,b)=>String(b.diaryDate||"").localeCompare(String(a.diaryDate||""))
-);
+document.getElementById(
+"targetTasks"
+).value=
+currentTarget.taskTarget ?? "";
 
-list.innerHTML=sorted.map(d=>`
+document.getElementById(
+"targetStudy"
+).value=
+currentTarget.studyTarget ?? "";
 
-<div class="item">
+document.getElementById(
+"targetRun"
+).value=
+currentTarget.runTarget ?? "";
 
-<div class="item-main">
-
-<div class="item-title">
-
-📖 ${escapeHtml(d.diaryDate||"")}
-•
-${"⭐".repeat(
-Math.max(1,Math.min(5,Number(d.rating||1)))
-)}
-
-</div>
-
-<div class="item-info" style="margin-top:10px">
-<strong>📝 What I did:</strong><br>
-${escapeHtml(d.work||"Not written")}
-</div>
-
-<div class="item-info" style="margin-top:10px">
-<strong>🎯 What I learned:</strong><br>
-${escapeHtml(d.learned||"Not written")}
-</div>
-
-<div class="item-info" style="margin-top:10px">
-<strong>💭 Thoughts:</strong><br>
-${escapeHtml(d.thoughts||"Not written")}
-</div>
-
-</div>
-
-<div class="actions">
-
-<button class="secondary"
-onclick="editDiary('${d.id}')">
-✏️
-</button>
-
-<button class="danger"
-onclick="deleteDiary('${d.id}')">
-🗑️
-</button>
-
-</div>
-
-</div>
-
-`).join("");
-
-updateStats();
+document.getElementById(
+"targetMoney"
+).value=
+currentTarget.moneyTarget ?? "";
 
 }
 
 
-/* STREAK */
+window.saveTargets=async function(){
 
-function updateStreak(){
+if(!currentUser)return;
 
-const dates=new Set();
+const taskTarget=Number(
+document.getElementById(
+"targetTasks"
+).value || 0
+);
 
-tasks.forEach(t=>{
-if(t.completed&&t.createdAt)
-dates.add(new Date(t.createdAt).toISOString().split("T")[0]);
-});
+const studyTarget=Number(
+document.getElementById(
+"targetStudy"
+).value || 0
+);
 
-plans.forEach(p=>{
-if(p.completed&&p.planDate)dates.add(p.planDate);
-});
+const runTarget=Number(
+document.getElementById(
+"targetRun"
+).value || 0
+);
 
-studies.forEach(s=>{
-if(s.studyDate)dates.add(s.studyDate);
-});
+const moneyTarget=Number(
+document.getElementById(
+"targetMoney"
+).value || 0
+);
 
-runs.forEach(r=>{
-if(r.runDate)dates.add(r.runDate);
-});
+if(
+taskTarget<=0 &&
+studyTarget<=0 &&
+runTarget<=0 &&
+moneyTarget<=0
+){
 
-diaries.forEach(d=>{
-if(d.diaryDate)dates.add(d.diaryDate);
-});
+alert(
+"Set at least one target."
+);
 
-const sortedDates=Array.from(dates).sort();
+return;
 
-const activeDays=sortedDates.length;
+}
 
-let bestStreak=0;
-let streak=0;
+await setDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"targets",
+today()
+),
+{
+targetDate:today(),
+taskTarget,
+studyTarget,
+runTarget,
+moneyTarget,
+updatedAt:Date.now()
+},
+{
+merge:true
+}
+);
 
-for(let i=0;i<sortedDates.length;i++){
+alert(
+"Today's targets saved successfully 🎯"
+);
 
-if(i===0){
+};
 
-streak=1;
+
+function updateTargetDashboard(){
+
+if(!currentTarget){
+
+document.getElementById(
+"targetTaskActual"
+).textContent="0 / 0";
+
+document.getElementById(
+"targetStudyActual"
+).textContent="0 / 0";
+
+document.getElementById(
+"targetRunActual"
+).textContent="0 / 0";
+
+document.getElementById(
+"targetMoneyActual"
+).textContent="₹0 / ₹0";
+
+setTargetProgress(
+"targetTaskBar",
+"targetTaskPercent",
+0
+);
+
+setTargetProgress(
+"targetStudyBar",
+"targetStudyPercent",
+0
+);
+
+setTargetProgress(
+"targetRunBar",
+"targetRunPercent",
+0
+);
+
+setTargetProgress(
+"targetMoneyBar",
+"targetMoneyPercent",
+0
+);
+
+document.getElementById(
+"overallTargetPercent"
+).textContent="0%";
+
+document.getElementById(
+"overallTargetBar"
+).style.width="0%";
+
+document.getElementById(
+"targetStatus"
+).textContent=
+"Set your targets for today 🚀";
+
+return;
+
+}
+
+
+/* TODAY TASKS */
+
+const todayTasks=
+tasks.filter(
+task=>{
+
+if(!task.completed)return false;
+
+if(!task.createdAt)return false;
+
+const date=
+new Date(task.createdAt)
+.toISOString()
+.split("T")[0];
+
+return date===today();
+
+}
+).length;
+
+
+/* TODAY STUDY */
+
+const todayStudy=
+studies
+.filter(
+x=>x.studyDate===today()
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.hours||0),
+0
+);
+
+
+/* TODAY RUN */
+
+const todayRun=
+runs
+.filter(
+x=>x.runDate===today()
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.distance||0),
+0
+);
+
+
+/* TODAY INCOME */
+
+const todayIncome=
+money
+.filter(
+x=>
+x.moneyDate===today() &&
+x.type==="income"
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.amount||0),
+0
+);
+
+
+/* TARGETS */
+
+const taskTarget=
+Number(
+currentTarget.taskTarget||0
+);
+
+const studyTarget=
+Number(
+currentTarget.studyTarget||0
+);
+
+const runTarget=
+Number(
+currentTarget.runTarget||0
+);
+
+const moneyTarget=
+Number(
+currentTarget.moneyTarget||0
+);
+
+
+/* PERCENTAGES */
+
+const taskPercent=
+taskTarget>0
+?Math.min(
+100,
+(todayTasks/taskTarget)*100
+)
+:0;
+
+const studyPercent=
+studyTarget>0
+?Math.min(
+100,
+(todayStudy/studyTarget)*100
+)
+:0;
+
+const runPercent=
+runTarget>0
+?Math.min(
+100,
+(todayRun/runTarget)*100
+)
+:0;
+
+const moneyPercent=
+moneyTarget>0
+?Math.min(
+100,
+(todayIncome/moneyTarget)*100
+)
+:0;
+
+
+/* OVERALL */
+
+const percentages=[];
+
+if(taskTarget>0)
+percentages.push(taskPercent);
+
+if(studyTarget>0)
+percentages.push(studyPercent);
+
+if(runTarget>0)
+percentages.push(runPercent);
+
+if(moneyTarget>0)
+percentages.push(moneyPercent);
+
+const overall=
+percentages.length
+?
+Math.round(
+percentages.reduce(
+(a,b)=>a+b,
+0
+)/percentages.length
+)
+:0;
+
+
+/* DISPLAY */
+
+document.getElementById(
+"targetTaskActual"
+).textContent=
+`${todayTasks} / ${taskTarget}`;
+
+document.getElementById(
+"targetStudyActual"
+).textContent=
+`${todayStudy.toFixed(1)} / ${studyTarget}`;
+
+document.getElementById(
+"targetRunActual"
+).textContent=
+`${todayRun.toFixed(1)} / ${runTarget}`;
+
+document.getElementById(
+"targetMoneyActual"
+).textContent=
+`₹${todayIncome.toFixed(0)} / ₹${moneyTarget.toFixed(0)}`;
+
+
+setTargetProgress(
+"targetTaskBar",
+"targetTaskPercent",
+taskPercent
+);
+
+setTargetProgress(
+"targetStudyBar",
+"targetStudyPercent",
+studyPercent
+);
+
+setTargetProgress(
+"targetRunBar",
+"targetRunPercent",
+runPercent
+);
+
+setTargetProgress(
+"targetMoneyBar",
+"targetMoneyPercent",
+moneyPercent
+);
+
+
+document.getElementById(
+"overallTargetPercent"
+).textContent=
+overall+"%";
+
+document.getElementById(
+"overallTargetBar"
+).style.width=
+overall+"%";
+
+
+let message=
+"Keep pushing 🚀";
+
+if(overall>=100){
+
+message=
+"🔥 All today's targets completed! Excellent work!";
+
+}else if(overall>=75){
+
+message=
+"💪 You're close! Finish today's targets.";
+
+}else if(overall>=50){
+
+message=
+"⚡ Good progress. Keep going.";
+
+}else if(overall>0){
+
+message=
+"🚀 Start strong and build momentum today.";
 
 }else{
 
-const previous=new Date(sortedDates[i-1]);
-const current=new Date(sortedDates[i]);
-
-const difference=Math.round(
-(current-previous)/(1000*60*60*24)
-);
-
-if(difference===1)streak++;
-else streak=1;
+message=
+"🎯 Your targets are waiting. Start now.";
 
 }
 
-if(streak>bestStreak)bestStreak=streak;
-
-}
-
-const todayDate=today();
-
-let currentStreak=0;
-
-if(sortedDates.includes(todayDate)){
-
-currentStreak=1;
-
-for(let i=sortedDates.length-1;i>0;i--){
-
-const current=new Date(sortedDates[i]);
-const previous=new Date(sortedDates[i-1]);
-
-const difference=Math.round(
-(current-previous)/(1000*60*60*24)
-);
-
-if(difference===1)currentStreak++;
-else break;
-
-}
-
-}
-
-document.getElementById("currentStreak").textContent=
-currentStreak+" days";
-
-document.getElementById("bestStreak").textContent=
-bestStreak+" days";
-
-document.getElementById("activeDays").textContent=
-activeDays;
-
-const message=document.getElementById("streakMessage");
-
-if(currentStreak>=7)
-message.textContent="🔥 7+ day streak! Keep building your life.";
-else if(currentStreak>0)
-message.textContent="🔥 Keep going! Don't break the streak.";
-else
-message.textContent="Start your streak today 🚀";
+document.getElementById(
+"targetStatus"
+).textContent=message;
 
 }
 
 
-/* GRAPHS */
+function setTargetProgress(
+barId,
+textId,
+percent
+){
 
-let studyChart=null;
-let runChart=null;
-let lifeChart=null;
+document.getElementById(
+barId
+).style.width=
+Math.min(
+100,
+percent
+)+"%";
 
-function getLast7Dates(){
-
-const dates=[];
-
-for(let i=6;i>=0;i--){
-
-const d=new Date();
-
-d.setDate(d.getDate()-i);
-
-dates.push(d.toISOString().split("T")[0]);
-
-}
-
-return dates;
-
-}
-
-function formatChartDate(date){
-
-const d=new Date(date+"T00:00:00");
-
-return d.toLocaleDateString("en-IN",{
-day:"2-digit",
-month:"short"
-});
-
-}
-
-function updateCharts(){
-
-if(typeof Chart==="undefined")return;
-
-const dates=getLast7Dates();
-
-const labels=dates.map(formatChartDate);
-
-
-/* STUDY DATA */
-
-const studyData=dates.map(date=>{
-
-return studies
-.filter(s=>s.studyDate===date)
-.reduce((sum,s)=>sum+Number(s.hours||0),0);
-
-});
-
-
-if(studyChart)studyChart.destroy();
-
-studyChart=new Chart(
-document.getElementById("studyChart"),
-{
-type:"bar",
-data:{
-labels,
-datasets:[
-{
-label:"Study Hours",
-data:studyData,
-borderWidth:1
-}
-]
-},
-options:{
-responsive:true,
-maintainAspectRatio:false,
-scales:{
-y:{
-beginAtZero:true,
-title:{
-display:true,
-text:"Hours"
-}
-}
-}
-}
-}
-);
-
-
-/* RUNNING DATA */
-
-const runData=dates.map(date=>{
-
-return runs
-.filter(r=>r.runDate===date)
-.reduce((sum,r)=>sum+Number(r.distance||0),0);
-
-});
-
-
-if(runChart)runChart.destroy();
-
-runChart=new Chart(
-document.getElementById("runChart"),
-{
-type:"line",
-data:{
-labels,
-datasets:[
-{
-label:"Running KM",
-data:runData,
-borderWidth:2,
-tension:.3,
-fill:false
-}
-]
-},
-options:{
-responsive:true,
-maintainAspectRatio:false,
-scales:{
-y:{
-beginAtZero:true,
-title:{
-display:true,
-text:"KM"
-}
-}
-}
-}
-}
-);
-
-
-/* LIFE SCORE */
-
-const scoreText=
-document.getElementById("lifeScore").textContent;
-
-const score=
-Number(scoreText.replace("%",""))||0;
-
-if(lifeChart)lifeChart.destroy();
-
-lifeChart=new Chart(
-document.getElementById("lifeChart"),
-{
-type:"doughnut",
-data:{
-labels:["Completed","Remaining"],
-datasets:[
-{
-data:[score,100-score],
-borderWidth:0
-}
-]
-},
-options:{
-responsive:true,
-maintainAspectRatio:false,
-cutout:"65%",
-plugins:{
-legend:{
-position:"bottom"
-}
-}
-}
-}
-);
+document.getElementById(
+textId
+).textContent=
+Math.round(percent)+"%";
 
 }
 
 
-/* DASHBOARD STATS */
+/* =========================
+STATS
+========================= */
 
 function updateStats(){
 
 const completedTasks=
-tasks.filter(t=>t.completed).length;
+tasks.filter(
+x=>x.completed
+).length;
 
-const totalTasks=tasks.length;
+const totalTasks=
+tasks.length;
+
+document.getElementById(
+"taskStat"
+).textContent=
+`${completedTasks}/${totalTasks}`;
+
 
 const taskPercent=
-totalTasks>0?
-Math.round((completedTasks/totalTasks)*100):0;
-
-document.getElementById("taskStat").textContent=
-completedTasks+"/"+totalTasks;
+totalTasks
+?
+Math.round(
+(completedTasks/totalTasks)*100
+)
+:0;
 
 
 const completedGoals=
-goals.filter(g=>g.completed).length;
-
-const totalGoals=goals.length;
+goals.filter(
+x=>x.completed
+).length;
 
 const goalPercent=
-totalGoals>0?
-Math.round((completedGoals/totalGoals)*100):0;
-
-document.getElementById("goalStat").textContent=
-completedGoals+"/"+totalGoals;
+goals.length
+?
+Math.round(
+(completedGoals/goals.length)*100
+)
+:0;
 
 
 const totalStudy=
 studies.reduce(
-(sum,s)=>sum+Number(s.hours||0),0
+(sum,x)=>
+sum+Number(x.hours||0),
+0
 );
-
-document.getElementById("studyHourStat").textContent=
-totalStudy.toFixed(1);
 
 
 const totalKm=
 runs.reduce(
-(sum,r)=>sum+Number(r.distance||0),0
+(sum,x)=>
+sum+Number(x.distance||0),
+0
 );
 
-document.getElementById("totalKmStat").textContent=
-totalKm.toFixed(2);
+
+document.getElementById(
+"goalStat"
+).textContent=
+goalPercent+"%";
+
+document.getElementById(
+"studyHourStat"
+).textContent=
+totalStudy.toFixed(1);
+
+document.getElementById(
+"totalKmStat"
+).textContent=
+totalKm.toFixed(1);
 
 
-let income=0;
-let expense=0;
+/* MONEY */
 
-money.forEach(m=>{
+const income=
+money
+.filter(
+x=>x.type==="income"
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.amount||0),
+0
+);
 
-if(m.type==="income")
-income+=Number(m.amount||0);
+const expense=
+money
+.filter(
+x=>x.type==="expense"
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.amount||0),
+0
+);
 
-if(m.type==="expense")
-expense+=Number(m.amount||0);
-
-});
-
-const balance=income-expense;
+const balance=
+income-expense;
 
 
-const studyScore=totalStudy>0?100:0;
-const runningScore=totalKm>0?100:0;
-const diaryScore=diaries.length>0?100:0;
+document.getElementById(
+"incomeStat"
+).textContent=
+"₹"+income.toFixed(0);
 
-const lifeScore=Math.round(
+document.getElementById(
+"expenseStat"
+).textContent=
+"₹"+expense.toFixed(0);
+
+document.getElementById(
+"balanceStat"
+).textContent=
+"₹"+balance.toFixed(0);
+
+
+/* LIFE SCORE */
+
+const studyScore=
+totalStudy>0
+?100
+:0;
+
+const runningScore=
+totalKm>0
+?100
+:0;
+
+const diaryScore=
+diaries.length>0
+?100
+:0;
+
+
+const lifeScore=
+Math.round(
 (
 taskPercent+
 goalPercent+
@@ -2034,83 +3705,743 @@ diaryScore
 )/5
 );
 
-document.getElementById("lifeScore").textContent=
+
+document.getElementById(
+"lifeScore"
+).textContent=
 lifeScore+"%";
 
-document.getElementById("statsTasks").textContent=
+document.getElementById(
+"statsTasks"
+).textContent=
 taskPercent+"%";
 
-document.getElementById("statsGoals").textContent=
+document.getElementById(
+"statsGoals"
+).textContent=
 goalPercent+"%";
 
-document.getElementById("statsDiary").textContent=
+document.getElementById(
+"statsDiary"
+).textContent=
 diaries.length;
 
-document.getElementById("taskProgressBar").style.width=
-taskPercent+"%";
-
-document.getElementById("goalProgressBar").style.width=
-goalPercent+"%";
-
-document.getElementById("taskProgressText").textContent=
-completedTasks+" / "+totalTasks+" completed";
-
-document.getElementById("goalProgressText").textContent=
-completedGoals+" / "+totalGoals+" completed";
-
-document.getElementById("statsStudyText").textContent=
-totalStudy.toFixed(1)+" hours studied";
-
-document.getElementById("statsRunText").textContent=
-totalKm.toFixed(2)+" KM completed";
-
-document.getElementById("statsMoneyText").textContent=
-"Income ₹"+income.toFixed(2)+
-" • Expense ₹"+expense.toFixed(2)+
-" • Balance ₹"+balance.toFixed(2);
-
-document.getElementById("statsJobText").textContent=
-jobs.length+" job applications";
 
 updateStreak();
+
 updateCharts();
+
+updateTargetDashboard();
 
 }
 
 
-/* ENTER KEY */
+/* =========================
+STREAK
+========================= */
 
-document.getElementById("taskInput").addEventListener("keydown",e=>{
-if(e.key==="Enter")addTask();
-});
+function updateStreak(){
 
-document.getElementById("goalInput").addEventListener("keydown",e=>{
-if(e.key==="Enter")addGoal();
-});
+const activeDates=
+new Set();
 
-document.getElementById("planInput").addEventListener("keydown",e=>{
-if(e.key==="Enter")addPlan();
-});
 
-document.getElementById("studySubject").addEventListener("keydown",e=>{
-if(e.key==="Enter")addStudy();
-});
+tasks.forEach(
+task=>{
 
-document.getElementById("runDistance").addEventListener("keydown",e=>{
-if(e.key==="Enter")addRun();
-});
+if(
+task.completed &&
+task.createdAt
+){
 
-document.getElementById("runTime").addEventListener("keydown",e=>{
-if(e.key==="Enter")addRun();
-});
+activeDates.add(
+new Date(
+task.createdAt
+)
+.toISOString()
+.split("T")[0]
+);
 
-document.getElementById("moneyAmount").addEventListener("keydown",e=>{
-if(e.key==="Enter")addMoney();
-});
+}
 
-document.getElementById("jobCompany").addEventListener("keydown",e=>{
-if(e.key==="Enter")addJob();
-});
+}
+);
+
+
+plans.forEach(
+plan=>{
+
+if(
+plan.completed &&
+plan.planDate
+){
+
+activeDates.add(
+plan.planDate
+);
+
+}
+
+}
+);
+
+
+studies.forEach(
+study=>{
+
+if(study.studyDate){
+
+activeDates.add(
+study.studyDate
+);
+
+}
+
+}
+);
+
+
+runs.forEach(
+run=>{
+
+if(run.runDate){
+
+activeDates.add(
+run.runDate
+);
+
+}
+
+}
+);
+
+
+diaries.forEach(
+diary=>{
+
+if(diary.diaryDate){
+
+activeDates.add(
+diary.diaryDate
+);
+
+}
+
+}
+);
+
+
+const dates=
+[...activeDates].sort();
+
+document.getElementById(
+"activeDays"
+).textContent=
+dates.length;
+
+
+let best=0;
+
+let current=0;
+
+
+/* BEST */
+
+for(
+let i=0;
+i<dates.length;
+i++
+){
+
+let streak=1;
+
+let previous=
+new Date(
+dates[i]+"T00:00:00"
+);
+
+for(
+let j=i+1;
+j<dates.length;
+j++
+){
+
+let next=
+new Date(
+dates[j]+"T00:00:00"
+);
+
+const diff=
+(next-previous)/
+(1000*60*60*24);
+
+if(diff===1){
+
+streak++;
+
+previous=next;
+
+}else{
+
+break;
+
+}
+
+}
+
+best=
+Math.max(
+best,
+streak
+);
+
+}
+
+
+/* CURRENT */
+
+let check=
+new Date();
+
+while(true){
+
+const date=
+check
+.toISOString()
+.split("T")[0];
+
+if(activeDates.has(date)){
+
+current++;
+
+check.setDate(
+check.getDate()-1
+);
+
+}else{
+
+break;
+
+}
+
+}
+
+
+document.getElementById(
+"currentStreak"
+).textContent=
+current+" days";
+
+document.getElementById(
+"bestStreak"
+).textContent=
+best+" days";
+
+
+/* TARGET STREAK */
+
+let targetStreak=0;
+
+let targetDate=
+new Date();
+
+while(true){
+
+const date=
+targetDate
+.toISOString()
+.split("T")[0];
+
+if(
+isTargetCompletedForDate(date)
+){
+
+targetStreak++;
+
+targetDate.setDate(
+targetDate.getDate()-1
+);
+
+}else{
+
+break;
+
+}
+
+}
+
+document.getElementById(
+"targetStreak"
+).textContent=
+targetStreak+" days";
+
+
+let message=
+"Start your streak today 🚀";
+
+if(current>=7){
+
+message=
+"🔥 7+ day streak! Keep building.";
+
+}else if(current>=3){
+
+message=
+"💪 Great consistency! Keep going.";
+
+}else if(current>=1){
+
+message=
+"🔥 Streak started! Come back tomorrow.";
+
+}
+
+document.getElementById(
+"streakMessage"
+).textContent=
+message;
+
+}
+
+
+function isTargetCompletedForDate(
+date
+){
+
+if(date!==today())
+return false;
+
+if(!currentTarget)
+return false;
+
+
+const taskActual=
+tasks.filter(
+task=>{
+
+if(
+!task.completed ||
+!task.createdAt
+)
+return false;
+
+return new Date(
+task.createdAt
+)
+.toISOString()
+.split("T")[0]
+===date;
+
+}
+).length;
+
+
+const studyActual=
+studies
+.filter(
+x=>x.studyDate===date
+)
+.reduce(
+(s,x)=>
+s+Number(x.hours||0),
+0
+);
+
+
+const runActual=
+runs
+.filter(
+x=>x.runDate===date
+)
+.reduce(
+(s,x)=>
+s+Number(x.distance||0),
+0
+);
+
+
+const incomeActual=
+money
+.filter(
+x=>
+x.moneyDate===date &&
+x.type==="income"
+)
+.reduce(
+(s,x)=>
+s+Number(x.amount||0),
+0
+);
+
+
+if(
+Number(currentTarget.taskTarget||0)>0 &&
+taskActual<
+Number(currentTarget.taskTarget)
+)
+return false;
+
+
+if(
+Number(currentTarget.studyTarget||0)>0 &&
+studyActual<
+Number(currentTarget.studyTarget)
+)
+return false;
+
+
+if(
+Number(currentTarget.runTarget||0)>0 &&
+runActual<
+Number(currentTarget.runTarget)
+)
+return false;
+
+
+if(
+Number(currentTarget.moneyTarget||0)>0 &&
+incomeActual<
+Number(currentTarget.moneyTarget)
+)
+return false;
+
+
+return true;
+
+}
+
+
+/* =========================
+CHARTS
+========================= */
+
+function getLast7Dates(){
+
+const dates=[];
+
+for(
+let i=6;
+i>=0;
+i--
+){
+
+const d=
+new Date();
+
+d.setDate(
+d.getDate()-i
+);
+
+dates.push(
+d.toISOString()
+.split("T")[0]
+);
+
+}
+
+return dates;
+
+}
+
+
+function formatChartDate(
+date
+){
+
+const d=
+new Date(
+date+"T00:00:00"
+);
+
+return d.toLocaleDateString(
+"en-IN",
+{
+day:"2-digit",
+month:"short"
+}
+);
+
+}
+
+
+function updateCharts(){
+
+if(
+typeof Chart==="undefined"
+)
+return;
+
+const dates=
+getLast7Dates();
+
+
+/* STUDY */
+
+const studyValues=
+dates.map(
+date=>
+
+studies
+.filter(
+x=>x.studyDate===date
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.hours||0),
+0
+)
+
+);
+
+
+if(studyChart){
+
+studyChart.destroy();
+
+}
+
+
+studyChart=
+new Chart(
+document.getElementById(
+"studyChart"
+),
+{
+type:"bar",
+
+data:{
+labels:
+dates.map(
+formatChartDate
+),
+
+datasets:[{
+
+label:"Study Hours",
+
+data:
+studyValues
+
+}]
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+}
+);
+
+
+/* RUNNING */
+
+const runValues=
+dates.map(
+date=>
+
+runs
+.filter(
+x=>x.runDate===date
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.distance||0),
+0
+)
+
+);
+
+
+if(runChart){
+
+runChart.destroy();
+
+}
+
+
+runChart=
+new Chart(
+document.getElementById(
+"runChart"
+),
+{
+type:"line",
+
+data:{
+labels:
+dates.map(
+formatChartDate
+),
+
+datasets:[{
+
+label:"Running KM",
+
+data:
+runValues,
+
+tension:.3
+
+}]
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+}
+);
+
+
+/* LIFE */
+
+const taskPercent=
+tasks.length
+?
+Math.round(
+tasks.filter(
+x=>x.completed
+).length
+/tasks.length*100
+)
+:0;
+
+
+const goalPercent=
+goals.length
+?
+Math.round(
+goals.filter(
+x=>x.completed
+).length
+/goals.length*100
+)
+:0;
+
+
+const totalStudy=
+studies.reduce(
+(s,x)=>
+s+Number(x.hours||0),
+0
+);
+
+
+const totalKm=
+runs.reduce(
+(s,x)=>
+s+Number(x.distance||0),
+0
+);
+
+
+const studyScore=
+totalStudy>0
+?100
+:0;
+
+const runScore=
+totalKm>0
+?100
+:0;
+
+const diaryScore=
+diaries.length>0
+?100
+:0;
+
+
+const lifeScore=
+Math.round(
+(
+taskPercent+
+goalPercent+
+studyScore+
+runScore+
+diaryScore
+)/5
+);
+
+
+if(lifeChart){
+
+lifeChart.destroy();
+
+}
+
+
+lifeChart=
+new Chart(
+document.getElementById(
+"lifeChart"
+),
+{
+type:"doughnut",
+
+data:{
+
+labels:[
+"Completed",
+"Remaining"
+],
+
+datasets:[{
+
+data:[
+lifeScore,
+100-lifeScore
+]
+
+}]
+
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+}
+);
+
+}
+
+
+/* =========================
+ESCAPE HTML
+========================= */
+
+function escapeHTML(
+value
+){
+
+return String(
+value ?? ""
+)
+.replace(
+/&/g,
+"&amp;"
+)
+.replace(
+/</g,
+"&lt;"
+)
+.replace(
+/>/g,
+"&gt;"
+)
+.replace(
+/"/g,
+"&quot;"
+)
+.replace(
+/'/g,
+"&#039;"
+);
+
+}
 
 </script>
 
