@@ -334,6 +334,18 @@ button{
 </div>
 
 <div class="dashboard">
+<div class="section">
+
+<h2>🎯 My Goals</h2>
+
+<div class="add-task">
+    <input id="goalInput" type="text" placeholder="Enter a new goal...">
+    <button onclick="addGoal()">+ Add Goal</button>
+</div>
+
+<div id="goalList"></div>
+
+</div>
 
 <div>
 
@@ -437,7 +449,8 @@ import {
     doc,
     onSnapshot,
     query,
-    orderBy
+    orderBy,
+    getDocs
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
@@ -558,6 +571,7 @@ onAuthStateChanged(auth, (user) => {
             "☁️ Your tasks are being saved to Firebase.";
 
         loadCloudTasks();
+        loadGoals();
 
     }else{
 
@@ -977,6 +991,167 @@ new Date().toLocaleDateString(
 /* Initial screen */
 
 renderTasks();
+/* =========================
+   GOALS SYSTEM
+========================= */
+
+let goals = [];
+
+window.addGoal = async function(){
+
+    const input = document.getElementById("goalInput");
+    const name = input.value.trim();
+
+    if(name === ""){
+        alert("Please enter a goal.");
+        return;
+    }
+
+    if(!currentUser){
+        alert("Please sign in with Google first.");
+        return;
+    }
+
+    try{
+
+        await addDoc(
+            collection(
+                db,
+                "users",
+                currentUser.uid,
+                "goals"
+            ),
+            {
+                name: name,
+                completed: false,
+                createdAt: Date.now()
+            }
+        );
+
+        input.value = "";
+
+        loadGoals();
+
+    }catch(error){
+
+        console.error("Add goal error:", error);
+
+        alert("Goal could not be added.");
+
+    }
+
+};
+
+
+async function loadGoals(){
+
+    if(!currentUser) return;
+
+    const goalsRef = collection(
+        db,
+        "users",
+        currentUser.uid,
+        "goals"
+    );
+
+    const snapshot = await getDocs(goalsRef);
+
+    goals = snapshot.docs.map(item => ({
+
+        id: item.id,
+        name: item.data().name,
+        completed: item.data().completed || false
+
+    }));
+
+    renderGoals();
+
+}
+
+
+function renderGoals(){
+
+    const list = document.getElementById("goalList");
+
+    if(goals.length === 0){
+
+        list.innerHTML =
+        '<div class="empty">No goals yet. Create your first goal 🎯</div>';
+
+        return;
+
+    }
+
+    list.innerHTML = goals.map(goal => `
+
+        <div class="task">
+
+            <input
+                type="checkbox"
+                ${goal.completed ? "checked" : ""}
+                onchange="toggleGoal('${goal.id}')"
+            >
+
+            <span class="task-name ${goal.completed ? "completed" : ""}">
+                ${escapeHTML(goal.name)}
+            </span>
+
+            <button
+                class="delete"
+                onclick="deleteGoal('${goal.id}')">
+                🗑️
+            </button>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+window.toggleGoal = async function(id){
+
+    if(!currentUser) return;
+
+    const goal = goals.find(item => item.id === id);
+
+    if(!goal) return;
+
+    await updateDoc(
+        doc(
+            db,
+            "users",
+            currentUser.uid,
+            "goals",
+            id
+        ),
+        {
+            completed: !goal.completed
+        }
+    );
+
+    loadGoals();
+
+};
+
+
+window.deleteGoal = async function(id){
+
+    if(!currentUser) return;
+
+    await deleteDoc(
+        doc(
+            db,
+            "users",
+            currentUser.uid,
+            "goals",
+            id
+        )
+    );
+
+    loadGoals();
+
+};
 
 </script>
 
