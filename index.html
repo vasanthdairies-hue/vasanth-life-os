@@ -4611,4 +4611,301 @@ function updateWeeklyReport() {
     weeklyScore + " / 100";
 }
 </script>
+<!-- MONTHLY LIFE SCORE DASHBOARD -->
+<section class="card">
+  <h2>🏆 Monthly Life Score</h2>
+  <p id="monthlyPeriod">This Month</p>
+
+  <div class="stats-grid">
+    <div class="stat-box">
+      <h3>📚 Study</h3>
+      <p id="monthlyStudy">0 hrs</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>🏃 Running</h3>
+      <p id="monthlyRun">0 km</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>✅ Tasks</h3>
+      <p id="monthlyTasks">0</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>💰 Income</h3>
+      <p id="monthlyIncome">₹0</p>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>🎯 Target Achievement</h3>
+
+    <div class="progress-bar">
+      <div
+        id="monthlyTargetBar"
+        class="progress-fill"
+        style="width:0%">
+      </div>
+    </div>
+
+    <p id="monthlyTargetText">0%</p>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>⭐ Monthly Life Score</h3>
+
+    <div class="progress-bar">
+      <div
+        id="monthlyScoreBar"
+        class="progress-fill"
+        style="width:0%">
+      </div>
+    </div>
+
+    <p id="monthlyScoreText">0 / 100</p>
+  </div>
+
+  <button onclick="updateMonthlyReport()">
+    🔄 Update Monthly Score
+  </button>
+</section>
+
+<script>
+function updateMonthlyReport() {
+
+  const now = new Date();
+
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
+
+  const monthName = now.toLocaleString("en-US", {
+    month: "long"
+  });
+
+  document.getElementById("monthlyPeriod").textContent =
+    monthName + " " + currentYear;
+
+  let studyTotal = 0;
+  let runTotal = 0;
+  let taskTotal = 0;
+  let incomeTotal = 0;
+
+  // STUDY
+  if(typeof studyRecords !== "undefined") {
+
+    studyRecords.forEach(item => {
+
+      if(!item.studyDate) return;
+
+      const d = new Date(item.studyDate + "T00:00:00");
+
+      if(
+        d.getFullYear() === currentYear &&
+        d.getMonth() === currentMonth
+      ) {
+        studyTotal += Number(item.hours) || 0;
+      }
+
+    });
+  }
+
+  // RUNNING
+  if(typeof runRecords !== "undefined") {
+
+    runRecords.forEach(item => {
+
+      if(!item.runDate) return;
+
+      const d = new Date(item.runDate + "T00:00:00");
+
+      if(
+        d.getFullYear() === currentYear &&
+        d.getMonth() === currentMonth
+      ) {
+        runTotal += Number(item.distance) || 0;
+      }
+
+    });
+  }
+
+  // TASKS
+  if(typeof tasks !== "undefined") {
+
+    tasks.forEach(item => {
+
+      if(!item.completed || !item.createdAt) return;
+
+      const d = new Date(item.createdAt);
+
+      if(
+        d.getFullYear() === currentYear &&
+        d.getMonth() === currentMonth
+      ) {
+        taskTotal++;
+      }
+
+    });
+  }
+
+  // INCOME
+  if(typeof moneyRecords !== "undefined") {
+
+    moneyRecords.forEach(item => {
+
+      if(
+        item.type !== "income" ||
+        !item.moneyDate
+      ) return;
+
+      const d = new Date(
+        item.moneyDate + "T00:00:00"
+      );
+
+      if(
+        d.getFullYear() === currentYear &&
+        d.getMonth() === currentMonth
+      ) {
+        incomeTotal += Number(item.amount) || 0;
+      }
+
+    });
+  }
+
+  /*
+    TARGET SCORE
+
+    Uses the targets available in the current
+    target dashboard.
+  */
+
+  let targetScore = 0;
+  let targetCount = 0;
+
+  if(typeof targets !== "undefined") {
+
+    Object.values(targets).forEach(item => {
+
+      if(Number(item.taskTarget) > 0) {
+
+        targetScore += Math.min(
+          100,
+          (
+            Number(item.taskActual || 0) /
+            Number(item.taskTarget)
+          ) * 100
+        );
+
+        targetCount++;
+      }
+
+      if(Number(item.studyTarget) > 0) {
+
+        targetScore += Math.min(
+          100,
+          (
+            Number(item.studyActual || 0) /
+            Number(item.studyTarget)
+          ) * 100
+        );
+
+        targetCount++;
+      }
+
+      if(Number(item.runTarget) > 0) {
+
+        targetScore += Math.min(
+          100,
+          (
+            Number(item.runActual || 0) /
+            Number(item.runTarget)
+          ) * 100
+        );
+
+        targetCount++;
+      }
+
+      if(Number(item.incomeTarget) > 0) {
+
+        targetScore += Math.min(
+          100,
+          (
+            Number(item.incomeActual || 0) /
+            Number(item.incomeTarget)
+          ) * 100
+        );
+
+        targetCount++;
+      }
+
+    });
+  }
+
+  const targetPercent =
+    targetCount > 0
+      ? Math.round(targetScore / targetCount)
+      : 0;
+
+  /*
+    MONTHLY SCORE
+
+    These are normalized indicators,
+    not a financial or health measurement.
+  */
+
+  const studyScore = Math.min(
+    100,
+    studyTotal * 2
+  );
+
+  const runScore = Math.min(
+    100,
+    runTotal * 4
+  );
+
+  const taskScore = Math.min(
+    100,
+    taskTotal * 3
+  );
+
+  const incomeScore =
+    incomeTotal > 0 ? 100 : 0;
+
+  const monthlyScore = Math.round(
+    (
+      studyScore +
+      runScore +
+      taskScore +
+      incomeScore +
+      targetPercent
+    ) / 5
+  );
+
+  // UPDATE UI
+
+  document.getElementById("monthlyStudy").textContent =
+    studyTotal.toFixed(1) + " hrs";
+
+  document.getElementById("monthlyRun").textContent =
+    runTotal.toFixed(1) + " km";
+
+  document.getElementById("monthlyTasks").textContent =
+    taskTotal;
+
+  document.getElementById("monthlyIncome").textContent =
+    "₹" + incomeTotal.toFixed(0);
+
+  document.getElementById("monthlyTargetBar").style.width =
+    targetPercent + "%";
+
+  document.getElementById("monthlyTargetText").textContent =
+    targetPercent + "%";
+
+  document.getElementById("monthlyScoreBar").style.width =
+    monthlyScore + "%";
+
+  document.getElementById("monthlyScoreText").textContent =
+    monthlyScore + " / 100";
+}
+</script>
 </html>
