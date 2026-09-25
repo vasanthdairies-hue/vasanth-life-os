@@ -2,251 +2,69 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Vasanth Life OS</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  font-family:Arial,sans-serif;
-  background:#0b1020;
-  color:#fff;
-  min-height:100vh;
-}
-
-header{
-  padding:20px;
-  background:#11182d;
-  border-bottom:1px solid #27304a;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-}
-
+body{font-family:Arial,sans-serif;background:#0b1020;color:#fff;min-height:100vh}
+header{padding:20px;background:#11182d;border-bottom:1px solid #27304a;display:flex;justify-content:space-between;align-items:center;gap:15px}
 header h1{font-size:24px}
 header p{color:#8f9bb7;font-size:13px;margin-top:5px}
-
-button{
-  border:0;
-  border-radius:8px;
-  padding:10px 14px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
+button{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:bold}
 .primary{background:#4f7cff;color:white}
 .danger{background:#e74c3c;color:white}
 .success{background:#20b486;color:white}
-.secondary{background:#303b58;color:white}
-
-.container{
-  max-width:1200px;
-  margin:auto;
-  padding:20px;
-}
-
-.login-box{
-  text-align:center;
-  padding:50px 20px;
-}
-
-.card{
-  background:#11182d;
-  border:1px solid #27304a;
-  border-radius:14px;
-  padding:20px;
-  margin-bottom:20px;
-}
-
-.card h2{
-  margin-bottom:15px;
-  font-size:20px;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:20px;
-}
-
-.stat{
-  background:#151e36;
-  border:1px solid #27304a;
-  padding:18px;
-  border-radius:12px;
-}
-
-.stat small{color:#8f9bb7}
-
-.stat strong{
-  display:block;
-  font-size:26px;
-  margin-top:8px;
-}
-
-.form{
-  display:grid;
-  grid-template-columns:1fr 1fr auto;
-  gap:10px;
-  margin-bottom:15px;
-}
-
-input,select,textarea{
-  width:100%;
-  padding:12px;
-  border-radius:8px;
-  border:1px solid #35415f;
-  background:#0c1326;
-  color:white;
-  outline:none;
-  font-family:Arial,sans-serif;
-}
-
-textarea{
-  resize:vertical;
-  min-height:90px;
-}
-
-input:focus,select:focus,textarea:focus{
-  border-color:#4f7cff;
-}
-
-.item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:14px;
-  border:1px solid #293550;
-  background:#0e162b;
-  border-radius:10px;
-  margin-top:10px;
-}
-
+.secondary,.logout{background:#303b58;color:white}
+.container{max-width:1200px;margin:auto;padding:20px}
+.login-box{text-align:center;padding:50px 20px}
+.card{background:#11182d;border:1px solid #27304a;border-radius:14px;padding:20px;margin-bottom:20px}
+.card h2{margin-bottom:15px;font-size:20px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}
+.stat{background:#151e36;border:1px solid #27304a;padding:18px;border-radius:12px}
+.stat small,.run-stat small{color:#8f9bb7}
+.stat strong{display:block;font-size:26px;margin-top:8px}
+.form{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin-bottom:15px}
+input,select,textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #35415f;background:#0c1326;color:white;outline:none;font-family:Arial,sans-serif}
+textarea{resize:vertical;min-height:90px}
+input:focus,select:focus,textarea:focus{border-color:#4f7cff}
+.item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border:1px solid #293550;background:#0e162b;border-radius:10px;margin-top:10px}
 .item-main{flex:1}
+.item-main.completed{opacity:.55;text-decoration:line-through}
+.item-title{font-weight:bold;margin-bottom:5px}
+.item-info{color:#8f9bb7;font-size:13px}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.progress{height:8px;background:#27304a;border-radius:20px;overflow:hidden;margin-top:10px}
+.progress-bar{height:100%;background:#4f7cff}
+.empty{color:#77839f;text-align:center;padding:20px}
+.run-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}
+.run-stat{background:#151e36;padding:15px;border-radius:10px;text-align:center}
+.run-stat small{display:block}
+.run-stat strong{display:block;font-size:22px;margin-top:5px}
+.money-positive{color:#20b486}.money-negative{color:#e74c3c}
+.diary-rating{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
+.diary-label{display:block;color:#8f9bb7;font-size:13px;margin-bottom:6px}
 
-.item-main.completed{
-  opacity:.55;
-  text-decoration:line-through;
-}
-
-.item-title{
-  font-weight:bold;
-  margin-bottom:5px;
-}
-
-.item-info{
-  color:#8f9bb7;
-  font-size:13px;
-}
-
-.actions{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-}
-
-.progress{
-  height:8px;
-  background:#27304a;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:10px;
-}
-
-.progress-bar{
-  height:100%;
-  background:#4f7cff;
-}
-
-.empty{
-  color:#77839f;
-  text-align:center;
-  padding:20px;
-}
-
-.run-stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.run-stat{
-  background:#151e36;
-  padding:15px;
-  border-radius:10px;
-  text-align:center;
-}
-
-.run-stat small{
-  color:#8f9bb7;
-  display:block;
-}
-
-.run-stat strong{
-  display:block;
-  font-size:22px;
-  margin-top:5px;
-}
-
-.money-positive{color:#20b486}
-.money-negative{color:#e74c3c}
-
-.logout{
-  background:#303b58;
-  color:white;
-}
-
-.diary-rating{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.diary-label{
-  display:block;
-  color:#8f9bb7;
-  font-size:13px;
-  margin-bottom:6px;
-}
+/* GRAPHS */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.chart-box{background:#0e162b;border:1px solid #293550;border-radius:12px;padding:15px}
+.chart-box h3{margin-bottom:12px;font-size:16px}
+.chart-box canvas{width:100%!important;height:280px!important}
 
 @media(max-width:800px){
-  .stats,.run-stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .form{
-    grid-template-columns:1fr;
-  }
-
-  .diary-rating{
-    grid-template-columns:1fr;
-  }
-
-  header{
-    align-items:flex-start;
-    flex-direction:column;
-  }
+.stats,.run-stats{grid-template-columns:repeat(2,1fr)}
+.form{grid-template-columns:1fr}
+.diary-rating{grid-template-columns:1fr}
+.chart-grid{grid-template-columns:1fr}
+header{align-items:flex-start;flex-direction:column}
 }
-
 @media(max-width:500px){
-  .container{padding:12px}
-
-  .stats,.run-stats{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .item{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .actions{width:100%}
+.container{padding:12px}
+.stats,.run-stats{grid-template-columns:1fr 1fr}
+.item{align-items:flex-start;flex-direction:column}
+.actions{width:100%}
 }
 </style>
 </head>
@@ -254,3210 +72,2044 @@ input:focus,select:focus,textarea:focus{
 <body>
 
 <header>
-  <div>
-    <h1>🚀 Vasanth Life OS</h1>
-    <p id="welcome">Personal Life Dashboard</p>
-  </div>
+<div>
+<h1>🚀 Vasanth Life OS</h1>
+<p id="welcome">Personal Life Dashboard</p>
+</div>
 
-  <button id="loginBtn" class="primary" onclick="loginWithGoogle()">
-    Login with Google
-  </button>
-
-  <button id="logoutBtn" class="logout" onclick="logout()" style="display:none">
-    Logout
-  </button>
+<button id="loginBtn" class="primary" onclick="loginWithGoogle()">Login with Google</button>
+<button id="logoutBtn" class="logout" onclick="logout()" style="display:none">Logout</button>
 </header>
 
 <div id="loginScreen" class="container">
-  <div class="card login-box">
-    <h2>Welcome to Vasanth Life OS</h2>
-
-    <p style="color:#8f9bb7;margin:15px 0">
-      Track your goals, tasks, studies, fitness, money and daily life.
-    </p>
-
-    <button class="primary" onclick="loginWithGoogle()">
-      🔐 Login with Google
-    </button>
-  </div>
+<div class="card login-box">
+<h2>Welcome to Vasanth Life OS</h2>
+<p style="color:#8f9bb7;margin:15px 0">
+Track your goals, tasks, studies, fitness, money and daily life.
+</p>
+<button class="primary" onclick="loginWithGoogle()">🔐 Login with Google</button>
+</div>
 </div>
 
 <div id="app" class="container" style="display:none">
 
-  <!-- DASHBOARD -->
-
-  <div class="stats">
-
-    <div class="stat">
-      <small>Tasks</small>
-      <strong id="taskStat">0/0</strong>
-    </div>
-
-    <div class="stat">
-      <small>Goals</small>
-      <strong id="goalStat">0/0</strong>
-    </div>
-
-    <div class="stat">
-      <small>Study Hours</small>
-      <strong id="studyHourStat">0</strong>
-    </div>
-
-    <div class="stat">
-      <small>Running KM</small>
-      <strong id="totalKmStat">0</strong>
-    </div>
-
-  </div>
-
-
-  <!-- TASKS -->
-
-  <div class="card">
-
-    <h2>✅ Tasks</h2>
-
-    <div class="form">
-
-      <input id="taskInput" placeholder="Enter a task">
-
-      <div></div>
-
-      <button class="primary" onclick="addTask()">
-        Add Task
-      </button>
-
-    </div>
-
-    <div id="taskList"></div>
-
-  </div>
-
-
-  <!-- GOALS -->
-
-  <div class="card">
-
-    <h2>🎯 Goals</h2>
-
-    <div class="form">
-
-      <input id="goalInput" placeholder="Enter your goal">
-
-      <input id="goalDate" type="date">
-
-      <button class="primary" onclick="addGoal()">
-        Add Goal
-      </button>
-
-    </div>
-
-    <div id="goalList"></div>
-
-  </div>
-
-
-  <!-- DAILY PLANNER -->
-
-  <div class="card">
-
-    <h2>📅 Daily Planner</h2>
-
-    <div class="form">
-
-      <input id="planInput" placeholder="What will you do?">
-
-      <input id="planTime" type="time">
-
-      <button class="primary" onclick="addPlan()">
-        Add Plan
-      </button>
-
-    </div>
-
-    <div id="planList"></div>
-
-  </div>
-
-
-  <!-- STUDY -->
-
-  <div class="card">
-
-    <h2>📚 Study Tracker</h2>
-
-    <div class="run-stats">
-
-      <div class="run-stat">
-        <small>Total Hours</small>
-        <strong id="studyTotalHours">0</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Sessions</small>
-        <strong id="studySessions">0</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Completed</small>
-        <strong id="studyCompleted">0</strong>
-      </div>
-
-    </div>
-
-    <div class="form">
-
-      <input id="studySubject" placeholder="Subject">
-
-      <input
-        id="studyHours"
-        type="number"
-        step="0.5"
-        min="0"
-        placeholder="Hours">
-
-      <button class="primary" onclick="addStudy()">
-        Add Study
-      </button>
-
-    </div>
-
-    <div id="studyList"></div>
-
-  </div>
-
-
-  <!-- RUNNING -->
-
-  <div class="card">
-
-    <h2>🏃 Fitness & Running Tracker</h2>
-
-    <div class="run-stats">
-
-      <div class="run-stat">
-        <small>Total KM</small>
-        <strong id="runTotalKm">0</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Total Runs</small>
-        <strong id="runSessions">0</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Best Time</small>
-        <strong id="runBestTime">--</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Average Pace</small>
-        <strong id="runAvgPace">--</strong>
-      </div>
-
-    </div>
-
-    <div class="form">
-
-      <input
-        id="runDistance"
-        type="number"
-        step="0.01"
-        min="0"
-        placeholder="Distance (KM)">
-
-      <input
-        id="runTime"
-        type="text"
-        placeholder="Time e.g. 6:03">
-
-      <button class="primary" onclick="addRun()">
-        Add Run
-      </button>
-
-    </div>
-
-    <div id="runList"></div>
-
-  </div>
-
-
-  <!-- CAREER & MONEY -->
-
-  <div class="card">
-
-    <h2>💰 Career & Money Tracker</h2>
-
-    <div class="run-stats">
-
-      <div class="run-stat">
-        <small>Income</small>
-        <strong id="totalIncome">₹0</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Expenses</small>
-        <strong id="totalExpense">₹0</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Balance</small>
-        <strong id="moneyBalance">₹0</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Applications</small>
-        <strong id="jobApplications">0</strong>
-      </div>
-
-    </div>
-
-    <h3 style="margin:20px 0 10px">
-      💵 Money
-    </h3>
-
-    <div class="form">
-
-      <select id="moneyType">
-
-        <option value="income">
-          Income
-        </option>
-
-        <option value="expense">
-          Expense
-        </option>
-
-      </select>
-
-      <input
-        id="moneyAmount"
-        type="number"
-        min="0"
-        placeholder="Amount ₹">
-
-      <button
-        class="primary"
-        onclick="addMoney()">
-        Add Money
-      </button>
-
-    </div>
-
-    <input
-      id="moneyNote"
-      placeholder="Note e.g. Freelancing / Food"
-      style="margin-bottom:15px">
-
-    <div id="moneyList"></div>
-
-
-    <h3 style="margin:25px 0 10px">
-      💼 Job Applications
-    </h3>
-
-    <div class="form">
-
-      <input
-        id="jobCompany"
-        placeholder="Company">
-
-      <input
-        id="jobRole"
-        placeholder="Job role">
-
-      <button
-        class="primary"
-        onclick="addJob()">
-        Add Job
-      </button>
-
-    </div>
-
-    <div id="jobList"></div>
-
-  </div>
-
-
-  <!-- LIFE STATISTICS -->
-
-  <div class="card">
-
-    <h2>📊 Life Statistics & Progress</h2>
-
-    <div class="run-stats">
-
-      <div class="run-stat">
-        <small>Life Score</small>
-        <strong id="lifeScore">0%</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Tasks Done</small>
-        <strong id="statsTasks">0%</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Goals Progress</small>
-        <strong id="statsGoals">0%</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Diary Days</small>
-        <strong id="statsDiary">0</strong>
-      </div>
-
-    </div>
-
-    <div style="margin-top:20px">
-
-      <div class="item">
-        <div class="item-main">
-
-          <div class="item-title">✅ Tasks</div>
-
-          <div class="progress">
-            <div
-              id="taskProgressBar"
-              class="progress-bar"
-              style="width:0%">
-            </div>
-          </div>
-
-          <div
-            id="taskProgressText"
-            class="item-info"
-            style="margin-top:8px">
-            0 / 0 completed
-          </div>
-
-        </div>
-      </div>
-
-
-      <div class="item">
-        <div class="item-main">
-
-          <div class="item-title">🎯 Goals</div>
-
-          <div class="progress">
-            <div
-              id="goalProgressBar"
-              class="progress-bar"
-              style="width:0%">
-            </div>
-          </div>
-
-          <div
-            id="goalProgressText"
-            class="item-info"
-            style="margin-top:8px">
-            0 / 0 completed
-          </div>
-
-        </div>
-      </div>
-
-
-      <div class="item">
-        <div class="item-main">
-
-          <div class="item-title">📚 Study</div>
-
-          <div
-            id="statsStudyText"
-            class="item-info">
-            0 hours studied
-          </div>
-
-        </div>
-      </div>
-
-
-      <div class="item">
-        <div class="item-main">
-
-          <div class="item-title">🏃 Running</div>
-
-          <div
-            id="statsRunText"
-            class="item-info">
-            0 KM completed
-          </div>
-
-        </div>
-      </div>
-
-
-      <div class="item">
-        <div class="item-main">
-
-          <div class="item-title">💰 Money</div>
-
-          <div
-            id="statsMoneyText"
-            class="item-info">
-            Income ₹0 • Expense ₹0 • Balance ₹0
-          </div>
-
-        </div>
-      </div>
-
-
-      <div class="item">
-        <div class="item-main">
-
-          <div class="item-title">💼 Career</div>
-
-          <div
-            id="statsJobText"
-            class="item-info">
-            0 job applications
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- STREAK TRACKER -->
-
-  <div class="card">
-
-    <h2>🔥 Streak Tracker</h2>
-
-    <div class="run-stats">
-
-      <div class="run-stat">
-        <small>Current Streak</small>
-        <strong id="currentStreak">0 days</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Best Streak</small>
-        <strong id="bestStreak">0 days</strong>
-      </div>
-
-      <div class="run-stat">
-        <small>Active Days</small>
-        <strong id="activeDays">0</strong>
-      </div>
-
-    </div>
-
-    <div
-      id="streakMessage"
-      class="item-info"
-      style="margin-top:20px;text-align:center">
-      Start your streak today 🚀
-    </div>
-
-  </div>
-
-
-  <!-- DAILY DIARY -->
-
-  <div class="card">
-
-    <h2>📖 Daily Diary</h2>
-
-    <div class="diary-rating">
-
-      <div>
-
-        <label class="diary-label">
-          Date
-        </label>
-
-        <input
-          id="diaryDate"
-          type="date">
-
-      </div>
-
-      <div>
-
-        <label class="diary-label">
-          ⭐ Day Rating
-        </label>
-
-        <select id="diaryRating">
-
-          <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
-          <option value="4">⭐⭐⭐⭐ Good</option>
-          <option value="3">⭐⭐⭐ Average</option>
-          <option value="2">⭐⭐ Difficult</option>
-          <option value="1">⭐ Very Difficult</option>
-
-        </select>
-
-      </div>
-
-    </div>
-
-
-    <label class="diary-label">
-      📝 What did I do today?
-    </label>
-
-    <textarea
-      id="diaryWork"
-      placeholder="Write what you did today..."></textarea>
-
-
-    <label class="diary-label" style="margin-top:12px">
-      🎯 What did I learn?
-    </label>
-
-    <textarea
-      id="diaryLearned"
-      placeholder="Write what you learned today..."></textarea>
-
-
-    <label class="diary-label" style="margin-top:12px">
-      💭 Thoughts / Feelings
-    </label>
-
-    <textarea
-      id="diaryThoughts"
-      placeholder="Write your thoughts..."></textarea>
-
-
-    <button
-      class="primary"
-      onclick="addDiary()"
-      style="margin-top:12px">
-
-      📖 Save Diary
-
-    </button>
-
-
-    <div id="diaryList" style="margin-top:15px"></div>
-
-  </div>
+<!-- DASHBOARD -->
+<div class="stats">
+<div class="stat"><small>Tasks</small><strong id="taskStat">0/0</strong></div>
+<div class="stat"><small>Goals</small><strong id="goalStat">0/0</strong></div>
+<div class="stat"><small>Study Hours</small><strong id="studyHourStat">0</strong></div>
+<div class="stat"><small>Running KM</small><strong id="totalKmStat">0</strong></div>
+</div>
+
+<!-- TASKS -->
+<div class="card">
+<h2>✅ Tasks</h2>
+<div class="form">
+<input id="taskInput" placeholder="Enter a task">
+<div></div>
+<button class="primary" onclick="addTask()">Add Task</button>
+</div>
+<div id="taskList"></div>
+</div>
+
+<!-- GOALS -->
+<div class="card">
+<h2>🎯 Goals</h2>
+<div class="form">
+<input id="goalInput" placeholder="Enter your goal">
+<input id="goalDate" type="date">
+<button class="primary" onclick="addGoal()">Add Goal</button>
+</div>
+<div id="goalList"></div>
+</div>
+
+<!-- PLANNER -->
+<div class="card">
+<h2>📅 Daily Planner</h2>
+<div class="form">
+<input id="planInput" placeholder="What will you do?">
+<input id="planTime" type="time">
+<button class="primary" onclick="addPlan()">Add Plan</button>
+</div>
+<div id="planList"></div>
+</div>
+
+<!-- STUDY -->
+<div class="card">
+<h2>📚 Study Tracker</h2>
+
+<div class="run-stats">
+<div class="run-stat"><small>Total Hours</small><strong id="studyTotalHours">0</strong></div>
+<div class="run-stat"><small>Sessions</small><strong id="studySessions">0</strong></div>
+<div class="run-stat"><small>Completed</small><strong id="studyCompleted">0</strong></div>
+</div>
+
+<div class="form">
+<input id="studySubject" placeholder="Subject">
+<input id="studyHours" type="number" step="0.5" min="0" placeholder="Hours">
+<button class="primary" onclick="addStudy()">Add Study</button>
+</div>
+
+<div id="studyList"></div>
+</div>
+
+<!-- RUNNING -->
+<div class="card">
+<h2>🏃 Fitness & Running Tracker</h2>
+
+<div class="run-stats">
+<div class="run-stat"><small>Total KM</small><strong id="runTotalKm">0</strong></div>
+<div class="run-stat"><small>Total Runs</small><strong id="runSessions">0</strong></div>
+<div class="run-stat"><small>Best Time</small><strong id="runBestTime">--</strong></div>
+<div class="run-stat"><small>Average Pace</small><strong id="runAvgPace">--</strong></div>
+</div>
+
+<div class="form">
+<input id="runDistance" type="number" step="0.01" min="0" placeholder="Distance (KM)">
+<input id="runTime" type="text" placeholder="Time e.g. 6:03">
+<button class="primary" onclick="addRun()">Add Run</button>
+</div>
+
+<div id="runList"></div>
+</div>
+
+<!-- CAREER MONEY -->
+<div class="card">
+<h2>💰 Career & Money Tracker</h2>
+
+<div class="run-stats">
+<div class="run-stat"><small>Income</small><strong id="totalIncome">₹0</strong></div>
+<div class="run-stat"><small>Expenses</small><strong id="totalExpense">₹0</strong></div>
+<div class="run-stat"><small>Balance</small><strong id="moneyBalance">₹0</strong></div>
+<div class="run-stat"><small>Applications</small><strong id="jobApplications">0</strong></div>
+</div>
+
+<h3 style="margin:20px 0 10px">💵 Money</h3>
+
+<div class="form">
+<select id="moneyType">
+<option value="income">Income</option>
+<option value="expense">Expense</option>
+</select>
+<input id="moneyAmount" type="number" min="0" placeholder="Amount ₹">
+<button class="primary" onclick="addMoney()">Add Money</button>
+</div>
+
+<input id="moneyNote" placeholder="Note e.g. Freelancing / Food" style="margin-bottom:15px">
+<div id="moneyList"></div>
+
+<h3 style="margin:25px 0 10px">💼 Job Applications</h3>
+
+<div class="form">
+<input id="jobCompany" placeholder="Company">
+<input id="jobRole" placeholder="Job role">
+<button class="primary" onclick="addJob()">Add Job</button>
+</div>
+
+<div id="jobList"></div>
+</div>
+
+<!-- LIFE STATISTICS -->
+<div class="card">
+<h2>📊 Life Statistics & Progress</h2>
+
+<div class="run-stats">
+<div class="run-stat"><small>Life Score</small><strong id="lifeScore">0%</strong></div>
+<div class="run-stat"><small>Tasks Done</small><strong id="statsTasks">0%</strong></div>
+<div class="run-stat"><small>Goals Progress</small><strong id="statsGoals">0%</strong></div>
+<div class="run-stat"><small>Diary Days</small><strong id="statsDiary">0</strong></div>
+</div>
+
+<div style="margin-top:20px">
+
+<div class="item">
+<div class="item-main">
+<div class="item-title">✅ Tasks</div>
+<div class="progress"><div id="taskProgressBar" class="progress-bar" style="width:0%"></div></div>
+<div id="taskProgressText" class="item-info" style="margin-top:8px">0 / 0 completed</div>
+</div>
+</div>
+
+<div class="item">
+<div class="item-main">
+<div class="item-title">🎯 Goals</div>
+<div class="progress"><div id="goalProgressBar" class="progress-bar" style="width:0%"></div></div>
+<div id="goalProgressText" class="item-info" style="margin-top:8px">0 / 0 completed</div>
+</div>
+</div>
+
+<div class="item">
+<div class="item-main">
+<div class="item-title">📚 Study</div>
+<div id="statsStudyText" class="item-info">0 hours studied</div>
+</div>
+</div>
+
+<div class="item">
+<div class="item-main">
+<div class="item-title">🏃 Running</div>
+<div id="statsRunText" class="item-info">0 KM completed</div>
+</div>
+</div>
+
+<div class="item">
+<div class="item-main">
+<div class="item-title">💰 Money</div>
+<div id="statsMoneyText" class="item-info">Income ₹0 • Expense ₹0 • Balance ₹0</div>
+</div>
+</div>
+
+<div class="item">
+<div class="item-main">
+<div class="item-title">💼 Career</div>
+<div id="statsJobText" class="item-info">0 job applications</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- PROGRESS GRAPHS -->
+<div class="card">
+<h2>📈 Progress Graphs</h2>
+
+<div class="chart-grid">
+
+<div class="chart-box">
+<h3>📚 Study Hours — Last 7 Days</h3>
+<canvas id="studyChart"></canvas>
+</div>
+
+<div class="chart-box">
+<h3>🏃 Running KM — Last 7 Days</h3>
+<canvas id="runChart"></canvas>
+</div>
+
+<div class="chart-box">
+<h3>🚀 Overall Life Score</h3>
+<canvas id="lifeChart"></canvas>
+</div>
+
+</div>
+</div>
+
+<!-- STREAK -->
+<div class="card">
+<h2>🔥 Streak Tracker</h2>
+
+<div class="run-stats">
+<div class="run-stat"><small>Current Streak</small><strong id="currentStreak">0 days</strong></div>
+<div class="run-stat"><small>Best Streak</small><strong id="bestStreak">0 days</strong></div>
+<div class="run-stat"><small>Active Days</small><strong id="activeDays">0</strong></div>
+</div>
+
+<div id="streakMessage" class="item-info" style="margin-top:20px;text-align:center">
+Start your streak today 🚀
+</div>
+</div>
+
+<!-- DIARY -->
+<div class="card">
+<h2>📖 Daily Diary</h2>
+
+<div class="diary-rating">
+<div>
+<label class="diary-label">Date</label>
+<input id="diaryDate" type="date">
+</div>
+
+<div>
+<label class="diary-label">⭐ Day Rating</label>
+<select id="diaryRating">
+<option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+<option value="4">⭐⭐⭐⭐ Good</option>
+<option value="3">⭐⭐⭐ Average</option>
+<option value="2">⭐⭐ Difficult</option>
+<option value="1">⭐ Very Difficult</option>
+</select>
+</div>
+</div>
+
+<label class="diary-label">📝 What did I do today?</label>
+<textarea id="diaryWork" placeholder="Write what you did today..."></textarea>
+
+<label class="diary-label" style="margin-top:12px">🎯 What did I learn?</label>
+<textarea id="diaryLearned" placeholder="Write what you learned today..."></textarea>
+
+<label class="diary-label" style="margin-top:12px">💭 Thoughts / Feelings</label>
+<textarea id="diaryThoughts" placeholder="Write your thoughts..."></textarea>
+
+<button class="primary" onclick="addDiary()" style="margin-top:12px">📖 Save Diary</button>
+
+<div id="diaryList" style="margin-top:15px"></div>
+</div>
 
 </div>
 
-
 <script type="module">
 
-import { initializeApp }
+import {initializeApp}
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged,
-  signOut
+getAuth,
+GoogleAuthProvider,
+signInWithPopup,
+onAuthStateChanged,
+signOut
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  deleteDoc,
-  updateDoc,
-  doc,
-  onSnapshot
+getFirestore,
+collection,
+addDoc,
+deleteDoc,
+updateDoc,
+doc,
+onSnapshot
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-const firebaseConfig = {
-
-  apiKey:
-    "AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
-
-  authDomain:
-    "vasanth-lise-os.firebaseapp.com",
-
-  projectId:
-    "vasanth-lise-os",
-
-  storageBucket:
-    "vasanth-lise-os.firebasestorage.app",
-
-  messagingSenderId:
-    "847181528785",
-
-  appId:
-    "1:847181528785:web:f02eb43c041c9e90fc4ff0",
-
-  measurementId:
-    "G-WMPYW2EDLZ"
-
+const firebaseConfig={
+apiKey:"AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
+authDomain:"vasanth-lise-os.firebaseapp.com",
+projectId:"vasanth-lise-os",
+storageBucket:"vasanth-lise-os.firebasestorage.app",
+messagingSenderId:"847181528785",
+appId:"1:847181528785:web:f02eb43c041c9e90fc4ff0",
+measurementId:"G-WMPYW2EDLZ"
 };
 
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const provider=new GoogleAuthProvider();
 
-const app = initializeApp(firebaseConfig);
+let currentUser=null;
 
-const auth = getAuth(app);
+let tasks=[];
+let goals=[];
+let plans=[];
+let studies=[];
+let runs=[];
+let money=[];
+let jobs=[];
+let diaries=[];
 
-const db = getFirestore(app);
-
-const provider = new GoogleAuthProvider();
-
-
-let currentUser = null;
-
-let tasks = [];
-let goals = [];
-let plans = [];
-let studies = [];
-let runs = [];
-let money = [];
-let jobs = [];
-let diaries = [];
-
-
-let unsubscribeTasks = null;
-let unsubscribeGoals = null;
-let unsubscribePlans = null;
-let unsubscribeStudies = null;
-let unsubscribeRuns = null;
-let unsubscribeMoney = null;
-let unsubscribeJobs = null;
-let unsubscribeDiaries = null;
+let unsubscribeTasks=null;
+let unsubscribeGoals=null;
+let unsubscribePlans=null;
+let unsubscribeStudies=null;
+let unsubscribeRuns=null;
+let unsubscribeMoney=null;
+let unsubscribeJobs=null;
+let unsubscribeDiaries=null;
 
 
-/* =========================
-AUTH
-========================= */
+/* AUTH */
 
-window.loginWithGoogle = async function(){
-
-  try{
-
-    await signInWithPopup(auth,provider);
-
-  }catch(error){
-
-    console.error(error);
-
-    alert("Login failed: " + error.message);
-
-  }
-
+window.loginWithGoogle=async function(){
+try{
+await signInWithPopup(auth,provider);
+}catch(error){
+console.error(error);
+alert("Login failed: "+error.message);
+}
 };
 
-
-window.logout = async function(){
-
-  try{
-
-    await signOut(auth);
-
-  }catch(error){
-
-    alert(error.message);
-
-  }
-
+window.logout=async function(){
+try{
+await signOut(auth);
+}catch(error){
+alert(error.message);
+}
 };
 
+onAuthStateChanged(auth,user=>{
 
-onAuthStateChanged(auth,user => {
+currentUser=user;
 
-  currentUser = user;
+if(user){
 
-  if(user){
+document.getElementById("loginScreen").style.display="none";
+document.getElementById("app").style.display="block";
+document.getElementById("loginBtn").style.display="none";
+document.getElementById("logoutBtn").style.display="block";
 
-    document.getElementById("loginScreen").style.display =
-      "none";
+document.getElementById("welcome").textContent=
+"Hello "+(user.displayName||"Vasanth")+" 👋";
 
-    document.getElementById("app").style.display =
-      "block";
+loadCloudTasks();
+loadGoals();
+loadPlans();
+loadStudies();
+loadRuns();
+loadMoney();
+loadJobs();
+loadDiaries();
 
-    document.getElementById("loginBtn").style.display =
-      "none";
+document.getElementById("diaryDate").value=today();
 
-    document.getElementById("logoutBtn").style.display =
-      "block";
+}else{
 
-    document.getElementById("welcome").textContent =
-      "Hello " + (user.displayName || "Vasanth") + " 👋";
+document.getElementById("loginScreen").style.display="block";
+document.getElementById("app").style.display="none";
+document.getElementById("loginBtn").style.display="block";
+document.getElementById("logoutBtn").style.display="none";
 
-
-    loadCloudTasks();
-    loadGoals();
-    loadPlans();
-    loadStudies();
-    loadRuns();
-    loadMoney();
-    loadJobs();
-    loadDiaries();
-
-    document.getElementById("diaryDate").value = today();
-
-  }else{
-
-    document.getElementById("loginScreen").style.display =
-      "block";
-
-    document.getElementById("app").style.display =
-      "none";
-
-    document.getElementById("loginBtn").style.display =
-      "block";
-
-    document.getElementById("logoutBtn").style.display =
-      "none";
-
-  }
+}
 
 });
 
-
 function today(){
-
-  return new Date()
-    .toISOString()
-    .split("T")[0];
-
+return new Date().toISOString().split("T")[0];
 }
-
 
 function escapeHtml(text){
-
-  return String(text || "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
+return String(text||"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 }
 
 
-/* =========================
-TASKS
-========================= */
+/* TASKS */
 
 function loadCloudTasks(){
 
-  const ref =
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "tasks"
-    );
+const ref=collection(db,"users",currentUser.uid,"tasks");
 
-  unsubscribeTasks =
-    onSnapshot(ref,snapshot => {
+unsubscribeTasks=onSnapshot(ref,snapshot=>{
 
-      tasks =
-        snapshot.docs.map(item => ({
-          id:item.id,
-          ...item.data()
-        }));
+tasks=snapshot.docs.map(item=>({
+id:item.id,
+...item.data()
+}));
 
-      renderTasks();
+renderTasks();
 
-    });
+});
 
 }
 
+window.addTask=async function(){
 
-window.addTask = async function(){
+const input=document.getElementById("taskInput");
+const name=input.value.trim();
 
-  const input =
-    document.getElementById("taskInput");
+if(!name)return alert("Enter a task");
 
-  const name =
-    input.value.trim();
+await addDoc(
+collection(db,"users",currentUser.uid,"tasks"),
+{
+name,
+completed:false,
+createdAt:Date.now()
+}
+);
 
-  if(!name)
-    return alert("Enter a task");
-
-  await addDoc(
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "tasks"
-    ),
-    {
-      name,
-      completed:false,
-      createdAt:Date.now()
-    }
-  );
-
-  input.value = "";
+input.value="";
 
 };
 
+window.toggleTask=async function(id,completed){
 
-window.toggleTask = async function(id,completed){
-
-  await updateDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "tasks",
-      id
-    ),
-    {
-      completed:!completed
-    }
-  );
+await updateDoc(
+doc(db,"users",currentUser.uid,"tasks",id),
+{completed:!completed}
+);
 
 };
 
+window.deleteTask=async function(id){
 
-window.deleteTask = async function(id){
-
-  await deleteDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "tasks",
-      id
-    )
-  );
+await deleteDoc(
+doc(db,"users",currentUser.uid,"tasks",id)
+);
 
 };
-
 
 function renderTasks(){
 
-  const list =
-    document.getElementById("taskList");
+const list=document.getElementById("taskList");
 
-  if(tasks.length === 0){
+if(tasks.length===0){
 
-    list.innerHTML =
-      `<div class="empty">No tasks yet.</div>`;
+list.innerHTML=`<div class="empty">No tasks yet.</div>`;
 
-  }else{
+}else{
 
-    list.innerHTML =
-      tasks.map(t => `
+list.innerHTML=tasks.map(t=>`
 
-      <div class="item">
+<div class="item">
 
-        <div class="item-main ${
-          t.completed ? "completed" : ""
-        }">
+<div class="item-main ${t.completed?"completed":""}">
+<div class="item-title">${escapeHtml(t.name)}</div>
+</div>
 
-          <div class="item-title">
-            ${escapeHtml(t.name)}
-          </div>
+<div class="actions">
 
-        </div>
+<button class="success"
+onclick="toggleTask('${t.id}',${!!t.completed})">
+${t.completed?"↩️":"☑️"}
+</button>
 
-        <div class="actions">
+<button class="danger"
+onclick="deleteTask('${t.id}')">
+🗑️
+</button>
 
-          <button
-            class="success"
-            onclick="toggleTask(
-              '${t.id}',
-              ${!!t.completed}
-            )">
+</div>
+</div>
 
-            ${t.completed ? "↩️" : "☑️"}
+`).join("");
 
-          </button>
+}
 
-          <button
-            class="danger"
-            onclick="deleteTask('${t.id}')">
-
-            🗑️
-
-          </button>
-
-        </div>
-
-      </div>
-
-    `).join("");
-
-  }
-
-  updateStats();
+updateStats();
 
 }
 
 
-/* =========================
-GOALS
-========================= */
-
-window.addGoal = async function(){
-
-  const name =
-    document.getElementById("goalInput")
-      .value.trim();
-
-  const targetDate =
-    document.getElementById("goalDate").value;
-
-  if(!name)
-    return alert("Enter a goal");
-
-  await addDoc(
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "goals"
-    ),
-    {
-      name,
-      targetDate,
-      progress:0,
-      completed:false,
-      createdAt:Date.now()
-    }
-  );
-
-  document.getElementById("goalInput").value="";
-  document.getElementById("goalDate").value="";
-
-};
-
+/* GOALS */
 
 function loadGoals(){
 
-  const ref =
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "goals"
-    );
+const ref=collection(db,"users",currentUser.uid,"goals");
 
-  unsubscribeGoals =
-    onSnapshot(ref,snapshot => {
+unsubscribeGoals=onSnapshot(ref,snapshot=>{
 
-      goals =
-        snapshot.docs.map(item => ({
-          id:item.id,
-          ...item.data()
-        }));
+goals=snapshot.docs.map(item=>({
+id:item.id,
+...item.data()
+}));
 
-      renderGoals();
+renderGoals();
 
-    });
+});
 
 }
 
+window.addGoal=async function(){
+
+const name=document.getElementById("goalInput").value.trim();
+const targetDate=document.getElementById("goalDate").value;
+
+if(!name)return alert("Enter a goal");
+
+await addDoc(
+collection(db,"users",currentUser.uid,"goals"),
+{
+name,
+targetDate,
+progress:0,
+completed:false,
+createdAt:Date.now()
+}
+);
+
+document.getElementById("goalInput").value="";
+document.getElementById("goalDate").value="";
+
+};
 
 function renderGoals(){
 
-  const list =
-    document.getElementById("goalList");
+const list=document.getElementById("goalList");
 
-  if(goals.length === 0){
+if(goals.length===0){
 
-    list.innerHTML =
-      `<div class="empty">No goals yet.</div>`;
+list.innerHTML=`<div class="empty">No goals yet.</div>`;
 
-  }else{
+}else{
 
-    list.innerHTML =
-      goals.map(g => {
+list.innerHTML=goals.map(g=>{
 
-        const progress =
-          Number(g.progress || 0);
+const progress=Number(g.progress||0);
 
-        return `
+return `
 
-        <div class="item">
+<div class="item">
 
-          <div class="item-main ${
-            g.completed ? "completed" : ""
-          }">
+<div class="item-main ${g.completed?"completed":""}">
 
-            <div class="item-title">
-              ${escapeHtml(g.name)}
-            </div>
+<div class="item-title">${escapeHtml(g.name)}</div>
 
-            <div class="item-info">
-              Target:
-              ${g.targetDate || "No date"}
-              • ${progress}%
-            </div>
+<div class="item-info">
+Target: ${g.targetDate||"No date"} • ${progress}%
+</div>
 
-            <div class="progress">
+<div class="progress">
+<div class="progress-bar"
+style="width:${Math.min(progress,100)}%">
+</div>
+</div>
 
-              <div
-                class="progress-bar"
-                style="width:${Math.min(
-                  progress,
-                  100
-                )}%">
-              </div>
+</div>
 
-            </div>
+<div class="actions">
 
-          </div>
+<button class="secondary"
+onclick="editGoal('${g.id}',${progress})">
+✏️
+</button>
 
-          <div class="actions">
+<button class="success"
+onclick="toggleGoal('${g.id}',${!!g.completed})">
+${g.completed?"↩️":"☑️"}
+</button>
 
-            <button
-              class="secondary"
-              onclick="editGoal(
-                '${g.id}',
-                ${progress}
-              )">
-              ✏️
-            </button>
+<button class="danger"
+onclick="deleteGoal('${g.id}')">
+🗑️
+</button>
 
-            <button
-              class="success"
-              onclick="toggleGoal(
-                '${g.id}',
-                ${!!g.completed}
-              )">
+</div>
 
-              ${g.completed ? "↩️" : "☑️"}
+</div>
 
-            </button>
+`;
 
-            <button
-              class="danger"
-              onclick="deleteGoal('${g.id}')">
-              🗑️
-            </button>
-
-          </div>
-
-        </div>
-
-        `;
-
-      }).join("");
-
-  }
-
-  updateStats();
+}).join("");
 
 }
 
+updateStats();
 
-window.editGoal = async function(
-  id,
-  currentProgress
-){
+}
 
-  const progress =
-    prompt(
-      "Progress % (0-100)",
-      currentProgress
-    );
+window.editGoal=async function(id,currentProgress){
 
-  if(progress === null)
-    return;
+const progress=prompt("Progress % (0-100)",currentProgress);
 
-  let value = Number(progress);
+if(progress===null)return;
 
-  if(isNaN(value))
-    return;
+let value=Number(progress);
 
-  value =
-    Math.max(
-      0,
-      Math.min(100,value)
-    );
+if(isNaN(value))return;
 
-  await updateDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "goals",
-      id
-    ),
-    {
-      progress:value,
-      completed:value >= 100
-    }
-  );
+value=Math.max(0,Math.min(100,value));
+
+await updateDoc(
+doc(db,"users",currentUser.uid,"goals",id),
+{
+progress:value,
+completed:value>=100
+}
+);
+
+};
+
+window.toggleGoal=async function(id,completed){
+
+await updateDoc(
+doc(db,"users",currentUser.uid,"goals",id),
+{completed:!completed}
+);
+
+};
+
+window.deleteGoal=async function(id){
+
+await deleteDoc(
+doc(db,"users",currentUser.uid,"goals",id)
+);
 
 };
 
 
-window.toggleGoal = async function(
-  id,
-  completed
-){
-
-  await updateDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "goals",
-      id
-    ),
-    {
-      completed:!completed
-    }
-  );
-
-};
-
-
-window.deleteGoal = async function(id){
-
-  await deleteDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "goals",
-      id
-    )
-  );
-
-};
-
-
-/* =========================
-DAILY PLANNER
-========================= */
+/* PLANNER */
 
 function loadPlans(){
 
-  const ref =
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "plans"
-    );
+const ref=collection(db,"users",currentUser.uid,"plans");
 
-  unsubscribePlans =
-    onSnapshot(ref,snapshot => {
+unsubscribePlans=onSnapshot(ref,snapshot=>{
 
-      plans =
-        snapshot.docs.map(item => ({
-          id:item.id,
-          ...item.data()
-        }));
+plans=snapshot.docs.map(item=>({
+id:item.id,
+...item.data()
+}));
 
-      renderPlans();
+renderPlans();
 
-    });
+});
 
 }
 
+window.addPlan=async function(){
 
-window.addPlan = async function(){
+const text=document.getElementById("planInput").value.trim();
+const time=document.getElementById("planTime").value;
 
-  const text =
-    document.getElementById("planInput")
-      .value.trim();
+if(!text)return alert("Enter your plan");
 
-  const time =
-    document.getElementById("planTime").value;
+await addDoc(
+collection(db,"users",currentUser.uid,"plans"),
+{
+text,
+time,
+planDate:today(),
+completed:false,
+createdAt:Date.now()
+}
+);
 
-  if(!text)
-    return alert("Enter your plan");
-
-  await addDoc(
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "plans"
-    ),
-    {
-      text,
-      time,
-      planDate:today(),
-      completed:false,
-      createdAt:Date.now()
-    }
-  );
-
-  document.getElementById("planInput").value="";
-  document.getElementById("planTime").value="";
+document.getElementById("planInput").value="";
+document.getElementById("planTime").value="";
 
 };
 
+window.editPlan=async function(id){
 
-window.editPlan = async function(id){
+const plan=plans.find(p=>p.id===id);
+if(!plan)return;
 
-  const plan =
-    plans.find(p => p.id === id);
+const text=prompt("Edit plan",plan.text);
+if(text===null||!text.trim())return;
 
-  if(!plan)
-    return;
+const time=prompt("Edit time (HH:MM)",plan.time||"");
 
-  const text =
-    prompt(
-      "Edit plan",
-      plan.text
-    );
-
-  if(text === null || !text.trim())
-    return;
-
-  const time =
-    prompt(
-      "Edit time (HH:MM)",
-      plan.time || ""
-    );
-
-  await updateDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "plans",
-      id
-    ),
-    {
-      text:text.trim(),
-      time:time || ""
-    }
-  );
+await updateDoc(
+doc(db,"users",currentUser.uid,"plans",id),
+{
+text:text.trim(),
+time:time||""
+}
+);
 
 };
 
+window.togglePlan=async function(id,completed){
 
-window.togglePlan = async function(
-  id,
-  completed
-){
-
-  await updateDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "plans",
-      id
-    ),
-    {
-      completed:!completed
-    }
-  );
+await updateDoc(
+doc(db,"users",currentUser.uid,"plans",id),
+{completed:!completed}
+);
 
 };
 
+window.deletePlan=async function(id){
 
-window.deletePlan = async function(id){
-
-  await deleteDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "plans",
-      id
-    )
-  );
+await deleteDoc(
+doc(db,"users",currentUser.uid,"plans",id)
+);
 
 };
-
 
 function renderPlans(){
 
-  const list =
-    document.getElementById("planList");
+const list=document.getElementById("planList");
 
-  if(plans.length === 0){
+if(plans.length===0){
 
-    list.innerHTML =
-      `<div class="empty">No plans yet.</div>`;
+list.innerHTML=`<div class="empty">No plans yet.</div>`;
 
-  }else{
+}else{
 
-    list.innerHTML =
-      plans.map(p => `
+list.innerHTML=plans.map(p=>`
 
-      <div class="item">
+<div class="item">
 
-        <div class="item-main ${
-          p.completed ? "completed" : ""
-        }">
+<div class="item-main ${p.completed?"completed":""}">
 
-          <div class="item-title">
-            ${escapeHtml(p.text)}
-          </div>
+<div class="item-title">${escapeHtml(p.text)}</div>
 
-          <div class="item-info">
-            ${p.time || "No time"}
-            • ${p.planDate || ""}
-          </div>
+<div class="item-info">
+${p.time||"No time"} • ${p.planDate||""}
+</div>
 
-        </div>
+</div>
 
-        <div class="actions">
+<div class="actions">
 
-          <button
-            class="secondary"
-            onclick="editPlan('${p.id}')">
-            ✏️
-          </button>
+<button class="secondary"
+onclick="editPlan('${p.id}')">
+✏️
+</button>
 
-          <button
-            class="success"
-            onclick="togglePlan(
-              '${p.id}',
-              ${!!p.completed}
-            )">
+<button class="success"
+onclick="togglePlan('${p.id}',${!!p.completed})">
+${p.completed?"↩️":"☑️"}
+</button>
 
-            ${p.completed ? "↩️" : "☑️"}
+<button class="danger"
+onclick="deletePlan('${p.id}')">
+🗑️
+</button>
 
-          </button>
+</div>
 
-          <button
-            class="danger"
-            onclick="deletePlan('${p.id}')">
-            🗑️
-          </button>
+</div>
 
-        </div>
+`).join("");
 
-      </div>
+}
 
-    `).join("");
-
-  }
-
-  updateStats();
+updateStats();
 
 }
 
 
-/* =========================
-STUDY
-========================= */
+/* STUDY */
 
 function loadStudies(){
 
-  const ref =
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "studies"
-    );
+const ref=collection(db,"users",currentUser.uid,"studies");
 
-  unsubscribeStudies =
-    onSnapshot(ref,snapshot => {
+unsubscribeStudies=onSnapshot(ref,snapshot=>{
 
-      studies =
-        snapshot.docs.map(item => ({
-          id:item.id,
-          ...item.data()
-        }));
+studies=snapshot.docs.map(item=>({
+id:item.id,
+...item.data()
+}));
 
-      renderStudies();
+renderStudies();
 
-    });
+});
 
 }
 
+window.addStudy=async function(){
 
-window.addStudy = async function(){
+const subject=document.getElementById("studySubject").value.trim();
 
-  const subject =
-    document.getElementById("studySubject")
-      .value.trim();
+const hours=Number(
+document.getElementById("studyHours").value
+);
 
-  const hours =
-    Number(
-      document.getElementById("studyHours").value
-    );
+if(!subject)return alert("Enter subject");
+if(!hours||hours<=0)return alert("Enter valid hours");
 
-  if(!subject)
-    return alert("Enter subject");
+await addDoc(
+collection(db,"users",currentUser.uid,"studies"),
+{
+subject,
+hours,
+studyDate:today(),
+completed:false,
+createdAt:Date.now()
+}
+);
 
-  if(!hours || hours <= 0)
-    return alert("Enter valid hours");
-
-  await addDoc(
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "studies"
-    ),
-    {
-      subject,
-      hours,
-      studyDate:today(),
-      completed:false,
-      createdAt:Date.now()
-    }
-  );
-
-  document.getElementById("studySubject").value="";
-  document.getElementById("studyHours").value="";
+document.getElementById("studySubject").value="";
+document.getElementById("studyHours").value="";
 
 };
 
+window.toggleStudy=async function(id,completed){
 
-window.toggleStudy = async function(
-  id,
-  completed
-){
-
-  await updateDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "studies",
-      id
-    ),
-    {
-      completed:!completed
-    }
-  );
+await updateDoc(
+doc(db,"users",currentUser.uid,"studies",id),
+{completed:!completed}
+);
 
 };
 
+window.editStudy=async function(id){
 
-window.editStudy = async function(id){
+const study=studies.find(s=>s.id===id);
+if(!study)return;
 
-  const study =
-    studies.find(s => s.id === id);
+const subject=prompt("Subject",study.subject);
 
-  if(!study)
-    return;
+if(subject===null||!subject.trim())return;
 
-  const subject =
-    prompt(
-      "Subject",
-      study.subject
-    );
+const hours=prompt("Hours",study.hours);
 
-  if(
-    subject === null ||
-    !subject.trim()
-  )
-    return;
+if(hours===null)return;
 
-  const hours =
-    prompt(
-      "Hours",
-      study.hours
-    );
+const value=Number(hours);
 
-  if(hours === null)
-    return;
+if(!value||value<=0)return;
 
-  const value =
-    Number(hours);
-
-  if(!value || value <= 0)
-    return;
-
-  await updateDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "studies",
-      id
-    ),
-    {
-      subject:subject.trim(),
-      hours:value
-    }
-  );
+await updateDoc(
+doc(db,"users",currentUser.uid,"studies",id),
+{
+subject:subject.trim(),
+hours:value
+}
+);
 
 };
 
+window.deleteStudy=async function(id){
 
-window.deleteStudy = async function(id){
-
-  await deleteDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "studies",
-      id
-    )
-  );
+await deleteDoc(
+doc(db,"users",currentUser.uid,"studies",id)
+);
 
 };
-
 
 function renderStudies(){
 
-  const list =
-    document.getElementById("studyList");
+const list=document.getElementById("studyList");
 
-  const totalHours =
-    studies.reduce(
-      (sum,s) =>
-        sum + Number(s.hours || 0),
-      0
-    );
+const totalHours=studies.reduce(
+(sum,s)=>sum+Number(s.hours||0),0
+);
 
-  const completed =
-    studies.filter(
-      s => s.completed
-    ).length;
+const completed=studies.filter(s=>s.completed).length;
 
-  document.getElementById("studyTotalHours")
-    .textContent =
-    totalHours.toFixed(1);
+document.getElementById("studyTotalHours").textContent=
+totalHours.toFixed(1);
 
-  document.getElementById("studySessions")
-    .textContent =
-    studies.length;
+document.getElementById("studySessions").textContent=
+studies.length;
 
-  document.getElementById("studyCompleted")
-    .textContent =
-    completed;
+document.getElementById("studyCompleted").textContent=
+completed;
 
+if(studies.length===0){
 
-  if(studies.length === 0){
+list.innerHTML=
+`<div class="empty">No study sessions yet.</div>`;
 
-    list.innerHTML =
-      `<div class="empty">
-        No study sessions yet.
-      </div>`;
+}else{
 
-  }else{
+list.innerHTML=studies.map(s=>`
 
-    list.innerHTML =
-      studies.map(s => `
+<div class="item">
 
-      <div class="item">
+<div class="item-main ${s.completed?"completed":""}">
 
-        <div class="item-main ${
-          s.completed ? "completed" : ""
-        }">
+<div class="item-title">
+📖 ${escapeHtml(s.subject)}
+</div>
 
-          <div class="item-title">
-            📖 ${escapeHtml(s.subject)}
-          </div>
+<div class="item-info">
+${Number(s.hours).toFixed(1)} hours • ${s.studyDate||""}
+</div>
 
-          <div class="item-info">
-            ${Number(s.hours).toFixed(1)}
-            hours •
-            ${s.studyDate || ""}
-          </div>
+</div>
 
-        </div>
+<div class="actions">
 
-        <div class="actions">
+<button class="secondary"
+onclick="editStudy('${s.id}')">
+✏️
+</button>
 
-          <button
-            class="secondary"
-            onclick="editStudy('${s.id}')">
-            ✏️
-          </button>
+<button class="success"
+onclick="toggleStudy('${s.id}',${!!s.completed})">
+${s.completed?"↩️":"☑️"}
+</button>
 
-          <button
-            class="success"
-            onclick="toggleStudy(
-              '${s.id}',
-              ${!!s.completed}
-            )">
+<button class="danger"
+onclick="deleteStudy('${s.id}')">
+🗑️
+</button>
 
-            ${s.completed ? "↩️" : "☑️"}
+</div>
 
-          </button>
+</div>
 
-          <button
-            class="danger"
-            onclick="deleteStudy('${s.id}')">
-            🗑️
-          </button>
+`).join("");
 
-        </div>
+}
 
-      </div>
-
-    `).join("");
-
-  }
-
-  updateStats();
+updateStats();
 
 }
 
 
-/* =========================
-RUNNING
-========================= */
+/* RUNNING */
 
 function loadRuns(){
 
-  const ref =
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "runs"
-    );
+const ref=collection(db,"users",currentUser.uid,"runs");
 
-  unsubscribeRuns =
-    onSnapshot(ref,snapshot => {
+unsubscribeRuns=onSnapshot(ref,snapshot=>{
 
-      runs =
-        snapshot.docs.map(item => ({
-          id:item.id,
-          ...item.data()
-        }));
+runs=snapshot.docs.map(item=>({
+id:item.id,
+...item.data()
+}));
 
-      renderRuns();
+renderRuns();
 
-    });
+});
 
 }
 
+window.addRun=async function(){
 
-window.addRun = async function(){
+const distance=Number(
+document.getElementById("runDistance").value
+);
 
-  const distance =
-    Number(
-      document.getElementById("runDistance")
-        .value
-    );
+const time=document.getElementById("runTime").value.trim();
 
-  const time =
-    document.getElementById("runTime")
-      .value.trim();
+if(!distance||distance<=0)
+return alert("Enter valid distance");
 
-  if(!distance || distance <= 0)
-    return alert("Enter valid distance");
+if(!time)
+return alert("Enter time e.g. 6:03");
 
-  if(!time)
-    return alert("Enter time e.g. 6:03");
+if(!isValidTime(time))
+return alert("Time format should be MM:SS or H:MM:SS");
 
-  if(!isValidTime(time))
-    return alert(
-      "Time format should be MM:SS or H:MM:SS"
-    );
+await addDoc(
+collection(db,"users",currentUser.uid,"runs"),
+{
+distance,
+time,
+runDate:today(),
+completed:true,
+createdAt:Date.now()
+}
+);
 
-  await addDoc(
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "runs"
-    ),
-    {
-      distance,
-      time,
-      runDate:today(),
-      completed:true,
-      createdAt:Date.now()
-    }
-  );
-
-  document.getElementById("runDistance").value="";
-  document.getElementById("runTime").value="";
+document.getElementById("runDistance").value="";
+document.getElementById("runTime").value="";
 
 };
-
 
 function isValidTime(time){
 
-  const parts =
-    time.split(":");
+const parts=time.split(":");
 
-  if(
-    parts.length !== 2 &&
-    parts.length !== 3
-  )
-    return false;
+if(parts.length!==2&&parts.length!==3)
+return false;
 
-  const nums =
-    parts.map(Number);
+const nums=parts.map(Number);
 
-  if(
-    nums.some(
-      n => isNaN(n) || n < 0
-    )
-  )
-    return false;
+if(nums.some(n=>isNaN(n)||n<0))
+return false;
 
-  if(parts.length === 2)
-    return nums[1] < 60;
+if(parts.length===2)
+return nums[1]<60;
 
-  return nums[1] < 60 &&
-         nums[2] < 60;
+return nums[1]<60&&nums[2]<60;
 
 }
-
 
 function timeToSeconds(time){
 
-  const parts =
-    time.split(":").map(Number);
+const parts=time.split(":").map(Number);
 
-  if(parts.length === 2)
-    return parts[0] * 60 + parts[1];
+if(parts.length===2)
+return parts[0]*60+parts[1];
 
-  return parts[0] * 3600 +
-         parts[1] * 60 +
-         parts[2];
+return parts[0]*3600+parts[1]*60+parts[2];
 
 }
-
 
 function secondsToTime(seconds){
 
-  seconds =
-    Math.round(seconds);
+seconds=Math.round(seconds);
 
-  const hours =
-    Math.floor(seconds / 3600);
+const hours=Math.floor(seconds/3600);
 
-  seconds %= 3600;
+seconds%=3600;
 
-  const minutes =
-    Math.floor(seconds / 60);
+const minutes=Math.floor(seconds/60);
+const secs=seconds%60;
 
-  const secs =
-    seconds % 60;
+if(hours>0)
+return `${hours}:${String(minutes).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
 
-  if(hours > 0){
-
-    return `${hours}:${String(minutes)
-      .padStart(2,"0")}:${String(secs)
-      .padStart(2,"0")}`;
-
-  }
-
-  return `${minutes}:${String(secs)
-    .padStart(2,"0")}`;
+return `${minutes}:${String(secs).padStart(2,"0")}`;
 
 }
 
+function calculatePace(distance,time){
 
-function calculatePace(
-  distance,
-  time
-){
+const seconds=timeToSeconds(time);
 
-  const seconds =
-    timeToSeconds(time);
+if(!distance)return 0;
 
-  if(!distance)
-    return 0;
-
-  return seconds / distance;
+return seconds/distance;
 
 }
-
 
 function renderRuns(){
 
-  const list =
-    document.getElementById("runList");
+const list=document.getElementById("runList");
 
-  const totalKm =
-    runs.reduce(
-      (sum,r) =>
-        sum + Number(r.distance || 0),
-      0
-    );
+const totalKm=runs.reduce(
+(sum,r)=>sum+Number(r.distance||0),0
+);
 
-  document.getElementById("runTotalKm")
-    .textContent =
-    totalKm.toFixed(2);
+document.getElementById("runTotalKm").textContent=
+totalKm.toFixed(2);
 
-  document.getElementById("runSessions")
-    .textContent =
-    runs.length;
+document.getElementById("runSessions").textContent=
+runs.length;
 
+if(runs.length===0){
 
-  if(runs.length === 0){
+document.getElementById("runBestTime").textContent="--";
+document.getElementById("runAvgPace").textContent="--";
 
-    document.getElementById("runBestTime")
-      .textContent = "--";
+list.innerHTML=
+`<div class="empty">No runs recorded yet.</div>`;
 
-    document.getElementById("runAvgPace")
-      .textContent = "--";
-
-    list.innerHTML =
-      `<div class="empty">
-        No runs recorded yet.
-      </div>`;
-
-    updateStats();
-
-    return;
-
-  }
-
-
-  const best =
-    [...runs].sort(
-      (a,b) =>
-        timeToSeconds(a.time) -
-        timeToSeconds(b.time)
-    )[0];
-
-  document.getElementById("runBestTime")
-    .textContent =
-    best.time;
-
-
-  const totalSeconds =
-    runs.reduce(
-      (sum,r) =>
-        sum + timeToSeconds(r.time),
-      0
-    );
-
-  const avgPace =
-    totalKm > 0
-      ? totalSeconds / totalKm
-      : 0;
-
-  document.getElementById("runAvgPace")
-    .textContent =
-    secondsToTime(avgPace) + "/km";
-
-
-  list.innerHTML =
-    runs.map(r => {
-
-      const pace =
-        secondsToTime(
-          calculatePace(
-            r.distance,
-            r.time
-          )
-        );
-
-      return `
-
-      <div class="item">
-
-        <div class="item-main">
-
-          <div class="item-title">
-            🏃
-            ${Number(r.distance).toFixed(2)}
-            KM
-          </div>
-
-          <div class="item-info">
-            ⏱️ ${escapeHtml(r.time)}
-            • Pace ${pace}/km
-            • ${r.runDate || ""}
-          </div>
-
-        </div>
-
-        <div class="actions">
-
-          <button
-            class="secondary"
-            onclick="editRun('${r.id}')">
-            ✏️
-          </button>
-
-          <button
-            class="danger"
-            onclick="deleteRun('${r.id}')">
-            🗑️
-          </button>
-
-        </div>
-
-      </div>
-
-      `;
-
-    }).join("");
-
-  updateStats();
+updateStats();
+return;
 
 }
 
+const best=[...runs].sort(
+(a,b)=>timeToSeconds(a.time)-timeToSeconds(b.time)
+)[0];
 
-window.editRun = async function(id){
+document.getElementById("runBestTime").textContent=best.time;
 
-  const run =
-    runs.find(r => r.id === id);
+const totalSeconds=runs.reduce(
+(sum,r)=>sum+timeToSeconds(r.time),0
+);
 
-  if(!run)
-    return;
+const avgPace=totalKm>0?totalSeconds/totalKm:0;
 
-  const distance =
-    prompt(
-      "Distance (KM)",
-      run.distance
-    );
+document.getElementById("runAvgPace").textContent=
+secondsToTime(avgPace)+"/km";
 
-  if(distance === null)
-    return;
+list.innerHTML=runs.map(r=>{
 
-  const d =
-    Number(distance);
+const pace=secondsToTime(
+calculatePace(r.distance,r.time)
+);
 
-  if(!d || d <= 0)
-    return;
+return `
 
-  const time =
-    prompt(
-      "Time e.g. 6:03",
-      run.time
-    );
+<div class="item">
 
-  if(time === null)
-    return;
+<div class="item-main">
 
-  if(!isValidTime(time))
-    return alert("Invalid time format");
+<div class="item-title">
+🏃 ${Number(r.distance).toFixed(2)} KM
+</div>
 
-  await updateDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "runs",
-      id
-    ),
-    {
-      distance:d,
-      time:time.trim()
-    }
-  );
+<div class="item-info">
+⏱️ ${escapeHtml(r.time)}
+• Pace ${pace}/km
+• ${r.runDate||""}
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="secondary"
+onclick="editRun('${r.id}')">
+✏️
+</button>
+
+<button class="danger"
+onclick="deleteRun('${r.id}')">
+🗑️
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+updateStats();
+
+}
+
+window.editRun=async function(id){
+
+const run=runs.find(r=>r.id===id);
+if(!run)return;
+
+const distance=prompt("Distance (KM)",run.distance);
+
+if(distance===null)return;
+
+const d=Number(distance);
+
+if(!d||d<=0)return;
+
+const time=prompt("Time e.g. 6:03",run.time);
+
+if(time===null)return;
+
+if(!isValidTime(time))
+return alert("Invalid time format");
+
+await updateDoc(
+doc(db,"users",currentUser.uid,"runs",id),
+{
+distance:d,
+time:time.trim()
+}
+);
+
+};
+
+window.deleteRun=async function(id){
+
+await deleteDoc(
+doc(db,"users",currentUser.uid,"runs",id)
+);
 
 };
 
 
-window.deleteRun = async function(id){
-
-  await deleteDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "runs",
-      id
-    )
-  );
-
-};
-
-
-/* =========================
-MONEY
-========================= */
+/* MONEY */
 
 function loadMoney(){
 
-  const ref =
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "money"
-    );
+const ref=collection(db,"users",currentUser.uid,"money");
 
-  unsubscribeMoney =
-    onSnapshot(ref,snapshot => {
+unsubscribeMoney=onSnapshot(ref,snapshot=>{
 
-      money =
-        snapshot.docs.map(item => ({
-          id:item.id,
-          ...item.data()
-        }));
+money=snapshot.docs.map(item=>({
+id:item.id,
+...item.data()
+}));
 
-      renderMoney();
+renderMoney();
 
-    });
+});
 
 }
 
+window.addMoney=async function(){
 
-window.addMoney = async function(){
+const type=document.getElementById("moneyType").value;
 
-  const type =
-    document.getElementById("moneyType").value;
+const amount=Number(
+document.getElementById("moneyAmount").value
+);
 
-  const amount =
-    Number(
-      document.getElementById("moneyAmount").value
-    );
+const note=document.getElementById("moneyNote").value.trim();
 
-  const note =
-    document.getElementById("moneyNote")
-      .value.trim();
+if(!amount||amount<=0)
+return alert("Enter valid amount");
 
-  if(!amount || amount <= 0)
-    return alert("Enter valid amount");
+await addDoc(
+collection(db,"users",currentUser.uid,"money"),
+{
+type,
+amount,
+note,
+moneyDate:today(),
+createdAt:Date.now()
+}
+);
 
-  await addDoc(
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "money"
-    ),
-    {
-      type,
-      amount,
-      note,
-      moneyDate:today(),
-      createdAt:Date.now()
-    }
-  );
-
-  document.getElementById("moneyAmount").value="";
-  document.getElementById("moneyNote").value="";
+document.getElementById("moneyAmount").value="";
+document.getElementById("moneyNote").value="";
 
 };
 
+window.deleteMoney=async function(id){
 
-window.deleteMoney = async function(id){
-
-  await deleteDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "money",
-      id
-    )
-  );
+await deleteDoc(
+doc(db,"users",currentUser.uid,"money",id)
+);
 
 };
-
 
 function renderMoney(){
 
-  const list =
-    document.getElementById("moneyList");
+const list=document.getElementById("moneyList");
 
-  let income = 0;
-  let expense = 0;
+let income=0;
+let expense=0;
 
-  money.forEach(m => {
+money.forEach(m=>{
 
-    if(m.type === "income")
-      income += Number(m.amount || 0);
+if(m.type==="income")
+income+=Number(m.amount||0);
 
-    if(m.type === "expense")
-      expense += Number(m.amount || 0);
+if(m.type==="expense")
+expense+=Number(m.amount||0);
 
-  });
+});
 
-  const balance =
-    income - expense;
+const balance=income-expense;
 
-  document.getElementById("totalIncome")
-    .textContent =
-    "₹" + income.toFixed(2);
+document.getElementById("totalIncome").textContent=
+"₹"+income.toFixed(2);
 
-  document.getElementById("totalExpense")
-    .textContent =
-    "₹" + expense.toFixed(2);
+document.getElementById("totalExpense").textContent=
+"₹"+expense.toFixed(2);
 
-  document.getElementById("moneyBalance")
-    .textContent =
-    "₹" + balance.toFixed(2);
+document.getElementById("moneyBalance").textContent=
+"₹"+balance.toFixed(2);
 
+if(money.length===0){
 
-  if(money.length === 0){
+list.innerHTML=
+`<div class="empty">No money records yet.</div>`;
 
-    list.innerHTML =
-      `<div class="empty">
-        No money records yet.
-      </div>`;
+}else{
 
-  }else{
+list.innerHTML=money.map(m=>`
 
-    list.innerHTML =
-      money.map(m => `
+<div class="item">
 
-      <div class="item">
+<div class="item-main">
 
-        <div class="item-main">
+<div class="item-title">
+${m.type==="income"?"💵 Income":"💸 Expense"}
+₹${Number(m.amount).toFixed(2)}
+</div>
 
-          <div class="item-title">
+<div class="item-info">
+${escapeHtml(m.note||"No note")} • ${m.moneyDate||""}
+</div>
 
-            ${
-              m.type === "income"
-              ? "💵 Income"
-              : "💸 Expense"
-            }
+</div>
 
-            ₹${Number(m.amount).toFixed(2)}
+<div class="actions">
 
-          </div>
+<button class="danger"
+onclick="deleteMoney('${m.id}')">
+🗑️
+</button>
 
-          <div class="item-info">
+</div>
 
-            ${escapeHtml(m.note || "No note")}
-            • ${m.moneyDate || ""}
+</div>
 
-          </div>
+`).join("");
 
-        </div>
+}
 
-        <div class="actions">
-
-          <button
-            class="danger"
-            onclick="deleteMoney('${m.id}')">
-            🗑️
-          </button>
-
-        </div>
-
-      </div>
-
-    `).join("");
-
-  }
-
-  updateStats();
+updateStats();
 
 }
 
 
-/* =========================
-JOBS
-========================= */
+/* JOBS */
 
 function loadJobs(){
 
-  const ref =
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "jobs"
-    );
+const ref=collection(db,"users",currentUser.uid,"jobs");
 
-  unsubscribeJobs =
-    onSnapshot(ref,snapshot => {
+unsubscribeJobs=onSnapshot(ref,snapshot=>{
 
-      jobs =
-        snapshot.docs.map(item => ({
-          id:item.id,
-          ...item.data()
-        }));
+jobs=snapshot.docs.map(item=>({
+id:item.id,
+...item.data()
+}));
 
-      renderJobs();
+renderJobs();
 
-    });
+});
 
 }
 
+window.addJob=async function(){
 
-window.addJob = async function(){
+const company=document.getElementById("jobCompany").value.trim();
+const role=document.getElementById("jobRole").value.trim();
 
-  const company =
-    document.getElementById("jobCompany")
-      .value.trim();
+if(!company)return alert("Enter company");
+if(!role)return alert("Enter job role");
 
-  const role =
-    document.getElementById("jobRole")
-      .value.trim();
+await addDoc(
+collection(db,"users",currentUser.uid,"jobs"),
+{
+company,
+role,
+status:"Applied",
+applicationDate:today(),
+createdAt:Date.now()
+}
+);
 
-  if(!company)
-    return alert("Enter company");
-
-  if(!role)
-    return alert("Enter job role");
-
-  await addDoc(
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "jobs"
-    ),
-    {
-      company,
-      role,
-      status:"Applied",
-      applicationDate:today(),
-      createdAt:Date.now()
-    }
-  );
-
-  document.getElementById("jobCompany").value="";
-  document.getElementById("jobRole").value="";
+document.getElementById("jobCompany").value="";
+document.getElementById("jobRole").value="";
 
 };
 
+window.editJob=async function(id){
 
-window.editJob = async function(id){
+const job=jobs.find(j=>j.id===id);
+if(!job)return;
 
-  const job =
-    jobs.find(j => j.id === id);
+const status=prompt(
+"Status: Applied / Interview / Selected / Rejected",
+job.status
+);
 
-  if(!job)
-    return;
+if(status===null)return;
 
-  const status =
-    prompt(
-      "Status: Applied / Interview / Selected / Rejected",
-      job.status
-    );
-
-  if(status === null)
-    return;
-
-  await updateDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "jobs",
-      id
-    ),
-    {
-      status:status.trim()
-    }
-  );
+await updateDoc(
+doc(db,"users",currentUser.uid,"jobs",id),
+{status:status.trim()}
+);
 
 };
 
+window.deleteJob=async function(id){
 
-window.deleteJob = async function(id){
-
-  await deleteDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "jobs",
-      id
-    )
-  );
+await deleteDoc(
+doc(db,"users",currentUser.uid,"jobs",id)
+);
 
 };
-
 
 function renderJobs(){
 
-  const list =
-    document.getElementById("jobList");
+const list=document.getElementById("jobList");
 
-  document.getElementById("jobApplications")
-    .textContent =
-    jobs.length;
+document.getElementById("jobApplications").textContent=
+jobs.length;
 
+if(jobs.length===0){
 
-  if(jobs.length === 0){
+list.innerHTML=
+`<div class="empty">No job applications yet.</div>`;
 
-    list.innerHTML =
-      `<div class="empty">
-        No job applications yet.
-      </div>`;
+}else{
 
-  }else{
+list.innerHTML=jobs.map(j=>`
 
-    list.innerHTML =
-      jobs.map(j => `
+<div class="item">
 
-      <div class="item">
+<div class="item-main">
 
-        <div class="item-main">
+<div class="item-title">
+💼 ${escapeHtml(j.company)}
+</div>
 
-          <div class="item-title">
-            💼 ${escapeHtml(j.company)}
-          </div>
+<div class="item-info">
+${escapeHtml(j.role)}
+• Status: ${escapeHtml(j.status)}
+• ${j.applicationDate||""}
+</div>
 
-          <div class="item-info">
-            ${escapeHtml(j.role)}
-            • Status: ${escapeHtml(j.status)}
-            • ${j.applicationDate || ""}
-          </div>
+</div>
 
-        </div>
+<div class="actions">
 
-        <div class="actions">
+<button class="secondary"
+onclick="editJob('${j.id}')">
+✏️
+</button>
 
-          <button
-            class="secondary"
-            onclick="editJob('${j.id}')">
-            ✏️
-          </button>
+<button class="danger"
+onclick="deleteJob('${j.id}')">
+🗑️
+</button>
 
-          <button
-            class="danger"
-            onclick="deleteJob('${j.id}')">
-            🗑️
-          </button>
+</div>
 
-        </div>
+</div>
 
-      </div>
+`).join("");
 
-    `).join("");
+}
 
-  }
-
-  updateStats();
+updateStats();
 
 }
 
 
-/* =========================
-DAILY DIARY
-========================= */
+/* DIARY */
 
 function loadDiaries(){
 
-  const ref =
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "diary"
-    );
+const ref=collection(db,"users",currentUser.uid,"diary");
 
-  unsubscribeDiaries =
-    onSnapshot(ref,snapshot => {
+unsubscribeDiaries=onSnapshot(ref,snapshot=>{
 
-      diaries =
-        snapshot.docs.map(item => ({
-          id:item.id,
-          ...item.data()
-        }));
+diaries=snapshot.docs.map(item=>({
+id:item.id,
+...item.data()
+}));
 
-      renderDiaries();
+renderDiaries();
 
-    });
+});
 
 }
 
+window.addDiary=async function(){
 
-window.addDiary = async function(){
+const diaryDate=document.getElementById("diaryDate").value;
 
-  const diaryDate =
-    document.getElementById("diaryDate").value;
+const rating=Number(
+document.getElementById("diaryRating").value
+);
 
-  const rating =
-    Number(
-      document.getElementById("diaryRating").value
-    );
+const work=document.getElementById("diaryWork").value.trim();
+const learned=document.getElementById("diaryLearned").value.trim();
+const thoughts=document.getElementById("diaryThoughts").value.trim();
 
-  const work =
-    document.getElementById("diaryWork")
-      .value.trim();
+if(!diaryDate)return alert("Select date");
+if(!work)return alert("Write what you did today");
 
-  const learned =
-    document.getElementById("diaryLearned")
-      .value.trim();
+await addDoc(
+collection(db,"users",currentUser.uid,"diary"),
+{
+diaryDate,
+rating,
+work,
+learned,
+thoughts,
+createdAt:Date.now()
+}
+);
 
-  const thoughts =
-    document.getElementById("diaryThoughts")
-      .value.trim();
-
-
-  if(!diaryDate)
-    return alert("Select date");
-
-  if(!work)
-    return alert("Write what you did today");
-
-
-  await addDoc(
-    collection(
-      db,
-      "users",
-      currentUser.uid,
-      "diary"
-    ),
-    {
-      diaryDate,
-      rating,
-      work,
-      learned,
-      thoughts,
-      createdAt:Date.now()
-    }
-  );
-
-
-  document.getElementById("diaryWork").value="";
-  document.getElementById("diaryLearned").value="";
-  document.getElementById("diaryThoughts").value="";
+document.getElementById("diaryWork").value="";
+document.getElementById("diaryLearned").value="";
+document.getElementById("diaryThoughts").value="";
 
 };
 
+window.editDiary=async function(id){
 
-window.editDiary = async function(id){
+const diary=diaries.find(d=>d.id===id);
+if(!diary)return;
 
-  const diary =
-    diaries.find(d => d.id === id);
+const work=prompt("What did you do?",diary.work||"");
+if(work===null)return;
 
-  if(!diary)
-    return;
+const learned=prompt("What did you learn?",diary.learned||"");
+if(learned===null)return;
 
+const thoughts=prompt("Thoughts / Feelings",diary.thoughts||"");
+if(thoughts===null)return;
 
-  const work =
-    prompt(
-      "What did you do?",
-      diary.work || ""
-    );
+const rating=prompt("Day rating (1-5)",diary.rating||5);
+if(rating===null)return;
 
-  if(work === null)
-    return;
+let value=Number(rating);
 
+if(isNaN(value))value=5;
 
-  const learned =
-    prompt(
-      "What did you learn?",
-      diary.learned || ""
-    );
+value=Math.max(1,Math.min(5,value));
 
-  if(learned === null)
-    return;
-
-
-  const thoughts =
-    prompt(
-      "Thoughts / Feelings",
-      diary.thoughts || ""
-    );
-
-  if(thoughts === null)
-    return;
-
-
-  const rating =
-    prompt(
-      "Day rating (1-5)",
-      diary.rating || 5
-    );
-
-  if(rating === null)
-    return;
-
-
-  let value =
-    Number(rating);
-
-  if(isNaN(value))
-    value = 5;
-
-  value =
-    Math.max(
-      1,
-      Math.min(5,value)
-    );
-
-
-  await updateDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "diary",
-      id
-    ),
-    {
-      work:work.trim(),
-      learned:learned.trim(),
-      thoughts:thoughts.trim(),
-      rating:value
-    }
-  );
+await updateDoc(
+doc(db,"users",currentUser.uid,"diary",id),
+{
+work:work.trim(),
+learned:learned.trim(),
+thoughts:thoughts.trim(),
+rating:value
+}
+);
 
 };
 
+window.deleteDiary=async function(id){
 
-window.deleteDiary = async function(id){
-
-  await deleteDoc(
-    doc(
-      db,
-      "users",
-      currentUser.uid,
-      "diary",
-      id
-    )
-  );
+await deleteDoc(
+doc(db,"users",currentUser.uid,"diary",id)
+);
 
 };
-
 
 function renderDiaries(){
 
-  const list =
-    document.getElementById("diaryList");
+const list=document.getElementById("diaryList");
 
+if(diaries.length===0){
 
-  if(diaries.length === 0){
+list.innerHTML=
+`<div class="empty">No diary entries yet.</div>`;
 
-    list.innerHTML =
-      `<div class="empty">
-        No diary entries yet.
-      </div>`;
+updateStats();
+return;
 
-    updateStats();
+}
 
-    return;
+const sorted=[...diaries].sort(
+(a,b)=>String(b.diaryDate||"").localeCompare(String(a.diaryDate||""))
+);
 
-  }
+list.innerHTML=sorted.map(d=>`
 
+<div class="item">
 
-  const sorted =
-    [...diaries].sort(
-      (a,b) =>
-        String(b.diaryDate || "")
-          .localeCompare(
-            String(a.diaryDate || "")
-          )
-    );
+<div class="item-main">
 
+<div class="item-title">
 
-  list.innerHTML =
-    sorted.map(d => `
+📖 ${escapeHtml(d.diaryDate||"")}
+•
+${"⭐".repeat(
+Math.max(1,Math.min(5,Number(d.rating||1)))
+)}
 
-      <div class="item">
+</div>
 
-        <div class="item-main">
+<div class="item-info" style="margin-top:10px">
+<strong>📝 What I did:</strong><br>
+${escapeHtml(d.work||"Not written")}
+</div>
 
-          <div class="item-title">
+<div class="item-info" style="margin-top:10px">
+<strong>🎯 What I learned:</strong><br>
+${escapeHtml(d.learned||"Not written")}
+</div>
 
-            📖 ${escapeHtml(d.diaryDate || "")}
+<div class="item-info" style="margin-top:10px">
+<strong>💭 Thoughts:</strong><br>
+${escapeHtml(d.thoughts||"Not written")}
+</div>
 
-            •
+</div>
 
-            ${"⭐".repeat(
-              Math.max(
-                1,
-                Math.min(
-                  5,
-                  Number(d.rating || 1)
-                )
-              )
-            )}
+<div class="actions">
 
-          </div>
+<button class="secondary"
+onclick="editDiary('${d.id}')">
+✏️
+</button>
 
+<button class="danger"
+onclick="deleteDiary('${d.id}')">
+🗑️
+</button>
 
-          <div class="item-info"
-               style="margin-top:10px">
+</div>
 
-            <strong>📝 What I did:</strong><br>
+</div>
 
-            ${escapeHtml(d.work || "Not written")}
+`).join("");
 
-          </div>
-
-
-          <div class="item-info"
-               style="margin-top:10px">
-
-            <strong>🎯 What I learned:</strong><br>
-
-            ${escapeHtml(d.learned || "Not written")}
-
-          </div>
-
-
-          <div class="item-info"
-               style="margin-top:10px">
-
-            <strong>💭 Thoughts:</strong><br>
-
-            ${escapeHtml(d.thoughts || "Not written")}
-
-          </div>
-
-        </div>
-
-
-        <div class="actions">
-
-          <button
-            class="secondary"
-            onclick="editDiary('${d.id}')">
-
-            ✏️
-
-          </button>
-
-
-          <button
-            class="danger"
-            onclick="deleteDiary('${d.id}')">
-
-            🗑️
-
-          </button>
-
-        </div>
-
-      </div>
-
-    `).join("");
-
-  updateStats();
+updateStats();
 
 }
 
 
-/* =========================
-STREAK TRACKER
-========================= */
+/* STREAK */
 
 function updateStreak(){
 
-  const dates = new Set();
+const dates=new Set();
 
+tasks.forEach(t=>{
+if(t.completed&&t.createdAt)
+dates.add(new Date(t.createdAt).toISOString().split("T")[0]);
+});
 
-  /* TASKS */
+plans.forEach(p=>{
+if(p.completed&&p.planDate)dates.add(p.planDate);
+});
 
-  tasks.forEach(t => {
+studies.forEach(s=>{
+if(s.studyDate)dates.add(s.studyDate);
+});
 
-    if(t.completed && t.createdAt){
+runs.forEach(r=>{
+if(r.runDate)dates.add(r.runDate);
+});
 
-      const date =
-        new Date(t.createdAt)
-          .toISOString()
-          .split("T")[0];
+diaries.forEach(d=>{
+if(d.diaryDate)dates.add(d.diaryDate);
+});
 
-      dates.add(date);
+const sortedDates=Array.from(dates).sort();
 
-    }
+const activeDays=sortedDates.length;
 
-  });
+let bestStreak=0;
+let streak=0;
 
+for(let i=0;i<sortedDates.length;i++){
 
-  /* PLANS */
+if(i===0){
 
-  plans.forEach(p => {
+streak=1;
 
-    if(p.completed && p.planDate){
+}else{
 
-      dates.add(p.planDate);
+const previous=new Date(sortedDates[i-1]);
+const current=new Date(sortedDates[i]);
 
-    }
+const difference=Math.round(
+(current-previous)/(1000*60*60*24)
+);
 
-  });
+if(difference===1)streak++;
+else streak=1;
 
+}
 
-  /* STUDY */
+if(streak>bestStreak)bestStreak=streak;
 
-  studies.forEach(s => {
+}
 
-    if(s.studyDate){
+const todayDate=today();
 
-      dates.add(s.studyDate);
+let currentStreak=0;
 
-    }
+if(sortedDates.includes(todayDate)){
 
-  });
+currentStreak=1;
 
+for(let i=sortedDates.length-1;i>0;i--){
 
-  /* RUNNING */
+const current=new Date(sortedDates[i]);
+const previous=new Date(sortedDates[i-1]);
 
-  runs.forEach(r => {
+const difference=Math.round(
+(current-previous)/(1000*60*60*24)
+);
 
-    if(r.runDate){
+if(difference===1)currentStreak++;
+else break;
 
-      dates.add(r.runDate);
+}
 
-    }
+}
 
-  });
+document.getElementById("currentStreak").textContent=
+currentStreak+" days";
 
+document.getElementById("bestStreak").textContent=
+bestStreak+" days";
 
-  /* DIARY */
+document.getElementById("activeDays").textContent=
+activeDays;
 
-  diaries.forEach(d => {
+const message=document.getElementById("streakMessage");
 
-    if(d.diaryDate){
-
-      dates.add(d.diaryDate);
-
-    }
-
-  });
-
-
-  const sortedDates =
-    Array.from(dates).sort();
-
-
-  const activeDays =
-    sortedDates.length;
-
-
-  let bestStreak = 0;
-  let streak = 0;
-
-
-  for(let i = 0; i < sortedDates.length; i++){
-
-    if(i === 0){
-
-      streak = 1;
-
-    }else{
-
-      const previous =
-        new Date(sortedDates[i - 1]);
-
-      const current =
-        new Date(sortedDates[i]);
-
-      const difference =
-        Math.round(
-          (current - previous) /
-          (1000 * 60 * 60 * 24)
-        );
-
-
-      if(difference === 1){
-
-        streak++;
-
-      }else{
-
-        streak = 1;
-
-      }
-
-    }
-
-
-    if(streak > bestStreak){
-
-      bestStreak = streak;
-
-    }
-
-  }
-
-
-  const todayDate =
-    today();
-
-
-  let currentStreak = 0;
-
-
-  if(sortedDates.includes(todayDate)){
-
-    currentStreak = 1;
-
-
-    for(
-      let i = sortedDates.length - 1;
-      i > 0;
-      i--
-    ){
-
-      const current =
-        new Date(sortedDates[i]);
-
-      const previous =
-        new Date(sortedDates[i - 1]);
-
-
-      const difference =
-        Math.round(
-          (current - previous) /
-          (1000 * 60 * 60 * 24)
-        );
-
-
-      if(difference === 1){
-
-        currentStreak++;
-
-      }else{
-
-        break;
-
-      }
-
-    }
-
-  }
-
-
-  const currentElement =
-    document.getElementById("currentStreak");
-
-  const bestElement =
-    document.getElementById("bestStreak");
-
-  const activeElement =
-    document.getElementById("activeDays");
-
-  const messageElement =
-    document.getElementById("streakMessage");
-
-
-  if(currentElement)
-    currentElement.textContent =
-      currentStreak + " days";
-
-
-  if(bestElement)
-    bestElement.textContent =
-      bestStreak + " days";
-
-
-  if(activeElement)
-    activeElement.textContent =
-      activeDays;
-
-
-  if(messageElement){
-
-    if(currentStreak >= 7){
-
-      messageElement.textContent =
-        "🔥 7+ day streak! Keep building your life.";
-
-    }else if(currentStreak > 0){
-
-      messageElement.textContent =
-        "🔥 Keep going! Don't break the streak.";
-
-    }else{
-
-      messageElement.textContent =
-        "Start your streak today 🚀";
-
-    }
-
-  }
+if(currentStreak>=7)
+message.textContent="🔥 7+ day streak! Keep building your life.";
+else if(currentStreak>0)
+message.textContent="🔥 Keep going! Don't break the streak.";
+else
+message.textContent="Start your streak today 🚀";
 
 }
 
 
-/* =========================
-DASHBOARD STATS
-========================= */
+/* GRAPHS */
+
+let studyChart=null;
+let runChart=null;
+let lifeChart=null;
+
+function getLast7Dates(){
+
+const dates=[];
+
+for(let i=6;i>=0;i--){
+
+const d=new Date();
+
+d.setDate(d.getDate()-i);
+
+dates.push(d.toISOString().split("T")[0]);
+
+}
+
+return dates;
+
+}
+
+function formatChartDate(date){
+
+const d=new Date(date+"T00:00:00");
+
+return d.toLocaleDateString("en-IN",{
+day:"2-digit",
+month:"short"
+});
+
+}
+
+function updateCharts(){
+
+if(typeof Chart==="undefined")return;
+
+const dates=getLast7Dates();
+
+const labels=dates.map(formatChartDate);
+
+
+/* STUDY DATA */
+
+const studyData=dates.map(date=>{
+
+return studies
+.filter(s=>s.studyDate===date)
+.reduce((sum,s)=>sum+Number(s.hours||0),0);
+
+});
+
+
+if(studyChart)studyChart.destroy();
+
+studyChart=new Chart(
+document.getElementById("studyChart"),
+{
+type:"bar",
+data:{
+labels,
+datasets:[
+{
+label:"Study Hours",
+data:studyData,
+borderWidth:1
+}
+]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+scales:{
+y:{
+beginAtZero:true,
+title:{
+display:true,
+text:"Hours"
+}
+}
+}
+}
+}
+);
+
+
+/* RUNNING DATA */
+
+const runData=dates.map(date=>{
+
+return runs
+.filter(r=>r.runDate===date)
+.reduce((sum,r)=>sum+Number(r.distance||0),0);
+
+});
+
+
+if(runChart)runChart.destroy();
+
+runChart=new Chart(
+document.getElementById("runChart"),
+{
+type:"line",
+data:{
+labels,
+datasets:[
+{
+label:"Running KM",
+data:runData,
+borderWidth:2,
+tension:.3,
+fill:false
+}
+]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+scales:{
+y:{
+beginAtZero:true,
+title:{
+display:true,
+text:"KM"
+}
+}
+}
+}
+}
+);
+
+
+/* LIFE SCORE */
+
+const scoreText=
+document.getElementById("lifeScore").textContent;
+
+const score=
+Number(scoreText.replace("%",""))||0;
+
+if(lifeChart)lifeChart.destroy();
+
+lifeChart=new Chart(
+document.getElementById("lifeChart"),
+{
+type:"doughnut",
+data:{
+labels:["Completed","Remaining"],
+datasets:[
+{
+data:[score,100-score],
+borderWidth:0
+}
+]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+cutout:"65%",
+plugins:{
+legend:{
+position:"bottom"
+}
+}
+}
+}
+);
+
+}
+
+
+/* DASHBOARD STATS */
 
 function updateStats(){
 
-  /* TASK STATS */
+const completedTasks=
+tasks.filter(t=>t.completed).length;
 
-  const completedTasks =
-    tasks.filter(t => t.completed).length;
+const totalTasks=tasks.length;
 
-  const totalTasks =
-    tasks.length;
+const taskPercent=
+totalTasks>0?
+Math.round((completedTasks/totalTasks)*100):0;
 
-  const taskPercent =
-    totalTasks > 0
-      ? Math.round(
-          (completedTasks / totalTasks) * 100
-        )
-      : 0;
+document.getElementById("taskStat").textContent=
+completedTasks+"/"+totalTasks;
 
 
-  document.getElementById("taskStat")
-    .textContent =
-    completedTasks + "/" + totalTasks;
+const completedGoals=
+goals.filter(g=>g.completed).length;
 
+const totalGoals=goals.length;
 
-  /* GOAL STATS */
+const goalPercent=
+totalGoals>0?
+Math.round((completedGoals/totalGoals)*100):0;
 
-  const completedGoals =
-    goals.filter(g => g.completed).length;
+document.getElementById("goalStat").textContent=
+completedGoals+"/"+totalGoals;
 
-  const totalGoals =
-    goals.length;
 
-  const goalPercent =
-    totalGoals > 0
-      ? Math.round(
-          (completedGoals / totalGoals) * 100
-        )
-      : 0;
+const totalStudy=
+studies.reduce(
+(sum,s)=>sum+Number(s.hours||0),0
+);
 
+document.getElementById("studyHourStat").textContent=
+totalStudy.toFixed(1);
 
-  document.getElementById("goalStat")
-    .textContent =
-    completedGoals + "/" + totalGoals;
 
+const totalKm=
+runs.reduce(
+(sum,r)=>sum+Number(r.distance||0),0
+);
 
-  /* STUDY STATS */
+document.getElementById("totalKmStat").textContent=
+totalKm.toFixed(2);
 
-  const totalStudy =
-    studies.reduce(
-      (sum,s) =>
-        sum + Number(s.hours || 0),
-      0
-    );
 
+let income=0;
+let expense=0;
 
-  document.getElementById("studyHourStat")
-    .textContent =
-    totalStudy.toFixed(1);
+money.forEach(m=>{
 
+if(m.type==="income")
+income+=Number(m.amount||0);
 
-  /* RUNNING STATS */
+if(m.type==="expense")
+expense+=Number(m.amount||0);
 
-  const totalKm =
-    runs.reduce(
-      (sum,r) =>
-        sum + Number(r.distance || 0),
-      0
-    );
+});
 
+const balance=income-expense;
 
-  document.getElementById("totalKmStat")
-    .textContent =
-    totalKm.toFixed(2);
 
+const studyScore=totalStudy>0?100:0;
+const runningScore=totalKm>0?100:0;
+const diaryScore=diaries.length>0?100:0;
 
-  /* MONEY STATS */
+const lifeScore=Math.round(
+(
+taskPercent+
+goalPercent+
+studyScore+
+runningScore+
+diaryScore
+)/5
+);
 
-  let income = 0;
-  let expense = 0;
+document.getElementById("lifeScore").textContent=
+lifeScore+"%";
 
+document.getElementById("statsTasks").textContent=
+taskPercent+"%";
 
-  money.forEach(m => {
+document.getElementById("statsGoals").textContent=
+goalPercent+"%";
 
-    if(m.type === "income")
-      income += Number(m.amount || 0);
+document.getElementById("statsDiary").textContent=
+diaries.length;
 
-    if(m.type === "expense")
-      expense += Number(m.amount || 0);
+document.getElementById("taskProgressBar").style.width=
+taskPercent+"%";
 
-  });
+document.getElementById("goalProgressBar").style.width=
+goalPercent+"%";
 
+document.getElementById("taskProgressText").textContent=
+completedTasks+" / "+totalTasks+" completed";
 
-  const balance =
-    income - expense;
+document.getElementById("goalProgressText").textContent=
+completedGoals+" / "+totalGoals+" completed";
 
+document.getElementById("statsStudyText").textContent=
+totalStudy.toFixed(1)+" hours studied";
 
-  /* LIFE SCORE */
+document.getElementById("statsRunText").textContent=
+totalKm.toFixed(2)+" KM completed";
 
-  const studyScore =
-    totalStudy > 0 ? 100 : 0;
+document.getElementById("statsMoneyText").textContent=
+"Income ₹"+income.toFixed(2)+
+" • Expense ₹"+expense.toFixed(2)+
+" • Balance ₹"+balance.toFixed(2);
 
-  const runningScore =
-    totalKm > 0 ? 100 : 0;
+document.getElementById("statsJobText").textContent=
+jobs.length+" job applications";
 
-  const diaryScore =
-    diaries.length > 0 ? 100 : 0;
-
-
-  const lifeScore =
-    Math.round(
-      (
-        taskPercent +
-        goalPercent +
-        studyScore +
-        runningScore +
-        diaryScore
-      ) / 5
-    );
-
-
-  /* STATISTICS */
-
-  const lifeScoreElement =
-    document.getElementById("lifeScore");
-
-  if(lifeScoreElement)
-    lifeScoreElement.textContent =
-      lifeScore + "%";
-
-
-  const statsTasks =
-    document.getElementById("statsTasks");
-
-  if(statsTasks)
-    statsTasks.textContent =
-      taskPercent + "%";
-
-
-  const statsGoals =
-    document.getElementById("statsGoals");
-
-  if(statsGoals)
-    statsGoals.textContent =
-      goalPercent + "%";
-
-
-  const statsDiary =
-    document.getElementById("statsDiary");
-
-  if(statsDiary)
-    statsDiary.textContent =
-      diaries.length;
-
-
-  /* PROGRESS BARS */
-
-  const taskBar =
-    document.getElementById("taskProgressBar");
-
-  if(taskBar)
-    taskBar.style.width =
-      taskPercent + "%";
-
-
-  const goalBar =
-    document.getElementById("goalProgressBar");
-
-  if(goalBar)
-    goalBar.style.width =
-      goalPercent + "%";
-
-
-  const taskText =
-    document.getElementById("taskProgressText");
-
-  if(taskText)
-    taskText.textContent =
-      completedTasks +
-      " / " +
-      totalTasks +
-      " completed";
-
-
-  const goalText =
-    document.getElementById("goalProgressText");
-
-  if(goalText)
-    goalText.textContent =
-      completedGoals +
-      " / " +
-      totalGoals +
-      " completed";
-
-
-  /* OTHER STATISTICS */
-
-  const statsStudyText =
-    document.getElementById("statsStudyText");
-
-  if(statsStudyText)
-    statsStudyText.textContent =
-      totalStudy.toFixed(1) +
-      " hours studied";
-
-
-  const statsRunText =
-    document.getElementById("statsRunText");
-
-  if(statsRunText)
-    statsRunText.textContent =
-      totalKm.toFixed(2) +
-      " KM completed";
-
-
-  const statsMoneyText =
-    document.getElementById("statsMoneyText");
-
-  if(statsMoneyText)
-    statsMoneyText.textContent =
-      "Income ₹" +
-      income.toFixed(2) +
-      " • Expense ₹" +
-      expense.toFixed(2) +
-      " • Balance ₹" +
-      balance.toFixed(2);
-
-
-  const statsJobText =
-    document.getElementById("statsJobText");
-
-  if(statsJobText)
-    statsJobText.textContent =
-      jobs.length +
-      " job applications";
-
-
-  /* UPDATE STREAK */
-
-  updateStreak();
+updateStreak();
+updateCharts();
 
 }
 
 
-/* =========================
-ENTER KEY
-========================= */
+/* ENTER KEY */
 
-document.getElementById("taskInput")
-.addEventListener("keydown",e => {
-
-  if(e.key === "Enter")
-    addTask();
-
+document.getElementById("taskInput").addEventListener("keydown",e=>{
+if(e.key==="Enter")addTask();
 });
 
-
-document.getElementById("goalInput")
-.addEventListener("keydown",e => {
-
-  if(e.key === "Enter")
-    addGoal();
-
+document.getElementById("goalInput").addEventListener("keydown",e=>{
+if(e.key==="Enter")addGoal();
 });
 
-
-document.getElementById("planInput")
-.addEventListener("keydown",e => {
-
-  if(e.key === "Enter")
-    addPlan();
-
+document.getElementById("planInput").addEventListener("keydown",e=>{
+if(e.key==="Enter")addPlan();
 });
 
-
-document.getElementById("studySubject")
-.addEventListener("keydown",e => {
-
-  if(e.key === "Enter")
-    addStudy();
-
+document.getElementById("studySubject").addEventListener("keydown",e=>{
+if(e.key==="Enter")addStudy();
 });
 
-
-document.getElementById("runDistance")
-.addEventListener("keydown",e => {
-
-  if(e.key === "Enter")
-    addRun();
-
+document.getElementById("runDistance").addEventListener("keydown",e=>{
+if(e.key==="Enter")addRun();
 });
 
-
-document.getElementById("runTime")
-.addEventListener("keydown",e => {
-
-  if(e.key === "Enter")
-    addRun();
-
+document.getElementById("runTime").addEventListener("keydown",e=>{
+if(e.key==="Enter")addRun();
 });
 
-
-document.getElementById("moneyAmount")
-.addEventListener("keydown",e => {
-
-  if(e.key === "Enter")
-    addMoney();
-
+document.getElementById("moneyAmount").addEventListener("keydown",e=>{
+if(e.key==="Enter")addMoney();
 });
 
-
-document.getElementById("jobCompany")
-.addEventListener("keydown",e => {
-
-  if(e.key === "Enter")
-    addJob();
-
+document.getElementById("jobCompany").addEventListener("keydown",e=>{
+if(e.key==="Enter")addJob();
 });
 
 </script>
