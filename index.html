@@ -4907,5 +4907,188 @@ function updateMonthlyReport() {
   document.getElementById("monthlyScoreText").textContent =
     monthlyScore + " / 100";
 }
+</script><!-- MONTHLY PROGRESS HISTORY -->
+<section class="card">
+  <h2>📊 Monthly Progress History</h2>
+  <p>Track your Life OS progress month by month.</p>
+
+  <div style="height:320px;">
+    <canvas id="monthlyHistoryChart"></canvas>
+  </div>
+
+  <button onclick="updateMonthlyHistory()">
+    🔄 Update Monthly History
+  </button>
+</section>
+
+<script>
+let monthlyHistoryChart = null;
+
+function updateMonthlyHistory() {
+
+  const now = new Date();
+
+  const labels = [];
+  const studyData = [];
+  const runData = [];
+  const taskData = [];
+
+  /*
+    Show the current month and previous
+    5 months.
+  */
+
+  for(let i = 5; i >= 0; i--) {
+
+    const d = new Date(
+      now.getFullYear(),
+      now.getMonth() - i,
+      1
+    );
+
+    const year = d.getFullYear();
+    const month = d.getMonth();
+
+    const label = d.toLocaleString("en-US", {
+      month: "short"
+    }) + " " + year;
+
+    labels.push(label);
+
+    let study = 0;
+    let run = 0;
+    let tasks = 0;
+
+    // STUDY
+    if(typeof studyRecords !== "undefined") {
+
+      studyRecords.forEach(item => {
+
+        if(!item.studyDate) return;
+
+        const x = new Date(
+          item.studyDate + "T00:00:00"
+        );
+
+        if(
+          x.getFullYear() === year &&
+          x.getMonth() === month
+        ) {
+          study += Number(item.hours) || 0;
+        }
+
+      });
+    }
+
+    // RUNNING
+    if(typeof runRecords !== "undefined") {
+
+      runRecords.forEach(item => {
+
+        if(!item.runDate) return;
+
+        const x = new Date(
+          item.runDate + "T00:00:00"
+        );
+
+        if(
+          x.getFullYear() === year &&
+          x.getMonth() === month
+        ) {
+          run += Number(item.distance) || 0;
+        }
+
+      });
+    }
+
+    // TASKS
+    if(typeof tasks !== "undefined") {
+
+      tasks.forEach(item => {
+
+        if(!item.completed || !item.createdAt)
+          return;
+
+        const x = new Date(item.createdAt);
+
+        if(
+          x.getFullYear() === year &&
+          x.getMonth() === month
+        ) {
+          tasks++;
+        }
+
+      });
+    }
+
+    studyData.push(Number(study.toFixed(1)));
+    runData.push(Number(run.toFixed(1)));
+    taskData.push(tasks);
+  }
+
+  const canvas =
+    document.getElementById("monthlyHistoryChart");
+
+  if(!canvas) return;
+
+  if(monthlyHistoryChart) {
+    monthlyHistoryChart.destroy();
+  }
+
+  monthlyHistoryChart = new Chart(canvas, {
+
+    type: "line",
+
+    data: {
+
+      labels: labels,
+
+      datasets: [
+
+        {
+          label: "Study Hours",
+          data: studyData,
+          tension: 0.3
+        },
+
+        {
+          label: "Running KM",
+          data: runData,
+          tension: 0.3
+        },
+
+        {
+          label: "Completed Tasks",
+          data: taskData,
+          tension: 0.3
+        }
+
+      ]
+    },
+
+    options: {
+
+      responsive: true,
+
+      maintainAspectRatio: false,
+
+      plugins: {
+        legend: {
+          display: true
+        }
+      },
+
+      scales: {
+
+        y: {
+          beginAtZero: true
+        }
+
+      }
+
+    }
+
+  });
+}
 </script>
 </html>
