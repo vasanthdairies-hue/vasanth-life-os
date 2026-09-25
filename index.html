@@ -2840,21 +2840,51 @@ DASHBOARD STATS
 
 function updateStats(){
 
+  /* =====================
+     TASK STATS
+  ===================== */
+
   const completedTasks =
     tasks.filter(t => t.completed).length;
 
+  const totalTasks =
+    tasks.length;
+
+  const taskPercent =
+    totalTasks > 0
+      ? Math.round((completedTasks / totalTasks) * 100)
+      : 0;
+
+
   document.getElementById("taskStat")
     .textContent =
-    completedTasks + "/" + tasks.length;
+    completedTasks + "/" + totalTasks;
 
+
+  /* =====================
+     GOAL STATS
+  ===================== */
 
   const completedGoals =
     goals.filter(g => g.completed).length;
 
+  const totalGoals =
+    goals.length;
+
+  const goalPercent =
+    totalGoals > 0
+      ? Math.round((completedGoals / totalGoals) * 100)
+      : 0;
+
+
   document.getElementById("goalStat")
     .textContent =
-    completedGoals + "/" + goals.length;
+    completedGoals + "/" + totalGoals;
 
+
+  /* =====================
+     STUDY STATS
+  ===================== */
 
   const totalStudy =
     studies.reduce(
@@ -2863,10 +2893,15 @@ function updateStats(){
       0
     );
 
+
   document.getElementById("studyHourStat")
     .textContent =
     totalStudy.toFixed(1);
 
+
+  /* =====================
+     RUNNING STATS
+  ===================== */
 
   const totalKm =
     runs.reduce(
@@ -2875,12 +2910,183 @@ function updateStats(){
       0
     );
 
+
   document.getElementById("totalKmStat")
     .textContent =
     totalKm.toFixed(2);
 
-}
 
+  /* =====================
+     MONEY STATS
+  ===================== */
+
+  let income = 0;
+  let expense = 0;
+
+
+  money.forEach(m => {
+
+    if(m.type === "income")
+      income += Number(m.amount || 0);
+
+    if(m.type === "expense")
+      expense += Number(m.amount || 0);
+
+  });
+
+
+  const balance =
+    income - expense;
+
+
+  /* =====================
+     LIFE SCORE
+  ===================== */
+
+  const studyScore =
+    totalStudy > 0 ? 100 : 0;
+
+  const runningScore =
+    totalKm > 0 ? 100 : 0;
+
+  const diaryScore =
+    diaries.length > 0 ? 100 : 0;
+
+
+  const lifeScore =
+    Math.round(
+      (
+        taskPercent +
+        goalPercent +
+        studyScore +
+        runningScore +
+        diaryScore
+      ) / 5
+    );
+
+
+  /* =====================
+     UPDATE STATISTICS
+  ===================== */
+
+  const lifeScoreElement =
+    document.getElementById("lifeScore");
+
+  if(lifeScoreElement)
+    lifeScoreElement.textContent =
+      lifeScore + "%";
+
+
+  const statsTasks =
+    document.getElementById("statsTasks");
+
+  if(statsTasks)
+    statsTasks.textContent =
+      taskPercent + "%";
+
+
+  const statsGoals =
+    document.getElementById("statsGoals");
+
+  if(statsGoals)
+    statsGoals.textContent =
+      goalPercent + "%";
+
+
+  const statsDiary =
+    document.getElementById("statsDiary");
+
+  if(statsDiary)
+    statsDiary.textContent =
+      diaries.length;
+
+
+  /* =====================
+     PROGRESS BARS
+  ===================== */
+
+  const taskBar =
+    document.getElementById("taskProgressBar");
+
+  if(taskBar)
+    taskBar.style.width =
+      taskPercent + "%";
+
+
+  const goalBar =
+    document.getElementById("goalProgressBar");
+
+  if(goalBar)
+    goalBar.style.width =
+      goalPercent + "%";
+
+
+  const taskText =
+    document.getElementById("taskProgressText");
+
+  if(taskText)
+    taskText.textContent =
+      completedTasks +
+      " / " +
+      totalTasks +
+      " completed";
+
+
+  const goalText =
+    document.getElementById("goalProgressText");
+
+  if(goalText)
+    goalText.textContent =
+      completedGoals +
+      " / " +
+      totalGoals +
+      " completed";
+
+
+  /* =====================
+     OTHER STATISTICS
+  ===================== */
+
+  const statsStudyText =
+    document.getElementById("statsStudyText");
+
+  if(statsStudyText)
+    statsStudyText.textContent =
+      totalStudy.toFixed(1) +
+      " hours studied";
+
+
+  const statsRunText =
+    document.getElementById("statsRunText");
+
+  if(statsRunText)
+    statsRunText.textContent =
+      totalKm.toFixed(2) +
+      " KM completed";
+
+
+  const statsMoneyText =
+    document.getElementById("statsMoneyText");
+
+  if(statsMoneyText)
+    statsMoneyText.textContent =
+      "Income ₹" +
+      income.toFixed(2) +
+      " • Expense ₹" +
+      expense.toFixed(2) +
+      " • Balance ₹" +
+      balance.toFixed(2);
+
+
+  const statsJobText =
+    document.getElementById("statsJobText");
+
+  if(statsJobText)
+    statsJobText.textContent =
+      jobs.length +
+      " job applications";
+
+}
 
 /* =========================
 ENTER KEY
