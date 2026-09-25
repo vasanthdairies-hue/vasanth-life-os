@@ -6063,4 +6063,115 @@ function updateDailyReminder() {
   ).textContent = reminder;
 }
 </script>
+<!-- DATA BACKUP & EXPORT -->
+<section class="card">
+  <h2>💾 Data Backup & Export</h2>
+  <p>Download a backup of your Life OS data.</p>
+
+  <button onclick="exportLifeOSData()">
+    📥 Download My Backup
+  </button>
+
+  <p id="backupStatus"></p>
+</section>
+
+<script>
+function exportLifeOSData() {
+
+  const backup = {
+    backupDate: new Date().toISOString(),
+
+    tasks:
+      typeof tasks !== "undefined"
+        ? tasks
+        : [],
+
+    goals:
+      typeof goals !== "undefined"
+        ? goals
+        : [],
+
+    plans:
+      typeof plans !== "undefined"
+        ? plans
+        : [],
+
+    study:
+      typeof studyRecords !== "undefined"
+        ? studyRecords
+        : [],
+
+    running:
+      typeof runRecords !== "undefined"
+        ? runRecords
+        : [],
+
+    money:
+      typeof moneyRecords !== "undefined"
+        ? moneyRecords
+        : [],
+
+    jobs:
+      typeof jobRecords !== "undefined"
+        ? jobRecords
+        : [],
+
+    diary:
+      typeof diaryRecords !== "undefined"
+        ? diaryRecords
+        : [],
+
+    targets:
+      typeof targets !== "undefined"
+        ? targets
+        : {}
+  };
+
+  const jsonData =
+    JSON.stringify(
+      backup,
+      null,
+      2
+    );
+
+  const blob =
+    new Blob(
+      [jsonData],
+      {
+        type: "application/json"
+      }
+    );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const link =
+    document.createElement("a");
+
+  const date =
+    new Date()
+      .toISOString()
+      .split("T")[0];
+
+  link.href = url;
+
+  link.download =
+    "vasanth-life-os-backup-" +
+    date +
+    ".json";
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  document.body.removeChild(link);
+
+  URL.revokeObjectURL(url);
+
+  document.getElementById(
+    "backupStatus"
+  ).textContent =
+    "✅ Backup downloaded successfully.";
+}
+</script>
 </html>
