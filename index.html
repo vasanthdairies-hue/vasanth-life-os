@@ -5091,4 +5091,222 @@ function updateMonthlyHistory() {
   });
 }
 </script>
+<!-- PERSONAL ACHIEVEMENTS -->
+<section class="card">
+  <h2>🏅 Personal Achievements</h2>
+  <p id="achievementSummary">Keep building. Your milestones will unlock automatically.</p>
+
+  <div id="achievementGrid" class="stats-grid"></div>
+</section>
+
+<script>
+function updateAchievements() {
+
+  let completedTasks = 0;
+  let totalStudy = 0;
+  let totalRun = 0;
+  let maxStreak = 0;
+  let completedTargets = 0;
+  let totalIncome = 0;
+
+  // TASKS
+  if(typeof tasks !== "undefined") {
+    tasks.forEach(item => {
+      if(item.completed) {
+        completedTasks++;
+      }
+    });
+  }
+
+  // STUDY
+  if(typeof studyRecords !== "undefined") {
+    studyRecords.forEach(item => {
+      totalStudy += Number(item.hours) || 0;
+    });
+  }
+
+  // RUNNING
+  if(typeof runRecords !== "undefined") {
+    runRecords.forEach(item => {
+      totalRun += Number(item.distance) || 0;
+    });
+  }
+
+  // INCOME
+  if(typeof moneyRecords !== "undefined") {
+    moneyRecords.forEach(item => {
+      if(item.type === "income") {
+        totalIncome += Number(item.amount) || 0;
+      }
+    });
+  }
+
+  // TARGETS
+  if(typeof targets !== "undefined") {
+    Object.values(targets).forEach(item => {
+
+      if(
+        Number(item.taskTarget) > 0 &&
+        Number(item.taskActual || 0) >= Number(item.taskTarget)
+      ) {
+        completedTargets++;
+      }
+
+      if(
+        Number(item.studyTarget) > 0 &&
+        Number(item.studyActual || 0) >= Number(item.studyTarget)
+      ) {
+        completedTargets++;
+      }
+
+      if(
+        Number(item.runTarget) > 0 &&
+        Number(item.runActual || 0) >= Number(item.runTarget)
+      ) {
+        completedTargets++;
+      }
+
+      if(
+        Number(item.incomeTarget) > 0 &&
+        Number(item.incomeActual || 0) >= Number(item.incomeTarget)
+      ) {
+        completedTargets++;
+      }
+
+    });
+  }
+
+  // STREAK
+  if(typeof currentStreak !== "undefined") {
+    maxStreak = Number(currentStreak) || 0;
+  }
+
+  const achievements = [
+
+    {
+      icon: "🥇",
+      title: "100 Tasks",
+      requirement: "Complete 100 tasks",
+      value: completedTasks,
+      target: 100
+    },
+
+    {
+      icon: "📚",
+      title: "50 Study Hours",
+      requirement: "Study for 50 total hours",
+      value: totalStudy,
+      target: 50
+    },
+
+    {
+      icon: "🏃",
+      title: "100 KM Runner",
+      requirement: "Run 100 total KM",
+      value: totalRun,
+      target: 100
+    },
+
+    {
+      icon: "🔥",
+      title: "7 Day Streak",
+      requirement: "Reach a 7 day streak",
+      value: maxStreak,
+      target: 7
+    },
+
+    {
+      icon: "🎯",
+      title: "10 Targets",
+      requirement: "Complete 10 targets",
+      value: completedTargets,
+      target: 10
+    },
+
+    {
+      icon: "💰",
+      title: "₹10,000 Income",
+      requirement: "Track ₹10,000 income",
+      value: totalIncome,
+      target: 10000
+    }
+
+  ];
+
+  const grid =
+    document.getElementById("achievementGrid");
+
+  if(!grid) return;
+
+  grid.innerHTML = "";
+
+  let unlocked = 0;
+
+  achievements.forEach(a => {
+
+    const isUnlocked =
+      Number(a.value) >= Number(a.target);
+
+    if(isUnlocked) {
+      unlocked++;
+    }
+
+    const percentage = Math.min(
+      100,
+      Math.round(
+        (Number(a.value) / Number(a.target)) * 100
+      )
+    );
+
+    const box = document.createElement("div");
+
+    box.className = "stat-box";
+
+    box.style.opacity =
+      isUnlocked ? "1" : "0.65";
+
+    box.innerHTML = `
+
+      <div style="font-size:32px;">
+        ${isUnlocked ? "🏆" : a.icon}
+      </div>
+
+      <h3>
+        ${a.title}
+      </h3>
+
+      <p>
+        ${isUnlocked ? "UNLOCKED 🎉" : a.requirement}
+      </p>
+
+      <div class="progress-bar">
+
+        <div
+          class="progress-fill"
+          style="width:${percentage}%">
+        </div>
+
+      </div>
+
+      <small>
+        ${Number(a.value).toFixed(
+          Number(a.value) % 1 === 0 ? 0 : 1
+        )}
+        / ${a.target}
+      </small>
+
+    `;
+
+    grid.appendChild(box);
+  });
+
+  document.getElementById(
+    "achievementSummary"
+  ).textContent =
+    unlocked +
+    " / " +
+    achievements.length +
+    " achievements unlocked. Keep going! 🚀";
+}
+</script>
 </html>
