@@ -5642,4 +5642,75 @@ function updateSmartDashboard() {
   }
 }
 </script>
+<!-- QUICK ACTIONS -->
+<section class="card">
+  <h2>⚡ Quick Actions</h2>
+  <p>Jump directly to the section you need.</p>
+
+  <div class="stats-grid">
+
+    <button onclick="quickGo('Task')">
+      ➕ Add Task
+    </button>
+
+    <button onclick="quickGo('Study')">
+      📚 Add Study
+    </button>
+
+    <button onclick="quickGo('Running')">
+      🏃 Add Run
+    </button>
+
+    <button onclick="quickGo('Money')">
+      💰 Add Money
+    </button>
+
+    <button onclick="quickGo('Diary')">
+      📔 Add Diary
+    </button>
+
+    <button onclick="quickGo('Goals & Targets')">
+      🎯 Set Targets
+    </button>
+
+  </div>
+</section>
+
+<script>
+function quickGo(searchText) {
+
+  const headings = document.querySelectorAll("h1, h2, h3");
+
+  let found = null;
+
+  headings.forEach(heading => {
+
+    if(found) return;
+
+    const text =
+      heading.textContent
+        .toLowerCase()
+        .trim();
+
+    if(text.includes(searchText.toLowerCase())) {
+      found = heading;
+    }
+  });
+
+  if(found) {
+
+    found.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  } else {
+
+    alert(
+      searchText +
+      " section not found."
+    );
+  }
+}
+</script>
 </html>
