@@ -9297,5 +9297,883 @@ function lifeOSFormatSearchResult(item) {
 <!-- =========================================================
      END XP + ACHIEVEMENT SYSTEM
      ========================================================= -->
+<!-- =========================================================
+     📅 LIFE ACTIVITY CALENDAR + HEATMAP
+     ========================================================= -->
+
+<style>
+
+.life-calendar{
+  margin-top:18px;
+  padding:18px;
+  background:#111a2e;
+  border:1px solid #293550;
+  border-radius:16px;
+}
+
+.calendar-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.calendar-title{
+  font-size:20px;
+  font-weight:700;
+}
+
+.calendar-nav{
+  display:flex;
+  gap:8px;
+}
+
+.calendar-nav button{
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.calendar-weekdays,
+.calendar-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:7px;
+}
+
+.calendar-weekdays{
+  margin-bottom:7px;
+}
+
+.calendar-weekday{
+  text-align:center;
+  font-size:12px;
+  color:#8995ae;
+  padding:6px 0;
+}
+
+.calendar-day{
+  min-height:52px;
+  border-radius:9px;
+  background:#0c1425;
+  border:1px solid #202d46;
+  padding:7px;
+  cursor:pointer;
+  transition:.2s;
+  position:relative;
+}
+
+.calendar-day:hover{
+  transform:translateY(-2px);
+  border-color:#4f7cff;
+}
+
+.calendar-day.empty{
+  background:transparent;
+  border-color:transparent;
+  cursor:default;
+}
+
+.calendar-number{
+  font-size:12px;
+  color:#b9c3d8;
+}
+
+.calendar-score{
+  margin-top:7px;
+  font-size:11px;
+  color:#8f9bb5;
+}
+
+.calendar-day.activity-low{
+  background:#17243b;
+}
+
+.calendar-day.activity-medium{
+  background:#203b5c;
+}
+
+.calendar-day.activity-high{
+  background:#28557a;
+}
+
+.calendar-day.today{
+  outline:2px solid #4f7cff;
+}
+
+.calendar-legend{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
+  color:#9da8c2;
+  font-size:12px;
+}
+
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.legend-box{
+  width:14px;
+  height:14px;
+  border-radius:4px;
+}
+
+.activity-details{
+  margin-top:18px;
+  padding:16px;
+  border-radius:13px;
+  background:#17223c;
+  border:1px solid #293550;
+  line-height:1.7;
+}
+
+.activity-details h3{
+  margin:0 0 8px 0;
+}
+
+.calendar-month-total{
+  margin-top:15px;
+  color:#aeb8cf;
+  font-size:14px;
+}
+
+@media(max-width:500px){
+
+  .calendar-day{
+    min-height:44px;
+    padding:5px;
+  }
+
+  .calendar-score{
+    font-size:9px;
+  }
+
+  .calendar-weekday{
+    font-size:10px;
+  }
+
+}
+
+</style>
+
+
+<section class="card" id="lifeCalendarSection">
+
+  <h2>📅 Life Activity Calendar</h2>
+
+  <p class="analytics-note">
+    See your daily consistency and activity at a glance.
+  </p>
+
+
+  <div class="life-calendar">
+
+    <div class="calendar-header">
+
+      <div
+        id="calendarMonthTitle"
+        class="calendar-title">
+        Month
+      </div>
+
+      <div class="calendar-nav">
+
+        <button
+          onclick="changeLifeCalendarMonth(-1)">
+          ◀
+        </button>
+
+        <button
+          onclick="changeLifeCalendarMonth(1)">
+          ▶
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="calendarWeekdays"
+      class="calendar-weekdays">
+    </div>
+
+
+    <div
+      id="lifeCalendarGrid"
+      class="calendar-grid">
+    </div>
+
+
+    <div
+      id="calendarMonthTotal"
+      class="calendar-month-total">
+    </div>
+
+
+    <div class="calendar-legend">
+
+      <div class="legend-item">
+        <span
+          class="legend-box"
+          style="background:#0c1425;">
+        </span>
+        No activity
+      </div>
+
+      <div class="legend-item">
+        <span
+          class="legend-box"
+          style="background:#17243b;">
+        </span>
+        Low
+      </div>
+
+      <div class="legend-item">
+        <span
+          class="legend-box"
+          style="background:#203b5c;">
+        </span>
+        Medium
+      </div>
+
+      <div class="legend-item">
+        <span
+          class="legend-box"
+          style="background:#28557a;">
+        </span>
+        High
+      </div>
+
+    </div>
+
+
+    <div
+      id="activityDetails"
+      class="activity-details">
+
+      <h3>📌 Select a date</h3>
+
+      <p>
+        Click any date to see that day's activity.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<script>
+
+(function(){
+
+  let calendarDate = new Date();
+
+
+  function arr(name){
+
+    try{
+
+      const value = window[name];
+
+      return Array.isArray(value)
+        ? value
+        : [];
+
+    }catch(e){
+
+      return [];
+
+    }
+
+  }
+
+
+  function num(value){
+
+    const n = Number(value);
+
+    return Number.isFinite(n)
+      ? n
+      : 0;
+
+  }
+
+
+  function dateKey(value){
+
+    if(!value) return "";
+
+    try{
+
+      return new Date(value)
+        .toISOString()
+        .split("T")[0];
+
+    }catch(e){
+
+      return "";
+
+    }
+
+  }
+
+
+  function todayKey(){
+
+    return new Date()
+      .toISOString()
+      .split("T")[0];
+
+  }
+
+
+  function makeKey(year,month,day){
+
+    return (
+      year +
+      "-" +
+      String(month+1).padStart(2,"0") +
+      "-" +
+      String(day).padStart(2,"0")
+    );
+
+  }
+
+
+  function getActivity(){
+
+    const tasks = arr("tasks");
+    const studies = arr("studies");
+    const runs = arr("runs");
+    const diaries = arr("diaries");
+    const plans = arr("plans");
+
+
+    const activity = {};
+
+
+    function ensure(date){
+
+      if(!date) return;
+
+      if(!activity[date]){
+
+        activity[date]={
+          tasks:0,
+          completedTasks:0,
+          study:0,
+          run:0,
+          diary:0,
+          plans:0,
+          score:0
+        };
+
+      }
+
+    }
+
+
+    /* TASKS */
+
+    tasks.forEach(t=>{
+
+      const d=dateKey(t.createdAt);
+
+      if(!d) return;
+
+      ensure(d);
+
+      activity[d].tasks++;
+
+      if(t.completed){
+
+        activity[d].completedTasks++;
+
+      }
+
+    });
+
+
+    /* STUDY */
+
+    studies.forEach(s=>{
+
+      const d=
+        s.studyDate ||
+        dateKey(s.createdAt);
+
+      if(!d) return;
+
+      ensure(d);
+
+      activity[d].study +=
+        num(
+          s.hours ??
+          s.studyHours ??
+          s.duration
+        );
+
+    });
+
+
+    /* RUNNING */
+
+    runs.forEach(r=>{
+
+      const d=
+        r.runDate ||
+        dateKey(r.createdAt);
+
+      if(!d) return;
+
+      ensure(d);
+
+      activity[d].run +=
+        num(
+          r.distance ??
+          r.km ??
+          r.kilometers
+        );
+
+    });
+
+
+    /* DIARY */
+
+    diaries.forEach(diary=>{
+
+      const d=
+        diary.diaryDate ||
+        diary.date ||
+        dateKey(diary.createdAt);
+
+      if(!d) return;
+
+      ensure(d);
+
+      activity[d].diary++;
+
+    });
+
+
+    /* PLANS */
+
+    plans.forEach(plan=>{
+
+      const d=
+        plan.planDate ||
+        plan.date ||
+        dateKey(plan.createdAt);
+
+      if(!d) return;
+
+      ensure(d);
+
+      activity[d].plans++;
+
+    });
+
+
+    /*
+       SCORE
+       1 point = any activity
+       Extra points for study/run/tasks.
+    */
+
+    Object.keys(activity).forEach(d=>{
+
+      const a=activity[d];
+
+      let score=0;
+
+      if(a.tasks>0)
+        score+=1;
+
+      if(a.completedTasks>0)
+        score+=2;
+
+      if(a.study>0)
+        score+=2;
+
+      if(a.run>0)
+        score+=2;
+
+      if(a.diary>0)
+        score+=1;
+
+      if(a.plans>0)
+        score+=1;
+
+      a.score=score;
+
+    });
+
+
+    return activity;
+
+  }
+
+
+  function activityClass(score){
+
+    if(score<=0)
+      return "";
+
+    if(score<=2)
+      return "activity-low";
+
+    if(score<=5)
+      return "activity-medium";
+
+    return "activity-high";
+
+  }
+
+
+  function showDayDetails(date){
+
+    const activity=
+      getActivity();
+
+    const a=
+      activity[date] || {
+        tasks:0,
+        completedTasks:0,
+        study:0,
+        run:0,
+        diary:0,
+        plans:0,
+        score:0
+      };
+
+
+    const element=
+      document.getElementById(
+        "activityDetails"
+      );
+
+
+    const dateObject=
+      new Date(
+        date+"T00:00:00"
+      );
+
+
+    const readable=
+      dateObject.toLocaleDateString(
+        undefined,
+        {
+          weekday:"long",
+          day:"numeric",
+          month:"long",
+          year:"numeric"
+        }
+      );
+
+
+    element.innerHTML=`
+
+      <h3>📌 ${readable}</h3>
+
+      <p>
+        📝 Tasks:
+        <strong>
+          ${a.completedTasks}/${a.tasks}
+        </strong>
+      </p>
+
+      <p>
+        📚 Study:
+        <strong>
+          ${a.study.toFixed(1)} hrs
+        </strong>
+      </p>
+
+      <p>
+        🏃 Running:
+        <strong>
+          ${a.run.toFixed(1)} km
+        </strong>
+      </p>
+
+      <p>
+        📔 Diary entries:
+        <strong>
+          ${a.diary}
+        </strong>
+      </p>
+
+      <p>
+        📅 Plans:
+        <strong>
+          ${a.plans}
+        </strong>
+      </p>
+
+      <p>
+        ⭐ Activity score:
+        <strong>
+          ${a.score}
+        </strong>
+      </p>
+
+    `;
+
+  }
+
+
+  window.changeLifeCalendarMonth=
+    function(amount){
+
+      calendarDate.setMonth(
+        calendarDate.getMonth()+amount
+      );
+
+      renderCalendar();
+
+    };
+
+
+  window.renderCalendar=function(){
+
+    const grid=
+      document.getElementById(
+        "lifeCalendarGrid"
+      );
+
+
+    const weekdays=
+      document.getElementById(
+        "calendarWeekdays"
+      );
+
+
+    if(!grid || !weekdays)
+      return;
+
+
+    grid.innerHTML="";
+    weekdays.innerHTML="";
+
+
+    const names=[
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat"
+    ];
+
+
+    names.forEach(name=>{
+
+      const div=
+        document.createElement("div");
+
+      div.className=
+        "calendar-weekday";
+
+      div.textContent=name;
+
+      weekdays.appendChild(div);
+
+    });
+
+
+    const year=
+      calendarDate.getFullYear();
+
+    const month=
+      calendarDate.getMonth();
+
+
+    document.getElementById(
+      "calendarMonthTitle"
+    ).textContent=
+      calendarDate.toLocaleDateString(
+        undefined,
+        {
+          month:"long",
+          year:"numeric"
+        }
+      );
+
+
+    const firstDay=
+      new Date(
+        year,
+        month,
+        1
+      ).getDay();
+
+
+    const daysInMonth=
+      new Date(
+        year,
+        month+1,
+        0
+      ).getDate();
+
+
+    const activity=
+      getActivity();
+
+
+    /* EMPTY CELLS */
+
+    for(
+      let i=0;
+      i<firstDay;
+      i++
+    ){
+
+      const empty=
+        document.createElement("div");
+
+      empty.className=
+        "calendar-day empty";
+
+      grid.appendChild(empty);
+
+    }
+
+
+    let activeDays=0;
+    let totalScore=0;
+
+
+    for(
+      let day=1;
+      day<=daysInMonth;
+      day++
+    ){
+
+      const key=
+        makeKey(
+          year,
+          month,
+          day
+        );
+
+
+      const data=
+        activity[key] || {
+          tasks:0,
+          completedTasks:0,
+          study:0,
+          run:0,
+          diary:0,
+          plans:0,
+          score:0
+        };
+
+
+      const cell=
+        document.createElement("div");
+
+
+      cell.className=
+        "calendar-day " +
+        activityClass(data.score);
+
+
+      if(key===todayKey()){
+
+        cell.classList.add(
+          "today"
+        );
+
+      }
+
+
+      const number=
+        document.createElement("div");
+
+      number.className=
+        "calendar-number";
+
+      number.textContent=day;
+
+
+      const score=
+        document.createElement("div");
+
+      score.className=
+        "calendar-score";
+
+
+      if(data.score>0){
+
+        score.textContent=
+          "⭐ "+data.score;
+
+        activeDays++;
+
+        totalScore+=data.score;
+
+      }else{
+
+        score.textContent="";
+
+      }
+
+
+      cell.appendChild(number);
+      cell.appendChild(score);
+
+
+      cell.onclick=function(){
+
+        showDayDetails(key);
+
+      };
+
+
+      grid.appendChild(cell);
+
+    }
+
+
+    document.getElementById(
+      "calendarMonthTotal"
+    ).textContent=
+      `📊 ${activeDays} active days • ⭐ ${totalScore} total activity points`;
+
+  };
+
+
+  /* INITIAL */
+
+  setTimeout(
+    renderCalendar,
+    2200
+  );
+
+
+  /* AUTO REFRESH */
+
+  setInterval(
+    renderCalendar,
+    5000
+  );
+
+
+})();
+
+</script>
+
+<!-- =========================================================
+     END LIFE ACTIVITY CALENDAR
+     ========================================================= -->
 </body>
 </html>
