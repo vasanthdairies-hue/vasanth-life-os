@@ -6317,67 +6317,76 @@ function lifeOSSearch() {
     return;
   }
 
-  let searchData = [];
+  const collections = [
+    { name: "📝 Tasks", data: typeof tasks !== "undefined" ? tasks : [] },
+    { name: "🎯 Goals", data: typeof goals !== "undefined" ? goals : [] },
+    { name: "📅 Planner", data: typeof plans !== "undefined" ? plans : [] },
+    { name: "📚 Study", data: typeof studyRecords !== "undefined" ? studyRecords : [] },
+    { name: "🏃 Running", data: typeof runRecords !== "undefined" ? runRecords : [] },
+    { name: "💰 Money", data: typeof moneyRecords !== "undefined" ? moneyRecords : [] },
+    { name: "💼 Career", data: typeof jobRecords !== "undefined" ? jobRecords : [] },
+    { name: "📔 Diary", data: typeof diaryRecords !== "undefined" ? diaryRecords : [] }
+  ];
 
-  function addRecords(records, category) {
-    if (!Array.isArray(records)) return;
+  let found = [];
 
-    records.forEach(item => {
-      const text = JSON.stringify(item).toLowerCase();
+  collections.forEach(collection => {
+    if (!Array.isArray(collection.data)) return;
 
-      if (text.includes(query)) {
-        searchData.push({
-          category: category,
-          data: item
+    collection.data.forEach(item => {
+      const searchableText = JSON.stringify(item).toLowerCase();
+
+      if (searchableText.includes(query)) {
+        found.push({
+          category: collection.name,
+          item: item
         });
       }
     });
-  }
+  });
 
-  addRecords(typeof tasks !== "undefined" ? tasks : [], "📝 Tasks");
-  addRecords(typeof goals !== "undefined" ? goals : [], "🎯 Goals");
-  addRecords(typeof plans !== "undefined" ? plans : [], "📅 Planner");
-  addRecords(typeof studyRecords !== "undefined" ? studyRecords : [], "📚 Study");
-  addRecords(typeof runRecords !== "undefined" ? runRecords : [], "🏃 Running");
-  addRecords(typeof moneyRecords !== "undefined" ? moneyRecords : [], "💰 Money");
-  addRecords(
-    typeof jobRecords !== "undefined"
-      ? jobRecords
-      : (typeof jobs !== "undefined" ? jobs : []),
-    "💼 Career"
-  );
-  addRecords(
-    typeof diaryRecords !== "undefined" ? diaryRecords : [],
-    "📔 Diary"
-  );
-
-  if (searchData.length === 0) {
-    results.innerHTML =
-      '<p style="opacity:0.6;">❌ No matching records found.</p>';
+  if (found.length === 0) {
+    results.innerHTML = `
+      <p style="opacity:0.7;">
+        ❌ No matching records found for "<b>${query}</b>"
+      </p>
+    `;
     return;
   }
 
   results.innerHTML = `
-    <p><b>${searchData.length}</b> result(s) found</p>
-    ${searchData.map(result => `
+    <p>
+      🔎 Found <b>${found.length}</b> result(s)
+    </p>
+
+    ${found.map(result => `
       <div style="
-        padding:12px;
         margin:10px 0;
+        padding:14px;
         border:1px solid #333;
-        border-radius:10px;
+        border-radius:12px;
         background:#151515;
       ">
-        <div style="font-weight:bold;margin-bottom:6px;">
+        <div style="
+          font-weight:bold;
+          margin-bottom:8px;
+          font-size:16px;
+        ">
           ${result.category}
         </div>
-        <div style="font-size:13px;opacity:0.8;word-break:break-word;">
-          ${lifeOSFormatSearchResult(result.data)}
+
+        <div style="
+          font-size:13px;
+          line-height:1.7;
+          word-break:break-word;
+          opacity:0.9;
+        ">
+          ${lifeOSFormatSearchResult(result.item)}
         </div>
       </div>
     `).join("")}
   `;
 }
-
 function lifeOSFormatSearchResult(item) {
   if (!item || typeof item !== "object") {
     return String(item);
