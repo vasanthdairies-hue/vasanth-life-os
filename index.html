@@ -7430,5 +7430,990 @@ function lifeOSFormatSearchResult(item) {
 <!-- =========================================================
      END SMART INSIGHTS
      ========================================================= -->
+<!-- =========================================================
+     📈 LIFE ANALYTICS DASHBOARD
+     ========================================================= -->
+
+<style>
+.life-analytics-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-top:18px;
+}
+
+.analytics-box{
+  background:#111a2e;
+  border:1px solid #293550;
+  border-radius:14px;
+  padding:16px;
+}
+
+.analytics-box h3{
+  margin:0 0 8px 0;
+  font-size:15px;
+}
+
+.analytics-value{
+  font-size:24px;
+  font-weight:700;
+  margin:5px 0;
+}
+
+.analytics-label{
+  color:#9da8c2;
+  font-size:13px;
+}
+
+.analytics-chart{
+  margin-top:18px;
+  padding:16px;
+  background:#111a2e;
+  border:1px solid #293550;
+  border-radius:14px;
+}
+
+.analytics-bars{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  height:180px;
+  gap:8px;
+  margin-top:20px;
+}
+
+.analytics-day{
+  flex:1;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+  gap:6px;
+}
+
+.analytics-bar{
+  width:100%;
+  max-width:45px;
+  min-height:4px;
+  border-radius:8px 8px 2px 2px;
+  background:#4f7cff;
+}
+
+.analytics-day span{
+  font-size:11px;
+  color:#9da8c2;
+}
+
+.analytics-section{
+  margin-top:18px;
+  padding:16px;
+  background:#17223c;
+  border:1px solid #293550;
+  border-radius:14px;
+}
+
+.analytics-progress{
+  height:12px;
+  background:#0c1324;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.analytics-progress-fill{
+  height:100%;
+  width:0%;
+  background:#4f7cff;
+  border-radius:20px;
+  transition:width .5s ease;
+}
+
+.analytics-note{
+  margin-top:8px;
+  color:#aeb8cf;
+  font-size:13px;
+}
+
+@media(max-width:900px){
+  .life-analytics-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:500px){
+  .life-analytics-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+
+
+<section class="card" id="lifeAnalyticsSection">
+
+  <h2>📈 Life Analytics</h2>
+
+  <p class="analytics-note">
+    Your personal performance overview based on Life OS data.
+  </p>
+
+
+  <!-- TOP STATS -->
+
+  <div class="life-analytics-grid">
+
+    <div class="analytics-box">
+      <h3>📚 Study</h3>
+      <div class="analytics-value" id="analyticsStudy">
+        0 hrs
+      </div>
+      <div class="analytics-label">
+        Last 7 days
+      </div>
+    </div>
+
+
+    <div class="analytics-box">
+      <h3>🏃 Running</h3>
+      <div class="analytics-value" id="analyticsRun">
+        0 km
+      </div>
+      <div class="analytics-label">
+        Last 7 days
+      </div>
+    </div>
+
+
+    <div class="analytics-box">
+      <h3>✅ Tasks</h3>
+      <div class="analytics-value" id="analyticsTasks">
+        0%
+      </div>
+      <div class="analytics-label">
+        Last 7 days
+      </div>
+    </div>
+
+
+    <div class="analytics-box">
+      <h3>🔥 Streak</h3>
+      <div class="analytics-value" id="analyticsStreak">
+        0
+      </div>
+      <div class="analytics-label">
+        Current streak
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- STUDY CHART -->
+
+  <div class="analytics-chart">
+
+    <h3>📚 Study — 7 Day Activity</h3>
+
+    <div
+      id="studyAnalyticsBars"
+      class="analytics-bars">
+    </div>
+
+  </div>
+
+
+  <!-- RUNNING CHART -->
+
+  <div class="analytics-chart">
+
+    <h3>🏃 Running — 7 Day Activity</h3>
+
+    <div
+      id="runAnalyticsBars"
+      class="analytics-bars">
+    </div>
+
+  </div>
+
+
+  <!-- PRODUCTIVITY -->
+
+  <div class="analytics-section">
+
+    <h3>✅ Productivity</h3>
+
+    <div
+      class="analytics-value"
+      id="analyticsProductivity">
+      0%
+    </div>
+
+    <div class="analytics-progress">
+
+      <div
+        id="analyticsProductivityBar"
+        class="analytics-progress-fill">
+      </div>
+
+    </div>
+
+    <div
+      id="analyticsProductivityText"
+      class="analytics-note">
+      No task data yet.
+    </div>
+
+  </div>
+
+
+  <!-- TARGET -->
+
+  <div class="analytics-section">
+
+    <h3>🎯 Today's Target Progress</h3>
+
+    <div
+      class="analytics-value"
+      id="analyticsTarget">
+      0%
+    </div>
+
+    <div class="analytics-progress">
+
+      <div
+        id="analyticsTargetBar"
+        class="analytics-progress-fill">
+      </div>
+
+    </div>
+
+    <div
+      id="analyticsTargetText"
+      class="analytics-note">
+      Checking today's targets...
+    </div>
+
+  </div>
+
+
+  <!-- LIFE SUMMARY -->
+
+  <div class="analytics-section">
+
+    <h3>🧠 Life Summary</h3>
+
+    <p
+      id="analyticsSummary"
+      style="line-height:1.7;margin-top:8px;">
+      Analysing your data...
+    </p>
+
+  </div>
+
+
+  <button
+    onclick="updateLifeAnalytics()"
+    style="margin-top:16px;">
+    🔄 Refresh Analytics
+  </button>
+
+</section>
+
+
+<script>
+
+(function(){
+
+  function arr(name){
+
+    try{
+
+      const value = window[name];
+
+      return Array.isArray(value)
+        ? value
+        : [];
+
+    }catch(e){
+
+      return [];
+
+    }
+
+  }
+
+
+  function key(value){
+
+    if(!value) return "";
+
+    try{
+
+      return new Date(value)
+        .toISOString()
+        .split("T")[0];
+
+    }catch(e){
+
+      return "";
+
+    }
+
+  }
+
+
+  function today(){
+
+    return new Date()
+      .toISOString()
+      .split("T")[0];
+
+  }
+
+
+  function last7(){
+
+    const days=[];
+
+    const now=new Date();
+
+    for(let i=6;i>=0;i--){
+
+      const d=new Date(now);
+
+      d.setDate(
+        d.getDate()-i
+      );
+
+      days.push(
+        d.toISOString()
+          .split("T")[0]
+      );
+
+    }
+
+    return days;
+
+  }
+
+
+  function num(value){
+
+    const n=Number(value);
+
+    return Number.isFinite(n)
+      ? n
+      : 0;
+
+  }
+
+
+  function shortDay(date){
+
+    const d=new Date(
+      date+"T00:00:00"
+    );
+
+    return d.toLocaleDateString(
+      undefined,
+      {weekday:"short"}
+    );
+
+  }
+
+
+  window.updateLifeAnalytics=function(){
+
+    const tasks=arr("tasks");
+    const studies=arr("studies");
+    const runs=arr("runs");
+    const money=arr("money");
+
+
+    const days=last7();
+    const currentToday=today();
+
+
+    /* =====================================================
+       📚 STUDY DATA
+       ===================================================== */
+
+    const studyByDay={};
+
+    days.forEach(d=>{
+      studyByDay[d]=0;
+    });
+
+
+    studies.forEach(s=>{
+
+      const d=
+        s.studyDate ||
+        key(s.createdAt);
+
+      if(days.includes(d)){
+
+        studyByDay[d]+=
+          num(
+            s.hours ??
+            s.studyHours ??
+            s.duration
+          );
+
+      }
+
+    });
+
+
+    const study7=
+      Object.values(studyByDay)
+        .reduce(
+          (a,b)=>a+b,
+          0
+        );
+
+
+    /* =====================================================
+       🏃 RUN DATA
+       ===================================================== */
+
+    const runByDay={};
+
+    days.forEach(d=>{
+      runByDay[d]=0;
+    });
+
+
+    runs.forEach(r=>{
+
+      const d=
+        r.runDate ||
+        key(r.createdAt);
+
+      if(days.includes(d)){
+
+        runByDay[d]+=
+          num(
+            r.distance ??
+            r.km ??
+            r.kilometers
+          );
+
+      }
+
+    });
+
+
+    const run7=
+      Object.values(runByDay)
+        .reduce(
+          (a,b)=>a+b,
+          0
+        );
+
+
+    /* =====================================================
+       ✅ TASK DATA
+       ===================================================== */
+
+    const weeklyTasks=
+      tasks.filter(t=>{
+
+        const d=
+          t.createdAt
+            ? key(t.createdAt)
+            : "";
+
+        return days.includes(d);
+
+      });
+
+
+    const completed=
+      weeklyTasks.filter(
+        t=>t.completed
+      ).length;
+
+
+    const total=
+      weeklyTasks.length;
+
+
+    const productivity=
+      total>0
+        ? Math.round(
+            (completed/total)*100
+          )
+        : 0;
+
+
+    /* =====================================================
+       🔥 STREAK
+       ===================================================== */
+
+    let streak=0;
+
+    try{
+
+      streak=num(
+        window.currentStreak
+      );
+
+    }catch(e){
+
+      streak=0;
+
+    }
+
+
+    /* =====================================================
+       🎯 TARGET
+       ===================================================== */
+
+    let targetPercent=0;
+    let targetCount=0;
+
+    try{
+
+      const targets=
+        window.targets || {};
+
+      const target=
+        Object.values(targets)[0];
+
+      if(target){
+
+        let sum=0;
+        let count=0;
+
+
+        const taskTarget=
+          num(
+            target.tasks ??
+            target.taskTarget ??
+            target.task
+          );
+
+
+        const studyTarget=
+          num(
+            target.study ??
+            target.studyTarget
+          );
+
+
+        const runTarget=
+          num(
+            target.running ??
+            target.run ??
+            target.runTarget
+          );
+
+
+        const incomeTarget=
+          num(
+            target.income ??
+            target.incomeTarget
+          );
+
+
+        if(taskTarget>0){
+
+          const actual=
+            tasks.filter(t=>
+              t.completed &&
+              key(t.createdAt)===currentToday
+            ).length;
+
+          sum+=Math.min(
+            100,
+            actual/taskTarget*100
+          );
+
+          count++;
+
+        }
+
+
+        if(studyTarget>0){
+
+          const actual=
+            studyByDay[currentToday] || 0;
+
+          sum+=Math.min(
+            100,
+            actual/studyTarget*100
+          );
+
+          count++;
+
+        }
+
+
+        if(runTarget>0){
+
+          const actual=
+            runByDay[currentToday] || 0;
+
+          sum+=Math.min(
+            100,
+            actual/runTarget*100
+          );
+
+          count++;
+
+        }
+
+
+        if(incomeTarget>0){
+
+          const income=
+            money
+              .filter(m=>
+                (
+                  m.moneyDate ||
+                  key(m.createdAt)
+                )===currentToday &&
+                String(m.type)
+                  .toLowerCase()==="income"
+              )
+              .reduce(
+                (sum,m)=>
+                  sum+num(m.amount),
+                0
+              );
+
+          sum+=Math.min(
+            100,
+            income/incomeTarget*100
+          );
+
+          count++;
+
+        }
+
+
+        if(count>0){
+
+          targetPercent=
+            Math.round(
+              sum/count
+            );
+
+          targetCount=count;
+
+        }
+
+      }
+
+    }catch(e){
+
+      targetPercent=0;
+
+    }
+
+
+    /* =====================================================
+       UPDATE TOP STATS
+       ===================================================== */
+
+    document.getElementById(
+      "analyticsStudy"
+    ).textContent=
+      study7.toFixed(1)+" hrs";
+
+
+    document.getElementById(
+      "analyticsRun"
+    ).textContent=
+      run7.toFixed(1)+" km";
+
+
+    document.getElementById(
+      "analyticsTasks"
+    ).textContent=
+      productivity+"%";
+
+
+    document.getElementById(
+      "analyticsStreak"
+    ).textContent=
+      streak+" days";
+
+
+    /* =====================================================
+       STUDY BARS
+       ===================================================== */
+
+    const studyContainer=
+      document.getElementById(
+        "studyAnalyticsBars"
+      );
+
+
+    studyContainer.innerHTML="";
+
+
+    const maxStudy=
+      Math.max(
+        1,
+        ...Object.values(studyByDay)
+      );
+
+
+    days.forEach(d=>{
+
+      const wrapper=
+        document.createElement("div");
+
+      wrapper.className=
+        "analytics-day";
+
+
+      const bar=
+        document.createElement("div");
+
+      bar.className=
+        "analytics-bar";
+
+
+      const height=
+        Math.max(
+          4,
+          studyByDay[d] /
+          maxStudy *
+          140
+        );
+
+
+      bar.style.height=
+        height+"px";
+
+
+      bar.title=
+        studyByDay[d].toFixed(1)+
+        " hrs";
+
+
+      const label=
+        document.createElement("span");
+
+      label.textContent=
+        shortDay(d);
+
+
+      wrapper.appendChild(bar);
+      wrapper.appendChild(label);
+
+      studyContainer.appendChild(
+        wrapper
+      );
+
+    });
+
+
+    /* =====================================================
+       RUN BARS
+       ===================================================== */
+
+    const runContainer=
+      document.getElementById(
+        "runAnalyticsBars"
+      );
+
+
+    runContainer.innerHTML="";
+
+
+    const maxRun=
+      Math.max(
+        1,
+        ...Object.values(runByDay)
+      );
+
+
+    days.forEach(d=>{
+
+      const wrapper=
+        document.createElement("div");
+
+      wrapper.className=
+        "analytics-day";
+
+
+      const bar=
+        document.createElement("div");
+
+      bar.className=
+        "analytics-bar";
+
+
+      const height=
+        Math.max(
+          4,
+          runByDay[d] /
+          maxRun *
+          140
+        );
+
+
+      bar.style.height=
+        height+"px";
+
+
+      bar.title=
+        runByDay[d].toFixed(1)+
+        " km";
+
+
+      const label=
+        document.createElement("span");
+
+      label.textContent=
+        shortDay(d);
+
+
+      wrapper.appendChild(bar);
+      wrapper.appendChild(label);
+
+      runContainer.appendChild(
+        wrapper
+      );
+
+    });
+
+
+    /* =====================================================
+       PRODUCTIVITY
+       ===================================================== */
+
+    document.getElementById(
+      "analyticsProductivity"
+    ).textContent=
+      productivity+"%";
+
+
+    document.getElementById(
+      "analyticsProductivityBar"
+    ).style.width=
+      productivity+"%";
+
+
+    document.getElementById(
+      "analyticsProductivityText"
+    ).textContent=
+      total>0
+        ? `${completed} of ${total} task entries completed in the last 7 days.`
+        : "No task entries recorded in the last 7 days.";
+
+
+    /* =====================================================
+       TARGET
+       ===================================================== */
+
+    document.getElementById(
+      "analyticsTarget"
+    ).textContent=
+      targetPercent+"%";
+
+
+    document.getElementById(
+      "analyticsTargetBar"
+    ).style.width=
+      targetPercent+"%";
+
+
+    document.getElementById(
+      "analyticsTargetText"
+    ).textContent=
+      targetCount>0
+        ? `${targetPercent}% average progress across ${targetCount} active targets today.`
+        : "No active targets found for today.";
+
+
+    /* =====================================================
+       🧠 LIFE SUMMARY
+       ===================================================== */
+
+    let summary=[];
+
+
+    if(study7>0){
+
+      summary.push(
+        `📚 You studied ${study7.toFixed(1)} hours in the last 7 days.`
+      );
+
+    }else{
+
+      summary.push(
+        "📚 Study activity has not been recorded this week."
+      );
+
+    }
+
+
+    if(run7>0){
+
+      summary.push(
+        `🏃 You covered ${run7.toFixed(1)} km in the last 7 days.`
+      );
+
+    }else{
+
+      summary.push(
+        "🏃 No running activity has been recorded this week."
+      );
+
+    }
+
+
+    summary.push(
+      `✅ Task productivity is ${productivity}%.`
+    );
+
+
+    summary.push(
+      `🔥 Your current streak is ${streak} day${streak===1?"":"s"}.`
+    );
+
+
+    summary.push(
+      `🎯 Today's target progress is ${targetPercent}%.`
+    );
+
+
+    document.getElementById(
+      "analyticsSummary"
+    ).innerHTML=
+      summary.join("<br>");
+
+
+  };
+
+
+  /* INITIAL */
+
+  setTimeout(
+    updateLifeAnalytics,
+    1800
+  );
+
+
+  /* AUTO REFRESH */
+
+  setInterval(
+    updateLifeAnalytics,
+    5000
+  );
+
+
+})();
+
+</script>
+
+<!-- =========================================================
+     END LIFE ANALYTICS
+     ========================================================= -->
 </body>
 </html>
