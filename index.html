@@ -11036,5 +11036,1206 @@ setInterval(() => {
 </script>
 
 <!-- ================= END SMART NOTIFICATIONS ================= -->
+<!-- ================= WEEKLY COMMAND CENTER ================= -->
+
+<style>
+.weekly-command{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  margin-top:15px;
+}
+
+.weekly-command-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.weekly-stat{
+  padding:16px;
+  border-radius:15px;
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+}
+
+.weekly-stat-icon{
+  font-size:24px;
+}
+
+.weekly-stat-value{
+  font-size:23px;
+  font-weight:800;
+  margin-top:6px;
+}
+
+.weekly-stat-label{
+  font-size:13px;
+  color:#64748b;
+  margin-top:3px;
+}
+
+.weekly-progress-box{
+  padding:18px;
+  border-radius:16px;
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+}
+
+.weekly-progress-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+}
+
+.weekly-progress-bar{
+  width:100%;
+  height:10px;
+  background:#e5e7eb;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.weekly-progress-fill{
+  width:0%;
+  height:100%;
+  border-radius:20px;
+  background:#2563eb;
+  transition:.5s;
+}
+
+.weekly-comparison{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.weekly-compare-card{
+  padding:16px;
+  border-radius:15px;
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+}
+
+.weekly-compare-title{
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+.weekly-compare-value{
+  font-size:20px;
+  font-weight:800;
+}
+
+.weekly-command-message{
+  padding:18px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#111827,#1f2937);
+  color:white;
+}
+
+.weekly-command-message h3{
+  margin:0 0 8px;
+}
+
+.weekly-command-message p{
+  margin:0;
+  line-height:1.5;
+  opacity:.9;
+}
+
+.weekly-days{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:7px;
+  margin-top:12px;
+}
+
+.weekly-day{
+  text-align:center;
+  padding:10px 4px;
+  border-radius:12px;
+  background:#f1f5f9;
+  font-size:12px;
+}
+
+.weekly-day.active{
+  background:#dbeafe;
+}
+
+.weekly-day-score{
+  font-weight:800;
+  font-size:16px;
+  margin-top:5px;
+}
+
+@media(max-width:800px){
+
+  .weekly-command-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:500px){
+
+  .weekly-command-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .weekly-comparison{
+    grid-template-columns:1fr;
+  }
+
+  .weekly-days{
+    gap:4px;
+  }
+
+  .weekly-day{
+    padding:8px 2px;
+    font-size:10px;
+  }
+
+}
+</style>
+
+
+<section class="card" id="weeklyCommandCenter">
+
+  <h2>📊 Weekly Command Center</h2>
+
+  <div class="weekly-command">
+
+    <!-- WEEKLY STATS -->
+
+    <div class="weekly-command-grid">
+
+      <div class="weekly-stat">
+
+        <div class="weekly-stat-icon">
+          ✅
+        </div>
+
+        <div
+          class="weekly-stat-value"
+          id="weeklyTasksValue">
+          0
+        </div>
+
+        <div class="weekly-stat-label">
+          Tasks Completed
+        </div>
+
+      </div>
+
+
+      <div class="weekly-stat">
+
+        <div class="weekly-stat-icon">
+          📚
+        </div>
+
+        <div
+          class="weekly-stat-value"
+          id="weeklyStudyValue">
+          0
+        </div>
+
+        <div class="weekly-stat-label">
+          Study Hours
+        </div>
+
+      </div>
+
+
+      <div class="weekly-stat">
+
+        <div class="weekly-stat-icon">
+          🏃
+        </div>
+
+        <div
+          class="weekly-stat-value"
+          id="weeklyRunValue">
+          0
+        </div>
+
+        <div class="weekly-stat-label">
+          Running KM
+        </div>
+
+      </div>
+
+
+      <div class="weekly-stat">
+
+        <div class="weekly-stat-icon">
+          🔥
+        </div>
+
+        <div
+          class="weekly-stat-value"
+          id="weeklyStreakValue">
+          0
+        </div>
+
+        <div class="weekly-stat-label">
+          Current Streak
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- WEEKLY TARGET -->
+
+    <div class="weekly-progress-box">
+
+      <div class="weekly-progress-header">
+
+        <strong>
+          🎯 Weekly Activity
+        </strong>
+
+        <strong id="weeklyActivityPercent">
+          0%
+        </strong>
+
+      </div>
+
+      <div class="weekly-progress-bar">
+
+        <div
+          id="weeklyActivityFill"
+          class="weekly-progress-fill">
+        </div>
+
+      </div>
+
+      <small
+        id="weeklyActivityText">
+        Building your weekly activity...
+      </small>
+
+    </div>
+
+
+    <!-- 7 DAY ACTIVITY -->
+
+    <div class="weekly-progress-box">
+
+      <strong>
+        📅 7-Day Activity
+      </strong>
+
+      <div
+        id="weeklyDays"
+        class="weekly-days">
+      </div>
+
+    </div>
+
+
+    <!-- WEEKLY XP -->
+
+    <div class="weekly-progress-box">
+
+      <div class="weekly-progress-header">
+
+        <strong>
+          ⭐ Weekly XP
+        </strong>
+
+        <strong id="weeklyXPValue">
+          0 XP
+        </strong>
+
+      </div>
+
+      <div class="weekly-progress-bar">
+
+        <div
+          id="weeklyXPFill"
+          class="weekly-progress-fill">
+        </div>
+
+      </div>
+
+      <small id="weeklyXPText">
+        Keep working to earn more XP.
+      </small>
+
+    </div>
+
+
+    <!-- COMPARISON -->
+
+    <div class="weekly-comparison">
+
+      <div class="weekly-compare-card">
+
+        <div class="weekly-compare-title">
+          📈 This Week
+        </div>
+
+        <div
+          class="weekly-compare-value"
+          id="thisWeekScore">
+          0
+        </div>
+
+        <small>
+          Activity points
+        </small>
+
+      </div>
+
+
+      <div class="weekly-compare-card">
+
+        <div class="weekly-compare-title">
+          📊 Previous Week
+        </div>
+
+        <div
+          class="weekly-compare-value"
+          id="previousWeekScore">
+          0
+        </div>
+
+        <small>
+          Activity points
+        </small>
+
+      </div>
+
+    </div>
+
+
+    <!-- COMMAND MESSAGE -->
+
+    <div class="weekly-command-message">
+
+      <h3 id="weeklyCommandTitle">
+        ⚡ Weekly Command
+      </h3>
+
+      <p id="weeklyCommandText">
+        Analysing your week...
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<script>
+
+window.updateWeeklyCommandCenter = function(){
+
+  try{
+
+    const tasks =
+      Array.isArray(window.tasks)
+      ? window.tasks
+      : [];
+
+    const studies =
+      Array.isArray(window.studies)
+      ? window.studies
+      : [];
+
+    const runs =
+      Array.isArray(window.runs)
+      ? window.runs
+      : [];
+
+    const streak =
+      Number(window.currentStreak || 0);
+
+
+    /* ================= DATE HELPERS ================= */
+
+    function dateKey(date){
+
+      return date
+        .toISOString()
+        .split("T")[0];
+
+    }
+
+
+    function startOfDay(date){
+
+      const d = new Date(date);
+
+      d.setHours(
+        0,0,0,0
+      );
+
+      return d;
+
+    }
+
+
+    function getDaysAgo(n){
+
+      const d =
+        new Date();
+
+      d.setHours(
+        0,0,0,0
+      );
+
+      d.setDate(
+        d.getDate() - n
+      );
+
+      return d;
+
+    }
+
+
+    function recordDate(record){
+
+      return String(
+        record.createdAt ||
+        record.taskDate ||
+        record.studyDate ||
+        record.runDate ||
+        record.date ||
+        ""
+      ).slice(0,10);
+
+    }
+
+
+    /* ================= CURRENT WEEK ================= */
+
+    const today =
+      startOfDay(new Date());
+
+
+    const dayOfWeek =
+      today.getDay();
+
+
+    const weekStart =
+      new Date(today);
+
+    weekStart.setDate(
+      today.getDate() - dayOfWeek
+    );
+
+
+    const weekEnd =
+      new Date(weekStart);
+
+    weekEnd.setDate(
+      weekStart.getDate() + 6
+    );
+
+
+    const weekStartKey =
+      dateKey(weekStart);
+
+
+    const weekEndKey =
+      dateKey(weekEnd);
+
+
+    function inRange(date,start,end){
+
+      return(
+        date >= dateKey(start) &&
+        date <= dateKey(end)
+      );
+
+    }
+
+
+    /* ================= TASKS ================= */
+
+    const weeklyTasks =
+      tasks.filter(t => {
+
+        const d =
+          recordDate(t);
+
+        return(
+          inRange(
+            d,
+            weekStart,
+            weekEnd
+          ) &&
+          t.completed
+        );
+
+      });
+
+
+    /* ================= STUDY ================= */
+
+    const weeklyStudies =
+      studies.filter(s => {
+
+        const d =
+          recordDate(s);
+
+        return inRange(
+          d,
+          weekStart,
+          weekEnd
+        );
+
+      });
+
+
+    const weeklyStudyHours =
+      weeklyStudies.reduce(
+        (sum,s)=>
+          sum +
+          Number(
+            s.studyHours ||
+            s.hours ||
+            s.duration ||
+            0
+          ),
+        0
+      );
+
+
+    /* ================= RUNNING ================= */
+
+    const weeklyRuns =
+      runs.filter(r => {
+
+        const d =
+          recordDate(r);
+
+        return inRange(
+          d,
+          weekStart,
+          weekEnd
+        );
+
+      });
+
+
+    const weeklyRunKm =
+      weeklyRuns.reduce(
+        (sum,r)=>
+          sum +
+          Number(
+            r.distance ||
+            r.km ||
+            r.runningKm ||
+            0
+          ),
+        0
+      );
+
+
+    /* ================= WEEKLY SCORE ================= */
+
+    const taskPoints =
+      weeklyTasks.length * 10;
+
+    const studyPoints =
+      weeklyStudyHours * 20;
+
+    const runPoints =
+      weeklyRunKm * 10;
+
+
+    const weeklyScore =
+      Math.round(
+        taskPoints +
+        studyPoints +
+        runPoints
+      );
+
+
+    /* ================= PREVIOUS WEEK ================= */
+
+    const previousStart =
+      new Date(weekStart);
+
+    previousStart.setDate(
+      weekStart.getDate() - 7
+    );
+
+
+    const previousEnd =
+      new Date(weekStart);
+
+    previousEnd.setDate(
+      weekStart.getDate() - 1
+    );
+
+
+    const previousTasks =
+      tasks.filter(t => {
+
+        const d =
+          recordDate(t);
+
+        return(
+          inRange(
+            d,
+            previousStart,
+            previousEnd
+          ) &&
+          t.completed
+        );
+
+      });
+
+
+    const previousStudies =
+      studies.filter(s => {
+
+        const d =
+          recordDate(s);
+
+        return inRange(
+          d,
+          previousStart,
+          previousEnd
+        );
+
+      });
+
+
+    const previousRuns =
+      runs.filter(r => {
+
+        const d =
+          recordDate(r);
+
+        return inRange(
+          d,
+          previousStart,
+          previousEnd
+        );
+
+      });
+
+
+    const previousStudyHours =
+      previousStudies.reduce(
+        (sum,s)=>
+          sum +
+          Number(
+            s.studyHours ||
+            s.hours ||
+            s.duration ||
+            0
+          ),
+        0
+      );
+
+
+    const previousRunKm =
+      previousRuns.reduce(
+        (sum,r)=>
+          sum +
+          Number(
+            r.distance ||
+            r.km ||
+            r.runningKm ||
+            0
+          ),
+        0
+      );
+
+
+    const previousScore =
+      Math.round(
+        previousTasks.length * 10 +
+        previousStudyHours * 20 +
+        previousRunKm * 10
+      );
+
+
+    /* ================= ACTIVITY ================= */
+
+    const activeDays = [];
+
+
+    for(let i=0;i<7;i++){
+
+      const d =
+        new Date(weekStart);
+
+      d.setDate(
+        weekStart.getDate() + i
+      );
+
+
+      const key =
+        dateKey(d);
+
+
+      const dayTasks =
+        tasks.filter(t =>
+          recordDate(t) === key &&
+          t.completed
+        ).length;
+
+
+      const dayStudy =
+        studies
+        .filter(s =>
+          recordDate(s) === key
+        )
+        .reduce(
+          (sum,s)=>
+            sum +
+            Number(
+              s.studyHours ||
+              s.hours ||
+              s.duration ||
+              0
+            ),
+          0
+        );
+
+
+      const dayRun =
+        runs
+        .filter(r =>
+          recordDate(r) === key
+        )
+        .reduce(
+          (sum,r)=>
+            sum +
+            Number(
+              r.distance ||
+              r.km ||
+              r.runningKm ||
+              0
+            ),
+          0
+        );
+
+
+      const score =
+        Math.round(
+          dayTasks * 10 +
+          dayStudy * 20 +
+          dayRun * 10
+        );
+
+
+      activeDays.push({
+        date:d,
+        key:key,
+        score:score
+      });
+
+    }
+
+
+    const activeCount =
+      activeDays.filter(
+        d => d.score > 0
+      ).length;
+
+
+    /*
+      Weekly activity is based
+      on active days out of 7.
+    */
+
+    const activityPercent =
+      Math.round(
+        (activeCount / 7) * 100
+      );
+
+
+    /* ================= XP ================= */
+
+    let weeklyXP =
+      weeklyScore;
+
+
+    if(activeCount >= 3)
+      weeklyXP += 50;
+
+    if(activeCount >= 5)
+      weeklyXP += 100;
+
+    if(activeCount === 7)
+      weeklyXP += 200;
+
+
+    const xpPercent =
+      Math.min(
+        100,
+        Math.round(
+          (weeklyXP / 500) * 100
+        )
+      );
+
+
+    /* ================= UPDATE STATS ================= */
+
+    const taskEl =
+      document.getElementById(
+        "weeklyTasksValue"
+      );
+
+    const studyEl =
+      document.getElementById(
+        "weeklyStudyValue"
+      );
+
+    const runEl =
+      document.getElementById(
+        "weeklyRunValue"
+      );
+
+    const streakEl =
+      document.getElementById(
+        "weeklyStreakValue"
+      );
+
+
+    if(taskEl)
+      taskEl.textContent =
+        weeklyTasks.length;
+
+
+    if(studyEl)
+      studyEl.textContent =
+        weeklyStudyHours.toFixed(1);
+
+
+    if(runEl)
+      runEl.textContent =
+        weeklyRunKm.toFixed(2);
+
+
+    if(streakEl)
+      streakEl.textContent =
+        streak;
+
+
+    /* ================= ACTIVITY BAR ================= */
+
+    const activityPercentEl =
+      document.getElementById(
+        "weeklyActivityPercent"
+      );
+
+    const activityFill =
+      document.getElementById(
+        "weeklyActivityFill"
+      );
+
+    const activityText =
+      document.getElementById(
+        "weeklyActivityText"
+      );
+
+
+    if(activityPercentEl)
+      activityPercentEl.textContent =
+        activityPercent + "%";
+
+
+    if(activityFill)
+      activityFill.style.width =
+        activityPercent + "%";
+
+
+    if(activityText){
+
+      activityText.textContent =
+        activeCount +
+        " of 7 days active";
+
+    }
+
+
+    /* ================= 7 DAYS ================= */
+
+    const daysBox =
+      document.getElementById(
+        "weeklyDays"
+      );
+
+
+    if(daysBox){
+
+      daysBox.innerHTML =
+        activeDays
+        .map(d => {
+
+          const dayName =
+            d.date.toLocaleDateString(
+              "en-US",
+              {weekday:"short"}
+            );
+
+          const isToday =
+            d.key ===
+            dateKey(today);
+
+
+          return `
+
+            <div
+              class="weekly-day ${
+                d.score > 0
+                ? "active"
+                : ""
+              }">
+
+              <div>
+                ${dayName}
+              </div>
+
+              <div
+                class="weekly-day-score">
+
+                ${
+                  isToday
+                  ? "●"
+                  : d.score
+                }
+
+              </div>
+
+            </div>
+
+          `;
+
+        })
+        .join("");
+
+    }
+
+
+    /* ================= XP ================= */
+
+    const xpEl =
+      document.getElementById(
+        "weeklyXPValue"
+      );
+
+    const xpFill =
+      document.getElementById(
+        "weeklyXPFill"
+      );
+
+    const xpText =
+      document.getElementById(
+        "weeklyXPText"
+      );
+
+
+    if(xpEl)
+      xpEl.textContent =
+        Math.round(weeklyXP) +
+        " XP";
+
+
+    if(xpFill)
+      xpFill.style.width =
+        xpPercent + "%";
+
+
+    if(xpText){
+
+      if(weeklyXP >= 500){
+
+        xpText.textContent =
+          "🔥 Weekly XP milestone reached!";
+
+      }
+      else{
+
+        xpText.textContent =
+          (500 - Math.round(weeklyXP)) +
+          " XP needed for the 500 XP milestone.";
+
+      }
+
+    }
+
+
+    /* ================= COMPARISON ================= */
+
+    const thisWeekEl =
+      document.getElementById(
+        "thisWeekScore"
+      );
+
+    const previousWeekEl =
+      document.getElementById(
+        "previousWeekScore"
+      );
+
+
+    if(thisWeekEl)
+      thisWeekEl.textContent =
+        weeklyScore;
+
+
+    if(previousWeekEl)
+      previousWeekEl.textContent =
+        previousScore;
+
+
+    /* ================= COMMAND MESSAGE ================= */
+
+    let commandTitle =
+      "⚡ Weekly Command";
+
+    let commandText =
+      "Build consistency one day at a time.";
+
+
+    if(activeCount === 0){
+
+      commandTitle =
+        "🚀 Start Your Week";
+
+      commandText =
+        "No activity is recorded yet this week. Start with one task or one focused study session.";
+
+    }
+    else if(activeCount <= 2){
+
+      commandTitle =
+        "⚡ Build Momentum";
+
+      commandText =
+        "You have " +
+        activeCount +
+        " active day(s). Focus on consistency and create another active day.";
+
+    }
+    else if(activeCount <= 4){
+
+      commandTitle =
+        "🔥 Momentum Building";
+
+      commandText =
+        "Good progress. You have " +
+        activeCount +
+        " active days. Try to keep the next few days productive.";
+
+    }
+    else if(activeCount <= 6){
+
+      commandTitle =
+        "🏆 Strong Week";
+
+      commandText =
+        "You have " +
+        activeCount +
+        " active days. One more strong day can complete a 7-day activity streak.";
+
+    }
+    else{
+
+      commandTitle =
+        "👑 Perfect Activity Week";
+
+      commandText =
+        "All 7 days are active. Excellent consistency — now prepare your next week's priorities.";
+
+    }
+
+
+    if(weeklyScore > previousScore && previousScore > 0){
+
+      commandText +=
+        " Your activity score is currently above last week's score.";
+
+    }
+    else if(
+      weeklyScore < previousScore &&
+      previousScore > 0
+    ){
+
+      commandText +=
+        " Your activity score is currently below last week's score, so focus on consistency.";
+
+    }
+
+
+    const commandTitleEl =
+      document.getElementById(
+        "weeklyCommandTitle"
+      );
+
+    const commandTextEl =
+      document.getElementById(
+        "weeklyCommandText"
+      );
+
+
+    if(commandTitleEl)
+      commandTitleEl.textContent =
+        commandTitle;
+
+
+    if(commandTextEl)
+      commandTextEl.textContent =
+        commandText;
+
+
+  }catch(error){
+
+    console.error(
+      "Weekly Command Center Error:",
+      error
+    );
+
+  }
+
+};
+
+
+/* ================= AUTO REFRESH ================= */
+
+setTimeout(() => {
+
+  if(
+    typeof window.updateWeeklyCommandCenter ===
+    "function"
+  ){
+
+    window.updateWeeklyCommandCenter();
+
+  }
+
+},1200);
+
+
+setInterval(() => {
+
+  if(
+    typeof window.updateWeeklyCommandCenter ===
+    "function"
+  ){
+
+    window.updateWeeklyCommandCenter();
+
+  }
+
+},5000);
+
+</script>
+
+<!-- ================= END WEEKLY COMMAND CENTER ================= -->
 </body>
 </html>
