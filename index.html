@@ -10175,5 +10175,866 @@ function lifeOSFormatSearchResult(item) {
 <!-- =========================================================
      END LIFE ACTIVITY CALENDAR
      ========================================================= -->
+<!-- ================= SMART NOTIFICATIONS & DAILY FOCUS ================= -->
+
+<style>
+.smart-notify-box{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:15px;
+}
+
+.smart-focus{
+  padding:18px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#111827,#1f2937);
+  color:white;
+  margin-bottom:15px;
+}
+
+.smart-focus h3{
+  margin:0 0 8px;
+  font-size:20px;
+}
+
+.smart-focus p{
+  margin:0;
+  opacity:.9;
+  line-height:1.5;
+}
+
+.notify-item{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:14px;
+  border-radius:14px;
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+}
+
+.notify-icon{
+  font-size:24px;
+  min-width:30px;
+}
+
+.notify-content{
+  flex:1;
+}
+
+.notify-title{
+  font-weight:700;
+  margin-bottom:4px;
+}
+
+.notify-text{
+  font-size:14px;
+  color:#64748b;
+  line-height:1.4;
+}
+
+.notify-high{
+  border-left:5px solid #ef4444;
+}
+
+.notify-medium{
+  border-left:5px solid #f59e0b;
+}
+
+.notify-good{
+  border-left:5px solid #22c55e;
+}
+
+.notify-info{
+  border-left:5px solid #3b82f6;
+}
+
+.focus-progress{
+  margin-top:12px;
+  height:9px;
+  background:rgba(255,255,255,.2);
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.focus-progress-fill{
+  height:100%;
+  width:0%;
+  background:#22c55e;
+  border-radius:20px;
+  transition:.4s;
+}
+
+.focus-progress-text{
+  margin-top:6px;
+  font-size:12px;
+  opacity:.8;
+}
+
+.notification-empty{
+  text-align:center;
+  padding:20px;
+  color:#64748b;
+}
+
+@media(max-width:600px){
+  .smart-focus{
+    padding:15px;
+  }
+
+  .notify-item{
+    padding:12px;
+  }
+}
+</style>
+
+
+<section class="card" id="smartNotificationsSection">
+
+  <h2>🔔 Smart Notifications & Daily Focus</h2>
+
+  <div class="smart-focus">
+
+    <h3 id="smartFocusTitle">
+      🎯 Today's Focus
+    </h3>
+
+    <p id="smartFocusText">
+      Loading your daily focus...
+    </p>
+
+    <div class="focus-progress">
+      <div
+        id="smartFocusProgress"
+        class="focus-progress-fill">
+      </div>
+    </div>
+
+    <div
+      id="smartFocusProgressText"
+      class="focus-progress-text">
+      0% completed
+    </div>
+
+  </div>
+
+
+  <div
+    id="smartNotificationList"
+    class="smart-notify-box">
+
+    <div class="notification-empty">
+      🔄 Checking your daily status...
+    </div>
+
+  </div>
+
+</section>
+
+
+<script>
+
+window.updateSmartNotifications = function(){
+
+  try{
+
+    const taskData =
+      Array.isArray(window.tasks)
+      ? window.tasks
+      : [];
+
+    const studyData =
+      Array.isArray(window.studies)
+      ? window.studies
+      : [];
+
+    const runData =
+      Array.isArray(window.runs)
+      ? window.runs
+      : [];
+
+    const goalData =
+      Array.isArray(window.goals)
+      ? window.goals
+      : [];
+
+
+    const today =
+      new Date()
+      .toISOString()
+      .split("T")[0];
+
+
+    const currentHour =
+      new Date().getHours();
+
+
+    /* ================= TODAY DATA ================= */
+
+    const todayTasks =
+      taskData.filter(t =>
+        String(
+          t.createdAt ||
+          t.taskDate ||
+          t.date ||
+          ""
+        ).startsWith(today)
+      );
+
+
+    const pendingTasks =
+      taskData.filter(t =>
+        !t.completed
+      );
+
+
+    const completedToday =
+      todayTasks.filter(t =>
+        t.completed
+      ).length;
+
+
+    const todayStudy =
+      studyData
+      .filter(s =>
+        String(
+          s.studyDate ||
+          s.date ||
+          ""
+        ).startsWith(today)
+      )
+      .reduce((sum,s)=>
+        sum + Number(
+          s.studyHours ||
+          s.hours ||
+          s.duration ||
+          0
+        ),0);
+
+
+    const todayRun =
+      runData
+      .filter(r =>
+        String(
+          r.runDate ||
+          r.date ||
+          ""
+        ).startsWith(today)
+      )
+      .reduce((sum,r)=>
+        sum + Number(
+          r.distance ||
+          r.km ||
+          r.runningKm ||
+          0
+        ),0);
+
+
+    /* ================= TARGET ================= */
+
+    let target = null;
+
+    try{
+
+      const targets =
+        window.targets || {};
+
+      target =
+        targets[today] ||
+        window.currentTarget ||
+        null;
+
+    }catch(e){
+      target = null;
+    }
+
+
+    let targetTotal = 0;
+    let targetDone = 0;
+
+
+    if(target){
+
+      const taskTarget =
+        Number(
+          target.tasks ??
+          target.taskTarget ??
+          0
+        );
+
+      const studyTarget =
+        Number(
+          target.study ??
+          target.studyTarget ??
+          target.studyHours ??
+          0
+        );
+
+      const runTarget =
+        Number(
+          target.running ??
+          target.runTarget ??
+          target.runKm ??
+          0
+        );
+
+
+      if(taskTarget > 0){
+
+        targetTotal += 1;
+
+        if(completedToday >= taskTarget){
+          targetDone += 1;
+        }
+
+      }
+
+
+      if(studyTarget > 0){
+
+        targetTotal += 1;
+
+        if(todayStudy >= studyTarget){
+          targetDone += 1;
+        }
+
+      }
+
+
+      if(runTarget > 0){
+
+        targetTotal += 1;
+
+        if(todayRun >= runTarget){
+          targetDone += 1;
+        }
+
+      }
+
+    }
+
+
+    let targetPercent = 0;
+
+    if(targetTotal > 0){
+
+      targetPercent =
+        Math.round(
+          (targetDone / targetTotal) * 100
+        );
+
+    }
+
+
+    /* ================= STREAK ================= */
+
+    const streak =
+      Number(
+        window.currentStreak || 0
+      );
+
+
+    /* ================= OVERDUE GOALS ================= */
+
+    const overdueGoals =
+      goalData.filter(g => {
+
+        const completed =
+          g.completed === true ||
+          g.status === "completed";
+
+        const due =
+          g.targetDate ||
+          g.dueDate ||
+          g.date;
+
+        return(
+          !completed &&
+          due &&
+          String(due) < today
+        );
+
+      });
+
+
+    /* ================= NOTIFICATIONS ================= */
+
+    const notifications = [];
+
+
+    if(overdueGoals.length > 0){
+
+      notifications.push({
+
+        type:"high",
+
+        icon:"⚠️",
+
+        title:"Overdue Goals",
+
+        text:
+          overdueGoals.length +
+          " goal(s) need your attention. Complete or update them today."
+
+      });
+
+    }
+
+
+    if(pendingTasks.length > 0){
+
+      notifications.push({
+
+        type:
+          pendingTasks.length >= 5
+          ? "high"
+          : "medium",
+
+        icon:"📋",
+
+        title:"Pending Tasks",
+
+        text:
+          pendingTasks.length +
+          " task(s) are still pending. Finish your most important one first."
+
+      });
+
+    }
+
+
+    if(todayStudy <= 0){
+
+      notifications.push({
+
+        type:"medium",
+
+        icon:"📚",
+
+        title:"Study Reminder",
+
+        text:
+          "No study activity recorded today. Start with a focused 25–30 minute session."
+
+      });
+
+    }
+    else{
+
+      notifications.push({
+
+        type:"good",
+
+        icon:"📚",
+
+        title:"Study Progress",
+
+        text:
+          "You've studied " +
+          todayStudy.toFixed(1) +
+          " hour(s) today. Keep the momentum going!"
+
+      });
+
+    }
+
+
+    if(todayRun <= 0){
+
+      notifications.push({
+
+        type:"medium",
+
+        icon:"🏃",
+
+        title:"Running Reminder",
+
+        text:
+          "No running activity recorded today. If running is planned, don't miss your session."
+
+      });
+
+    }
+    else{
+
+      notifications.push({
+
+        type:"good",
+
+        icon:"🏃",
+
+        title:"Running Done",
+
+        text:
+          "You've recorded " +
+          todayRun.toFixed(2) +
+          " km today. Great work!"
+
+      });
+
+    }
+
+
+    if(streak > 0){
+
+      const hasTodayActivity =
+        completedToday > 0 ||
+        todayStudy > 0 ||
+        todayRun > 0;
+
+
+      if(!hasTodayActivity){
+
+        notifications.push({
+
+          type:"high",
+
+          icon:"🔥",
+
+          title:"Protect Your Streak",
+
+          text:
+            "Your current streak is " +
+            streak +
+            " day(s). Do one small activity today to keep it alive."
+
+        });
+
+      }
+      else{
+
+        notifications.push({
+
+          type:"good",
+
+          icon:"🔥",
+
+          title:"Streak Active",
+
+          text:
+            "Current streak: " +
+            streak +
+            " day(s). Keep going!"
+
+        });
+
+      }
+
+    }
+
+
+    if(targetPercent >= 70 && targetPercent < 100){
+
+      notifications.push({
+
+        type:"info",
+
+        icon:"🎯",
+
+        title:"Target Almost Complete",
+
+        text:
+          "You're at " +
+          targetPercent +
+          "% of today's target. One more push!"
+
+      });
+
+    }
+
+
+    if(targetPercent >= 100){
+
+      notifications.push({
+
+        type:"good",
+
+        icon:"🎉",
+
+        title:"Daily Target Complete",
+
+        text:
+          "Amazing! Your tracked daily targets are complete."
+
+      });
+
+    }
+
+
+    /* ================= EVENING REVIEW ================= */
+
+    if(currentHour >= 18){
+
+      notifications.push({
+
+        type:"info",
+
+        icon:"🌙",
+
+        title:"Evening Review",
+
+        text:
+          "Take 5 minutes tonight: review tasks, study, running and tomorrow's priorities."
+
+      });
+
+    }
+
+
+    /* ================= FOCUS ================= */
+
+    let focusTitle =
+      "🎯 Today's Focus";
+
+    let focusText =
+      "Choose one important task and complete it with full focus.";
+
+
+    if(overdueGoals.length > 0){
+
+      focusTitle =
+        "⚠️ Clear Your Overdue Goal";
+
+      focusText =
+        "You have " +
+        overdueGoals.length +
+        " overdue goal(s). Handle the most important one first.";
+
+    }
+    else if(pendingTasks.length > 0){
+
+      focusTitle =
+        "📋 Finish Your Top Task";
+
+      focusText =
+        "You have " +
+        pendingTasks.length +
+        " pending task(s). Complete one important task before adding more.";
+
+    }
+    else if(todayStudy <= 0){
+
+      focusTitle =
+        "📚 Start Study Mode";
+
+      focusText =
+        "Your first priority today: complete a focused study session.";
+
+    }
+    else if(todayRun <= 0){
+
+      focusTitle =
+        "🏃 Get Moving";
+
+      focusText =
+        "Your study is moving. Now complete your planned physical activity.";
+
+    }
+    else if(targetPercent > 0 && targetPercent < 100){
+
+      focusTitle =
+        "🎯 Finish Today's Target";
+
+      focusText =
+        "You're at " +
+        targetPercent +
+        "%. Push a little more to complete today's target.";
+
+    }
+    else if(targetPercent >= 100){
+
+      focusTitle =
+        "🎉 Excellent Day";
+
+      focusText =
+        "Today's tracked target is complete. Protect the momentum and prepare for tomorrow.";
+
+    }
+    else if(currentHour >= 18){
+
+      focusTitle =
+        "🌙 Evening Review";
+
+      focusText =
+        "Review what you completed today and decide tomorrow's first task.";
+
+    }
+
+
+    /* ================= FOCUS PROGRESS ================= */
+
+    let focusPercent = 0;
+
+
+    if(targetTotal > 0){
+
+      focusPercent =
+        Math.min(
+          100,
+          targetPercent
+        );
+
+    }
+    else{
+
+      const activityPoints =
+        (completedToday > 0 ? 25 : 0) +
+        (todayStudy > 0 ? 25 : 0) +
+        (todayRun > 0 ? 25 : 0) +
+        (streak > 0 ? 25 : 0);
+
+      focusPercent =
+        activityPoints;
+
+    }
+
+
+    const focusTitleEl =
+      document.getElementById(
+        "smartFocusTitle"
+      );
+
+    const focusTextEl =
+      document.getElementById(
+        "smartFocusText"
+      );
+
+    const focusProgress =
+      document.getElementById(
+        "smartFocusProgress"
+      );
+
+    const focusProgressText =
+      document.getElementById(
+        "smartFocusProgressText"
+      );
+
+
+    if(focusTitleEl)
+      focusTitleEl.textContent =
+        focusTitle;
+
+
+    if(focusTextEl)
+      focusTextEl.textContent =
+        focusText;
+
+
+    if(focusProgress)
+      focusProgress.style.width =
+        focusPercent + "%";
+
+
+    if(focusProgressText)
+      focusProgressText.textContent =
+        focusPercent +
+        "% daily progress";
+
+
+    /* ================= RENDER ================= */
+
+    const list =
+      document.getElementById(
+        "smartNotificationList"
+      );
+
+
+    if(!list) return;
+
+
+    if(notifications.length === 0){
+
+      list.innerHTML = `
+
+        <div class="notification-empty">
+
+          🎉 Everything looks clear!
+
+          <br>
+
+          Keep building your Life OS.
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    list.innerHTML =
+      notifications
+      .map(n => `
+
+        <div class="notify-item notify-${n.type}">
+
+          <div class="notify-icon">
+            ${n.icon}
+          </div>
+
+          <div class="notify-content">
+
+            <div class="notify-title">
+              ${n.title}
+            </div>
+
+            <div class="notify-text">
+              ${n.text}
+            </div>
+
+          </div>
+
+        </div>
+
+      `)
+      .join("");
+
+
+  }catch(error){
+
+    console.error(
+      "Smart Notifications Error:",
+      error
+    );
+
+  }
+
+};
+
+
+/* ================= AUTO REFRESH ================= */
+
+setTimeout(() => {
+
+  if(
+    typeof window.updateSmartNotifications ===
+    "function"
+  ){
+
+    window.updateSmartNotifications();
+
+  }
+
+},1000);
+
+
+setInterval(() => {
+
+  if(
+    typeof window.updateSmartNotifications ===
+    "function"
+  ){
+
+    window.updateSmartNotifications();
+
+  }
+
+},5000);
+
+</script>
+
+<!-- ================= END SMART NOTIFICATIONS ================= -->
 </body>
 </html>
