@@ -6174,4 +6174,117 @@ function exportLifeOSData() {
     "✅ Backup downloaded successfully.";
 }
 </script>
+<!-- BACKUP PROTECTION -->
+<section class="card">
+  <h2>🛡️ Backup Protection</h2>
+  <p id="backupProtectionStatus">
+    Checking backup status...
+  </p>
+
+  <button onclick="protectedBackup()">
+    💾 Create Protected Backup
+  </button>
+</section>
+
+<script>
+function protectedBackup() {
+
+  const confirmed = confirm(
+    "Create a new backup of your Life OS data?"
+  );
+
+  if(!confirmed) {
+    return;
+  }
+
+  if(typeof exportLifeOSData === "function") {
+
+    exportLifeOSData();
+
+    const now = new Date();
+
+    localStorage.setItem(
+      "lifeOS_lastBackup",
+      now.toISOString()
+    );
+
+    updateBackupProtectionStatus();
+
+  } else {
+
+    alert(
+      "Backup function not found. Please check the Backup Export section."
+    );
+  }
+}
+
+
+function updateBackupProtectionStatus() {
+
+  const status =
+    document.getElementById(
+      "backupProtectionStatus"
+    );
+
+  if(!status) return;
+
+  const lastBackup =
+    localStorage.getItem(
+      "lifeOS_lastBackup"
+    );
+
+  if(!lastBackup) {
+
+    status.textContent =
+      "⚠️ No protected backup recorded yet.";
+
+    return;
+  }
+
+  const backupDate =
+    new Date(lastBackup);
+
+  const now =
+    new Date();
+
+  const difference =
+    Math.floor(
+      (now - backupDate) /
+      (1000 * 60 * 60 * 24)
+    );
+
+  if(difference === 0) {
+
+    status.textContent =
+      "✅ Backup created today.";
+
+  }
+  else if(difference === 1) {
+
+    status.textContent =
+      "🟢 Last backup: yesterday.";
+
+  }
+  else if(difference <= 7) {
+
+    status.textContent =
+      "🟢 Last backup: " +
+      difference +
+      " days ago.";
+
+  }
+  else {
+
+    status.textContent =
+      "⚠️ Last backup was " +
+      difference +
+      " days ago. Create a fresh backup.";
+
+  }
+}
+
+
+// Check status when page loads
+updateBackupProtectionStatus();
+</script>
 </html>
