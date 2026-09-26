@@ -6460,6 +6460,975 @@ function lifeOSFormatSearchResult(item) {
   return values.join(" &nbsp; | &nbsp; ");
 }
 </script>
+<!-- =========================================================
+     ✨ SMART INSIGHTS
+     ========================================================= -->
 
+<style>
+.smart-insights-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:18px;
+}
+
+.smart-insight-card{
+  background:#111a2e;
+  border:1px solid #293550;
+  border-radius:14px;
+  padding:16px;
+  min-height:120px;
+}
+
+.smart-insight-card h3{
+  margin:0 0 8px 0;
+  font-size:16px;
+}
+
+.smart-insight-card p{
+  margin:0;
+  line-height:1.5;
+  color:#b8c2d9;
+  font-size:14px;
+}
+
+.smart-insight-icon{
+  font-size:26px;
+  margin-bottom:8px;
+}
+
+.smart-insight-main{
+  margin-top:15px;
+  padding:18px;
+  border-radius:14px;
+  background:#17223c;
+  border:1px solid #293550;
+}
+
+.smart-insight-main h3{
+  margin:0 0 8px 0;
+}
+
+.smart-insight-main p{
+  margin:0;
+  line-height:1.6;
+  color:#d7def0;
+}
+
+.smart-insight-summary{
+  padding:14px;
+  margin-top:12px;
+  border-radius:12px;
+  background:#0e1628;
+  color:#c5cee2;
+  line-height:1.6;
+}
+
+.smart-insight-refresh{
+  margin-top:16px;
+}
+
+@media(max-width:800px){
+  .smart-insights-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:500px){
+  .smart-insights-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+
+
+<section class="card" id="smartInsightsSection">
+
+  <h2>✨ Smart Insights</h2>
+
+  <div id="insightsSummary" class="smart-insight-summary">
+    🔄 Analysing your Life OS data...
+  </div>
+
+
+  <div class="smart-insights-grid">
+
+    <!-- STUDY -->
+    <div class="smart-insight-card">
+      <div class="smart-insight-icon">📚</div>
+      <h3>Study Momentum</h3>
+      <p id="insightStudy">
+        Analysing study data...
+      </p>
+    </div>
+
+
+    <!-- RUNNING -->
+    <div class="smart-insight-card">
+      <div class="smart-insight-icon">🏃</div>
+      <h3>Running</h3>
+      <p id="insightRun">
+        Analysing running data...
+      </p>
+    </div>
+
+
+    <!-- PRODUCTIVITY -->
+    <div class="smart-insight-card">
+      <div class="smart-insight-icon">✅</div>
+      <h3>Productivity</h3>
+      <p id="insightProductivity">
+        Analysing productivity...
+      </p>
+    </div>
+
+
+    <!-- TARGET -->
+    <div class="smart-insight-card">
+      <div class="smart-insight-icon">🎯</div>
+      <h3>Today's Target</h3>
+      <p id="insightTarget">
+        Analysing target progress...
+      </p>
+    </div>
+
+
+    <!-- STREAK -->
+    <div class="smart-insight-card">
+      <div class="smart-insight-icon">🔥</div>
+      <h3>Streak</h3>
+      <p id="insightStreak">
+        Analysing streak...
+      </p>
+    </div>
+
+
+    <!-- ACHIEVEMENTS -->
+    <div class="smart-insight-card">
+      <div class="smart-insight-icon">🏆</div>
+      <h3>Achievements</h3>
+      <p id="insightAchievements">
+        Analysing achievements...
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- BEST ACTION -->
+  <div class="smart-insight-main">
+    <h3>💡 Best Next Action</h3>
+
+    <p id="insightAction">
+      🔄 Finding your best next action...
+    </p>
+  </div>
+
+
+  <!-- ATTENTION -->
+  <div class="smart-insight-main">
+    <h3>⚠️ Attention</h3>
+
+    <p id="insightAttention">
+      🔄 Checking your pending areas...
+    </p>
+  </div>
+
+
+  <button
+    class="smart-insight-refresh"
+    onclick="updateSmartInsights()">
+    🔄 Refresh Insights
+  </button>
+
+</section>
+
+
+<script>
+
+/* =========================================================
+   ✨ SMART INSIGHTS ENGINE
+   ========================================================= */
+
+(function(){
+
+  function getArray(name){
+
+    try{
+
+      const value = window[name];
+
+      return Array.isArray(value) ? value : [];
+
+    }catch(e){
+
+      return [];
+
+    }
+
+  }
+
+
+  function dateKey(value){
+
+    if(!value) return "";
+
+    try{
+
+      return new Date(value)
+        .toISOString()
+        .split("T")[0];
+
+    }catch(e){
+
+      return "";
+
+    }
+
+  }
+
+
+  function todayKey(){
+
+    return new Date()
+      .toISOString()
+      .split("T")[0];
+
+  }
+
+
+  function getLast7Days(){
+
+    const result = [];
+
+    const now = new Date();
+
+    for(let i=6;i>=0;i--){
+
+      const d = new Date(now);
+
+      d.setDate(d.getDate()-i);
+
+      result.push(
+        d.toISOString().split("T")[0]
+      );
+
+    }
+
+    return result;
+
+  }
+
+
+  function number(value){
+
+    const n = Number(value);
+
+    return Number.isFinite(n) ? n : 0;
+
+  }
+
+
+  window.updateSmartInsights = function(){
+
+    try{
+
+      const tasks   = getArray("tasks");
+      const studies = getArray("studies");
+      const runs    = getArray("runs");
+      const goals   = getArray("goals");
+      const money   = getArray("money");
+
+      const today = todayKey();
+
+      const last7 = getLast7Days();
+
+
+      /* =====================================================
+         📚 STUDY
+         ===================================================== */
+
+      let study7 = 0;
+      let studyToday = 0;
+      let studyDays = new Set();
+
+      studies.forEach(s=>{
+
+        const d =
+          s.studyDate ||
+          dateKey(s.createdAt);
+
+        const hours =
+          number(
+            s.hours ??
+            s.studyHours ??
+            s.duration
+          );
+
+        if(d === today){
+
+          studyToday += hours;
+
+        }
+
+        if(last7.includes(d)){
+
+          study7 += hours;
+
+          if(hours > 0){
+
+            studyDays.add(d);
+
+          }
+
+        }
+
+      });
+
+
+      /* =====================================================
+         🏃 RUNNING
+         ===================================================== */
+
+      let run7 = 0;
+      let runToday = 0;
+      let runDays = new Set();
+
+      runs.forEach(r=>{
+
+        const d =
+          r.runDate ||
+          dateKey(r.createdAt);
+
+        const km =
+          number(
+            r.distance ??
+            r.km ??
+            r.kilometers
+          );
+
+        if(d === today){
+
+          runToday += km;
+
+        }
+
+        if(last7.includes(d)){
+
+          run7 += km;
+
+          if(km > 0){
+
+            runDays.add(d);
+
+          }
+
+        }
+
+      });
+
+
+      /* =====================================================
+         ✅ PRODUCTIVITY
+         ===================================================== */
+
+      const weeklyTasks =
+        tasks.filter(t=>{
+
+          const d =
+            t.createdAt
+              ? dateKey(t.createdAt)
+              : "";
+
+          return last7.includes(d);
+
+        });
+
+
+      const completedWeekly =
+        weeklyTasks.filter(t=>t.completed).length;
+
+
+      const totalWeekly =
+        weeklyTasks.length;
+
+
+      let productivityText =
+        "No task data yet.";
+
+
+      if(totalWeekly > 0){
+
+        const percent =
+          Math.round(
+            (completedWeekly / totalWeekly) * 100
+          );
+
+        productivityText =
+          `${completedWeekly}/${totalWeekly} task entries completed in the last 7 days (${percent}%).`;
+
+      }
+
+
+      /* =====================================================
+         🎯 TARGET
+         ===================================================== */
+
+      let targetPercent = 0;
+      let targetCount = 0;
+
+      try{
+
+        const targetObject =
+          window.targets || {};
+
+        const target =
+          Object.values(targetObject)[0];
+
+        if(target){
+
+          const taskTarget =
+            number(
+              target.tasks ??
+              target.taskTarget ??
+              target.task
+            );
+
+          const studyTarget =
+            number(
+              target.study ??
+              target.studyTarget
+            );
+
+          const runTarget =
+            number(
+              target.running ??
+              target.run ??
+              target.runTarget
+            );
+
+          const incomeTarget =
+            number(
+              target.income ??
+              target.incomeTarget
+            );
+
+
+          let progressTotal = 0;
+          let enabled = 0;
+
+
+          /* TASK TARGET */
+
+          if(taskTarget > 0){
+
+            const actual =
+              tasks.filter(t=>
+                t.completed &&
+                dateKey(t.createdAt) === today
+              ).length;
+
+            progressTotal +=
+              Math.min(
+                100,
+                (actual / taskTarget) * 100
+              );
+
+            enabled++;
+
+          }
+
+
+          /* STUDY TARGET */
+
+          if(studyTarget > 0){
+
+            progressTotal +=
+              Math.min(
+                100,
+                (studyToday / studyTarget) * 100
+              );
+
+            enabled++;
+
+          }
+
+
+          /* RUN TARGET */
+
+          if(runTarget > 0){
+
+            progressTotal +=
+              Math.min(
+                100,
+                (runToday / runTarget) * 100
+              );
+
+            enabled++;
+
+          }
+
+
+          /* INCOME TARGET */
+
+          if(incomeTarget > 0){
+
+            const incomeToday =
+              money
+                .filter(m=>
+                  (m.moneyDate || dateKey(m.createdAt)) === today &&
+                  String(m.type).toLowerCase() === "income"
+                )
+                .reduce(
+                  (sum,m)=>
+                    sum + number(m.amount),
+                  0
+                );
+
+            progressTotal +=
+              Math.min(
+                100,
+                (incomeToday / incomeTarget) * 100
+              );
+
+            enabled++;
+
+          }
+
+
+          if(enabled > 0){
+
+            targetPercent =
+              Math.round(
+                progressTotal / enabled
+              );
+
+            targetCount = enabled;
+
+          }
+
+        }
+
+      }catch(e){
+
+        targetPercent = 0;
+
+      }
+
+
+      /* =====================================================
+         🔥 STREAK
+         ===================================================== */
+
+      let streak = 0;
+
+      try{
+
+        streak =
+          number(window.currentStreak);
+
+      }catch(e){
+
+        streak = 0;
+
+      }
+
+
+      /* =====================================================
+         🏆 ACHIEVEMENTS
+         ===================================================== */
+
+      const totalCompletedTasks =
+        tasks.filter(t=>t.completed).length;
+
+
+      const totalStudy =
+        studies.reduce(
+          (sum,s)=>
+            sum +
+            number(
+              s.hours ??
+              s.studyHours ??
+              s.duration
+            ),
+          0
+        );
+
+
+      const totalRun =
+        runs.reduce(
+          (sum,r)=>
+            sum +
+            number(
+              r.distance ??
+              r.km ??
+              r.kilometers
+            ),
+          0
+        );
+
+
+      let achievements = 0;
+
+
+      if(totalCompletedTasks >= 100)
+        achievements++;
+
+      if(totalStudy >= 50)
+        achievements++;
+
+      if(totalRun >= 100)
+        achievements++;
+
+      if(streak >= 7)
+        achievements++;
+
+
+      /* =====================================================
+         ⚠️ ATTENTION AREAS
+         ===================================================== */
+
+      const pendingTasks =
+        tasks.filter(t=>!t.completed).length;
+
+
+      const overdueGoals =
+        goals.filter(g=>{
+
+          if(g.completed) return false;
+
+          const targetDate =
+            g.targetDate ||
+            g.dueDate;
+
+          if(!targetDate) return false;
+
+          return targetDate < today;
+
+        }).length;
+
+
+      const attention = [];
+
+
+      if(targetCount === 0){
+
+        attention.push(
+          "🎯 Set at least one target for today."
+        );
+
+      }
+
+
+      if(pendingTasks > 0){
+
+        attention.push(
+          `📝 ${pendingTasks} pending task${pendingTasks>1?"s":""}.`
+        );
+
+      }
+
+
+      if(overdueGoals > 0){
+
+        attention.push(
+          `⏰ ${overdueGoals} overdue goal${overdueGoals>1?"s":""}.`
+        );
+
+      }
+
+
+      if(studyToday === 0){
+
+        attention.push(
+          "📚 No study recorded today."
+        );
+
+      }
+
+
+      if(runToday === 0){
+
+        attention.push(
+          "🏃 No running recorded today."
+        );
+
+      }
+
+
+      if(attention.length === 0){
+
+        attention.push(
+          "✅ No major attention areas. Keep going!"
+        );
+
+      }
+
+
+      /* =====================================================
+         💡 BEST NEXT ACTION
+         ===================================================== */
+
+      let action =
+        "Keep building your day.";
+
+
+      if(targetCount === 0){
+
+        action =
+          "🎯 Set today's targets first. Clear targets make your progress measurable.";
+
+      }
+      else if(targetPercent < 100){
+
+        if(studyToday === 0){
+
+          action =
+            "📚 Do one focused study session now. Even 30–60 minutes will move today's progress.";
+
+        }
+        else if(runToday === 0){
+
+          action =
+            "🏃 Complete or log today's running session.";
+
+        }
+        else if(pendingTasks > 0){
+
+          action =
+            "✅ Finish one pending task before starting something new.";
+
+        }
+        else{
+
+          action =
+            "🎯 Work on the weakest target until today's progress reaches 100%.";
+
+        }
+
+      }
+      else if(pendingTasks > 0){
+
+        action =
+          "✅ Today's target progress is complete. Clear one pending task next.";
+
+      }
+      else{
+
+        action =
+          "🔥 Great work. Review your day and prepare tomorrow's first task.";
+
+      }
+
+
+      /* =====================================================
+         📊 SUMMARY
+         ===================================================== */
+
+      const avgStudy =
+        study7 / 7;
+
+
+      const productivity =
+        totalWeekly > 0
+          ? Math.round(
+              (completedWeekly / totalWeekly) * 100
+            )
+          : 0;
+
+
+      document.getElementById(
+        "insightsSummary"
+      ).textContent =
+        `Last 7 days: 📚 ${study7.toFixed(1)} hrs study • ` +
+        `🏃 ${run7.toFixed(1)} km running • ` +
+        `✅ ${productivity}% task-entry completion • ` +
+        `🎯 Today ${targetPercent}% target progress.`;
+
+
+      /* =====================================================
+         📚 STUDY OUTPUT
+         ===================================================== */
+
+      let studyMessage =
+        `${study7.toFixed(1)} hours in 7 days • ` +
+        `${studyDays.size} active day${studyDays.size===1?"":"s"}.`;
+
+
+      if(study7 === 0){
+
+        studyMessage =
+          "No study recorded in the last 7 days. Start with one focused session.";
+
+      }
+      else if(avgStudy >= 2){
+
+        studyMessage +=
+          " Strong study consistency.";
+
+      }
+      else if(avgStudy >= 1){
+
+        studyMessage +=
+          " Good base. Try increasing consistency.";
+
+      }
+      else{
+
+        studyMessage +=
+          " Build the habit with a small daily session.";
+
+      }
+
+
+      document.getElementById(
+        "insightStudy"
+      ).textContent = studyMessage;
+
+
+      /* =====================================================
+         🏃 RUN OUTPUT
+         ===================================================== */
+
+      let runMessage =
+        `${run7.toFixed(1)} km in 7 days • ` +
+        `${runDays.size} active day${runDays.size===1?"":"s"}.`;
+
+
+      if(run7 === 0){
+
+        runMessage =
+          "No running recorded in the last 7 days.";
+
+      }
+      else if(runDays.size >= 4){
+
+        runMessage +=
+          " Strong consistency.";
+
+      }
+      else{
+
+        runMessage +=
+          " Focus on regular running days.";
+
+      }
+
+
+      document.getElementById(
+        "insightRun"
+      ).textContent = runMessage;
+
+
+      /* =====================================================
+         PRODUCTIVITY OUTPUT
+         ===================================================== */
+
+      document.getElementById(
+        "insightProductivity"
+      ).textContent =
+        productivityText;
+
+
+      /* =====================================================
+         TARGET OUTPUT
+         ===================================================== */
+
+      document.getElementById(
+        "insightTarget"
+      ).textContent =
+        targetCount > 0
+          ? `${targetPercent}% complete across ${targetCount} active target${targetCount>1?"s":""} today.`
+          : "No active target set for today.";
+
+
+      /* =====================================================
+         STREAK OUTPUT
+         ===================================================== */
+
+      document.getElementById(
+        "insightStreak"
+      ).textContent =
+        streak > 0
+          ? `🔥 Current streak: ${streak} day${streak===1?"":"s"}. Keep it alive today.`
+          : "No active streak yet. Complete one meaningful activity today.";
+
+
+      /* =====================================================
+         ACHIEVEMENT OUTPUT
+         ===================================================== */
+
+      document.getElementById(
+        "insightAchievements"
+      ).textContent =
+        `${achievements}/4 milestone achievements currently unlocked.`;
+
+
+      /* =====================================================
+         ACTION + ATTENTION
+         ===================================================== */
+
+      document.getElementById(
+        "insightAction"
+      ).textContent = action;
+
+
+      document.getElementById(
+        "insightAttention"
+      ).innerHTML =
+        attention.join("<br>");
+
+
+    }catch(error){
+
+      console.error(
+        "Smart Insights Error:",
+        error
+      );
+
+      const summary =
+        document.getElementById(
+          "insightsSummary"
+        );
+
+      if(summary){
+
+        summary.textContent =
+          "⚠️ Smart Insights could not read the current data. Try Refresh Insights.";
+
+      }
+
+    }
+
+  };
+
+
+  /* =========================================================
+     INITIAL LOAD
+     ========================================================= */
+
+  setTimeout(
+    window.updateSmartInsights,
+    1500
+  );
+
+
+  /* =========================================================
+     AUTO REFRESH
+     ========================================================= */
+
+  setInterval(
+    window.updateSmartInsights,
+    5000
+  );
+
+
+})();
+
+</script>
+
+<!-- =========================================================
+     END SMART INSIGHTS
+     ========================================================= -->
 </body>
 </html>
