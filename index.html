@@ -6287,4 +6287,118 @@ function updateBackupProtectionStatus() {
 // Check status when page loads
 updateBackupProtectionStatus();
 </script>
+<!-- 🔎 GLOBAL SEARCH -->
+<section class="card" id="globalSearchSection">
+  <h2>🔎 Global Search</h2>
+
+  <input
+    type="text"
+    id="lifeOSSearchInput"
+    placeholder="Search tasks, goals, study, running, money, career, diary..."
+    oninput="lifeOSSearch()"
+    style="width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#111;color:white;"
+  >
+
+  <div id="lifeOSSearchResults" style="margin-top:15px;">
+    <p style="opacity:0.6;">Type something to search your Life OS data...</p>
+  </div>
+</section>
+
+<script>
+function lifeOSSearch() {
+  const input = document.getElementById("lifeOSSearchInput");
+  const results = document.getElementById("lifeOSSearchResults");
+
+  const query = input.value.trim().toLowerCase();
+
+  if (!query) {
+    results.innerHTML =
+      '<p style="opacity:0.6;">Type something to search your Life OS data...</p>';
+    return;
+  }
+
+  let searchData = [];
+
+  function addRecords(records, category) {
+    if (!Array.isArray(records)) return;
+
+    records.forEach(item => {
+      const text = JSON.stringify(item).toLowerCase();
+
+      if (text.includes(query)) {
+        searchData.push({
+          category: category,
+          data: item
+        });
+      }
+    });
+  }
+
+  addRecords(typeof tasks !== "undefined" ? tasks : [], "📝 Tasks");
+  addRecords(typeof goals !== "undefined" ? goals : [], "🎯 Goals");
+  addRecords(typeof plans !== "undefined" ? plans : [], "📅 Planner");
+  addRecords(typeof studyRecords !== "undefined" ? studyRecords : [], "📚 Study");
+  addRecords(typeof runRecords !== "undefined" ? runRecords : [], "🏃 Running");
+  addRecords(typeof moneyRecords !== "undefined" ? moneyRecords : [], "💰 Money");
+  addRecords(
+    typeof jobRecords !== "undefined"
+      ? jobRecords
+      : (typeof jobs !== "undefined" ? jobs : []),
+    "💼 Career"
+  );
+  addRecords(
+    typeof diaryRecords !== "undefined" ? diaryRecords : [],
+    "📔 Diary"
+  );
+
+  if (searchData.length === 0) {
+    results.innerHTML =
+      '<p style="opacity:0.6;">❌ No matching records found.</p>';
+    return;
+  }
+
+  results.innerHTML = `
+    <p><b>${searchData.length}</b> result(s) found</p>
+    ${searchData.map(result => `
+      <div style="
+        padding:12px;
+        margin:10px 0;
+        border:1px solid #333;
+        border-radius:10px;
+        background:#151515;
+      ">
+        <div style="font-weight:bold;margin-bottom:6px;">
+          ${result.category}
+        </div>
+        <div style="font-size:13px;opacity:0.8;word-break:break-word;">
+          ${lifeOSFormatSearchResult(result.data)}
+        </div>
+      </div>
+    `).join("")}
+  `;
+}
+
+function lifeOSFormatSearchResult(item) {
+  if (!item || typeof item !== "object") {
+    return String(item);
+  }
+
+  const values = [];
+
+  Object.entries(item).forEach(([key, value]) => {
+    if (
+      value !== null &&
+      value !== undefined &&
+      value !== "" &&
+      typeof value !== "object"
+    ) {
+      values.push(
+        `<b>${key}:</b> ${String(value)}`
+      );
+    }
+  });
+
+  return values.join(" &nbsp; | &nbsp; ");
+}
+</script>
 </html>
