@@ -4549,9 +4549,58 @@ value ?? ""
 
 }
 
+
+/* =========================
+GLOBAL DATA BRIDGE
+=========================
+
+The main Firebase code runs inside a module.
+These live getters expose the current module data
+to the older dashboard sections that use normal scripts.
+They always return the latest Firebase-loaded arrays.
+========================= */
+
+Object.defineProperties(window,{
+
+ tasks:{get:()=>tasks,configurable:true},
+ goals:{get:()=>goals,configurable:true},
+ plans:{get:()=>plans,configurable:true},
+ studies:{get:()=>studies,configurable:true},
+ runs:{get:()=>runs,configurable:true},
+ money:{get:()=>money,configurable:true},
+ jobs:{get:()=>jobs,configurable:true},
+ diaries:{get:()=>diaries,configurable:true},
+
+ /* Older feature names kept compatible */
+ studyRecords:{get:()=>studies,configurable:true},
+ runRecords:{get:()=>runs,configurable:true},
+ moneyRecords:{get:()=>money,configurable:true},
+ jobRecords:{get:()=>jobs,configurable:true},
+ diaryRecords:{get:()=>diaries,configurable:true},
+
+ /* Target dashboard stores one document for today */
+ targets:{
+   get:()=> currentTarget
+     ? {[today()]:currentTarget}
+     : {},
+   configurable:true
+ },
+
+ /* Used by achievement/smart-dashboard sections */
+ currentStreak:{
+   get:()=>{
+     const el=document.getElementById("currentStreak");
+     if(!el) return 0;
+     const match=String(el.textContent||"").match(/\d+/);
+     return match ? Number(match[0]) : 0;
+   },
+   configurable:true
+ }
+
+});
+
 </script>
 
-</body>
 <!-- WEEKLY PERFORMANCE REPORT -->
 <section class="card">
   <h2>📈 Weekly Performance Report</h2>
@@ -5063,7 +5112,7 @@ function updateMonthlyHistory() {
 
     let study = 0;
     let run = 0;
-    let tasks = 0;
+    let taskCount = 0;
 
     // STUDY
     if(typeof studyRecords !== "undefined") {
@@ -5121,7 +5170,7 @@ function updateMonthlyHistory() {
           x.getFullYear() === year &&
           x.getMonth() === month
         ) {
-          tasks++;
+          taskCount++;
         }
 
       });
@@ -5129,7 +5178,7 @@ function updateMonthlyHistory() {
 
     studyData.push(Number(study.toFixed(1)));
     runData.push(Number(run.toFixed(1)));
-    taskData.push(tasks);
+    taskData.push(taskCount);
   }
 
   const canvas =
@@ -6334,7 +6383,8 @@ function lifeOSSearch() {
     if (!Array.isArray(collection.data)) return;
 
     collection.data.forEach(item => {
-      const searchableText = JSON.stringify(item).toLowerCase();
+      const searchableText =
+        (collection.name + " " + JSON.stringify(item)).toLowerCase();
 
       if (searchableText.includes(query)) {
         found.push({
@@ -6410,4 +6460,6 @@ function lifeOSFormatSearchResult(item) {
   return values.join(" &nbsp; | &nbsp; ");
 }
 </script>
+
+</body>
 </html>
