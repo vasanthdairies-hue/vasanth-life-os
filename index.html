@@ -8415,5 +8415,887 @@ function lifeOSFormatSearchResult(item) {
 <!-- =========================================================
      END LIFE ANALYTICS
      ========================================================= -->
+<!-- =========================================================
+     🏆 XP + LEVEL + ACHIEVEMENT SYSTEM
+     ========================================================= -->
+
+<style>
+
+.xp-dashboard{
+  margin-top:18px;
+  padding:20px;
+  border-radius:16px;
+  background:#111a2e;
+  border:1px solid #293550;
+}
+
+.xp-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.xp-level{
+  font-size:25px;
+  font-weight:700;
+}
+
+.xp-number{
+  color:#aeb8cf;
+  margin-top:5px;
+}
+
+.xp-progress{
+  margin-top:18px;
+  height:14px;
+  background:#0b1220;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.xp-progress-fill{
+  height:100%;
+  width:0%;
+  border-radius:20px;
+  background:#4f7cff;
+  transition:width .6s ease;
+}
+
+.xp-next{
+  margin-top:8px;
+  color:#9da8c2;
+  font-size:13px;
+}
+
+.achievement-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:18px;
+}
+
+.achievement-card{
+  padding:15px;
+  border-radius:14px;
+  background:#111a2e;
+  border:1px solid #293550;
+  opacity:.45;
+  transition:.3s;
+}
+
+.achievement-card.unlocked{
+  opacity:1;
+  border-color:#4f7cff;
+}
+
+.achievement-icon{
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+.achievement-card h3{
+  font-size:15px;
+  margin:0 0 5px 0;
+}
+
+.achievement-card p{
+  margin:0;
+  color:#9da8c2;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.xp-breakdown{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:18px;
+}
+
+.xp-source{
+  padding:14px;
+  background:#17223c;
+  border-radius:12px;
+  text-align:center;
+}
+
+.xp-source strong{
+  display:block;
+  font-size:20px;
+}
+
+.xp-source span{
+  color:#9da8c2;
+  font-size:12px;
+}
+
+@media(max-width:800px){
+
+  .achievement-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .xp-breakdown{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:500px){
+
+  .achievement-grid{
+    grid-template-columns:1fr;
+  }
+
+  .xp-breakdown{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+</style>
+
+
+<section class="card" id="xpSystemSection">
+
+  <h2>🏆 XP & Achievements</h2>
+
+  <p class="analytics-note">
+    Your progress automatically earns XP from your Life OS activity.
+  </p>
+
+
+  <!-- XP MAIN -->
+
+  <div class="xp-dashboard">
+
+    <div class="xp-top">
+
+      <div>
+
+        <div
+          class="xp-level"
+          id="xpLevel">
+          LEVEL 1 — STARTER
+        </div>
+
+        <div
+          class="xp-number"
+          id="xpTotal">
+          ⭐ 0 XP
+        </div>
+
+      </div>
+
+
+      <div
+        id="xpPercent"
+        style="font-size:22px;font-weight:700;">
+        0%
+      </div>
+
+    </div>
+
+
+    <div class="xp-progress">
+
+      <div
+        id="xpProgressFill"
+        class="xp-progress-fill">
+      </div>
+
+    </div>
+
+
+    <div
+      id="xpNext"
+      class="xp-next">
+      500 XP to next level
+    </div>
+
+  </div>
+
+
+  <!-- XP BREAKDOWN -->
+
+  <div class="xp-breakdown">
+
+    <div class="xp-source">
+
+      <strong id="xpTask">
+        0
+      </strong>
+
+      <span>
+        ✅ Task XP
+      </span>
+
+    </div>
+
+
+    <div class="xp-source">
+
+      <strong id="xpStudy">
+        0
+      </strong>
+
+      <span>
+        📚 Study XP
+      </span>
+
+    </div>
+
+
+    <div class="xp-source">
+
+      <strong id="xpRun">
+        0
+      </strong>
+
+      <span>
+        🏃 Running XP
+      </span>
+
+    </div>
+
+
+    <div class="xp-source">
+
+      <strong id="xpBonus">
+        0
+      </strong>
+
+      <span>
+        🔥 Bonus XP
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <!-- ACHIEVEMENTS -->
+
+  <h3 style="margin-top:25px;">
+    🏅 Achievements
+  </h3>
+
+
+  <div class="achievement-grid">
+
+
+    <div
+      class="achievement-card"
+      id="achievementFirstTask">
+
+      <div class="achievement-icon">
+        🌱
+      </div>
+
+      <h3>First Step</h3>
+
+      <p>
+        Complete your first task.
+      </p>
+
+    </div>
+
+
+    <div
+      class="achievement-card"
+      id="achievementStudy">
+
+      <div class="achievement-icon">
+        📚
+      </div>
+
+      <h3>Study Mode</h3>
+
+      <p>
+        Complete 10 study hours.
+      </p>
+
+    </div>
+
+
+    <div
+      class="achievement-card"
+      id="achievementRun">
+
+      <div class="achievement-icon">
+        🏃
+      </div>
+
+      <h3>Runner</h3>
+
+      <p>
+        Run a total of 25 km.
+      </p>
+
+    </div>
+
+
+    <div
+      class="achievement-card"
+      id="achievementStreak">
+
+      <div class="achievement-icon">
+        🔥
+      </div>
+
+      <h3>7 Day Fire</h3>
+
+      <p>
+        Reach a 7 day streak.
+      </p>
+
+    </div>
+
+
+    <div
+      class="achievement-card"
+      id="achievementTasks100">
+
+      <div class="achievement-icon">
+        💯
+      </div>
+
+      <h3>Task Master</h3>
+
+      <p>
+        Complete 100 tasks.
+      </p>
+
+    </div>
+
+
+    <div
+      class="achievement-card"
+      id="achievementStudy50">
+
+      <div class="achievement-icon">
+        🎓
+      </div>
+
+      <h3>Deep Learner</h3>
+
+      <p>
+        Complete 50 study hours.
+      </p>
+
+    </div>
+
+
+    <div
+      class="achievement-card"
+      id="achievementRun100">
+
+      <div class="achievement-icon">
+        🥇
+      </div>
+
+      <h3>100 KM Club</h3>
+
+      <p>
+        Run 100 km total.
+      </p>
+
+    </div>
+
+
+    <div
+      class="achievement-card"
+      id="achievementLevel5">
+
+      <div class="achievement-icon">
+        👑
+      </div>
+
+      <h3>Elite Builder</h3>
+
+      <p>
+        Reach Level 5.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <button
+    onclick="updateXPSystem()"
+    style="margin-top:18px;">
+    🔄 Refresh XP
+  </button>
+
+</section>
+
+
+<script>
+
+(function(){
+
+  function arr(name){
+
+    try{
+
+      const value=window[name];
+
+      return Array.isArray(value)
+        ? value
+        : [];
+
+    }catch(e){
+
+      return [];
+
+    }
+
+  }
+
+
+  function num(value){
+
+    const n=Number(value);
+
+    return Number.isFinite(n)
+      ? n
+      : 0;
+
+  }
+
+
+  function getStreak(){
+
+    try{
+
+      return num(
+        window.currentStreak
+      );
+
+    }catch(e){
+
+      return 0;
+
+    }
+
+  }
+
+
+  window.updateXPSystem=function(){
+
+    const tasks=arr("tasks");
+    const studies=arr("studies");
+    const runs=arr("runs");
+
+
+    /* ==============================================
+       BASIC TOTALS
+       ============================================== */
+
+    const completedTasks=
+      tasks.filter(
+        t=>t.completed
+      ).length;
+
+
+    const studyHours=
+      studies.reduce(
+        (sum,s)=>
+          sum+
+          num(
+            s.hours ??
+            s.studyHours ??
+            s.duration
+          ),
+        0
+      );
+
+
+    const runningKm=
+      runs.reduce(
+        (sum,r)=>
+          sum+
+          num(
+            r.distance ??
+            r.km ??
+            r.kilometers
+          ),
+        0
+      );
+
+
+    const streak=
+      getStreak();
+
+
+    /* ==============================================
+       XP CALCULATION
+       ============================================== */
+
+    const taskXP=
+      completedTasks*10;
+
+
+    const studyXP=
+      Math.floor(
+        studyHours*20
+      );
+
+
+    const runXP=
+      Math.floor(
+        runningKm*10
+      );
+
+
+    let bonusXP=0;
+
+
+    /* STREAK BONUS */
+
+    if(streak>=7){
+
+      bonusXP+=100;
+
+    }
+
+    if(streak>=30){
+
+      bonusXP+=300;
+
+    }
+
+
+    /* MILESTONE BONUSES */
+
+    if(completedTasks>=10){
+
+      bonusXP+=50;
+
+    }
+
+    if(completedTasks>=50){
+
+      bonusXP+=150;
+
+    }
+
+    if(completedTasks>=100){
+
+      bonusXP+=300;
+
+    }
+
+
+    if(studyHours>=10){
+
+      bonusXP+=50;
+
+    }
+
+    if(studyHours>=50){
+
+      bonusXP+=200;
+
+    }
+
+
+    if(runningKm>=25){
+
+      bonusXP+=50;
+
+    }
+
+    if(runningKm>=100){
+
+      bonusXP+=250;
+
+    }
+
+
+    const totalXP=
+      taskXP+
+      studyXP+
+      runXP+
+      bonusXP;
+
+
+    /* ==============================================
+       LEVEL SYSTEM
+       ============================================== */
+
+    let level=1;
+    let levelName="STARTER";
+    let currentMin=0;
+    let nextMin=500;
+
+
+    if(totalXP>=500){
+
+      level=2;
+      levelName="BUILDER";
+      currentMin=500;
+      nextMin=1000;
+
+    }
+
+
+    if(totalXP>=1000){
+
+      level=3;
+      levelName="DISCIPLINED";
+      currentMin=1000;
+      nextMin=2000;
+
+    }
+
+
+    if(totalXP>=2000){
+
+      level=4;
+      levelName="PERFORMER";
+      currentMin=2000;
+      nextMin=3500;
+
+    }
+
+
+    if(totalXP>=3500){
+
+      level=5;
+      levelName="ELITE BUILDER";
+      currentMin=3500;
+      nextMin=5000;
+
+    }
+
+
+    if(totalXP>=5000){
+
+      level=6;
+      levelName="LIFE MASTER";
+      currentMin=5000;
+      nextMin=7500;
+
+    }
+
+
+    if(totalXP>=7500){
+
+      level=7;
+      levelName="LEGEND";
+      currentMin=7500;
+      nextMin=10000;
+
+    }
+
+
+    let percent;
+
+
+    if(totalXP>=10000){
+
+      percent=100;
+
+    }else{
+
+      percent=
+        Math.round(
+          (
+            (totalXP-currentMin) /
+            (nextMin-currentMin)
+          )*100
+        );
+
+    }
+
+
+    percent=
+      Math.max(
+        0,
+        Math.min(
+          100,
+          percent
+        )
+      );
+
+
+    /* ==============================================
+       DISPLAY
+       ============================================== */
+
+    document.getElementById(
+      "xpLevel"
+    ).textContent=
+      `LEVEL ${level} — ${levelName}`;
+
+
+    document.getElementById(
+      "xpTotal"
+    ).textContent=
+      `⭐ ${totalXP.toLocaleString()} XP`;
+
+
+    document.getElementById(
+      "xpPercent"
+    ).textContent=
+      percent+"%";
+
+
+    document.getElementById(
+      "xpProgressFill"
+    ).style.width=
+      percent+"%";
+
+
+    if(totalXP>=10000){
+
+      document.getElementById(
+        "xpNext"
+      ).textContent=
+        "🏆 Maximum displayed level reached.";
+
+    }else{
+
+      document.getElementById(
+        "xpNext"
+      ).textContent=
+        `${nextMin-totalXP} XP to next level`;
+
+    }
+
+
+    document.getElementById(
+      "xpTask"
+    ).textContent=
+      taskXP.toLocaleString();
+
+
+    document.getElementById(
+      "xpStudy"
+    ).textContent=
+      studyXP.toLocaleString();
+
+
+    document.getElementById(
+      "xpRun"
+    ).textContent=
+      runXP.toLocaleString();
+
+
+    document.getElementById(
+      "xpBonus"
+    ).textContent=
+      bonusXP.toLocaleString();
+
+
+    /* ==============================================
+       ACHIEVEMENT HELPER
+       ============================================== */
+
+    function unlock(id,condition){
+
+      const element=
+        document.getElementById(id);
+
+      if(!element) return;
+
+      if(condition){
+
+        element.classList.add(
+          "unlocked"
+        );
+
+      }else{
+
+        element.classList.remove(
+          "unlocked"
+        );
+
+      }
+
+    }
+
+
+    /* ==============================================
+       ACHIEVEMENTS
+       ============================================== */
+
+    unlock(
+      "achievementFirstTask",
+      completedTasks>=1
+    );
+
+
+    unlock(
+      "achievementStudy",
+      studyHours>=10
+    );
+
+
+    unlock(
+      "achievementRun",
+      runningKm>=25
+    );
+
+
+    unlock(
+      "achievementStreak",
+      streak>=7
+    );
+
+
+    unlock(
+      "achievementTasks100",
+      completedTasks>=100
+    );
+
+
+    unlock(
+      "achievementStudy50",
+      studyHours>=50
+    );
+
+
+    unlock(
+      "achievementRun100",
+      runningKm>=100
+    );
+
+
+    unlock(
+      "achievementLevel5",
+      level>=5
+    );
+
+  };
+
+
+  /* INITIAL LOAD */
+
+  setTimeout(
+    updateXPSystem,
+    2000
+  );
+
+
+  /* AUTO REFRESH */
+
+  setInterval(
+    updateXPSystem,
+    5000
+  );
+
+
+})();
+
+</script>
+
+<!-- =========================================================
+     END XP + ACHIEVEMENT SYSTEM
+     ========================================================= -->
 </body>
 </html>
