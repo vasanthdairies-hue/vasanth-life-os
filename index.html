@@ -12257,7 +12257,38 @@ setInterval(() => {
   }
 
 },5000);
+// PAGE NAVIGATION
 
+function showPage(pageId) {
+
+    // Hide all pages
+    document.querySelectorAll(".os-page").forEach(page => {
+        page.classList.add("hidden");
+    });
+
+    // Show selected page
+    const page = document.getElementById(pageId);
+
+    if (page) {
+        page.classList.remove("hidden");
+    }
+
+    // Update active navigation button
+    document.querySelectorAll(".nav-btn").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    const activeBtn = document.querySelector(
+        `.nav-btn[onclick="showPage('${pageId}')"]`
+    );
+
+    if (activeBtn) {
+        activeBtn.classList.add("active");
+    }
+
+    // Save current page
+    localStorage.setItem("lifeOSCurrentPage", pageId);
+}
 </script>
 
 <!-- ================= END WEEKLY COMMAND CENTER ================= -->
