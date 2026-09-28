@@ -12293,9 +12293,13 @@ function showPage(pageId) {
         activeBtn.classList.add("active");
     }
 
-    // Save current page
-    localStorage.setItem("lifeOSCurrentPage", pageId);
+   // Save current page
+localStorage.setItem("lifeOSCurrentPage", pageId);
 }
+
+// Open Life page by default
+showPage("lifePage");
+
 </script>
 </div>
 <!-- ================= END WEEKLY COMMAND CENTER ================= -->
