@@ -1340,6 +1340,14 @@ min="0"
 step="0.5"
 placeholder="Hours">
 
+<input
+id="studyProgress"
+type="number"
+min="0"
+max="100"
+step="1"
+placeholder="Progress %">
+
 <button
 class="primary"
 onclick="addStudy()">
@@ -2804,6 +2812,16 @@ ${study.studyDate}
 
 </div>
 
+<div style="margin-top:10px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:6px;opacity:.9;">
+    <span>Study Progress</span>
+    <b>${Math.max(0,Math.min(100,Number(study.progress ?? (study.completed ? 100 : 0))))}%</b>
+  </div>
+  <div style="height:8px;background:#1a2740;border-radius:999px;overflow:hidden;border:1px solid #263653;">
+    <div style="height:100%;width:${Math.max(0,Math.min(100,Number(study.progress ?? (study.completed ? 100 : 0))))}%;background:linear-gradient(90deg,#7c4dff,#9b6dff);border-radius:999px;transition:width .25s ease;"></div>
+  </div>
+</div>
+
 <div class="item-actions">
 
 <button
@@ -2845,6 +2863,15 @@ document.getElementById(
 ).value
 );
 
+let progress=Number(
+document.getElementById(
+"studyProgress"
+).value
+);
+
+if(!Number.isFinite(progress)) progress=0;
+progress=Math.max(0,Math.min(100,progress));
+
 if(!subject || !hours)return;
 
 await addDoc(
@@ -2857,8 +2884,9 @@ currentUser.uid,
 {
 subject,
 hours,
+progress,
 studyDate:today(),
-completed:true,
+completed:progress>=100,
 createdAt:Date.now()
 }
 );
@@ -2869,6 +2897,10 @@ document.getElementById(
 
 document.getElementById(
 "studyHours"
+).value="";
+
+document.getElementById(
+"studyProgress"
 ).value="";
 
 };
@@ -2890,6 +2922,17 @@ study.hours
 
 if(hours===null)return;
 
+let progress=prompt(
+"Edit study progress (0-100%):",
+study.progress ?? (study.completed ? 100 : 0)
+);
+
+if(progress===null)return;
+
+progress=Number(progress);
+if(!Number.isFinite(progress)) progress=0;
+progress=Math.max(0,Math.min(100,progress));
+
 await updateDoc(
 doc(
 db,
@@ -2899,7 +2942,9 @@ currentUser.uid,
 id
 ),
 {
-hours:Number(hours)
+hours:Number(hours),
+progress,
+completed:progress>=100
 }
 );
 
