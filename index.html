@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="1BjKdi7-t7Hp-rL7sTWdcpokWBCwXBq80KkjTkRadJE" />
-<title>Life OS</title>
+<title>Vasanth Life OS</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -389,112 +387,6 @@ grid-template-columns:1fr;
 }
 
 }
-/* MOBILE RESPONSIVE DESIGN */
-@media (max-width: 768px) {
-
-  body {
-    padding: 10px !important;
-    font-size: 15px;
-  }
-
-  .container,
-  main,
-  .dashboard {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .card {
-    width: 100% !important;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-    padding: 15px !important;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 10px !important;
-  }
-
-  .stat-box {
-    min-width: 0 !important;
-    padding: 12px !important;
-    box-sizing: border-box;
-  }
-
-  .stat-box h3 {
-    font-size: 14px !important;
-  }
-
-  .stat-box p {
-    font-size: 14px !important;
-    word-break: break-word;
-  }
-
-  button {
-    width: 100%;
-    min-height: 46px;
-    margin-top: 8px;
-    font-size: 15px;
-    cursor: pointer;
-  }
-
-  input,
-  select,
-  textarea {
-    width: 100% !important;
-    box-sizing: border-box;
-    min-height: 44px;
-    font-size: 16px !important;
-  }
-
-  textarea {
-    min-height: 100px;
-  }
-
-  h1 {
-    font-size: 25px !important;
-  }
-
-  h2 {
-    font-size: 21px !important;
-  }
-
-  h3 {
-    font-size: 17px !important;
-  }
-
-  canvas {
-    max-width: 100% !important;
-  }
-
-  table {
-    display: block;
-    overflow-x: auto;
-    width: 100%;
-  }
-}
-
-/* SMALL PHONES */
-@media (max-width: 480px) {
-
-  .stats-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .card {
-    padding: 12px !important;
-  }
-
-  h1 {
-    font-size: 22px !important;
-  }
-
-  h2 {
-    font-size: 19px !important;
-  }
-
-}
 </style>
 </head>
 
@@ -506,7 +398,7 @@ grid-template-columns:1fr;
 
 <div class="login-box">
 
-<h1>🚀 Life OS</h1>
+<h1>🚀 Vasanth Life OS</h1>
 
 <p>Your personal life management dashboard</p>
 
@@ -525,7 +417,7 @@ grid-template-columns:1fr;
 
 <header>
 
-<h1>🚀 Life OS</h1>
+<h1>🚀 Vasanth Life OS</h1>
 
 <div>
 
@@ -541,20 +433,6 @@ Logout
 
 
 <div class="container">
-
-<nav class="main-nav" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">
-<button type="button" onclick="showPage('lifePage')" class="nav-btn active">🏠 Life</button>
-<button type="button" onclick="showPage('fitnessPage')" class="nav-btn">🏃 Fitness</button>
-<button type="button" onclick="showPage('jobsPage')" class="nav-btn">💼 Jobs</button>
-<button type="button" onclick="showPage('statsPage')" class="nav-btn">📊 Statistics</button>
-</nav>
-
-<div id="lifePage" class="os-page"></div>
-<div id="fitnessPage" class="os-page hidden"></div>
-<div id="jobsPage" class="os-page hidden"></div>
-<div id="statsPage" class="os-page hidden"></div>
-
-<div id="legacyContent" style="display:none"></div>
 
 
 <!-- DASHBOARD STATS -->
@@ -1761,4 +1639,2811 @@ updateStats();
 }
 
 
-function renderGoal
+function renderGoals(){
+
+const list=
+document.getElementById("goalList");
+
+list.innerHTML="";
+
+goals.forEach(goal=>{
+
+let progress=Math.min(
+100,
+Math.max(
+0,
+Number(goal.progress||0)
+)
+);
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title">
+
+${escapeHTML(goal.name)}
+
+</div>
+
+<div class="item-info">
+
+Target:
+${goal.targetDate || "No date"}
+
+</div>
+
+<div class="item-info">
+
+Progress:
+${progress}%
+
+</div>
+
+<div class="progress">
+
+<div
+class="progress-bar"
+style="width:${progress}%">
+</div>
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="primary"
+onclick="editGoalProgress(
+'${goal.id}',
+${progress}
+)">
+
+Edit Progress
+
+</button>
+
+<button
+class="${
+goal.completed
+?'secondary'
+:'success'
+}"
+onclick="toggleGoal(
+'${goal.id}',
+${goal.completed}
+)">
+
+${
+goal.completed
+?"Undo"
+:"Complete"
+}
+
+</button>
+
+<button
+class="danger"
+onclick="deleteGoal('${goal.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
+
+});
+
+}
+
+
+window.addGoal=async function(){
+
+const input=
+document.getElementById("goalInput");
+
+const date=
+document.getElementById("goalDate");
+
+const name=input.value.trim();
+
+if(!name)return;
+
+await addDoc(
+collection(
+db,
+"users",
+currentUser.uid,
+"goals"
+),
+{
+name,
+targetDate:date.value,
+progress:0,
+completed:false,
+createdAt:Date.now()
+}
+);
+
+input.value="";
+date.value="";
+
+};
+
+
+window.editGoalProgress=async function(
+id,
+current
+){
+
+const value=prompt(
+"Enter progress percentage (0-100):",
+current
+);
+
+if(value===null)return;
+
+let progress=Math.min(
+100,
+Math.max(
+0,
+Number(value)
+)
+);
+
+await updateDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"goals",
+id
+),
+{
+progress,
+completed:progress>=100
+}
+);
+
+};
+
+
+window.toggleGoal=async function(
+id,
+status
+){
+
+await updateDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"goals",
+id
+),
+{
+completed:!status,
+progress:!status?100:0
+}
+);
+
+};
+
+
+window.deleteGoal=async function(id){
+
+await deleteDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"goals",
+id
+)
+);
+
+};
+
+
+/* =========================
+DAILY PLANNER
+========================= */
+
+function loadPlans(){
+
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"plans"
+);
+
+unsubscribePlans=onSnapshot(
+ref,
+snapshot=>{
+
+plans=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
+
+renderPlans();
+
+updateStats();
+
+}
+);
+
+}
+
+
+function renderPlans(){
+
+const list=
+document.getElementById("planList");
+
+list.innerHTML="";
+
+plans
+.sort(
+(a,b)=>
+(a.time||"")
+.localeCompare(b.time||"")
+)
+.forEach(plan=>{
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div
+class="item-title"
+style="${
+plan.completed
+?'text-decoration:line-through'
+:''
+}">
+
+${plan.time ? plan.time+" — ":""}
+
+${escapeHTML(plan.text)}
+
+</div>
+
+<div class="item-info">
+
+${plan.planDate || ""}
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="${
+plan.completed
+?'secondary'
+:'success'
+}"
+onclick="togglePlan(
+'${plan.id}',
+${plan.completed}
+)">
+
+${
+plan.completed
+?"Undo"
+:"Complete"
+}
+
+</button>
+
+<button
+class="primary"
+onclick="editPlan('${plan.id}')">
+
+Edit
+
+</button>
+
+<button
+class="danger"
+onclick="deletePlan('${plan.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
+
+});
+
+}
+
+
+window.addPlan=async function(){
+
+const text=
+document.getElementById("planInput")
+.value.trim();
+
+const time=
+document.getElementById("planTime")
+.value;
+
+if(!text)return;
+
+await addDoc(
+collection(
+db,
+"users",
+currentUser.uid,
+"plans"
+),
+{
+text,
+time,
+planDate:today(),
+completed:false,
+createdAt:Date.now()
+}
+);
+
+document.getElementById(
+"planInput"
+).value="";
+
+document.getElementById(
+"planTime"
+).value="";
+
+};
+
+
+window.togglePlan=async function(
+id,
+status
+){
+
+await updateDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"plans",
+id
+),
+{
+completed:!status
+}
+);
+
+};
+
+
+window.editPlan=async function(id){
+
+const plan=
+plans.find(
+x=>x.id===id
+);
+
+if(!plan)return;
+
+const text=prompt(
+"Edit plan:",
+plan.text
+);
+
+if(text===null)return;
+
+await updateDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"plans",
+id
+),
+{
+text:text.trim()
+}
+);
+
+};
+
+
+window.deletePlan=async function(id){
+
+await deleteDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"plans",
+id
+)
+);
+
+};
+
+
+/* =========================
+STUDY
+========================= */
+
+function loadStudies(){
+
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"studies"
+);
+
+unsubscribeStudies=onSnapshot(
+ref,
+snapshot=>{
+
+studies=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
+
+renderStudies();
+
+updateStats();
+
+}
+);
+
+}
+
+
+function renderStudies(){
+
+const list=
+document.getElementById("studyList");
+
+list.innerHTML="";
+
+studies.forEach(study=>{
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title">
+
+${escapeHTML(study.subject)}
+
+</div>
+
+<div class="item-info">
+
+${study.hours}
+hours —
+${study.studyDate}
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="primary"
+onclick="editStudy('${study.id}')">
+
+Edit
+
+</button>
+
+<button
+class="danger"
+onclick="deleteStudy('${study.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
+
+});
+
+}
+
+
+window.addStudy=async function(){
+
+const subject=
+document.getElementById(
+"studySubject"
+).value.trim();
+
+const hours=Number(
+document.getElementById(
+"studyHours"
+).value
+);
+
+if(!subject || !hours)return;
+
+await addDoc(
+collection(
+db,
+"users",
+currentUser.uid,
+"studies"
+),
+{
+subject,
+hours,
+studyDate:today(),
+completed:true,
+createdAt:Date.now()
+}
+);
+
+document.getElementById(
+"studySubject"
+).value="";
+
+document.getElementById(
+"studyHours"
+).value="";
+
+};
+
+
+window.editStudy=async function(id){
+
+const study=
+studies.find(
+x=>x.id===id
+);
+
+if(!study)return;
+
+const hours=prompt(
+"Edit study hours:",
+study.hours
+);
+
+if(hours===null)return;
+
+await updateDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"studies",
+id
+),
+{
+hours:Number(hours)
+}
+);
+
+};
+
+
+window.deleteStudy=async function(id){
+
+await deleteDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"studies",
+id
+)
+);
+
+};
+
+
+/* =========================
+RUNNING
+========================= */
+
+function loadRuns(){
+
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"runs"
+);
+
+unsubscribeRuns=onSnapshot(
+ref,
+snapshot=>{
+
+runs=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
+
+renderRuns();
+
+updateStats();
+
+}
+);
+
+}
+
+
+function renderRuns(){
+
+const list=
+document.getElementById("runList");
+
+list.innerHTML="";
+
+runs.forEach(run=>{
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title">
+
+🏃 ${run.distance} KM
+
+</div>
+
+<div class="item-info">
+
+Time:
+${escapeHTML(run.time || "-")}
+
+</div>
+
+<div class="item-info">
+
+Date:
+${run.runDate}
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="primary"
+onclick="editRun('${run.id}')">
+
+Edit
+
+</button>
+
+<button
+class="danger"
+onclick="deleteRun('${run.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
+
+});
+
+}
+
+
+window.addRun=async function(){
+
+const distance=Number(
+document.getElementById(
+"runDistance"
+).value
+);
+
+const time=
+document.getElementById(
+"runTime"
+).value.trim();
+
+if(!distance)return;
+
+await addDoc(
+collection(
+db,
+"users",
+currentUser.uid,
+"runs"
+),
+{
+distance,
+time,
+runDate:today(),
+completed:true,
+createdAt:Date.now()
+}
+);
+
+document.getElementById(
+"runDistance"
+).value="";
+
+document.getElementById(
+"runTime"
+).value="";
+
+};
+
+
+window.editRun=async function(id){
+
+const run=
+runs.find(
+x=>x.id===id
+);
+
+if(!run)return;
+
+const distance=prompt(
+"Distance KM:",
+run.distance
+);
+
+if(distance===null)return;
+
+const time=prompt(
+"Time:",
+run.time || ""
+);
+
+await updateDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"runs",
+id
+),
+{
+distance:Number(distance),
+time:time || ""
+}
+);
+
+};
+
+
+window.deleteRun=async function(id){
+
+await deleteDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"runs",
+id
+)
+);
+
+};
+
+
+/* =========================
+MONEY
+========================= */
+
+function loadMoney(){
+
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"money"
+);
+
+unsubscribeMoney=onSnapshot(
+ref,
+snapshot=>{
+
+money=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
+
+renderMoney();
+
+updateStats();
+
+}
+);
+
+}
+
+
+function renderMoney(){
+
+const list=
+document.getElementById(
+"moneyList"
+);
+
+list.innerHTML="";
+
+money.forEach(item=>{
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title">
+
+${item.type==="income"?"💵":"💸"}
+
+₹${Number(item.amount).toFixed(2)}
+
+</div>
+
+<div class="item-info">
+
+${escapeHTML(
+item.note || "No note"
+)}
+
+</div>
+
+<div class="item-info">
+
+${item.moneyDate}
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="danger"
+onclick="deleteMoney('${item.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
+
+});
+
+}
+
+
+window.addMoney=async function(){
+
+const type=
+document.getElementById(
+"moneyType"
+).value;
+
+const amount=Number(
+document.getElementById(
+"moneyAmount"
+).value
+);
+
+const note=
+document.getElementById(
+"moneyNote"
+).value.trim();
+
+if(!amount)return;
+
+await addDoc(
+collection(
+db,
+"users",
+currentUser.uid,
+"money"
+),
+{
+type,
+amount,
+note,
+moneyDate:today(),
+createdAt:Date.now()
+}
+);
+
+document.getElementById(
+"moneyAmount"
+).value="";
+
+document.getElementById(
+"moneyNote"
+).value="";
+
+};
+
+
+window.deleteMoney=async function(id){
+
+await deleteDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"money",
+id
+)
+);
+
+};
+
+
+/* =========================
+JOBS
+========================= */
+
+function loadJobs(){
+
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"jobs"
+);
+
+unsubscribeJobs=onSnapshot(
+ref,
+snapshot=>{
+
+jobs=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
+
+renderJobs();
+
+}
+);
+
+}
+
+
+function renderJobs(){
+
+const list=
+document.getElementById(
+"jobList"
+);
+
+list.innerHTML="";
+
+jobs.forEach(job=>{
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title">
+
+${escapeHTML(job.company)}
+
+</div>
+
+<div class="item-info">
+
+${escapeHTML(job.role)}
+
+</div>
+
+<div class="item-info">
+
+Status:
+${escapeHTML(job.status)}
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="primary"
+onclick="editJob('${job.id}')">
+
+Edit
+
+</button>
+
+<button
+class="danger"
+onclick="deleteJob('${job.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
+
+});
+
+}
+
+
+window.addJob=async function(){
+
+const company=
+document.getElementById(
+"jobCompany"
+).value.trim();
+
+const role=
+document.getElementById(
+"jobRole"
+).value.trim();
+
+const status=
+document.getElementById(
+"jobStatus"
+).value;
+
+if(!company || !role)return;
+
+await addDoc(
+collection(
+db,
+"users",
+currentUser.uid,
+"jobs"
+),
+{
+company,
+role,
+status,
+applicationDate:today(),
+createdAt:Date.now()
+}
+);
+
+document.getElementById(
+"jobCompany"
+).value="";
+
+document.getElementById(
+"jobRole"
+).value="";
+
+};
+
+
+window.editJob=async function(id){
+
+const job=
+jobs.find(
+x=>x.id===id
+);
+
+if(!job)return;
+
+const status=prompt(
+"Enter status:",
+job.status
+);
+
+if(status===null)return;
+
+await updateDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"jobs",
+id
+),
+{
+status
+}
+);
+
+};
+
+
+window.deleteJob=async function(id){
+
+await deleteDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"jobs",
+id
+)
+);
+
+};
+
+
+/* =========================
+DIARY
+========================= */
+
+function loadDiaries(){
+
+const ref=collection(
+db,
+"users",
+currentUser.uid,
+"diary"
+);
+
+unsubscribeDiaries=onSnapshot(
+ref,
+snapshot=>{
+
+diaries=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
+
+renderDiaries();
+
+updateStats();
+
+}
+);
+
+}
+
+
+function renderDiaries(){
+
+const list=
+document.getElementById(
+"diaryList"
+);
+
+list.innerHTML="";
+
+diaries
+.sort(
+(a,b)=>
+(b.diaryDate||"")
+.localeCompare(
+a.diaryDate||""
+)
+)
+.forEach(diary=>{
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title">
+
+📅 ${diary.diaryDate}
+—
+${"⭐".repeat(
+Number(diary.rating)
+)}
+
+</div>
+
+<div class="item-info">
+
+<strong>
+What I did:
+</strong>
+<br>
+
+${escapeHTML(
+diary.work || "-"
+)}
+
+</div>
+
+<div class="item-info">
+
+<strong>
+What I learned:
+</strong>
+<br>
+
+${escapeHTML(
+diary.learned || "-"
+)}
+
+</div>
+
+<div class="item-info">
+
+<strong>
+Thoughts:
+</strong>
+<br>
+
+${escapeHTML(
+diary.thoughts || "-"
+)}
+
+</div>
+
+<div class="item-actions">
+
+<button
+class="primary"
+onclick="editDiary('${diary.id}')">
+
+Edit
+
+</button>
+
+<button
+class="danger"
+onclick="deleteDiary('${diary.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
+
+});
+
+}
+
+
+window.saveDiary=async function(){
+
+const diaryDate=
+document.getElementById(
+"diaryDate"
+).value;
+
+const rating=Number(
+document.getElementById(
+"diaryRating"
+).value
+);
+
+const work=
+document.getElementById(
+"diaryWork"
+).value.trim();
+
+const learned=
+document.getElementById(
+"diaryLearned"
+).value.trim();
+
+const thoughts=
+document.getElementById(
+"diaryThoughts"
+).value.trim();
+
+if(!diaryDate)return;
+
+await addDoc(
+collection(
+db,
+"users",
+currentUser.uid,
+"diary"
+),
+{
+diaryDate,
+rating,
+work,
+learned,
+thoughts,
+createdAt:Date.now()
+}
+);
+
+document.getElementById(
+"diaryWork"
+).value="";
+
+document.getElementById(
+"diaryLearned"
+).value="";
+
+document.getElementById(
+"diaryThoughts"
+).value="";
+
+};
+
+
+window.editDiary=async function(id){
+
+const diary=
+diaries.find(
+x=>x.id===id
+);
+
+if(!diary)return;
+
+const rating=prompt(
+"Rating 1-5:",
+diary.rating
+);
+
+if(rating===null)return;
+
+const work=prompt(
+"What did you do?",
+diary.work || ""
+);
+
+if(work===null)return;
+
+const learned=prompt(
+"What did you learn?",
+diary.learned || ""
+);
+
+if(learned===null)return;
+
+const thoughts=prompt(
+"Thoughts:",
+diary.thoughts || ""
+);
+
+if(thoughts===null)return;
+
+await updateDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"diary",
+id
+),
+{
+rating:Number(rating),
+work,
+learned,
+thoughts
+}
+);
+
+};
+
+
+window.deleteDiary=async function(id){
+
+await deleteDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"diary",
+id
+)
+);
+
+};
+
+
+/* =========================
+TARGET SYSTEM
+========================= */
+
+function loadTargets(){
+
+const ref=doc(
+db,
+"users",
+currentUser.uid,
+"targets",
+today()
+);
+
+unsubscribeTargets=onSnapshot(
+ref,
+snapshot=>{
+
+if(snapshot.exists()){
+
+currentTarget={
+id:snapshot.id,
+...snapshot.data()
+};
+
+}else{
+
+currentTarget=null;
+
+}
+
+renderTargetInputs();
+
+updateTargetDashboard();
+
+}
+);
+
+}
+
+
+function renderTargetInputs(){
+
+document.getElementById(
+"targetToday"
+).textContent=today();
+
+if(!currentTarget){
+
+document.getElementById(
+"targetTasks"
+).value="";
+
+document.getElementById(
+"targetStudy"
+).value="";
+
+document.getElementById(
+"targetRun"
+).value="";
+
+document.getElementById(
+"targetMoney"
+).value="";
+
+return;
+
+}
+
+document.getElementById(
+"targetTasks"
+).value=
+currentTarget.taskTarget ?? "";
+
+document.getElementById(
+"targetStudy"
+).value=
+currentTarget.studyTarget ?? "";
+
+document.getElementById(
+"targetRun"
+).value=
+currentTarget.runTarget ?? "";
+
+document.getElementById(
+"targetMoney"
+).value=
+currentTarget.moneyTarget ?? "";
+
+}
+
+
+window.saveTargets=async function(){
+
+if(!currentUser)return;
+
+const taskTarget=Number(
+document.getElementById(
+"targetTasks"
+).value || 0
+);
+
+const studyTarget=Number(
+document.getElementById(
+"targetStudy"
+).value || 0
+);
+
+const runTarget=Number(
+document.getElementById(
+"targetRun"
+).value || 0
+);
+
+const moneyTarget=Number(
+document.getElementById(
+"targetMoney"
+).value || 0
+);
+
+if(
+taskTarget<=0 &&
+studyTarget<=0 &&
+runTarget<=0 &&
+moneyTarget<=0
+){
+
+alert(
+"Set at least one target."
+);
+
+return;
+
+}
+
+await setDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"targets",
+today()
+),
+{
+targetDate:today(),
+taskTarget,
+studyTarget,
+runTarget,
+moneyTarget,
+updatedAt:Date.now()
+},
+{
+merge:true
+}
+);
+
+alert(
+"Today's targets saved successfully 🎯"
+);
+
+};
+
+
+function updateTargetDashboard(){
+
+if(!currentTarget){
+
+document.getElementById(
+"targetTaskActual"
+).textContent="0 / 0";
+
+document.getElementById(
+"targetStudyActual"
+).textContent="0 / 0";
+
+document.getElementById(
+"targetRunActual"
+).textContent="0 / 0";
+
+document.getElementById(
+"targetMoneyActual"
+).textContent="₹0 / ₹0";
+
+setTargetProgress(
+"targetTaskBar",
+"targetTaskPercent",
+0
+);
+
+setTargetProgress(
+"targetStudyBar",
+"targetStudyPercent",
+0
+);
+
+setTargetProgress(
+"targetRunBar",
+"targetRunPercent",
+0
+);
+
+setTargetProgress(
+"targetMoneyBar",
+"targetMoneyPercent",
+0
+);
+
+document.getElementById(
+"overallTargetPercent"
+).textContent="0%";
+
+document.getElementById(
+"overallTargetBar"
+).style.width="0%";
+
+document.getElementById(
+"targetStatus"
+).textContent=
+"Set your targets for today 🚀";
+
+return;
+
+}
+
+
+/* TODAY TASKS */
+
+const todayTasks=
+tasks.filter(
+task=>{
+
+if(!task.completed)return false;
+
+if(!task.createdAt)return false;
+
+const date=
+new Date(task.createdAt)
+.toISOString()
+.split("T")[0];
+
+return date===today();
+
+}
+).length;
+
+
+/* TODAY STUDY */
+
+const todayStudy=
+studies
+.filter(
+x=>x.studyDate===today()
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.hours||0),
+0
+);
+
+
+/* TODAY RUN */
+
+const todayRun=
+runs
+.filter(
+x=>x.runDate===today()
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.distance||0),
+0
+);
+
+
+/* TODAY INCOME */
+
+const todayIncome=
+money
+.filter(
+x=>
+x.moneyDate===today() &&
+x.type==="income"
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.amount||0),
+0
+);
+
+
+/* TARGETS */
+
+const taskTarget=
+Number(
+currentTarget.taskTarget||0
+);
+
+const studyTarget=
+Number(
+currentTarget.studyTarget||0
+);
+
+const runTarget=
+Number(
+currentTarget.runTarget||0
+);
+
+const moneyTarget=
+Number(
+currentTarget.moneyTarget||0
+);
+
+
+/* PERCENTAGES */
+
+const taskPercent=
+taskTarget>0
+?Math.min(
+100,
+(todayTasks/taskTarget)*100
+)
+:0;
+
+const studyPercent=
+studyTarget>0
+?Math.min(
+100,
+(todayStudy/studyTarget)*100
+)
+:0;
+
+const runPercent=
+runTarget>0
+?Math.min(
+100,
+(todayRun/runTarget)*100
+)
+:0;
+
+const moneyPercent=
+moneyTarget>0
+?Math.min(
+100,
+(todayIncome/moneyTarget)*100
+)
+:0;
+
+
+/* OVERALL */
+
+const percentages=[];
+
+if(taskTarget>0)
+percentages.push(taskPercent);
+
+if(studyTarget>0)
+percentages.push(studyPercent);
+
+if(runTarget>0)
+percentages.push(runPercent);
+
+if(moneyTarget>0)
+percentages.push(moneyPercent);
+
+const overall=
+percentages.length
+?
+Math.round(
+percentages.reduce(
+(a,b)=>a+b,
+0
+)/percentages.length
+)
+:0;
+
+
+/* DISPLAY */
+
+document.getElementById(
+"targetTaskActual"
+).textContent=
+`${todayTasks} / ${taskTarget}`;
+
+document.getElementById(
+"targetStudyActual"
+).textContent=
+`${todayStudy.toFixed(1)} / ${studyTarget}`;
+
+document.getElementById(
+"targetRunActual"
+).textContent=
+`${todayRun.toFixed(1)} / ${runTarget}`;
+
+document.getElementById(
+"targetMoneyActual"
+).textContent=
+`₹${todayIncome.toFixed(0)} / ₹${moneyTarget.toFixed(0)}`;
+
+
+setTargetProgress(
+"targetTaskBar",
+"targetTaskPercent",
+taskPercent
+);
+
+setTargetProgress(
+"targetStudyBar",
+"targetStudyPercent",
+studyPercent
+);
+
+setTargetProgress(
+"targetRunBar",
+"targetRunPercent",
+runPercent
+);
+
+setTargetProgress(
+"targetMoneyBar",
+"targetMoneyPercent",
+moneyPercent
+);
+
+
+document.getElementById(
+"overallTargetPercent"
+).textContent=
+overall+"%";
+
+document.getElementById(
+"overallTargetBar"
+).style.width=
+overall+"%";
+
+
+let message=
+"Keep pushing 🚀";
+
+if(overall>=100){
+
+message=
+"🔥 All today's targets completed! Excellent work!";
+
+}else if(overall>=75){
+
+message=
+"💪 You're close! Finish today's targets.";
+
+}else if(overall>=50){
+
+message=
+"⚡ Good progress. Keep going.";
+
+}else if(overall>0){
+
+message=
+"🚀 Start strong and build momentum today.";
+
+}else{
+
+message=
+"🎯 Your targets are waiting. Start now.";
+
+}
+
+document.getElementById(
+"targetStatus"
+).textContent=message;
+
+}
+
+
+function setTargetProgress(
+barId,
+textId,
+percent
+){
+
+document.getElementById(
+barId
+).style.width=
+Math.min(
+100,
+percent
+)+"%";
+
+document.getElementById(
+textId
+).textContent=
+Math.round(percent)+"%";
+
+}
+
+
+/* =========================
+STATS
+========================= */
+
+function updateStats(){
+
+const completedTasks=
+tasks.filter(
+x=>x.completed
+).length;
+
+const totalTasks=
+tasks.length;
+
+document.getElementById(
+"taskStat"
+).textContent=
+`${completedTasks}/${totalTasks}`;
+
+
+const taskPercent=
+totalTasks
+?
+Math.round(
+(completedTasks/totalTasks)*100
+)
+:0;
+
+
+const completedGoals=
+goals.filter(
+x=>x.completed
+).length;
+
+const goalPercent=
+goals.length
+?
+Math.round(
+(completedGoals/goals.length)*100
+)
+:0;
+
+
+const totalStudy=
+studies.reduce(
+(sum,x)=>
+sum+Number(x.hours||0),
+0
+);
+
+
+const totalKm=
+runs.reduce(
+(sum,x)=>
+sum+Number(x.distance||0),
+0
+);
+
+
+document.getElementById(
+"goalStat"
+).textContent=
+goalPercent+"%";
+
+document.getElementById(
+"studyHourStat"
+).textContent=
+totalStudy.toFixed(1);
+
+document.getElementById(
+"totalKmStat"
+).textContent=
+totalKm.toFixed(1);
+
+
+/* MONEY */
+
+const income=
+money
+.filter(
+x=>x.type==="income"
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.amount||0),
+0
+);
+
+const expense=
+money
+.filter(
+x=>x.type==="expense"
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.amount||0),
+0
+);
+
+const balance=
+income-expense;
+
+
+document.getElementById(
+"incomeStat"
+).textContent=
+"₹"+income.toFixed(0);
+
+document.getElementById(
+"expenseStat"
+).textContent=
+"₹"+expense.toFixed(0);
+
+document.getElementById(
+"balanceStat"
+).textContent=
+"₹"+balance.toFixed(0);
+
+
+/* LIFE SCORE */
+
+const studyScore=
+totalStudy>0
+?100
+:0;
+
+const runningScore=
+totalKm>0
+?100
+:0;
+
+const diaryScore=
+diaries.length>0
+?100
+:0;
+
+
+const lifeScore=
+Math.round(
+(
+taskPercent+
+goalPercent+
+studyScore+
+runningScore+
+diaryScore
+)/5
+);
+
+
+document.getElementById(
+"lifeScore"
+).textContent=
+lifeScore+"%";
+
+document.getElementById(
+"statsTasks"
+).textContent=
+taskPercent+"%";
+
+document.getElementById(
+"statsGoals"
+).textContent=
+goalPercent+"%";
+
+document.getElementById(
+"statsDiary"
+).textContent=
+diaries.length;
+
+
+updateStreak();
+
+updateCharts();
+
+updateTargetDashboard();
+
+}
+
+
+/* =========================
+STREAK
+========================= */
+
+function updateStreak(){
+
+const activeDates=
+new Set();
+
+
+tasks.forEach(
+task=>{
+
+if(
+task.completed &&
+task.createdAt
+){
+
+activeDates.add(
+new Date(
+task.createdAt
+)
+.toISOString()
+.split("T")[0]
+);
+
+}
+
+}
+);
+
+
+plans.forEach(
+plan=>{
+
+if(
+plan.completed &&
+plan.planDate
+){
+
+activeDates.add(
+plan.planDate
+);
+
+}
+
+}
+);
+
+
+studies.forEach(
+study=>{
+
+if(study.studyDate){
+
+activeDates.add(
+study.studyDate
+);
+
+}
+
+}
+);
+
+
+runs.forEach(
+run=>{
+
+if(run.runDate){
+
+activeDates.add(
+run.runDate
+);
+
+}
+
+}
+);
+
+
+diaries.forEach(
+diary=>{
+
+if(diary.diaryDate){
+
+activeDates.add(
+diary.diaryDate
+);
+
+}
+
+}
+);
+
+
+const dates=
+[...activeDates].sort();
+
+document.getElementById(
+"activeDays"
+).textContent=
+dates.length;
+
+
+let best=0;
+
+let current=0;
+
+
+/* BEST */
+
+for(
+let i=0;
+i<dates.length;
+i++
+){
+
+let streak=1;
+
+let previous=
+new Date(
+dates[i]+"T00:00:00"
+);
+
+for(
+let j=i+1;
+j<dates.length;
+j++
+){
+
+let next=
+new Date(
+dates[j]+"T00:00:00"
+);
+
+const diff=
+(next-previous)/
+(1000*60*60*24);
+
+if(diff===1){
+
+streak++;
+
+previous=next;
+
+}else{
+
+break;
+
+}
+
+}
+
+best=
+Math.max(
+best,
+streak
+);
+
+}
+
+
+/* CURRENT */
+
+let check=
+new Date();
+
+while(true){
+
+const date=
+check
+.toISOString()
+.split("T")[0];
+
+if(activeDates.has(date)){
+
+current++;
+
+check.setDate(
+check.getDate()-1
+);
+
+}else{
+
+break;
+
+}
+
+}
+
+
+document.getElementById(
+"currentStreak"
+).textContent=
+current+" days";
+
+document.getElementById(
+"bestStreak"
+).textContent=
+best+" days";
+
+
+/* TARGET STREAK */
+
+let targetStreak=0;
+
+let targetDate=
+new Date();
+
+while(true){
+
+const date=
+targetDate
+.toISOString()
+.split("T")[0];
+
+if(
+isTargetCompletedForDate(date)
+){
+
+targetStreak++;
+
+targetDate.setDate(
+targetDate.getDate()-1
+);
+
+}else{
+
+break;
+
+}
+
+}
+
+document.getElementById(
+"targetStreak"
+).textContent=
+targetStreak+" days";
+
+
+let message=
+"Start your streak today 🚀";
+
+if(current>=7){
+
+message=
+"🔥 7+ day streak! Keep building.";
+
+}else if(current>=3){
+
+message=
+"💪 Great consistency! Keep going.";
+
+}else if(current>=1){
+
+message=
+"🔥 Streak started! Come back tomorrow.";
+
+}
+
+document.getElementById(
+"streakMessage"
+).textContent=
+message;
+
+}
+
+
+function isTargetCompletedForDate(
+date
+){
+
+if(date!==today())
+return false;
+
+if(!currentTarget)
+return false;
+
+
+const taskActual=
+tasks.filter(
+task=>{
+
+if(
+!task.completed ||
+!task.createdAt
+)
+return false;
+
+return new Date(
+task.createdAt
+)
+.toISOString()
+.split("T")[0]
+===date;
+
+}
+).length;
+
+
+const studyActual=
+studies
+.filter(
+x=>x.studyDate===date
+)
+.reduce(
+(s,x)=>
+s+Number(x.hours||0),
+0
+);
+
+
+const runActual=
+runs
+.filter(
+x=>x.runDate===date
+)
+.reduce(
+(s,x)=>
+s+Number(x.distance||0),
+0
+);
+
+
+const incomeActual=
+money
+.filter(
+x=>
+x.moneyDate===date &&
+x.type==="income"
+)
+.reduce(
+(s,x)=>
+s+Number(x.amount||0),
+0
+);
+
+
+if(
+Number(currentTarget.taskTarget||0)>0 &&
+taskActual<
+Number(currentTarget.taskTarget)
+)
+return false;
+
+
+if(
+Number(currentTarget.studyTarget||0)>0 &&
+studyActual<
+Number(currentTarget.studyTarget)
+)
+return false;
+
+
+if(
+Number(currentTarget.runTarget||0)>0 &&
+runActual<
+Number(currentTarget.runTarget)
+)
+return false;
+
+
+if(
+Number(currentTarget.moneyTarget||0)>0 &&
+incomeActual<
+Number(currentTarget.moneyTarget)
+)
+return false;
+
+
+return true;
+
+}
+
+
+/* =========================
+CHARTS
+========================= */
+
+function getLast7Dates(){
+
+const dates=[];
+
+for(
+let i=6;
+i>=0;
+i--
+){
+
+const d=
+new Date();
+
+d.setDate(
+d.getDate()-i
+);
+
+dates.push(
+d.toISOString()
+.split("T")[0]
+);
+
+}
+
+return dates;
+
+}
+
+
+function formatChartDate(
+date
+){
+
+const d=
+new Date(
+date+"T00:00:00"
+);
+
+return d.toLocaleDateString(
+"en-IN",
+{
+day:"2-digit",
+month:"short"
+}
+);
+
+}
+
+
+function updateCharts(){
+
+if(
+typeof Chart==="undefined"
+)
+return;
+
+const dates=
+getLast7Dates();
+
+
+/* STUDY */
+
+const studyValues=
+dates.map(
+date=>
+
+studies
+.filter(
+x=>x.studyDate===date
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.hours||0),
+0
+)
+
+);
+
+
+if(studyChart){
+
+studyChart.destroy();
+
+}
+
+
+studyChart=
+new Chart(
+document.getElementById(
+"studyChart"
+),
+{
+type:"bar",
+
+data:{
+labels:
+dates.map(
+formatChartDate
+),
+
+datasets:[{
+
+label:"Study Hours",
+
+data:
+studyValues
+
+}]
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+}
+);
+
+
+/* RUNNING */
+
+const runValues=
+dates.map(
+date=>
+
+runs
+.filter(
+x=>x.runDate===date
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.distance||0),
+0
+)
+
+);
+
+
+if(runChart){
+
+runChart.destroy();
+
+}
+
+
+runChart=
+new Chart(
+document.getElementById(
+"runChart"
+),
+{
+type:"line",
+
+data:{
+labels:
+dates.map(
+formatChartDate
+),
+
+datasets:[{
+
+label:"Running KM",
+
+data:
+runValues,
+
+tension:.3
+
+}]
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+}
+);
+
+
+/* LIFE */
+
+const taskPercent=
+tasks.length
+?
+Math.round(
+tasks.filter(
+x=>x.completed
+).length
+/tasks.length*100
+)
+:0;
+
+
+const goalPercent=
+goals.length
+?
+Math.round(
+goals.filter(
+x=>x.completed
+).length
+/goals.length*100
+)
+:0;
+
+
+const totalStudy=
+studies.reduce(
+(s,x)=>
+s+Number(x.hours||0),
+0
+);
+
+
+const totalKm=
+runs.reduce(
+(s,x)=>
+s+Number(x.distance||0),
+0
+);
+
+
+const studyScore=
+totalStudy>0
+?100
+:0;
+
+const runScore=
+totalKm>0
+?100
+:0;
+
+const diaryScore=
+diaries.length>0
+?100
+:0;
+
+
+const lifeScore=
+Math.round(
+(
+taskPercent+
+goalPercent+
+studyScore+
+runScore+
+diaryScore
+)/5
+);
+
+
+if(lifeChart){
+
+lifeChart.destroy();
+
+}
+
+
+lifeChart=
+new Chart(
+document.getElementById(
+"lifeChart"
+),
+{
+type:"doughnut",
+
+data:{
+
+labels:[
+"Completed",
+"Remaining"
+],
+
+datasets:[{
+
+data:[
+lifeScore,
+100-lifeScore
+]
+
+}]
+
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+}
+);
+
+}
+
+
+/* =========================
+ESCAPE HTML
+========================= */
+
+function escapeHTML(
+value
+){
+
+return String(
+value ?? ""
+)
+.replace(
+/&/g,
+"&amp;"
+)
+.replace(
+/</g,
+"&lt;"
+)
+.replace(
+/>/g,
+"&gt;"
+)
+.replace(
+/"/g,
+"&quot;"
+)
+.replace(
+/'/g,
+"&#039;"
+);
+
+}
+
+</script>
+
+</body>
+</html>
