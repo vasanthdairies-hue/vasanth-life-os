@@ -433,7 +433,6 @@ header h1{font-size:18px}
 <div class="login-box">
 
 <h1>🚀 Vasanth Life OS</h1>
-
 <p>Your personal life management dashboard</p>
 
 <button class="primary" onclick="loginWithGoogle()">
@@ -452,40 +451,33 @@ header h1{font-size:18px}
 <span id="userName"></span>
 <button class="secondary" onclick="logout()">Logout</button>
 </div>
-
 </header>
 
 <div class="container">
 
 <nav class="main-nav">
 
-<button class="nav-btn active"
-onclick="showPage('dashboardPage',this)">
+<button class="nav-btn active" onclick="showPage('dashboardPage',this)">
 🏠 Dashboard
 </button>
 
-<button class="nav-btn"
-onclick="showPage('tasksPage',this)">
+<button class="nav-btn" onclick="showPage('tasksPage',this)">
 ✅ Tasks
 </button>
 
-<button class="nav-btn"
-onclick="showPage('trackPage',this)">
+<button class="nav-btn" onclick="showPage('trackPage',this)">
 📚 Trackers
 </button>
 
-<button class="nav-btn"
-onclick="showPage('calendarPage',this)">
+<button class="nav-btn" onclick="showPage('calendarPage',this)">
 📅 Calendar
 </button>
 
-<button class="nav-btn"
-onclick="showPage('statsPage',this)">
+<button class="nav-btn" onclick="showPage('statsPage',this)">
 📊 Statistics
 </button>
 
 </nav>
-
 
 <section id="dashboardPage" class="os-page">
 
@@ -513,7 +505,6 @@ onclick="showPage('statsPage',this)">
 
 </div>
 
-
 <div class="card">
 
 <h2>🎯 Goals & Targets</h2>
@@ -530,7 +521,6 @@ onclick="showPage('statsPage',this)">
 <div id="pctTasks" class="percent">0%</div>
 </div>
 
-
 <div class="target-card">
 <h3>📚 Study</h3>
 <div class="target-value" id="targetStudy">0 / 0</div>
@@ -541,7 +531,6 @@ onclick="showPage('statsPage',this)">
 <div id="pctStudy" class="percent">0%</div>
 </div>
 
-
 <div class="target-card">
 <h3>🏃 Running</h3>
 <div class="target-value" id="targetRun">0 / 0</div>
@@ -551,7 +540,6 @@ onclick="showPage('statsPage',this)">
 </div>
 <div id="pctRun" class="percent">0%</div>
 </div>
-
 
 <div class="target-card">
 <h3>💰 Income</h3>
@@ -564,7 +552,6 @@ onclick="showPage('statsPage',this)">
 </div>
 
 </div>
-
 
 <div class="overall-target">
 
@@ -584,7 +571,6 @@ Set your daily targets below.
 </div>
 
 </div>
-
 
 <div class="card">
 
@@ -622,7 +608,6 @@ Set your daily targets below.
 
 </section>
 
-
 <section id="tasksPage" class="os-page hidden">
 
 <div class="card">
@@ -631,11 +616,8 @@ Set your daily targets below.
 
 <div class="form">
 
-<input id="taskInput"
-placeholder="Enter task">
-
-<input id="taskDate"
-type="date">
+<input id="taskInput" placeholder="Enter task">
+<input id="taskDate" type="date">
 
 <button class="primary" onclick="addTask()">
 Add Task
@@ -649,7 +631,6 @@ Add Task
 
 </section>
 
-
 <section id="trackPage" class="os-page hidden">
 
 <div class="two-col">
@@ -660,18 +641,10 @@ Add Task
 
 <div class="form">
 
-<input id="studyHours"
-type="number"
-step="0.1"
-placeholder="Hours">
+<input id="studyHours" type="number" step="0.1" placeholder="Hours">
+<input id="studyDate" type="date">
 
-<input id="studyDate"
-type="date">
-
-<button class="primary"
-onclick="addStudy()">
-Add
-</button>
+<button class="primary" onclick="addStudy()">Add</button>
 
 </div>
 
@@ -679,25 +652,16 @@ Add
 
 </div>
 
-
 <div class="card">
 
 <h2>🏃 Running Tracker</h2>
 
 <div class="form">
 
-<input id="runKm"
-type="number"
-step="0.1"
-placeholder="KM">
+<input id="runKm" type="number" step="0.1" placeholder="KM">
+<input id="runDate" type="date">
 
-<input id="runDate"
-type="date">
-
-<button class="primary"
-onclick="addRun()">
-Add
-</button>
+<button class="primary" onclick="addRun()">Add</button>
 
 </div>
 
@@ -705,25 +669,16 @@ Add
 
 </div>
 
-
 <div class="card">
 
 <h2>💰 Money Tracker</h2>
 
 <div class="form">
 
-<input id="moneyAmount"
-type="number"
-step="0.01"
-placeholder="Income ₹">
+<input id="moneyAmount" type="number" step="0.01" placeholder="Income ₹">
+<input id="moneyDate" type="date">
 
-<input id="moneyDate"
-type="date">
-
-<button class="success"
-onclick="addMoney()">
-Add
-</button>
+<button class="success" onclick="addMoney()">Add</button>
 
 </div>
 
@@ -735,7 +690,6 @@ Add
 
 </section>
 
-
 <section id="calendarPage" class="os-page hidden">
 
 <div class="card">
@@ -746,20 +700,9 @@ Add
 
 <div class="calendar-actions">
 
-<button class="secondary"
-onclick="changeMonth(-1)">
-◀
-</button>
-
-<button class="primary"
-onclick="goToday()">
-Today
-</button>
-
-<button class="secondary"
-onclick="changeMonth(1)">
-▶
-</button>
+<button class="secondary" onclick="changeMonth(-1)">◀</button>
+<button class="primary" onclick="goToday()">Today</button>
+<button class="secondary" onclick="changeMonth(1)">▶</button>
 
 </div>
 
@@ -777,7 +720,6 @@ onclick="changeMonth(1)">
 </div>
 
 </div>
-
 
 <div class="card">
 
@@ -816,7 +758,6 @@ Income<br>
 </div>
 
 </section>
-
 
 <section id="statsPage" class="os-page hidden">
 
@@ -857,21 +798,21 @@ Income<br>
 
 <div id="toast" class="toast"></div>
 
-
 <script type="module">
 
-import {
-initializeApp
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 import {
 getAuth,
 GoogleAuthProvider,
+signInWithPopup,
 signInWithRedirect,
 getRedirectResult,
 onAuthStateChanged,
 signOut
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 import {
 getFirestore,
@@ -883,46 +824,37 @@ doc,
 setDoc,
 onSnapshot,
 getDoc
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
 const firebaseConfig={
 
 apiKey:"AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
-
 authDomain:"vasanth-lise-os.firebaseapp.com",
-
 projectId:"vasanth-lise-os",
-
 storageBucket:"vasanth-lise-os.firebasestorage.app",
-
 messagingSenderId:"847181528785",
-
 appId:"1:847181528785:web:f02eb43c041c9e90fc4ff0",
-
 measurementId:"G-WMPYW2EDLZ"
 
 };
 
 
 const app=initializeApp(firebaseConfig);
-
 const auth=getAuth(app);
-
 const db=getFirestore(app);
 
 let currentUser=null;
 
-let tasks=[],
-goals=[],
-studies=[],
-runs=[],
-money=[];
+let tasks=[];
+let goals=[];
+let studies=[];
+let runs=[];
+let money=[];
 
 let targetCache={};
-
 let unsubs=[];
-
 let calendarDate=new Date();
 
 
@@ -975,7 +907,6 @@ const toast=m=>{
 const e=document.getElementById("toast");
 
 e.textContent=m;
-
 e.style.display="block";
 
 setTimeout(()=>{
@@ -985,11 +916,7 @@ e.style.display="none";
 };
 
 
-const clamp=n=>
-Math.max(0,Math.min(100,n));
-
-
-/* GOOGLE LOGIN - MOBILE FRIENDLY */
+/* GOOGLE LOGIN */
 
 window.loginWithGoogle=async()=>{
 
@@ -1001,34 +928,56 @@ provider.setCustomParameters({
 prompt:"select_account"
 });
 
+/* Try popup first */
+try{
+
+await signInWithPopup(auth,provider);
+
+}catch(popupError){
+
+console.warn("Popup login failed:",popupError);
+
+/* Mobile fallback */
 await signInWithRedirect(auth,provider);
+
+}
 
 }catch(e){
 
-alert("Login failed: "+e.message);
+alert(
+"Google Login Error:\n"+
+(e.code||"unknown")+
+"\n"+
+(e.message||"Please try again.")
+);
 
 }
 
 };
 
 
-/* CHECK REDIRECT LOGIN */
+/* HANDLE REDIRECT LOGIN */
 
 getRedirectResult(auth)
 .then(result=>{
 
-if(result && result.user){
+if(result?.user){
 
 console.log("Google login successful");
 
 }
 
 })
-.catch(error=>{
+.catch(e=>{
 
-console.error("Google redirect error:",error);
+console.error("Redirect login error:",e);
 
-alert("Login failed: "+error.message);
+alert(
+"Google Login Error:\n"+
+(e.code||"unknown")+
+"\n"+
+(e.message||"Please check Firebase settings.")
+);
 
 });
 
@@ -1131,7 +1080,6 @@ updateAll();
 
 listen("goals",v=>{
 goals=v;
-renderGoals();
 updateAll();
 });
 
@@ -1207,21 +1155,10 @@ if(!currentUser)return;
 
 targetCache={
 
-tasks:Number(
-document.getElementById("inputTaskTarget").value||0
-),
-
-study:Number(
-document.getElementById("inputStudyTarget").value||0
-),
-
-running:Number(
-document.getElementById("inputRunTarget").value||0
-),
-
-income:Number(
-document.getElementById("inputMoneyTarget").value||0
-)
+tasks:Number(document.getElementById("inputTaskTarget").value||0),
+study:Number(document.getElementById("inputStudyTarget").value||0),
+running:Number(document.getElementById("inputRunTarget").value||0),
+income:Number(document.getElementById("inputMoneyTarget").value||0)
 
 };
 
@@ -1237,7 +1174,6 @@ targetCache
 );
 
 toast("Daily targets saved");
-
 updateAll();
 
 };
@@ -1248,52 +1184,6 @@ function todayTasks(){
 return tasks.filter(
 x=>dateFromTimestamp(x.date||x.createdAt)===today()
 );
-
-}
-
-
-function todayStudies(){
-
-return studies.filter(
-x=>dateFromTimestamp(x.date||x.createdAt)===today()
-);
-
-}
-
-
-function todayRuns(){
-
-return runs.filter(
-x=>dateFromTimestamp(x.date||x.createdAt)===today()
-);
-
-}
-
-
-function todayMoney(){
-
-return money.filter(
-x=>dateFromTimestamp(x.date||x.createdAt)===today()
-);
-
-}
-
-
-function completedTasksForDate(date){
-
-return tasks.filter(
-x=>
-dateFromTimestamp(x.date||x.createdAt)===date
-&&
-(x.completed===true || x.status==="completed")
-);
-
-}
-
-
-function taskCount(date){
-
-return completedTasksForDate(date).length;
 
 }
 
@@ -1325,38 +1215,53 @@ return money
 }
 
 
+function completedTasksForDate(date){
+
+return tasks.filter(x=>
+dateFromTimestamp(x.date||x.createdAt)===date &&
+(x.completed===true || x.status==="completed")
+);
+
+}
+
+
+function taskCount(date){
+
+return completedTasksForDate(date).length;
+
+}
+
+
+function clamp(n){
+
+return Math.max(0,Math.min(100,n));
+
+}
+
+
 function progressForDate(date){
 
 const target=targetCache||{};
-
 const values=[];
 
 if(Number(target.tasks)>0)
 values.push(
-clamp(
-taskCount(date)/Number(target.tasks)*100
-)
+clamp(taskCount(date)/Number(target.tasks)*100)
 );
 
 if(Number(target.study)>0)
 values.push(
-clamp(
-studyTotal(date)/Number(target.study)*100
-)
+clamp(studyTotal(date)/Number(target.study)*100)
 );
 
 if(Number(target.running)>0)
 values.push(
-clamp(
-runTotal(date)/Number(target.running)*100
-)
+clamp(runTotal(date)/Number(target.running)*100)
 );
 
 if(Number(target.income)>0)
 values.push(
-clamp(
-moneyTotal(date)/Number(target.income)*100
-)
+clamp(moneyTotal(date)/Number(target.income)*100)
 );
 
 if(!values.length)return 0;
@@ -1378,19 +1283,13 @@ x.status==="completed"
 ).length;
 
 const study=studyTotal(d);
-
 const run=runTotal(d);
-
 const income=moneyTotal(d);
 
 const taskTarget=Number(targetCache.tasks||0);
-
 const studyTarget=Number(targetCache.study||0);
-
 const runTarget=Number(targetCache.running||0);
-
 const moneyTarget=Number(targetCache.income||0);
-
 
 document.getElementById("taskStat").textContent=
 completed+"/"+taskTarget;
@@ -1401,6 +1300,8 @@ study.toFixed(1);
 document.getElementById("totalKmStat").textContent=
 run.toFixed(1);
 
-
 document.getElementById("targetTasks").textContent=
-com
+completed+" / "+taskTarget;
+
+document.getElementById("targetStudy").textContent=
+study.toFixed(1)+" / "+stud
