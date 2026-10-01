@@ -1,438 +1,513 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Vasanth Life OS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="1BjKdi7-t7Hp-rL7sTWdcpokWBCwXBq80KkjTkRadJE" />
+<title>Life OS</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-
-:root{
---bg:#080d1a;
---panel:#10182b;
---panel2:#0d1425;
---line:#26334f;
---text:#f4f7ff;
---muted:#96a2bd;
---blue:#4f7cff;
---green:#20c997;
---red:#ef5350;
---yellow:#f5b942;
---purple:#9b7cff;
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
 }
 
 body{
 font-family:Arial,Helvetica,sans-serif;
-background:linear-gradient(135deg,#080d1a,#0b1222);
-color:var(--text);
-min-height:100vh
+background:#0b1020;
+color:#fff;
+line-height:1.5;
 }
-
-button{
-border:0;
-border-radius:9px;
-padding:10px 14px;
-font-weight:700;
-cursor:pointer;
-color:#fff
-}
-
-button:hover{opacity:.88}
-
-.primary{background:var(--blue)}
-.success{background:var(--green)}
-.danger{background:var(--red)}
-.secondary{background:#26334f}
-.purple{background:var(--purple)}
-
-.hidden{display:none!important}
-
-.login-screen{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px
-}
-
-.login-box{
-width:100%;
-max-width:420px;
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:18px;
-padding:32px;
-text-align:center;
-box-shadow:0 20px 60px #0008
-}
-
-.login-box h1{margin-bottom:8px}
-.login-box p{color:var(--muted);margin-bottom:22px}
 
 header{
-background:#0e1527ee;
-border-bottom:1px solid var(--line);
-padding:14px 20px;
+background:#11182d;
+padding:15px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+border-bottom:1px solid #293550;
 position:sticky;
 top:0;
-z-index:20;
-backdrop-filter:blur(12px)
+z-index:10;
 }
 
-header h1{font-size:21px}
+header h1{
+font-size:21px;
+}
+
+button{
+border:none;
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.primary{
+background:#4f7cff;
+color:white;
+}
+
+.success{
+background:#20b486;
+color:white;
+}
+
+.danger{
+background:#e74c3c;
+color:white;
+}
+
+.secondary{
+background:#293550;
+color:white;
+}
+
+button:hover{
+opacity:.85;
+}
 
 .container{
-max-width:1250px;
+max-width:1200px;
 margin:auto;
-padding:20px
+padding:20px;
 }
-
-.main-nav{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:9px;
-margin-bottom:20px
-}
-
-.nav-btn{
-background:#18233a;
-border:1px solid var(--line)
-}
-
-.nav-btn.active{background:var(--blue)}
 
 .card{
-background:linear-gradient(145deg,var(--panel),#0d1527);
-border:1px solid var(--line);
-border-radius:16px;
+background:#11182d;
+border:1px solid #293550;
+border-radius:14px;
 padding:20px;
-margin-bottom:18px
+margin-bottom:20px;
 }
 
 .card h2{
+margin-bottom:15px;
 font-size:20px;
-margin-bottom:14px
 }
 
 .form{
 display:grid;
 grid-template-columns:1fr 1fr auto;
 gap:10px;
-margin-bottom:14px
+margin-bottom:15px;
 }
 
 input,select,textarea{
 width:100%;
-background:#091225;
+background:#0e162b;
 border:1px solid #34415f;
 color:#fff;
 padding:11px;
-border-radius:9px;
-outline:0
-}
-
-input:focus,select:focus,textarea:focus{
-border-color:var(--blue)
+border-radius:8px;
+outline:none;
 }
 
 textarea{
 min-height:100px;
-resize:vertical
+resize:vertical;
 }
 
-label,.muted{
-color:var(--muted);
-font-size:13px
+input:focus,select:focus,textarea:focus{
+border-color:#4f7cff;
 }
 
 .stats{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:12px;
-margin-bottom:18px
+gap:15px;
+margin-bottom:20px;
 }
 
 .stat{
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:13px;
-padding:15px;
-text-align:center
+background:#11182d;
+border:1px solid #293550;
+padding:18px;
+border-radius:12px;
+text-align:center;
 }
 
-.stat small{
+.stat small,
+.run-stat small{
 display:block;
-color:var(--muted);
-margin-bottom:5px
+color:#9da8c2;
+margin-bottom:5px;
 }
 
-.stat strong{font-size:23px}
-
-.target-grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:12px
-}
-
-.target-card{
-background:#0b1427;
-border:1px solid var(--line);
-border-radius:14px;
-padding:16px
-}
-
-.target-card h3{
-font-size:15px;
-margin-bottom:9px
-}
-
-.target-value{
-font-size:23px;
-font-weight:800
-}
-
-.target-label{
-color:var(--muted);
-font-size:12px;
-margin-top:4px
-}
-
-.progress{
-height:9px;
-background:#26334f;
-border-radius:20px;
-overflow:hidden;
-margin-top:11px
-}
-
-.progress-bar{
-height:100%;
-background:linear-gradient(90deg,var(--blue),var(--green));
-border-radius:20px;
-transition:.35s
-}
-
-.percent{
-font-size:12px;
-color:var(--muted);
-margin-top:5px
-}
-
-.overall-target{
-margin-top:15px;
-background:#0b1427;
-border:1px solid var(--line);
-border-radius:14px;
-padding:18px
-}
-
-.overall-top{
-display:flex;
-justify-content:space-between;
-align-items:center
-}
-
-.overall-top strong{font-size:30px}
-
-.status-message{
-margin-top:12px;
-background:#15213a;
-border-radius:9px;
-padding:11px;
-color:#dbe4fa
+.stat strong,
+.run-stat strong{
+font-size:24px;
 }
 
 .item{
-background:#0b1427;
-border:1px solid var(--line);
-border-radius:11px;
-padding:13px;
-margin-bottom:9px
+background:#0e162b;
+border:1px solid #293550;
+border-radius:10px;
+padding:14px;
+margin-bottom:10px;
 }
 
-.item-title{font-weight:700}
+.item-title{
+font-weight:bold;
+font-size:16px;
+}
 
 .item-info{
-color:var(--muted);
-font-size:13px;
-margin-top:5px
+color:#9da8c2;
+font-size:14px;
+margin-top:5px;
 }
 
 .item-actions{
 display:flex;
 gap:7px;
 flex-wrap:wrap;
-margin-top:10px
+margin-top:10px;
 }
 
-.two-col{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px
+.progress{
+height:10px;
+background:#293550;
+border-radius:10px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.progress-bar{
+height:100%;
+background:#4f7cff;
+border-radius:10px;
+transition:.3s;
 }
 
 .run-stats{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:10px
+gap:15px;
 }
 
 .run-stat{
-background:#0b1427;
-border:1px solid var(--line);
-padding:14px;
-border-radius:11px;
-text-align:center
-}
-
-.run-stat small{
-display:block;
-color:var(--muted);
-margin-bottom:4px
-}
-
-.run-stat strong{font-size:21px}
-
-.calendar-head{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-margin-bottom:15px
-}
-
-.calendar-actions{
-display:flex;
-gap:7px
-}
-
-.calendar-grid{
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:7px
-}
-
-.calendar-weekday{
-text-align:center;
-color:var(--muted);
-font-size:12px;
-padding:6px
-}
-
-.day{
-min-height:74px;
-background:#0b1427;
-border:1px solid var(--line);
+background:#0e162b;
+border:1px solid #293550;
+padding:15px;
 border-radius:10px;
-padding:8px;
-cursor:pointer;
-position:relative
+text-align:center;
 }
 
-.day:hover{border-color:var(--blue)}
-.day.empty{background:transparent;border:0;cursor:default}
-
-.day-number{font-weight:700}
-
-.day-mark{
-position:absolute;
-right:7px;
-top:6px;
-font-weight:900;
-font-size:17px
-}
-
-.day.done{
-border-color:#1b9b73;
-background:#0b211d
-}
-
-.day.done .day-mark{color:var(--green)}
-
-.day.missed{
-border-color:#9f3939;
-background:#251214
-}
-
-.day.missed .day-mark{color:var(--red)}
-
-.day.today{
-box-shadow:0 0 0 2px var(--blue) inset
-}
-
-.day.future{opacity:.55}
-
-.calendar-legend{
+.login-screen{
+min-height:100vh;
 display:flex;
-gap:16px;
-flex-wrap:wrap;
-color:var(--muted);
-font-size:12px;
-margin-top:12px
+align-items:center;
+justify-content:center;
+padding:20px;
 }
 
-.detail-grid{
+.login-box{
+width:100%;
+max-width:420px;
+background:#11182d;
+border:1px solid #293550;
+border-radius:15px;
+padding:30px;
+text-align:center;
+}
+
+.login-box h1{
+margin-bottom:10px;
+}
+
+.login-box p{
+color:#9da8c2;
+margin-bottom:20px;
+}
+
+.hidden{
+display:none!important;
+}
+
+.chart-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.chart-box{
+background:#0e162b;
+border:1px solid #293550;
+border-radius:12px;
+padding:15px;
+}
+
+.chart-box h3{
+margin-bottom:12px;
+font-size:16px;
+}
+
+.chart-box canvas{
+width:100%!important;
+height:280px!important;
+}
+
+.target-grid{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:10px;
-margin-top:12px
+gap:12px;
+margin-bottom:15px;
 }
 
-.detail-box{
-background:#0b1427;
-border:1px solid var(--line);
-padding:12px;
-border-radius:10px
+.target-card{
+background:#0e162b;
+border:1px solid #293550;
+border-radius:12px;
+padding:15px;
 }
 
-.empty-state{
-color:var(--muted);
-padding:14px;
-text-align:center
+.target-card h3{
+font-size:15px;
+margin-bottom:8px;
 }
 
-.toast{
-position:fixed;
-right:18px;
-bottom:18px;
-background:#16233d;
-border:1px solid var(--line);
-padding:12px 16px;
+.target-value{
+font-size:22px;
+font-weight:bold;
+margin-top:8px;
+}
+
+.target-label{
+font-size:13px;
+color:#9da8c2;
+}
+
+.target-progress{
+margin-top:10px;
+height:9px;
+background:#293550;
 border-radius:10px;
-display:none;
-z-index:50
+overflow:hidden;
+}
+
+.target-progress-bar{
+height:100%;
+background:#20b486;
+border-radius:10px;
+transition:.3s;
+}
+
+.overall-target{
+background:#0e162b;
+border:1px solid #293550;
+border-radius:12px;
+padding:18px;
+margin-top:15px;
+}
+
+.overall-target strong{
+font-size:28px;
+}
+
+.status-message{
+margin-top:12px;
+padding:12px;
+border-radius:8px;
+background:#17223c;
+color:#d8def0;
+}
+
+.two-col{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
 }
 
 @media(max-width:800px){
-.main-nav{grid-template-columns:repeat(2,1fr)}
-.stats,.target-grid,.run-stats,.detail-grid{grid-template-columns:1fr 1fr}
-.form,.two-col{grid-template-columns:1fr}
-.calendar-grid{gap:4px}
-.day{min-height:62px;padding:6px}
+
+.stats{
+grid-template-columns:1fr 1fr;
 }
 
-@media(max-width:480px){
-.container{padding:12px}
-.stats,.target-grid,.run-stats,.detail-grid{grid-template-columns:1fr 1fr}
-.day{min-height:54px}
-.day-number{font-size:12px}
-.day-mark{font-size:14px}
-.calendar-weekday{font-size:10px}
-header h1{font-size:18px}
+.run-stats{
+grid-template-columns:1fr 1fr;
+}
+
+.target-grid{
+grid-template-columns:1fr 1fr;
+}
+
+.form{
+grid-template-columns:1fr;
+}
+
+.chart-grid{
+grid-template-columns:1fr;
+}
+
+.two-col{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:500px){
+
+.container{
+padding:12px;
+}
+
+header{
+padding:12px;
+}
+
+header h1{
+font-size:18px;
+}
+
+.stats{
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+.stat{
+padding:12px;
+}
+
+.stat strong,
+.run-stat strong{
+font-size:20px;
+}
+
+.run-stats{
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+.target-grid{
+grid-template-columns:1fr;
+}
+
+}
+/* MOBILE RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+
+  body {
+    padding: 10px !important;
+    font-size: 15px;
+  }
+
+  .container,
+  main,
+  .dashboard {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .card {
+    width: 100% !important;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    padding: 15px !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  .stat-box {
+    min-width: 0 !important;
+    padding: 12px !important;
+    box-sizing: border-box;
+  }
+
+  .stat-box h3 {
+    font-size: 14px !important;
+  }
+
+  .stat-box p {
+    font-size: 14px !important;
+    word-break: break-word;
+  }
+
+  button {
+    width: 100%;
+    min-height: 46px;
+    margin-top: 8px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100% !important;
+    box-sizing: border-box;
+    min-height: 44px;
+    font-size: 16px !important;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+
+  h1 {
+    font-size: 25px !important;
+  }
+
+  h2 {
+    font-size: 21px !important;
+  }
+
+  h3 {
+    font-size: 17px !important;
+  }
+
+  canvas {
+    max-width: 100% !important;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+  }
+}
+
+/* SMALL PHONES */
+@media (max-width: 480px) {
+
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .card {
+    padding: 12px !important;
+  }
+
+  h1 {
+    font-size: 22px !important;
+  }
+
+  h2 {
+    font-size: 19px !important;
+  }
+
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
+
 <div id="loginScreen" class="login-screen">
+
 <div class="login-box">
 
-<h1>🚀 Vasanth Life OS</h1>
+<h1>🚀 Life OS</h1>
+
 <p>Your personal life management dashboard</p>
 
 <button class="primary" onclick="loginWithGoogle()">
@@ -440,51 +515,54 @@ header h1{font-size:18px}
 </button>
 
 </div>
+
 </div>
+
+
+<!-- APP -->
 
 <div id="app" class="hidden">
 
 <header>
-<h1>🚀 Vasanth Life OS</h1>
+
+<h1>🚀 Life OS</h1>
 
 <div>
+
 <span id="userName"></span>
-<button class="secondary" onclick="logout()">Logout</button>
+
+<button class="secondary" onclick="logout()">
+Logout
+</button>
+
 </div>
+
 </header>
+
 
 <div class="container">
 
-<nav class="main-nav">
-
-<button class="nav-btn active" onclick="showPage('dashboardPage',this)">
-🏠 Dashboard
-</button>
-
-<button class="nav-btn" onclick="showPage('tasksPage',this)">
-✅ Tasks
-</button>
-
-<button class="nav-btn" onclick="showPage('trackPage',this)">
-📚 Trackers
-</button>
-
-<button class="nav-btn" onclick="showPage('calendarPage',this)">
-📅 Calendar
-</button>
-
-<button class="nav-btn" onclick="showPage('statsPage',this)">
-📊 Statistics
-</button>
-
+<nav class="main-nav" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">
+<button type="button" onclick="showPage('lifePage')" class="nav-btn active">🏠 Life</button>
+<button type="button" onclick="showPage('fitnessPage')" class="nav-btn">🏃 Fitness</button>
+<button type="button" onclick="showPage('jobsPage')" class="nav-btn">💼 Jobs</button>
+<button type="button" onclick="showPage('statsPage')" class="nav-btn">📊 Statistics</button>
 </nav>
 
-<section id="dashboardPage" class="os-page">
+<div id="lifePage" class="os-page"></div>
+<div id="fitnessPage" class="os-page hidden"></div>
+<div id="jobsPage" class="os-page hidden"></div>
+<div id="statsPage" class="os-page hidden"></div>
+
+<div id="legacyContent" style="display:none"></div>
+
+
+<!-- DASHBOARD STATS -->
 
 <div class="stats">
 
 <div class="stat">
-<small>Tasks Today</small>
+<small>Tasks</small>
 <strong id="taskStat">0/0</strong>
 </div>
 
@@ -505,110 +583,290 @@ header h1{font-size:18px}
 
 </div>
 
-<div class="card">
 
-<h2>🎯 Goals & Targets</h2>
-
-<div class="target-grid">
-
-<div class="target-card">
-<h3>✅ Tasks</h3>
-<div class="target-value" id="targetTasks">0 / 0</div>
-<div class="target-label">Completed / Target</div>
-<div class="progress">
-<div id="barTasks" class="progress-bar"></div>
-</div>
-<div id="pctTasks" class="percent">0%</div>
-</div>
-
-<div class="target-card">
-<h3>📚 Study</h3>
-<div class="target-value" id="targetStudy">0 / 0</div>
-<div class="target-label">Hours / Target</div>
-<div class="progress">
-<div id="barStudy" class="progress-bar"></div>
-</div>
-<div id="pctStudy" class="percent">0%</div>
-</div>
-
-<div class="target-card">
-<h3>🏃 Running</h3>
-<div class="target-value" id="targetRun">0 / 0</div>
-<div class="target-label">KM / Target</div>
-<div class="progress">
-<div id="barRun" class="progress-bar"></div>
-</div>
-<div id="pctRun" class="percent">0%</div>
-</div>
-
-<div class="target-card">
-<h3>💰 Income</h3>
-<div class="target-value" id="targetMoney">₹0 / ₹0</div>
-<div class="target-label">Income / Target</div>
-<div class="progress">
-<div id="barMoney" class="progress-bar"></div>
-</div>
-<div id="pctMoney" class="percent">0%</div>
-</div>
-
-</div>
-
-<div class="overall-target">
-
-<div class="overall-top">
-<span>Overall Progress</span>
-<strong id="overallPct">0%</strong>
-</div>
-
-<div class="progress">
-<div id="overallBar" class="progress-bar"></div>
-</div>
-
-<div id="overallStatus" class="status-message">
-Set your daily targets below.
-</div>
-
-</div>
-
-</div>
+<!-- TARGET DASHBOARD -->
 
 <div class="card">
 
-<h2>⚙️ Daily Targets</h2>
+<h2>🎯 Goals & Targets Dashboard</h2>
+
+<div class="item-info">
+Today: <strong id="targetToday"></strong>
+</div>
+
+<br>
 
 <div class="form">
 
 <div>
-<label>Daily Task Target</label>
-<input id="inputTaskTarget" type="number" min="0" value="0">
+<label class="target-label">
+✅ Daily Task Target
+</label>
+
+<input
+id="targetTasks"
+type="number"
+min="0"
+placeholder="Example: 3">
 </div>
+
 
 <div>
-<label>Study Target (hours)</label>
-<input id="inputStudyTarget" type="number" min="0" step="0.1" value="0">
+
+<label class="target-label">
+📚 Study Target (hours)
+</label>
+
+<input
+id="targetStudy"
+type="number"
+min="0"
+step="0.5"
+placeholder="Example: 2">
+
 </div>
+
 
 <div>
-<label>Running Target (KM)</label>
-<input id="inputRunTarget" type="number" min="0" step="0.1" value="0">
+
+<label class="target-label">
+🏃 Running Target (KM)
+</label>
+
+<input
+id="targetRun"
+type="number"
+min="0"
+step="0.1"
+placeholder="Example: 3">
+
 </div>
+
+</div>
+
+
+<div class="form">
 
 <div>
-<label>Income Target (₹)</label>
-<input id="inputMoneyTarget" type="number" min="0" step="1" value="0">
-</div>
+
+<label class="target-label">
+💰 Income Target (₹)
+</label>
+
+<input
+id="targetMoney"
+type="number"
+min="0"
+placeholder="Example: 500">
 
 </div>
 
-<button class="primary" onclick="saveTargets()">
-💾 Save Daily Targets
+<div></div>
+
+<div>
+
+<br>
+
+<button
+class="primary"
+onclick="saveTargets()">
+
+💾 Save Today's Targets
+
 </button>
 
 </div>
 
-</section>
+</div>
 
-<section id="tasksPage" class="os-page hidden">
+
+<div class="target-grid">
+
+
+<div class="target-card">
+
+<h3>✅ Tasks</h3>
+
+<div
+class="target-value"
+id="targetTaskActual">
+
+0 / 0
+
+</div>
+
+<div class="target-label">
+Completed today
+</div>
+
+<div class="target-progress">
+
+<div
+id="targetTaskBar"
+class="target-progress-bar"
+style="width:0%">
+</div>
+
+</div>
+
+<div
+class="target-label"
+id="targetTaskPercent">
+
+0%
+
+</div>
+
+</div>
+
+
+<div class="target-card">
+
+<h3>📚 Study</h3>
+
+<div
+class="target-value"
+id="targetStudyActual">
+
+0 / 0
+
+</div>
+
+<div class="target-label">
+Hours today
+</div>
+
+<div class="target-progress">
+
+<div
+id="targetStudyBar"
+class="target-progress-bar"
+style="width:0%">
+</div>
+
+</div>
+
+<div
+class="target-label"
+id="targetStudyPercent">
+
+0%
+
+</div>
+
+</div>
+
+
+<div class="target-card">
+
+<h3>🏃 Running</h3>
+
+<div
+class="target-value"
+id="targetRunActual">
+
+0 / 0
+
+</div>
+
+<div class="target-label">
+KM today
+</div>
+
+<div class="target-progress">
+
+<div
+id="targetRunBar"
+class="target-progress-bar"
+style="width:0%">
+</div>
+
+</div>
+
+<div
+class="target-label"
+id="targetRunPercent">
+
+0%
+
+</div>
+
+</div>
+
+
+<div class="target-card">
+
+<h3>💰 Income</h3>
+
+<div
+class="target-value"
+id="targetMoneyActual">
+
+₹0 / ₹0
+
+</div>
+
+<div class="target-label">
+Income today
+</div>
+
+<div class="target-progress">
+
+<div
+id="targetMoneyBar"
+class="target-progress-bar"
+style="width:0%">
+</div>
+
+</div>
+
+<div
+class="target-label"
+id="targetMoneyPercent">
+
+0%
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="overall-target">
+
+<div>
+<small>Overall Target Progress</small>
+</div>
+
+<strong id="overallTargetPercent">
+0%
+</strong>
+
+<div class="progress">
+
+<div
+id="overallTargetBar"
+class="progress-bar"
+style="width:0%">
+</div>
+
+</div>
+
+<div
+id="targetStatus"
+class="status-message">
+
+Set your targets for today 🚀
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- TASKS -->
 
 <div class="card">
 
@@ -616,11 +874,16 @@ Set your daily targets below.
 
 <div class="form">
 
-<input id="taskInput" placeholder="Enter task">
-<input id="taskDate" type="date">
+<input
+id="taskInput"
+placeholder="Enter your task">
 
-<button class="primary" onclick="addTask()">
+<button
+class="primary"
+onclick="addTask()">
+
 Add Task
+
 </button>
 
 </div>
@@ -629,11 +892,70 @@ Add Task
 
 </div>
 
-</section>
 
-<section id="trackPage" class="os-page hidden">
+<!-- GOALS -->
 
-<div class="two-col">
+<div class="card">
+
+<h2>🎯 Goals</h2>
+
+<div class="form">
+
+<input
+id="goalInput"
+placeholder="Enter your goal">
+
+<input
+id="goalDate"
+type="date">
+
+<button
+class="primary"
+onclick="addGoal()">
+
+Add Goal
+
+</button>
+
+</div>
+
+<div id="goalList"></div>
+
+</div>
+
+
+<!-- DAILY PLANNER -->
+
+<div class="card">
+
+<h2>🗓️ Daily Planner</h2>
+
+<div class="form">
+
+<input
+id="planInput"
+placeholder="What do you need to do?">
+
+<input
+id="planTime"
+type="time">
+
+<button
+class="primary"
+onclick="addPlan()">
+
+Add Plan
+
+</button>
+
+</div>
+
+<div id="planList"></div>
+
+</div>
+
+
+<!-- STUDY -->
 
 <div class="card">
 
@@ -641,10 +963,24 @@ Add Task
 
 <div class="form">
 
-<input id="studyHours" type="number" step="0.1" placeholder="Hours">
-<input id="studyDate" type="date">
+<input
+id="studySubject"
+placeholder="Subject">
 
-<button class="primary" onclick="addStudy()">Add</button>
+<input
+id="studyHours"
+type="number"
+min="0"
+step="0.5"
+placeholder="Hours">
+
+<button
+class="primary"
+onclick="addStudy()">
+
+Add Study
+
+</button>
 
 </div>
 
@@ -652,16 +988,33 @@ Add Task
 
 </div>
 
+
+<!-- RUNNING -->
+
 <div class="card">
 
-<h2>🏃 Running Tracker</h2>
+<h2>🏃 Fitness & Running</h2>
 
 <div class="form">
 
-<input id="runKm" type="number" step="0.1" placeholder="KM">
-<input id="runDate" type="date">
+<input
+id="runDistance"
+type="number"
+min="0"
+step="0.1"
+placeholder="Distance KM">
 
-<button class="primary" onclick="addRun()">Add</button>
+<input
+id="runTime"
+placeholder="Time e.g. 6:30">
+
+<button
+class="primary"
+onclick="addRun()">
+
+Add Run
+
+</button>
 
 </div>
 
@@ -669,150 +1022,383 @@ Add Task
 
 </div>
 
+
+<!-- MONEY + JOB -->
+
+<div class="two-col">
+
+
 <div class="card">
 
-<h2>💰 Money Tracker</h2>
+<h2>💰 Career & Money</h2>
 
 <div class="form">
 
-<input id="moneyAmount" type="number" step="0.01" placeholder="Income ₹">
-<input id="moneyDate" type="date">
+<select id="moneyType">
 
-<button class="success" onclick="addMoney()">Add</button>
+<option value="income">
+Income
+</option>
 
-</div>
+<option value="expense">
+Expense
+</option>
 
-<div id="moneyList"></div>
+</select>
 
-</div>
+<input
+id="moneyAmount"
+type="number"
+min="0"
+placeholder="Amount ₹">
 
-</div>
+<button
+class="primary"
+onclick="addMoney()">
 
-</section>
+Add
 
-<section id="calendarPage" class="os-page hidden">
-
-<div class="card">
-
-<div class="calendar-head">
-
-<h2 id="calendarTitle">Calendar</h2>
-
-<div class="calendar-actions">
-
-<button class="secondary" onclick="changeMonth(-1)">◀</button>
-<button class="primary" onclick="goToday()">Today</button>
-<button class="secondary" onclick="changeMonth(1)">▶</button>
+</button>
 
 </div>
 
+<input
+id="moneyNote"
+placeholder="Note">
+
+<div
+id="moneyList"
+style="margin-top:15px">
 </div>
-
-<div class="calendar-grid" id="calendarGrid"></div>
-
-<div class="calendar-legend">
-
-<span>🟢 ✓ Completed</span>
-<span>🔴 ✕ Missed</span>
-<span>🔵 Today</span>
-<span>⚪ Future</span>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>📅 Selected Day</h2>
-
-<div id="selectedDate">
-Select a past date.
-</div>
-
-<div class="detail-grid">
-
-<div class="detail-box">
-Tasks<br>
-<strong id="detailTasks">0/0</strong>
-</div>
-
-<div class="detail-box">
-Study<br>
-<strong id="detailStudy">0/0</strong>
-</div>
-
-<div class="detail-box">
-Running<br>
-<strong id="detailRun">0/0</strong>
-</div>
-
-<div class="detail-box">
-Income<br>
-<strong id="detailMoney">₹0/₹0</strong>
-</div>
-
-</div>
-
-<div id="detailStatus" class="status-message"></div>
-
-</div>
-
-</section>
-
-<section id="statsPage" class="os-page hidden">
-
-<div class="card">
-
-<h2>📊 Life Statistics</h2>
 
 <div class="run-stats">
 
 <div class="run-stat">
+
+<small>Income</small>
+
+<strong id="incomeStat">
+₹0
+</strong>
+
+</div>
+
+<div class="run-stat">
+
+<small>Expense</small>
+
+<strong id="expenseStat">
+₹0
+</strong>
+
+</div>
+
+<div class="run-stat">
+
+<small>Balance</small>
+
+<strong id="balanceStat">
+₹0
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>💼 Job Applications</h2>
+
+<div class="form">
+
+<input
+id="jobCompany"
+placeholder="Company">
+
+<input
+id="jobRole"
+placeholder="Role">
+
+<button
+class="primary"
+onclick="addJob()">
+
+Add Job
+
+</button>
+
+</div>
+
+<select id="jobStatus">
+
+<option>Applied</option>
+<option>Interview</option>
+<option>Selected</option>
+<option>Rejected</option>
+
+</select>
+
+<div
+id="jobList"
+style="margin-top:15px">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- LIFE STATISTICS -->
+
+<div class="card">
+
+<h2>📊 Life Statistics & Progress</h2>
+
+<div class="run-stats">
+
+<div class="run-stat">
+
 <small>Life Score</small>
-<strong id="lifeScore">0%</strong>
+
+<strong id="lifeScore">
+0%
+</strong>
+
 </div>
 
 <div class="run-stat">
+
 <small>Tasks Done</small>
-<strong id="statsTasks">0%</strong>
+
+<strong id="statsTasks">
+0%
+</strong>
+
 </div>
 
 <div class="run-stat">
+
 <small>Goals Progress</small>
-<strong id="statsGoals">0%</strong>
+
+<strong id="statsGoals">
+0%
+</strong>
+
 </div>
 
 <div class="run-stat">
+
+<small>Diary Days</small>
+
+<strong id="statsDiary">
+0
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- GRAPHS -->
+
+<div class="card">
+
+<h2>📈 Progress Graphs</h2>
+
+<div class="chart-grid">
+
+<div class="chart-box">
+
+<h3>
+📚 Study Hours — Last 7 Days
+</h3>
+
+<canvas id="studyChart"></canvas>
+
+</div>
+
+
+<div class="chart-box">
+
+<h3>
+🏃 Running KM — Last 7 Days
+</h3>
+
+<canvas id="runChart"></canvas>
+
+</div>
+
+
+<div class="chart-box">
+
+<h3>
+🚀 Overall Life Score
+</h3>
+
+<canvas id="lifeChart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- STREAK -->
+
+<div class="card">
+
+<h2>🔥 Streak Tracker</h2>
+
+<div class="run-stats">
+
+<div class="run-stat">
+
+<small>Current Streak</small>
+
+<strong id="currentStreak">
+0 days
+</strong>
+
+</div>
+
+
+<div class="run-stat">
+
+<small>Best Streak</small>
+
+<strong id="bestStreak">
+0 days
+</strong>
+
+</div>
+
+
+<div class="run-stat">
+
 <small>Active Days</small>
-<strong id="activeDays">0</strong>
+
+<strong id="activeDays">
+0
+</strong>
+
 </div>
+
+
+<div class="run-stat">
+
+<small>Target Streak</small>
+
+<strong id="targetStreak">
+0 days
+</strong>
 
 </div>
 
 </div>
 
-</section>
+
+<div
+id="streakMessage"
+class="item-info"
+style="margin-top:20px;text-align:center">
+
+Start your streak today 🚀
 
 </div>
+
 </div>
 
-<div id="toast" class="toast"></div>
+
+<!-- DIARY -->
+
+<div class="card">
+
+<h2>📔 Daily Diary</h2>
+
+<div class="form">
+
+<input
+id="diaryDate"
+type="date">
+
+<select id="diaryRating">
+
+<option value="1">1 ⭐</option>
+<option value="2">2 ⭐⭐</option>
+<option value="3">3 ⭐⭐⭐</option>
+<option value="4">4 ⭐⭐⭐⭐</option>
+<option value="5">5 ⭐⭐⭐⭐⭐</option>
+
+</select>
+
+<button
+class="primary"
+onclick="saveDiary()">
+
+Save Diary
+
+</button>
+
+</div>
+
+
+<textarea
+id="diaryWork"
+placeholder="What did I do today?">
+</textarea>
+
+<br><br>
+
+<textarea
+id="diaryLearned"
+placeholder="What did I learn today?">
+</textarea>
+
+<br><br>
+
+<textarea
+id="diaryThoughts"
+placeholder="Thoughts / feelings">
+</textarea>
+
+<br>
+
+<div
+id="diaryList"
+style="margin-top:15px">
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
 
 <script type="module">
 
-import {initializeApp}
+import {
+initializeApp
+}
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
 
 import {
 getAuth,
 GoogleAuthProvider,
 signInWithPopup,
-signInWithRedirect,
-getRedirectResult,
 onAuthStateChanged,
 signOut
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
 
 import {
 getFirestore,
@@ -822,14 +1408,14 @@ deleteDoc,
 updateDoc,
 doc,
 setDoc,
-onSnapshot,
-getDoc
+onSnapshot
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-const firebaseConfig={
+/* FIREBASE CONFIG */
 
+const firebaseConfig={
 apiKey:"AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
 authDomain:"vasanth-lise-os.firebaseapp.com",
 projectId:"vasanth-lise-os",
@@ -837,118 +1423,77 @@ storageBucket:"vasanth-lise-os.firebasestorage.app",
 messagingSenderId:"847181528785",
 appId:"1:847181528785:web:f02eb43c041c9e90fc4ff0",
 measurementId:"G-WMPYW2EDLZ"
-
 };
 
 
 const app=initializeApp(firebaseConfig);
+
 const auth=getAuth(app);
+
 const db=getFirestore(app);
+
+
+/* DATA */
 
 let currentUser=null;
 
 let tasks=[];
 let goals=[];
+let plans=[];
 let studies=[];
 let runs=[];
 let money=[];
+let jobs=[];
+let diaries=[];
 
-let targetCache={};
-let unsubs=[];
-let calendarDate=new Date();
+let currentTarget=null;
 
-
-const today=()=>{
-
-const d=new Date();
-
-return d.getFullYear()+"-"+
-String(d.getMonth()+1).padStart(2,"0")+"-"+
-String(d.getDate()).padStart(2,"0");
-
-};
-
-
-const dateFromTimestamp=v=>{
-
-if(!v)return today();
-
-if(typeof v==="string")return v.slice(0,10);
-
-if(v?.toDate)
-return v.toDate().toISOString().slice(0,10);
-
-if(typeof v==="number")
-return new Date(v).toISOString().slice(0,10);
-
-return today();
-
-};
+let unsubscribeTasks=null;
+let unsubscribeGoals=null;
+let unsubscribePlans=null;
+let unsubscribeStudies=null;
+let unsubscribeRuns=null;
+let unsubscribeMoney=null;
+let unsubscribeJobs=null;
+let unsubscribeDiaries=null;
+let unsubscribeTargets=null;
 
 
-const esc=s=>
-String(s??"").replace(/[&<>"']/g,m=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-}[m]));
+/* CHARTS */
+
+let studyChart=null;
+let runChart=null;
+let lifeChart=null;
 
 
-const moneyFmt=n=>
-"₹"+Number(n||0).toLocaleString("en-IN",{
-maximumFractionDigits:2
-});
+/* DATE */
+
+function today(){
+
+return new Date()
+.toISOString()
+.split("T")[0];
+
+}
 
 
-const toast=m=>{
+/* LOGIN */
 
-const e=document.getElementById("toast");
-
-e.textContent=m;
-e.style.display="block";
-
-setTimeout(()=>{
-e.style.display="none";
-},1800);
-
-};
-
-
-/* GOOGLE LOGIN */
-
-window.loginWithGoogle=async()=>{
+window.loginWithGoogle=async function(){
 
 try{
 
 const provider=new GoogleAuthProvider();
 
-provider.setCustomParameters({
-prompt:"select_account"
-});
+await signInWithPopup(
+auth,
+provider
+);
 
-/* Try popup first */
-try{
-
-await signInWithPopup(auth,provider);
-
-}catch(popupError){
-
-console.warn("Popup login failed:",popupError);
-
-/* Mobile fallback */
-await signInWithRedirect(auth,provider);
-
-}
-
-}catch(e){
+}catch(error){
 
 alert(
-"Google Login Error:\n"+
-(e.code||"unknown")+
-"\n"+
-(e.message||"Please try again.")
+"Login failed: "+error.message
 );
 
 }
@@ -956,352 +1501,264 @@ alert(
 };
 
 
-/* HANDLE REDIRECT LOGIN */
+window.logout=async function(){
 
-getRedirectResult(auth)
-.then(result=>{
-
-if(result?.user){
-
-console.log("Google login successful");
-
-}
-
-})
-.catch(e=>{
-
-console.error("Redirect login error:",e);
-
-alert(
-"Google Login Error:\n"+
-(e.code||"unknown")+
-"\n"+
-(e.message||"Please check Firebase settings.")
-);
-
-});
-
-
-window.logout=()=>signOut(auth);
-
-
-window.showPage=(id,btn)=>{
-
-document.querySelectorAll(".os-page")
-.forEach(x=>x.classList.add("hidden"));
-
-document.getElementById(id)
-.classList.remove("hidden");
-
-document.querySelectorAll(".nav-btn")
-.forEach(x=>x.classList.remove("active"));
-
-if(btn)btn.classList.add("active");
-
-if(id==="calendarPage")
-renderCalendar();
+await signOut(auth);
 
 };
 
 
-onAuthStateChanged(auth,user=>{
+/* AUTH */
 
-if(!user){
+onAuthStateChanged(
+auth,
+user=>{
 
-currentUser=null;
-
-document.getElementById("loginScreen")
-.classList.remove("hidden");
-
-document.getElementById("app")
-.classList.add("hidden");
-
-return;
-
-}
+if(user){
 
 currentUser=user;
 
-document.getElementById("loginScreen")
+document
+.getElementById("loginScreen")
 .classList.add("hidden");
 
-document.getElementById("app")
+document
+.getElementById("app")
 .classList.remove("hidden");
 
-document.getElementById("userName").textContent=
-user.displayName||user.email;
+document
+.getElementById("userName")
+.textContent=
+user.displayName || user.email;
 
-loadAll();
+document
+.getElementById("diaryDate")
+.value=today();
+
+document
+.getElementById("targetToday")
+.textContent=today();
+
+loadCloudTasks();
+loadGoals();
+loadPlans();
+loadStudies();
+loadRuns();
+loadMoney();
+loadJobs();
+loadDiaries();
+loadTargets();
+
+}else{
+
+currentUser=null;
+
+document
+.getElementById("loginScreen")
+.classList.remove("hidden");
+
+document
+.getElementById("app")
+.classList.add("hidden");
+
+}
 
 });
 
 
-function col(name){
+/* =========================
+TASKS
+========================= */
 
-return collection(
+function loadCloudTasks(){
+
+const ref=collection(
 db,
 "users",
 currentUser.uid,
-name
+"tasks"
 );
 
-}
+unsubscribeTasks=onSnapshot(
+ref,
+snapshot=>{
 
-
-function listen(name,cb){
-
-const u=onSnapshot(
-col(name),
-s=>cb(
-s.docs.map(d=>({
+tasks=snapshot.docs.map(
+d=>({
 id:d.id,
 ...d.data()
-}))
-),
-e=>console.error(name,e)
+})
 );
 
-unsubs.push(u);
-
-}
-
-
-function loadAll(){
-
-unsubs.forEach(u=>u());
-
-unsubs=[];
-
-listen("tasks",v=>{
-tasks=v;
 renderTasks();
-updateAll();
-});
 
-listen("goals",v=>{
-goals=v;
-updateAll();
-});
+updateStats();
 
-listen("studies",v=>{
-studies=v;
-renderStudies();
-updateAll();
-});
-
-listen("runs",v=>{
-runs=v;
-renderRuns();
-updateAll();
-});
-
-listen("money",v=>{
-money=v;
-renderMoney();
-updateAll();
-});
-
-loadTargets();
+}
+);
 
 }
 
 
-async function loadTargets(){
+function renderTasks(){
 
-try{
+const list=
+document.getElementById("taskList");
 
-const snap=await getDoc(
+list.innerHTML="";
+
+tasks.forEach(task=>{
+
+const div=document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<div class="item-title"
+style="${
+task.completed
+?'text-decoration:line-through;color:#7f8ba8'
+:''
+}">
+${escapeHTML(task.name)}
+</div>
+
+<div class="item-info">
+${task.completed?"Completed":"Pending"}
+</div>
+
+<div class="item-actions">
+
+<button
+class="${
+task.completed
+?'secondary'
+:'success'
+}"
+onclick="toggleTask(
+'${task.id}',
+${task.completed}
+)">
+
+${task.completed?"Undo":"Complete"}
+
+</button>
+
+<button
+class="danger"
+onclick="deleteTask('${task.id}')">
+
+Delete
+
+</button>
+
+</div>
+`;
+
+list.appendChild(div);
+
+});
+
+}
+
+
+window.addTask=async function(){
+
+const input=
+document.getElementById("taskInput");
+
+const name=input.value.trim();
+
+if(!name)return;
+
+await addDoc(
+collection(
+db,
+"users",
+currentUser.uid,
+"tasks"
+),
+{
+name,
+completed:false,
+createdAt:Date.now()
+}
+);
+
+input.value="";
+
+};
+
+
+window.toggleTask=async function(
+id,
+status
+){
+
+await updateDoc(
 doc(
 db,
 "users",
 currentUser.uid,
-"settings",
-"dailyTargets"
+"tasks",
+id
+),
+{
+completed:!status
+}
+);
+
+};
+
+
+window.deleteTask=async function(id){
+
+await deleteDoc(
+doc(
+db,
+"users",
+currentUser.uid,
+"tasks",
+id
 )
 );
 
-if(snap.exists()){
-
-targetCache=snap.data()||{};
-
-document.getElementById("inputTaskTarget").value=
-targetCache.tasks||0;
-
-document.getElementById("inputStudyTarget").value=
-targetCache.study||0;
-
-document.getElementById("inputRunTarget").value=
-targetCache.running||0;
-
-document.getElementById("inputMoneyTarget").value=
-targetCache.income||0;
-
-}
-
-updateAll();
-
-}catch(e){
-
-console.error(e);
-
-}
-
-}
-
-
-window.saveTargets=async()=>{
-
-if(!currentUser)return;
-
-targetCache={
-
-tasks:Number(document.getElementById("inputTaskTarget").value||0),
-study:Number(document.getElementById("inputStudyTarget").value||0),
-running:Number(document.getElementById("inputRunTarget").value||0),
-income:Number(document.getElementById("inputMoneyTarget").value||0)
-
 };
 
-await setDoc(
-doc(
+
+/* =========================
+GOALS
+========================= */
+
+function loadGoals(){
+
+const ref=collection(
 db,
 "users",
 currentUser.uid,
-"settings",
-"dailyTargets"
-),
-targetCache
+"goals"
 );
 
-toast("Daily targets saved");
-updateAll();
+unsubscribeGoals=onSnapshot(
+ref,
+snapshot=>{
 
-};
-
-
-function todayTasks(){
-
-return tasks.filter(
-x=>dateFromTimestamp(x.date||x.createdAt)===today()
+goals=snapshot.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
 );
 
-}
+renderGoals();
 
-
-function studyTotal(date){
-
-return studies
-.filter(x=>dateFromTimestamp(x.date||x.createdAt)===date)
-.reduce((a,x)=>a+Number(x.hours||x.value||0),0);
+updateStats();
 
 }
-
-
-function runTotal(date){
-
-return runs
-.filter(x=>dateFromTimestamp(x.date||x.createdAt)===date)
-.reduce((a,x)=>a+Number(x.km||x.value||0),0);
-
-}
-
-
-function moneyTotal(date){
-
-return money
-.filter(x=>dateFromTimestamp(x.date||x.createdAt)===date)
-.reduce((a,x)=>a+Number(x.amount||x.value||0),0);
-
-}
-
-
-function completedTasksForDate(date){
-
-return tasks.filter(x=>
-dateFromTimestamp(x.date||x.createdAt)===date &&
-(x.completed===true || x.status==="completed")
 );
 
 }
 
 
-function taskCount(date){
-
-return completedTasksForDate(date).length;
-
-}
-
-
-function clamp(n){
-
-return Math.max(0,Math.min(100,n));
-
-}
-
-
-function progressForDate(date){
-
-const target=targetCache||{};
-const values=[];
-
-if(Number(target.tasks)>0)
-values.push(
-clamp(taskCount(date)/Number(target.tasks)*100)
-);
-
-if(Number(target.study)>0)
-values.push(
-clamp(studyTotal(date)/Number(target.study)*100)
-);
-
-if(Number(target.running)>0)
-values.push(
-clamp(runTotal(date)/Number(target.running)*100)
-);
-
-if(Number(target.income)>0)
-values.push(
-clamp(moneyTotal(date)/Number(target.income)*100)
-);
-
-if(!values.length)return 0;
-
-return values.reduce((a,b)=>a+b,0)/values.length;
-
-}
-
-
-function updateAll(){
-
-const d=today();
-
-const tc=todayTasks();
-
-const completed=tc.filter(
-x=>x.completed===true ||
-x.status==="completed"
-).length;
-
-const study=studyTotal(d);
-const run=runTotal(d);
-const income=moneyTotal(d);
-
-const taskTarget=Number(targetCache.tasks||0);
-const studyTarget=Number(targetCache.study||0);
-const runTarget=Number(targetCache.running||0);
-const moneyTarget=Number(targetCache.income||0);
-
-document.getElementById("taskStat").textContent=
-completed+"/"+taskTarget;
-
-document.getElementById("studyHourStat").textContent=
-study.toFixed(1);
-
-document.getElementById("totalKmStat").textContent=
-run.toFixed(1);
-
-document.getElementById("targetTasks").textContent=
-completed+" / "+taskTarget;
-
-document.getElementById("targetStudy").textContent=
-study.toFixed(1)+" / "+stud
+function renderGoal
