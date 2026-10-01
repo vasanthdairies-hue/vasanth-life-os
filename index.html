@@ -387,6 +387,360 @@ grid-template-columns:1fr;
 }
 
 }
+/* MOBILE RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+
+  body {
+    padding: 10px !important;
+    font-size: 15px;
+  }
+
+  .container,
+  main,
+  .dashboard {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .card {
+    width: 100% !important;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    padding: 15px !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  .stat-box {
+    min-width: 0 !important;
+    padding: 12px !important;
+    box-sizing: border-box;
+  }
+
+  .stat-box h3 {
+    font-size: 14px !important;
+  }
+
+  .stat-box p {
+    font-size: 14px !important;
+    word-break: break-word;
+  }
+
+  button {
+    width: 100%;
+    min-height: 46px;
+    margin-top: 8px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100% !important;
+    box-sizing: border-box;
+    min-height: 44px;
+    font-size: 16px !important;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+
+  h1 {
+    font-size: 25px !important;
+  }
+
+  h2 {
+    font-size: 21px !important;
+  }
+
+  h3 {
+    font-size: 17px !important;
+  }
+
+  canvas {
+    max-width: 100% !important;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+  }
+}
+
+/* SMALL PHONES */
+@media (max-width: 480px) {
+
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .card {
+    padding: 12px !important;
+  }
+
+  h1 {
+    font-size: 22px !important;
+  }
+
+  h2 {
+    font-size: 19px !important;
+  }
+
+}
+
+/* =========================================================
+   VASANTH LIFE OS — PREMIUM DASHBOARD REDESIGN
+   Visual language inspired by the supplied dashboard reference.
+   Existing Firebase/data features are preserved.
+   ========================================================= */
+:root{
+  --bg:#061326;
+  --bg2:#081a31;
+  --panel:#0a1a30;
+  --panel2:#0c2039;
+  --line:#183a63;
+  --line2:#204a79;
+  --text:#f4f7ff;
+  --muted:#8ea4c4;
+  --blue:#2f80ff;
+  --blue2:#1769e8;
+  --green:#13d59b;
+  --purple:#8b5cf6;
+  --orange:#ff7a2f;
+  --yellow:#ffd21c;
+  --red:#ff4f6d;
+  --shadow:0 18px 50px rgba(0,0,0,.24);
+}
+
+html{scroll-behavior:smooth;}
+body{
+  background:
+    radial-gradient(circle at 72% 0%,rgba(27,92,170,.13),transparent 28%),
+    linear-gradient(135deg,#041021 0%,#06172d 48%,#061326 100%);
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+
+#app{min-height:100vh;}
+#app>header{display:none!important;}
+
+/* Sidebar */
+.lifeos-sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:268px;
+  z-index:100;
+  padding:28px 16px 18px;
+  background:rgba(3,16,32,.97);
+  border-right:1px solid rgba(49,103,165,.55);
+  display:flex;
+  flex-direction:column;
+}
+.lifeos-brand{padding:0 12px 26px;}
+.lifeos-brand-row{display:flex;align-items:center;gap:12px;}
+.lifeos-brand-mark{
+  width:42px;height:42px;border-radius:14px;
+  display:grid;place-items:center;
+  font-size:27px;
+  background:linear-gradient(145deg,#0fbd79,#36e3a3);
+  box-shadow:0 10px 28px rgba(19,213,155,.18);
+}
+.lifeos-brand-title{font-size:20px;font-weight:800;letter-spacing:-.4px;}
+.lifeos-brand-sub{font-size:12px;color:#9bb0cd;margin-top:2px;letter-spacing:.3px;}
+.lifeos-nav{display:flex;flex-direction:column;gap:6px;}
+.lifeos-nav a{
+  display:flex;align-items:center;gap:14px;
+  min-height:50px;padding:0 15px;
+  color:#b8c8e0;text-decoration:none;
+  border:1px solid transparent;border-radius:13px;
+  font-size:15px;font-weight:650;
+  transition:.18s ease;
+}
+.lifeos-nav a:hover{background:#0a203a;border-color:#174475;color:#fff;transform:translateX(2px);}
+.lifeos-nav a.active{background:linear-gradient(90deg,#225fd0,#174eaf);border-color:#3278ed;color:#fff;box-shadow:0 10px 25px rgba(24,96,214,.2);}
+.lifeos-nav .nav-icon{width:24px;text-align:center;font-size:21px;}
+.lifeos-sidebar-spacer{flex:1;}
+.lifeos-side-quote{
+  margin:10px 2px 0;padding:18px;border:1px solid #173b64;border-radius:15px;
+  background:linear-gradient(145deg,#071c35,#09172a);
+  color:#c9d7ea;font-size:13px;line-height:1.65;
+}
+.lifeos-side-quote strong{display:block;color:#fff;font-size:14px;margin-bottom:5px;}
+.lifeos-side-meter{height:6px;background:#163454;border-radius:99px;overflow:hidden;margin-top:12px;}
+.lifeos-side-meter span{display:block;height:100%;width:38%;background:linear-gradient(90deg,#14d49b,#3b82f6);border-radius:99px;}
+
+/* Topbar */
+.lifeos-topbar{
+  position:sticky;top:0;z-index:80;
+  margin-left:268px;
+  min-height:88px;padding:20px 30px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  background:rgba(5,19,37,.84);backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(36,75,119,.48);
+}
+.lifeos-page-title{display:flex;align-items:center;gap:13px;}
+.lifeos-page-title .page-icon{font-size:34px;}
+.lifeos-page-title h1{font-size:30px;line-height:1.05;letter-spacing:-1px;}
+.lifeos-page-title p{color:var(--muted);font-size:13px;margin-top:5px;}
+.lifeos-userbox{display:flex;align-items:center;gap:10px;}
+.lifeos-userbox #userName{font-size:13px;color:#b8c8df;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.lifeos-userbox button{background:#0d2440!important;border:1px solid #204a79!important;color:#dce8fa!important;}
+.lifeos-datebox{
+  display:flex;align-items:center;gap:10px;padding:11px 15px;border:1px solid #214b79;
+  border-radius:13px;background:#081b32;color:#d7e4f8;font-size:13px;min-width:138px;
+}
+.lifeos-datebox span{font-size:19px;}
+
+/* Main layout */
+.container{
+  max-width:none!important;
+  width:auto!important;
+  margin:0 360px 0 268px!important;
+  padding:28px 24px 60px!important;
+}
+.card,.stat,.stat-box,.target-card{
+  background:linear-gradient(145deg,rgba(9,29,51,.96),rgba(7,24,43,.96))!important;
+  border:1px solid #19426e!important;
+  border-radius:18px!important;
+  box-shadow:0 12px 34px rgba(0,0,0,.16);
+}
+.card{padding:24px!important;margin-bottom:20px!important;}
+.card h2{color:#f6f9ff!important;font-size:20px!important;letter-spacing:-.3px;}
+.card h3{color:#f2f6ff;}
+.card p,.item-info,.target-label,small{color:#8fa6c5;}
+input,select,textarea{
+  background:#07172b!important;color:#f2f6ff!important;border:1px solid #1d426b!important;
+  border-radius:11px!important;min-height:44px;
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#3d8bff!important;box-shadow:0 0 0 3px rgba(61,139,255,.12);}
+button{border-radius:11px!important;}
+.primary{background:linear-gradient(135deg,#2877ff,#1657ca)!important;}
+.success{background:linear-gradient(135deg,#15c991,#0b9e74)!important;}
+.secondary{background:#0b223d!important;border:1px solid #214b79!important;}
+.danger{background:#a82f45!important;}
+
+/* Hide old compact stats row; the redesigned overview replaces it. */
+.legacy-stats{display:none!important;}
+
+/* Redesigned overview */
+.lifeos-overview{margin-bottom:20px;}
+.lifeos-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:14px;}
+.lifeos-section-head h2{font-size:21px!important;margin:0!important;}
+.lifeos-section-head p{color:#7f97b8;font-size:13px;}
+.lifeos-metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;}
+.lifeos-metric{
+  padding:19px;border-radius:17px;border:1px solid #1b4776;
+  background:linear-gradient(145deg,#0b213a,#08182c);min-width:0;
+}
+.lifeos-metric-top{display:flex;align-items:center;gap:12px;}
+.lifeos-metric-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:23px;flex:0 0 auto;}
+.lifeos-metric-icon.green{background:linear-gradient(145deg,#08bd83,#12df9f);}
+.lifeos-metric-icon.purple{background:linear-gradient(145deg,#7740e8,#9c68ff);}
+.lifeos-metric-icon.orange{background:linear-gradient(145deg,#f2651e,#ff934e);}
+.lifeos-metric-icon.yellow{background:linear-gradient(145deg,#eab800,#ffe65b);}
+.lifeos-metric-name{font-size:14px;color:#d5e1f2;font-weight:700;}
+.lifeos-metric-value{font-size:22px;font-weight:800;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lifeos-progress{height:8px;background:#142e4d;border-radius:99px;overflow:hidden;margin-top:14px;}
+.lifeos-progress span{display:block;height:100%;border-radius:99px;transition:width .35s ease;}
+.lifeos-progress.green span{background:#11d39a}.lifeos-progress.purple span{background:#8958f6}.lifeos-progress.orange span{background:#ff7b30}.lifeos-progress.yellow span{background:#ffd21c}
+.lifeos-metric-foot{display:flex;justify-content:space-between;margin-top:7px;color:#8ea5c4;font-size:12px;}
+
+.lifeos-overall{
+  margin-top:14px;padding:20px;border-radius:18px;border:1px solid #19426e;
+  background:linear-gradient(145deg,#0b2139,#08182b);display:grid;grid-template-columns:145px 1fr;gap:24px;align-items:center;
+}
+.lifeos-ring{width:126px;height:126px;border-radius:50%;display:grid;place-items:center;margin:auto;background:conic-gradient(#3a8bff 0deg,#3a8bff 0deg,#17395f 0deg);position:relative;}
+.lifeos-ring:after{content:"";position:absolute;inset:12px;border-radius:50%;background:#081a30;border:1px solid #183d67;}
+.lifeos-ring strong{position:relative;z-index:1;font-size:29px;}
+.lifeos-overall-title{font-size:20px;font-weight:800;}
+.lifeos-overall-sub{color:#8ea5c4;font-size:13px;margin-top:3px;}
+.lifeos-overall-bar{height:12px;background:#153352;border-radius:99px;overflow:hidden;margin-top:17px;}
+.lifeos-overall-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#12d39a,#8453f4,#ff7930,#ffd21c);border-radius:99px;transition:width .4s ease;}
+.lifeos-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px;}
+.lifeos-legend-item{font-size:12px;color:#a9bcd5;display:flex;align-items:center;gap:7px;}
+.lifeos-dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+
+/* Right rail */
+.lifeos-rightbar{
+  position:fixed;right:0;top:0;bottom:0;width:360px;z-index:70;
+  padding:26px 18px 20px;background:rgba(4,18,34,.97);border-left:1px solid rgba(38,81,127,.55);
+  overflow:auto;
+}
+.lifeos-rightbar-card{border:1px solid #19426e;border-radius:17px;background:linear-gradient(145deg,#0a1e35,#07172a);padding:18px;margin-bottom:15px;}
+.lifeos-rightbar-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;}
+.lifeos-rightbar-title h3{font-size:16px;}
+.lifeos-rightbar-title span{color:#78aaff;font-size:12px;}
+.lifeos-cal-head{display:flex;justify-content:space-between;align-items:center;color:#e7effb;margin-bottom:13px;}
+.lifeos-cal-head button{padding:5px 8px!important;background:#0b2745!important;border:1px solid #1b456f!important;color:#bcd0e8!important;}
+.lifeos-cal-month{text-align:center;font-weight:750;}
+.lifeos-weekdays,.lifeos-days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+.lifeos-weekdays div{text-align:center;color:#7389a9;font-size:10px;padding:4px 0;}
+.lifeos-day{min-height:42px;border:1px solid #102f50;border-radius:9px;background:#07182b;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:#b7c8de;gap:2px;}
+.lifeos-day.empty{border-color:transparent;background:transparent;}
+.lifeos-day.today{outline:1px solid #5598ff;background:#0c2a4d;}
+.lifeos-day.done{color:#fff;border-color:#087c63;background:#092d30;}
+.lifeos-day.missed{color:#ff8ca0;border-color:#653247;}
+.lifeos-day .mark{font-size:12px;line-height:1;}
+.lifeos-calendar-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:13px;color:#849bb9;font-size:10px;}
+.lifeos-calendar-legend span{display:flex;align-items:center;gap:5px;}
+.lifeos-legend-bullet{width:8px;height:8px;border-radius:50%;display:inline-block;}
+.lifeos-week-row{margin-bottom:15px;}
+.lifeos-week-row:last-child{margin-bottom:0;}
+.lifeos-week-label{display:flex;justify-content:space-between;color:#b9c9dd;font-size:12px;margin-bottom:6px;}
+.lifeos-week-bar{height:9px;background:#142f4d;border-radius:99px;overflow:hidden;}
+.lifeos-week-bar span{display:block;height:100%;border-radius:99px;background:#12d39a;}
+.lifeos-week-bar.red span{background:#ff4e6b;}
+.lifeos-quote{padding:15px;border:1px solid #1a426e;border-radius:13px;background:#0a1d34;color:#a9bdd8;font-size:12px;line-height:1.7;}
+.lifeos-quote strong{display:block;color:#dce8f8;margin-top:7px;font-size:11px;}
+
+/* Existing sections become polished cards */
+.container>.card{scroll-margin-top:105px;}
+.target-grid,.stats-grid,.form{gap:14px!important;}
+.target-card{padding:17px!important;}
+.item{background:#08192d!important;border-color:#183d65!important;border-radius:12px!important;}
+.progress-bar,.target-progress{background:#142f4d!important;border-radius:99px!important;}
+.progress-fill,.target-progress-bar{border-radius:99px!important;}
+
+/* Global search */
+#globalSearchSection input{font-size:14px;}
+#lifeOSSearchResults>div{background:#081a2d!important;border-color:#19426e!important;}
+
+/* Mobile */
+@media(max-width:1200px){
+  .lifeos-rightbar{display:none;}
+  .container{margin-right:0!important;}
+  .lifeos-metric-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:760px){
+  .lifeos-sidebar{position:fixed;left:0;right:0;bottom:auto;width:100%;height:auto;padding:9px 10px;border-right:0;border-bottom:1px solid #19426e;}
+  .lifeos-brand{display:none;}
+  .lifeos-nav{flex-direction:row;overflow:auto;gap:5px;}
+  .lifeos-nav a{min-width:78px;justify-content:center;flex-direction:column;gap:2px;height:55px;padding:5px;font-size:9px;border-radius:10px;}
+  .lifeos-nav .nav-icon{font-size:17px;width:auto;}
+  .lifeos-side-quote{display:none;}
+  .lifeos-topbar{margin-left:0;padding:80px 14px 14px;display:block;}
+  .lifeos-page-title h1{font-size:23px;}
+  .lifeos-page-title p{font-size:11px;}
+  .lifeos-userbox{margin-top:10px;justify-content:space-between;}
+  .lifeos-datebox{display:none;}
+  .container{margin:0!important;padding:15px 12px 45px!important;}
+  .lifeos-metric-grid{grid-template-columns:1fr 1fr;gap:9px;}
+  .lifeos-metric{padding:13px;}
+  .lifeos-metric-value{font-size:17px;}
+  .lifeos-overall{grid-template-columns:1fr;gap:10px;text-align:center;}
+  .lifeos-legend{grid-template-columns:1fr 1fr;text-align:left;}
+}
+@media(max-width:430px){
+  .lifeos-metric-grid{grid-template-columns:1fr;}
+  .lifeos-nav a{min-width:66px;}
+}
+
 </style>
 </head>
 
@@ -415,7 +769,93 @@ grid-template-columns:1fr;
 
 <div id="app" class="hidden">
 
-<header>
+<!-- PREMIUM REDESIGN SHELL -->
+<aside class="lifeos-sidebar">
+  <div class="lifeos-brand">
+    <div class="lifeos-brand-row">
+      <div class="lifeos-brand-mark">🌱</div>
+      <div>
+        <div class="lifeos-brand-title">Vasanth Life OS</div>
+        <div class="lifeos-brand-sub">Plan · Track · Grow</div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="lifeos-nav" aria-label="Life OS navigation">
+    <a href="#redesignOverview" class="active" onclick="setLifeOSNav(this)"><span class="nav-icon">⌂</span>Home</a>
+    <a href="#targetDashboardCard" onclick="setLifeOSNav(this)"><span class="nav-icon">🎯</span>Goals</a>
+    <a href="#tasksSection" onclick="setLifeOSNav(this)"><span class="nav-icon">☑</span>Tasks</a>
+    <a href="#studySection" onclick="setLifeOSNav(this)"><span class="nav-icon">📖</span>Study</a>
+    <a href="#runningSection" onclick="setLifeOSNav(this)"><span class="nav-icon">🏃</span>Running</a>
+    <a href="#moneySection" onclick="setLifeOSNav(this)"><span class="nav-icon">💰</span>Income</a>
+    <a href="#diarySection" onclick="setLifeOSNav(this)"><span class="nav-icon">📝</span>Notes</a>
+    <a href="#globalSearchSection" onclick="setLifeOSNav(this)"><span class="nav-icon">🔎</span>Search</a>
+    <a href="#backupProtectionSection" onclick="setLifeOSNav(this)"><span class="nav-icon">⚙</span>Settings</a>
+  </nav>
+
+  <div class="lifeos-sidebar-spacer"></div>
+  <div class="lifeos-side-quote">
+    <strong>🌿 Small steps</strong>
+    every day create big results.
+    <div class="lifeos-side-meter"><span id="sideLifeMeter"></span></div>
+  </div>
+</aside>
+
+<div class="lifeos-topbar">
+  <div class="lifeos-page-title">
+    <span class="page-icon">🎯</span>
+    <div>
+      <h1>Goals &amp; Targets</h1>
+      <p>Track your daily progress. Your targets are set for today, and progress updates automatically.</p>
+    </div>
+  </div>
+  <div class="lifeos-userbox">
+    <div class="lifeos-datebox"><span>🗓️</span><div><b>Today</b><br><span id="redesignDate">—</span></div></div>
+    <span id="redesignUserName"></span>
+  </div>
+</div>
+
+<aside class="lifeos-rightbar">
+  <div class="lifeos-rightbar-card">
+    <div class="lifeos-rightbar-title">
+      <h3>🗓️ Calendar</h3>
+      <span>Life OS</span>
+    </div>
+    <div class="lifeos-cal-head">
+      <button onclick="changeLifeOSCalendar(-1)" aria-label="Previous month">‹</button>
+      <div class="lifeos-cal-month" id="lifeosCalendarMonth">—</div>
+      <button onclick="changeLifeOSCalendar(1)" aria-label="Next month">›</button>
+    </div>
+    <div class="lifeos-weekdays">
+      <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+    </div>
+    <div class="lifeos-days" id="lifeosCalendarDays"></div>
+    <div class="lifeos-calendar-legend">
+      <span><i class="lifeos-legend-bullet" style="background:#14d39a"></i>Completed</span>
+      <span><i class="lifeos-legend-bullet" style="background:#ff4e6b"></i>Missed</span>
+      <span><i class="lifeos-legend-bullet" style="background:#5598ff"></i>Today</span>
+    </div>
+  </div>
+
+  <div class="lifeos-rightbar-card">
+    <div class="lifeos-rightbar-title"><h3>📊 This Week's Summary</h3></div>
+    <div class="lifeos-week-row">
+      <div class="lifeos-week-label"><span>✓ Days completed</span><b id="redesignWeekDone">0 / 7</b></div>
+      <div class="lifeos-week-bar"><span id="redesignWeekDoneBar" style="width:0%"></span></div>
+    </div>
+    <div class="lifeos-week-row">
+      <div class="lifeos-week-label"><span>× Days missed</span><b id="redesignWeekMissed">7 / 7</b></div>
+      <div class="lifeos-week-bar red"><span id="redesignWeekMissedBar" style="width:0%"></span></div>
+    </div>
+    <div class="lifeos-quote">
+      “Progress is not about perfection,<br>it's about consistency.”
+      <strong>— Vasanth</strong>
+    </div>
+  </div>
+</aside>
+
+
+<header class="legacy-header">
 
 <h1>🚀 Vasanth Life OS</h1>
 
@@ -432,12 +872,60 @@ Logout
 </header>
 
 
+
 <div class="container">
 
+<!-- REDESIGNED OVERVIEW -->
+<section class="lifeos-overview" id="redesignOverview">
+  <div class="lifeos-section-head">
+    <div>
+      <h2>Today's Overview</h2>
+      <p>Your targets are live and update from your trackers.</p>
+    </div>
+  </div>
+
+  <div class="lifeos-metric-grid">
+    <div class="lifeos-metric">
+      <div class="lifeos-metric-top"><div class="lifeos-metric-icon green">✓</div><div><div class="lifeos-metric-name">Tasks</div><div class="lifeos-metric-value" id="redesignTaskValue">0 / 0</div></div></div>
+      <div class="lifeos-progress green"><span id="redesignTaskBar" style="width:0%"></span></div>
+      <div class="lifeos-metric-foot"><span>Completed</span><b id="redesignTaskPercent">0%</b></div>
+    </div>
+    <div class="lifeos-metric">
+      <div class="lifeos-metric-top"><div class="lifeos-metric-icon purple">📖</div><div><div class="lifeos-metric-name">Study</div><div class="lifeos-metric-value" id="redesignStudyValue">0 / 0 hr</div></div></div>
+      <div class="lifeos-progress purple"><span id="redesignStudyBar" style="width:0%"></span></div>
+      <div class="lifeos-metric-foot"><span>Today</span><b id="redesignStudyPercent">0%</b></div>
+    </div>
+    <div class="lifeos-metric">
+      <div class="lifeos-metric-top"><div class="lifeos-metric-icon orange">🏃</div><div><div class="lifeos-metric-name">Running</div><div class="lifeos-metric-value" id="redesignRunValue">0 / 0 KM</div></div></div>
+      <div class="lifeos-progress orange"><span id="redesignRunBar" style="width:0%"></span></div>
+      <div class="lifeos-metric-foot"><span>Today</span><b id="redesignRunPercent">0%</b></div>
+    </div>
+    <div class="lifeos-metric">
+      <div class="lifeos-metric-top"><div class="lifeos-metric-icon yellow">₹</div><div><div class="lifeos-metric-name">Income</div><div class="lifeos-metric-value" id="redesignMoneyValue">₹0 / ₹0</div></div></div>
+      <div class="lifeos-progress yellow"><span id="redesignMoneyBar" style="width:0%"></span></div>
+      <div class="lifeos-metric-foot"><span>Today</span><b id="redesignMoneyPercent">0%</b></div>
+    </div>
+  </div>
+
+  <div class="lifeos-overall">
+    <div class="lifeos-ring" id="redesignLifeRing"><strong id="redesignOverallPercent">0%</strong></div>
+    <div>
+      <div class="lifeos-overall-title">Overall Progress</div>
+      <div class="lifeos-overall-sub" id="redesignOverallMessage">Set today's targets and start building momentum.</div>
+      <div class="lifeos-overall-bar"><span id="redesignOverallBar"></span></div>
+      <div class="lifeos-legend">
+        <div class="lifeos-legend-item"><i class="lifeos-dot" style="background:#12d39a"></i>Tasks <b id="redesignLegendTask">0%</b></div>
+        <div class="lifeos-legend-item"><i class="lifeos-dot" style="background:#8958f6"></i>Study <b id="redesignLegendStudy">0%</b></div>
+        <div class="lifeos-legend-item"><i class="lifeos-dot" style="background:#ff7b30"></i>Running <b id="redesignLegendRun">0%</b></div>
+        <div class="lifeos-legend-item"><i class="lifeos-dot" style="background:#ffd21c"></i>Income <b id="redesignLegendMoney">0%</b></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- DASHBOARD STATS -->
 
-<div class="stats">
+<div class="stats legacy-stats">
 
 <div class="stat">
 <small>Tasks</small>
@@ -466,7 +954,7 @@ Logout
 
 <div class="card">
 
-<h2>🎯 Goals & Targets Dashboard</h2>
+<h2 id="targetDashboardCard">🎯 Goals &amp; Targets Dashboard</h2>
 
 <div class="item-info">
 Today: <strong id="targetToday"></strong>
@@ -748,7 +1236,7 @@ Set your targets for today 🚀
 
 <div class="card">
 
-<h2>✅ Tasks</h2>
+<h2 id="tasksSection">✅ Tasks</h2>
 
 <div class="form">
 
@@ -837,7 +1325,7 @@ Add Plan
 
 <div class="card">
 
-<h2>📚 Study Tracker</h2>
+<h2 id="studySection">📚 Study Tracker</h2>
 
 <div class="form">
 
@@ -871,7 +1359,7 @@ Add Study
 
 <div class="card">
 
-<h2>🏃 Fitness & Running</h2>
+<h2 id="runningSection">🏃 Fitness &amp; Running</h2>
 
 <div class="form">
 
@@ -908,7 +1396,7 @@ Add Run
 
 <div class="card">
 
-<h2>💰 Career & Money</h2>
+<h2 id="moneySection">💰 Career &amp; Money</h2>
 
 <div class="form">
 
@@ -1197,7 +1685,7 @@ Start your streak today 🚀
 
 <div class="card">
 
-<h2>📔 Daily Diary</h2>
+<h2 id="diarySection">📔 Daily Diary</h2>
 
 <div class="form">
 
@@ -1259,6 +1747,181 @@ style="margin-top:15px">
 
 </div>
 
+
+
+<script>
+/* =========================================================
+   PREMIUM REDESIGN UI HELPERS
+   ========================================================= */
+let lifeOSCalendarCursor = new Date();
+
+function setLifeOSNav(el){
+  document.querySelectorAll('.lifeos-nav a').forEach(a=>a.classList.remove('active'));
+  if(el) el.classList.add('active');
+}
+
+function lifeOSClampPercent(value){
+  const n = Number(value) || 0;
+  return Math.max(0, Math.min(100, n));
+}
+
+function lifeOSTodayKey(){
+  return new Date().toISOString().split('T')[0];
+}
+
+function lifeOSDateKey(date){
+  const d = new Date(date);
+  if(Number.isNaN(d.getTime())) return '';
+  return d.toISOString().split('T')[0];
+}
+
+function lifeOSCompletedDateSet(){
+  const set = new Set();
+  if(Array.isArray(window.tasks)){
+    window.tasks.forEach(x=>{
+      if(x && x.completed && x.createdAt) set.add(lifeOSDateKey(x.createdAt));
+      if(x && x.completed && x.taskDate) set.add(String(x.taskDate));
+    });
+  }
+  if(Array.isArray(window.goals)){
+    window.goals.forEach(x=>{
+      if(x && x.completed && x.goalDate) set.add(String(x.goalDate));
+      if(x && x.completed && x.targetDate) set.add(String(x.targetDate));
+    });
+  }
+  if(Array.isArray(window.plans)){
+    window.plans.forEach(x=>{
+      if(x && x.completed && x.planDate) set.add(String(x.planDate));
+    });
+  }
+  if(Array.isArray(window.studies)){
+    window.studies.forEach(x=>{
+      if(x && Number(x.hours||0)>0 && x.studyDate) set.add(String(x.studyDate));
+    });
+  }
+  if(Array.isArray(window.runs)){
+    window.runs.forEach(x=>{
+      if(x && Number(x.distance||0)>0 && (x.runDate||x.date)) set.add(String(x.runDate||x.date));
+    });
+  }
+  return set;
+}
+
+function updateLifeOSCalendar(){
+  const monthEl=document.getElementById('lifeosCalendarMonth');
+  const daysEl=document.getElementById('lifeosCalendarDays');
+  if(!monthEl || !daysEl) return;
+  const y=lifeOSCalendarCursor.getFullYear();
+  const m=lifeOSCalendarCursor.getMonth();
+  monthEl.textContent=lifeOSCalendarCursor.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  const first=new Date(y,m,1).getDay();
+  const count=new Date(y,m+1,0).getDate();
+  const today=lifeOSTodayKey();
+  const done=lifeOSCompletedDateSet();
+  let html='';
+  for(let i=0;i<first;i++) html+='<div class="lifeos-day empty"></div>';
+  for(let d=1;d<=count;d++){
+    const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isDone=done.has(key);
+    const isToday=key===today;
+    const past=key<today;
+    const cls=['lifeos-day'];
+    if(isToday) cls.push('today');
+    if(isDone) cls.push('done');
+    else if(past && y===new Date().getFullYear() && m===new Date().getMonth()) cls.push('missed');
+    html+=`<div class="${cls.join(' ')}"><span>${d}</span><span class="mark">${isDone?'✓':(past&&m===new Date().getMonth()?'×':'')}</span></div>`;
+  }
+  daysEl.innerHTML=html;
+}
+
+function changeLifeOSCalendar(step){
+  lifeOSCalendarCursor.setMonth(lifeOSCalendarCursor.getMonth()+step);
+  updateLifeOSCalendar();
+}
+
+function updateLifeOSWeeklySummary(){
+  const doneEl=document.getElementById('redesignWeekDone');
+  const missEl=document.getElementById('redesignWeekMissed');
+  const doneBar=document.getElementById('redesignWeekDoneBar');
+  const missBar=document.getElementById('redesignWeekMissedBar');
+  if(!doneEl || !missEl) return;
+  const active=lifeOSCompletedDateSet();
+  const now=new Date();
+  let done=0;
+  for(let i=0;i<7;i++){
+    const d=new Date(now); d.setDate(now.getDate()-i);
+    if(active.has(lifeOSDateKey(d))) done++;
+  }
+  const missed=7-done;
+  doneEl.textContent=`${done} / 7`;
+  missEl.textContent=`${missed} / 7`;
+  if(doneBar) doneBar.style.width=(done/7*100)+'%';
+  if(missBar) missBar.style.width=(missed/7*100)+'%';
+}
+
+function updateRedesignOverview(){
+  const today=lifeOSTodayKey();
+  const allTasks=Array.isArray(window.tasks)?window.tasks:[];
+  const allStudies=Array.isArray(window.studies)?window.studies:[];
+  const allRuns=Array.isArray(window.runs)?window.runs:[];
+  const allMoney=Array.isArray(window.money)?window.money:[];
+  const target=window.currentTarget || {};
+
+  const completedTasks=allTasks.filter(x=>x && x.completed).length;
+  const totalTasks=allTasks.length;
+  const taskTarget=Number(target.taskTarget||0);
+  const taskActual=allTasks.filter(x=>x && x.completed && (!x.taskDate || String(x.taskDate)===today || x.createdAt && lifeOSDateKey(x.createdAt)===today)).length;
+  const taskBase=taskTarget>0?taskTarget:totalTasks;
+  const taskPct=lifeOSClampPercent(taskBase?taskActual/taskBase*100:0);
+
+  const studyToday=allStudies.filter(x=>x && String(x.studyDate||'')===today).reduce((a,x)=>a+Number(x.hours||0),0);
+  const studyTarget=Number(target.studyTarget||0);
+  const studyPct=lifeOSClampPercent(studyTarget?studyToday/studyTarget*100:0);
+
+  const runToday=allRuns.filter(x=>x && String(x.runDate||x.date||'')===today).reduce((a,x)=>a+Number(x.distance||0),0);
+  const runTarget=Number(target.runTarget||0);
+  const runPct=lifeOSClampPercent(runTarget?runToday/runTarget*100:0);
+
+  const incomeToday=allMoney.filter(x=>x && x.type==='income' && String(x.moneyDate||x.date||'')===today).reduce((a,x)=>a+Number(x.amount||0),0);
+  const moneyTarget=Number(target.moneyTarget||0);
+  const moneyPct=lifeOSClampPercent(moneyTarget?incomeToday/moneyTarget*100:0);
+
+  const values=[taskPct,studyPct,runPct,moneyPct].filter((v,i)=>[taskTarget,studyTarget,runTarget,moneyTarget][i]>0);
+  const overall=values.length?Math.round(values.reduce((a,b)=>a+b,0)/values.length):0;
+
+  const set=(id,text)=>{const el=document.getElementById(id);if(el)el.textContent=text;};
+  const bar=(id,p)=>{const el=document.getElementById(id);if(el)el.style.width=p+'%';};
+  set('redesignTaskValue',`${taskActual} / ${taskTarget||totalTasks}`);
+  set('redesignStudyValue',`${studyToday.toFixed(1)} / ${studyTarget||0} hr`);
+  set('redesignRunValue',`${runToday.toFixed(1)} / ${runTarget||0} KM`);
+  set('redesignMoneyValue',`₹${incomeToday.toFixed(0)} / ₹${moneyTarget.toFixed(0)}`);
+  set('redesignTaskPercent',Math.round(taskPct)+'%'); set('redesignStudyPercent',Math.round(studyPct)+'%'); set('redesignRunPercent',Math.round(runPct)+'%'); set('redesignMoneyPercent',Math.round(moneyPct)+'%');
+  set('redesignLegendTask',Math.round(taskPct)+'%'); set('redesignLegendStudy',Math.round(studyPct)+'%'); set('redesignLegendRun',Math.round(runPct)+'%'); set('redesignLegendMoney',Math.round(moneyPct)+'%');
+  bar('redesignTaskBar',taskPct); bar('redesignStudyBar',studyPct); bar('redesignRunBar',runPct); bar('redesignMoneyBar',moneyPct); bar('redesignOverallBar',overall);
+  set('redesignOverallPercent',overall+'%');
+  const ring=document.getElementById('redesignLifeRing');
+  if(ring) ring.style.background=`conic-gradient(#3a8bff ${overall*3.6}deg,#17395f 0deg)`;
+  let message='Set today\'s targets and start building momentum.';
+  if(overall>=100) message='🔥 All today\'s targets completed. Excellent work!';
+  else if(overall>=75) message='💪 You are close. Finish the remaining targets.';
+  else if(overall>=50) message='⚡ Good progress. Keep the momentum going.';
+  else if(overall>0) message='🚀 Start strong. Small wins add up.';
+  set('redesignOverallMessage',message);
+  set('redesignDate',new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}));
+  const user=document.getElementById('userName');
+  const ru=document.getElementById('redesignUserName');
+  if(ru) ru.textContent=user?.textContent||'';
+  const meter=document.getElementById('sideLifeMeter'); if(meter) meter.style.width=overall+'%';
+  updateLifeOSCalendar();
+  updateLifeOSWeeklySummary();
+}
+
+window.addEventListener('load',()=>{
+  updateRedesignOverview();
+  updateLifeOSCalendar();
+  updateLifeOSWeeklySummary();
+});
+</script>
 
 <script type="module">
 
@@ -3733,6 +4396,8 @@ updateCharts();
 
 updateTargetDashboard();
 
+if(typeof updateRedesignOverview === "function") updateRedesignOverview();
+
 }
 
 
@@ -4443,7 +5108,1919 @@ value ?? ""
 
 }
 
+
+/* =========================
+GLOBAL DATA BRIDGE
+=========================
+
+The main Firebase code runs inside a module.
+These live getters expose the current module data
+to the older dashboard sections that use normal scripts.
+They always return the latest Firebase-loaded arrays.
+========================= */
+
+Object.defineProperties(window,{
+
+ tasks:{get:()=>tasks,configurable:true},
+ goals:{get:()=>goals,configurable:true},
+ plans:{get:()=>plans,configurable:true},
+ studies:{get:()=>studies,configurable:true},
+ runs:{get:()=>runs,configurable:true},
+ money:{get:()=>money,configurable:true},
+ jobs:{get:()=>jobs,configurable:true},
+ diaries:{get:()=>diaries,configurable:true},
+
+ /* Older feature names kept compatible */
+ studyRecords:{get:()=>studies,configurable:true},
+ runRecords:{get:()=>runs,configurable:true},
+ moneyRecords:{get:()=>money,configurable:true},
+ jobRecords:{get:()=>jobs,configurable:true},
+ diaryRecords:{get:()=>diaries,configurable:true},
+
+ /* Target dashboard stores one document for today */
+ targets:{
+   get:()=> currentTarget
+     ? {[today()]:currentTarget}
+     : {},
+   configurable:true
+ },
+
+ /* Used by achievement/smart-dashboard sections */
+ currentStreak:{
+   get:()=>{
+     const el=document.getElementById("currentStreak");
+     if(!el) return 0;
+     const match=String(el.textContent||"").match(/\d+/);
+     return match ? Number(match[0]) : 0;
+   },
+   configurable:true
+ }
+
+});
+
 </script>
 
+<!-- WEEKLY PERFORMANCE REPORT -->
+<section class="card">
+  <h2>📈 Weekly Performance Report</h2>
+
+  <div class="stats-grid">
+    <div class="stat-box">
+      <h3>📚 Study</h3>
+      <p id="weeklyStudy">0 hrs</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>🏃 Running</h3>
+      <p id="weeklyRun">0 km</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>✅ Tasks</h3>
+      <p id="weeklyTasks">0</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>🎯 Target</h3>
+      <p id="weeklyTarget">0%</p>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>⭐ Weekly Life Score</h3>
+    <div class="progress-bar">
+      <div id="weeklyScoreBar" class="progress-fill" style="width:0%"></div>
+    </div>
+    <p id="weeklyScoreText">0 / 100</p>
+  </div>
+
+  <button onclick="updateWeeklyReport()">🔄 Update Weekly Report</button>
+</section>
+
+<script>
+function updateWeeklyReport() {
+
+  let studyTotal = 0;
+  let runTotal = 0;
+  let taskTotal = 0;
+  let targetTotal = 0;
+  let targetCount = 0;
+
+  const now = new Date();
+
+  // Last 7 days
+  const dates = [];
+
+  for(let i = 0; i < 7; i++){
+    const d = new Date(now);
+    d.setDate(now.getDate() - i);
+
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2,"0");
+    const dd = String(d.getDate()).padStart(2,"0");
+
+    dates.push(`${yyyy}-${mm}-${dd}`);
+  }
+
+  // STUDY
+  if(typeof studyRecords !== "undefined"){
+    studyRecords.forEach(item => {
+      if(dates.includes(item.studyDate)){
+        studyTotal += Number(item.hours) || 0;
+      }
+    });
+  }
+
+  // RUNNING
+  if(typeof runRecords !== "undefined"){
+    runRecords.forEach(item => {
+      if(dates.includes(item.runDate)){
+        runTotal += Number(item.distance) || 0;
+      }
+    });
+  }
+
+  // TASKS
+  if(typeof tasks !== "undefined"){
+    tasks.forEach(item => {
+      if(item.completed && item.createdAt){
+        const date = new Date(item.createdAt);
+
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2,"0");
+        const dd = String(date.getDate()).padStart(2,"0");
+
+        const taskDate = `${yyyy}-${mm}-${dd}`;
+
+        if(dates.includes(taskDate)){
+          taskTotal++;
+        }
+      }
+    });
+  }
+
+  // TARGETS
+  if(typeof targets !== "undefined"){
+    Object.values(targets).forEach(item => {
+
+      if(Number(item.studyTarget) > 0){
+        targetTotal += Math.min(
+          100,
+          (Number(item.studyActual || 0) /
+          Number(item.studyTarget)) * 100
+        );
+        targetCount++;
+      }
+
+      if(Number(item.runTarget) > 0){
+        targetTotal += Math.min(
+          100,
+          (Number(item.runActual || 0) /
+          Number(item.runTarget)) * 100
+        );
+        targetCount++;
+      }
+
+      if(Number(item.taskTarget) > 0){
+        targetTotal += Math.min(
+          100,
+          (Number(item.taskActual || 0) /
+          Number(item.taskTarget)) * 100
+        );
+        targetCount++;
+      }
+    });
+  }
+
+  const targetPercent =
+    targetCount > 0
+      ? Math.round(targetTotal / targetCount)
+      : 0;
+
+  // WEEKLY SCORE
+  const studyScore = Math.min(100, studyTotal * 5);
+  const runScore = Math.min(100, runTotal * 10);
+  const taskScore = Math.min(100, taskTotal * 5);
+
+  const weeklyScore = Math.round(
+    (studyScore + runScore + taskScore + targetPercent) / 4
+  );
+
+  document.getElementById("weeklyStudy").textContent =
+    studyTotal.toFixed(1) + " hrs";
+
+  document.getElementById("weeklyRun").textContent =
+    runTotal.toFixed(1) + " km";
+
+  document.getElementById("weeklyTasks").textContent =
+    taskTotal;
+
+  document.getElementById("weeklyTarget").textContent =
+    targetPercent + "%";
+
+  document.getElementById("weeklyScoreBar").style.width =
+    weeklyScore + "%";
+
+  document.getElementById("weeklyScoreText").textContent =
+    weeklyScore + " / 100";
+}
+</script>
+<!-- MONTHLY LIFE SCORE DASHBOARD -->
+<section class="card">
+  <h2>🏆 Monthly Life Score</h2>
+  <p id="monthlyPeriod">This Month</p>
+
+  <div class="stats-grid">
+    <div class="stat-box">
+      <h3>📚 Study</h3>
+      <p id="monthlyStudy">0 hrs</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>🏃 Running</h3>
+      <p id="monthlyRun">0 km</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>✅ Tasks</h3>
+      <p id="monthlyTasks">0</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>💰 Income</h3>
+      <p id="monthlyIncome">₹0</p>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>🎯 Target Achievement</h3>
+
+    <div class="progress-bar">
+      <div
+        id="monthlyTargetBar"
+        class="progress-fill"
+        style="width:0%">
+      </div>
+    </div>
+
+    <p id="monthlyTargetText">0%</p>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>⭐ Monthly Life Score</h3>
+
+    <div class="progress-bar">
+      <div
+        id="monthlyScoreBar"
+        class="progress-fill"
+        style="width:0%">
+      </div>
+    </div>
+
+    <p id="monthlyScoreText">0 / 100</p>
+  </div>
+
+  <button onclick="updateMonthlyReport()">
+    🔄 Update Monthly Score
+  </button>
+</section>
+
+<script>
+function updateMonthlyReport() {
+
+  const now = new Date();
+
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
+
+  const monthName = now.toLocaleString("en-US", {
+    month: "long"
+  });
+
+  document.getElementById("monthlyPeriod").textContent =
+    monthName + " " + currentYear;
+
+  let studyTotal = 0;
+  let runTotal = 0;
+  let taskTotal = 0;
+  let incomeTotal = 0;
+
+  // STUDY
+  if(typeof studyRecords !== "undefined") {
+
+    studyRecords.forEach(item => {
+
+      if(!item.studyDate) return;
+
+      const d = new Date(item.studyDate + "T00:00:00");
+
+      if(
+        d.getFullYear() === currentYear &&
+        d.getMonth() === currentMonth
+      ) {
+        studyTotal += Number(item.hours) || 0;
+      }
+
+    });
+  }
+
+  // RUNNING
+  if(typeof runRecords !== "undefined") {
+
+    runRecords.forEach(item => {
+
+      if(!item.runDate) return;
+
+      const d = new Date(item.runDate + "T00:00:00");
+
+      if(
+        d.getFullYear() === currentYear &&
+        d.getMonth() === currentMonth
+      ) {
+        runTotal += Number(item.distance) || 0;
+      }
+
+    });
+  }
+
+  // TASKS
+  if(typeof tasks !== "undefined") {
+
+    tasks.forEach(item => {
+
+      if(!item.completed || !item.createdAt) return;
+
+      const d = new Date(item.createdAt);
+
+      if(
+        d.getFullYear() === currentYear &&
+        d.getMonth() === currentMonth
+      ) {
+        taskTotal++;
+      }
+
+    });
+  }
+
+  // INCOME
+  if(typeof moneyRecords !== "undefined") {
+
+    moneyRecords.forEach(item => {
+
+      if(
+        item.type !== "income" ||
+        !item.moneyDate
+      ) return;
+
+      const d = new Date(
+        item.moneyDate + "T00:00:00"
+      );
+
+      if(
+        d.getFullYear() === currentYear &&
+        d.getMonth() === currentMonth
+      ) {
+        incomeTotal += Number(item.amount) || 0;
+      }
+
+    });
+  }
+
+  /*
+    TARGET SCORE
+
+    Uses the targets available in the current
+    target dashboard.
+  */
+
+  let targetScore = 0;
+  let targetCount = 0;
+
+  if(typeof targets !== "undefined") {
+
+    Object.values(targets).forEach(item => {
+
+      if(Number(item.taskTarget) > 0) {
+
+        targetScore += Math.min(
+          100,
+          (
+            Number(item.taskActual || 0) /
+            Number(item.taskTarget)
+          ) * 100
+        );
+
+        targetCount++;
+      }
+
+      if(Number(item.studyTarget) > 0) {
+
+        targetScore += Math.min(
+          100,
+          (
+            Number(item.studyActual || 0) /
+            Number(item.studyTarget)
+          ) * 100
+        );
+
+        targetCount++;
+      }
+
+      if(Number(item.runTarget) > 0) {
+
+        targetScore += Math.min(
+          100,
+          (
+            Number(item.runActual || 0) /
+            Number(item.runTarget)
+          ) * 100
+        );
+
+        targetCount++;
+      }
+
+      if(Number(item.incomeTarget) > 0) {
+
+        targetScore += Math.min(
+          100,
+          (
+            Number(item.incomeActual || 0) /
+            Number(item.incomeTarget)
+          ) * 100
+        );
+
+        targetCount++;
+      }
+
+    });
+  }
+
+  const targetPercent =
+    targetCount > 0
+      ? Math.round(targetScore / targetCount)
+      : 0;
+
+  /*
+    MONTHLY SCORE
+
+    These are normalized indicators,
+    not a financial or health measurement.
+  */
+
+  const studyScore = Math.min(
+    100,
+    studyTotal * 2
+  );
+
+  const runScore = Math.min(
+    100,
+    runTotal * 4
+  );
+
+  const taskScore = Math.min(
+    100,
+    taskTotal * 3
+  );
+
+  const incomeScore =
+    incomeTotal > 0 ? 100 : 0;
+
+  const monthlyScore = Math.round(
+    (
+      studyScore +
+      runScore +
+      taskScore +
+      incomeScore +
+      targetPercent
+    ) / 5
+  );
+
+  // UPDATE UI
+
+  document.getElementById("monthlyStudy").textContent =
+    studyTotal.toFixed(1) + " hrs";
+
+  document.getElementById("monthlyRun").textContent =
+    runTotal.toFixed(1) + " km";
+
+  document.getElementById("monthlyTasks").textContent =
+    taskTotal;
+
+  document.getElementById("monthlyIncome").textContent =
+    "₹" + incomeTotal.toFixed(0);
+
+  document.getElementById("monthlyTargetBar").style.width =
+    targetPercent + "%";
+
+  document.getElementById("monthlyTargetText").textContent =
+    targetPercent + "%";
+
+  document.getElementById("monthlyScoreBar").style.width =
+    monthlyScore + "%";
+
+  document.getElementById("monthlyScoreText").textContent =
+    monthlyScore + " / 100";
+}
+</script><!-- MONTHLY PROGRESS HISTORY -->
+<section class="card">
+  <h2>📊 Monthly Progress History</h2>
+  <p>Track your Life OS progress month by month.</p>
+
+  <div style="height:320px;">
+    <canvas id="monthlyHistoryChart"></canvas>
+  </div>
+
+  <button onclick="updateMonthlyHistory()">
+    🔄 Update Monthly History
+  </button>
+</section>
+
+<script>
+let monthlyHistoryChart = null;
+
+function updateMonthlyHistory() {
+
+  const now = new Date();
+
+  const labels = [];
+  const studyData = [];
+  const runData = [];
+  const taskData = [];
+
+  /*
+    Show the current month and previous
+    5 months.
+  */
+
+  for(let i = 5; i >= 0; i--) {
+
+    const d = new Date(
+      now.getFullYear(),
+      now.getMonth() - i,
+      1
+    );
+
+    const year = d.getFullYear();
+    const month = d.getMonth();
+
+    const label = d.toLocaleString("en-US", {
+      month: "short"
+    }) + " " + year;
+
+    labels.push(label);
+
+    let study = 0;
+    let run = 0;
+    let taskCount = 0;
+
+    // STUDY
+    if(typeof studyRecords !== "undefined") {
+
+      studyRecords.forEach(item => {
+
+        if(!item.studyDate) return;
+
+        const x = new Date(
+          item.studyDate + "T00:00:00"
+        );
+
+        if(
+          x.getFullYear() === year &&
+          x.getMonth() === month
+        ) {
+          study += Number(item.hours) || 0;
+        }
+
+      });
+    }
+
+    // RUNNING
+    if(typeof runRecords !== "undefined") {
+
+      runRecords.forEach(item => {
+
+        if(!item.runDate) return;
+
+        const x = new Date(
+          item.runDate + "T00:00:00"
+        );
+
+        if(
+          x.getFullYear() === year &&
+          x.getMonth() === month
+        ) {
+          run += Number(item.distance) || 0;
+        }
+
+      });
+    }
+
+    // TASKS
+    if(typeof tasks !== "undefined") {
+
+      tasks.forEach(item => {
+
+        if(!item.completed || !item.createdAt)
+          return;
+
+        const x = new Date(item.createdAt);
+
+        if(
+          x.getFullYear() === year &&
+          x.getMonth() === month
+        ) {
+          taskCount++;
+        }
+
+      });
+    }
+
+    studyData.push(Number(study.toFixed(1)));
+    runData.push(Number(run.toFixed(1)));
+    taskData.push(taskCount);
+  }
+
+  const canvas =
+    document.getElementById("monthlyHistoryChart");
+
+  if(!canvas) return;
+
+  if(monthlyHistoryChart) {
+    monthlyHistoryChart.destroy();
+  }
+
+  monthlyHistoryChart = new Chart(canvas, {
+
+    type: "line",
+
+    data: {
+
+      labels: labels,
+
+      datasets: [
+
+        {
+          label: "Study Hours",
+          data: studyData,
+          tension: 0.3
+        },
+
+        {
+          label: "Running KM",
+          data: runData,
+          tension: 0.3
+        },
+
+        {
+          label: "Completed Tasks",
+          data: taskData,
+          tension: 0.3
+        }
+
+      ]
+    },
+
+    options: {
+
+      responsive: true,
+
+      maintainAspectRatio: false,
+
+      plugins: {
+        legend: {
+          display: true
+        }
+      },
+
+      scales: {
+
+        y: {
+          beginAtZero: true
+        }
+
+      }
+
+    }
+
+  });
+}
+</script>
+<!-- PERSONAL ACHIEVEMENTS -->
+<section class="card">
+  <h2>🏅 Personal Achievements</h2>
+  <p id="achievementSummary">Keep building. Your milestones will unlock automatically.</p>
+
+  <div id="achievementGrid" class="stats-grid"></div>
+</section>
+
+<script>
+function updateAchievements() {
+
+  let completedTasks = 0;
+  let totalStudy = 0;
+  let totalRun = 0;
+  let maxStreak = 0;
+  let completedTargets = 0;
+  let totalIncome = 0;
+
+  // TASKS
+  if(typeof tasks !== "undefined") {
+    tasks.forEach(item => {
+      if(item.completed) {
+        completedTasks++;
+      }
+    });
+  }
+
+  // STUDY
+  if(typeof studyRecords !== "undefined") {
+    studyRecords.forEach(item => {
+      totalStudy += Number(item.hours) || 0;
+    });
+  }
+
+  // RUNNING
+  if(typeof runRecords !== "undefined") {
+    runRecords.forEach(item => {
+      totalRun += Number(item.distance) || 0;
+    });
+  }
+
+  // INCOME
+  if(typeof moneyRecords !== "undefined") {
+    moneyRecords.forEach(item => {
+      if(item.type === "income") {
+        totalIncome += Number(item.amount) || 0;
+      }
+    });
+  }
+
+  // TARGETS
+  if(typeof targets !== "undefined") {
+    Object.values(targets).forEach(item => {
+
+      if(
+        Number(item.taskTarget) > 0 &&
+        Number(item.taskActual || 0) >= Number(item.taskTarget)
+      ) {
+        completedTargets++;
+      }
+
+      if(
+        Number(item.studyTarget) > 0 &&
+        Number(item.studyActual || 0) >= Number(item.studyTarget)
+      ) {
+        completedTargets++;
+      }
+
+      if(
+        Number(item.runTarget) > 0 &&
+        Number(item.runActual || 0) >= Number(item.runTarget)
+      ) {
+        completedTargets++;
+      }
+
+      if(
+        Number(item.incomeTarget) > 0 &&
+        Number(item.incomeActual || 0) >= Number(item.incomeTarget)
+      ) {
+        completedTargets++;
+      }
+
+    });
+  }
+
+  // STREAK
+  if(typeof currentStreak !== "undefined") {
+    maxStreak = Number(currentStreak) || 0;
+  }
+
+  const achievements = [
+
+    {
+      icon: "🥇",
+      title: "100 Tasks",
+      requirement: "Complete 100 tasks",
+      value: completedTasks,
+      target: 100
+    },
+
+    {
+      icon: "📚",
+      title: "50 Study Hours",
+      requirement: "Study for 50 total hours",
+      value: totalStudy,
+      target: 50
+    },
+
+    {
+      icon: "🏃",
+      title: "100 KM Runner",
+      requirement: "Run 100 total KM",
+      value: totalRun,
+      target: 100
+    },
+
+    {
+      icon: "🔥",
+      title: "7 Day Streak",
+      requirement: "Reach a 7 day streak",
+      value: maxStreak,
+      target: 7
+    },
+
+    {
+      icon: "🎯",
+      title: "10 Targets",
+      requirement: "Complete 10 targets",
+      value: completedTargets,
+      target: 10
+    },
+
+    {
+      icon: "💰",
+      title: "₹10,000 Income",
+      requirement: "Track ₹10,000 income",
+      value: totalIncome,
+      target: 10000
+    }
+
+  ];
+
+  const grid =
+    document.getElementById("achievementGrid");
+
+  if(!grid) return;
+
+  grid.innerHTML = "";
+
+  let unlocked = 0;
+
+  achievements.forEach(a => {
+
+    const isUnlocked =
+      Number(a.value) >= Number(a.target);
+
+    if(isUnlocked) {
+      unlocked++;
+    }
+
+    const percentage = Math.min(
+      100,
+      Math.round(
+        (Number(a.value) / Number(a.target)) * 100
+      )
+    );
+
+    const box = document.createElement("div");
+
+    box.className = "stat-box";
+
+    box.style.opacity =
+      isUnlocked ? "1" : "0.65";
+
+    box.innerHTML = `
+
+      <div style="font-size:32px;">
+        ${isUnlocked ? "🏆" : a.icon}
+      </div>
+
+      <h3>
+        ${a.title}
+      </h3>
+
+      <p>
+        ${isUnlocked ? "UNLOCKED 🎉" : a.requirement}
+      </p>
+
+      <div class="progress-bar">
+
+        <div
+          class="progress-fill"
+          style="width:${percentage}%">
+        </div>
+
+      </div>
+
+      <small>
+        ${Number(a.value).toFixed(
+          Number(a.value) % 1 === 0 ? 0 : 1
+        )}
+        / ${a.target}
+      </small>
+
+    `;
+
+    grid.appendChild(box);
+  });
+
+  document.getElementById(
+    "achievementSummary"
+  ).textContent =
+    unlocked +
+    " / " +
+    achievements.length +
+    " achievements unlocked. Keep going! 🚀";
+}
+</script>
+<!-- SMART DAILY DASHBOARD -->
+<section class="card">
+  <h2>🧠 Smart Daily Dashboard</h2>
+  <p id="smartDate"></p>
+
+  <div class="stats-grid">
+
+    <div class="stat-box">
+      <h3>🎯 Today's Focus</h3>
+      <p id="smartFocus">Set your targets</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>🔥 Streak</h3>
+      <p id="smartStreak">0 days</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>📊 Target Progress</h3>
+      <p id="smartTarget">0%</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>🏅 Achievements</h3>
+      <p id="smartAchievements">0 unlocked</p>
+    </div>
+
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>💡 What to do next?</h3>
+    <div id="smartNext"
+         style="padding:15px;border-radius:12px;">
+      Loading...
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>⚠️ Today's Pending</h3>
+    <div id="smartPending"
+         style="padding:15px;border-radius:12px;">
+      Loading...
+    </div>
+  </div>
+
+  <button onclick="updateSmartDashboard()">
+    🔄 Refresh Dashboard
+  </button>
+</section>
+
+<script>
+function updateSmartDashboard() {
+
+  const now = new Date();
+
+  document.getElementById("smartDate").textContent =
+    now.toLocaleDateString("en-IN", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+
+  let completedTasks = 0;
+  let totalTasks = 0;
+
+  let studyToday = 0;
+  let runToday = 0;
+  let incomeToday = 0;
+
+  // TODAY
+  const todayDate =
+    now.toISOString().split("T")[0];
+
+  // TASKS
+  if(typeof tasks !== "undefined") {
+
+    tasks.forEach(item => {
+
+      totalTasks++;
+
+      if(item.completed) {
+        completedTasks++;
+      }
+
+    });
+  }
+
+  // STUDY
+  if(typeof studyRecords !== "undefined") {
+
+    studyRecords.forEach(item => {
+
+      if(item.studyDate === todayDate) {
+        studyToday += Number(item.hours) || 0;
+      }
+
+    });
+  }
+
+  // RUNNING
+  if(typeof runRecords !== "undefined") {
+
+    runRecords.forEach(item => {
+
+      if(item.runDate === todayDate) {
+        runToday += Number(item.distance) || 0;
+      }
+
+    });
+  }
+
+  // INCOME
+  if(typeof moneyRecords !== "undefined") {
+
+    moneyRecords.forEach(item => {
+
+      if(
+        item.type === "income" &&
+        item.moneyDate === todayDate
+      ) {
+        incomeToday += Number(item.amount) || 0;
+      }
+
+    });
+  }
+
+  // TARGET DATA
+  let targetPercent = 0;
+  let targetItems = 0;
+
+  if(typeof targets !== "undefined") {
+
+    Object.values(targets).forEach(item => {
+
+      if(Number(item.taskTarget) > 0) {
+
+        targetPercent += Math.min(
+          100,
+          (
+            Number(item.taskActual || 0) /
+            Number(item.taskTarget)
+          ) * 100
+        );
+
+        targetItems++;
+      }
+
+      if(Number(item.studyTarget) > 0) {
+
+        targetPercent += Math.min(
+          100,
+          (
+            Number(item.studyActual || 0) /
+            Number(item.studyTarget)
+          ) * 100
+        );
+
+        targetItems++;
+      }
+
+      if(Number(item.runTarget) > 0) {
+
+        targetPercent += Math.min(
+          100,
+          (
+            Number(item.runActual || 0) /
+            Number(item.runTarget)
+          ) * 100
+        );
+
+        targetItems++;
+      }
+
+      if(Number(item.incomeTarget) > 0) {
+
+        targetPercent += Math.min(
+          100,
+          (
+            Number(item.incomeActual || 0) /
+            Number(item.incomeTarget)
+          ) * 100
+        );
+
+        targetItems++;
+      }
+
+    });
+  }
+
+  const targetAverage =
+    targetItems > 0
+      ? Math.round(targetPercent / targetItems)
+      : 0;
+
+  // STREAK
+  let streak = 0;
+
+  if(typeof currentStreak !== "undefined") {
+    streak = Number(currentStreak) || 0;
+  }
+
+  // ACHIEVEMENTS
+  let unlocked = 0;
+
+  if(
+    typeof completedTasks !== "undefined" &&
+    completedTasks >= 100
+  ) unlocked++;
+
+  if(
+    typeof studyRecords !== "undefined"
+  ) {
+
+    let totalStudy = 0;
+
+    studyRecords.forEach(item => {
+      totalStudy += Number(item.hours) || 0;
+    });
+
+    if(totalStudy >= 50) unlocked++;
+  }
+
+  if(
+    typeof runRecords !== "undefined"
+  ) {
+
+    let totalRun = 0;
+
+    runRecords.forEach(item => {
+      totalRun += Number(item.distance) || 0;
+    });
+
+    if(totalRun >= 100) unlocked++;
+  }
+
+  if(streak >= 7) unlocked++;
+
+  // DISPLAY
+  document.getElementById("smartStreak").textContent =
+    streak + " days";
+
+  document.getElementById("smartTarget").textContent =
+    targetAverage + "%";
+
+  document.getElementById("smartAchievements").textContent =
+    unlocked + " unlocked";
+
+  // FOCUS
+  let focus = "Complete your targets 🎯";
+
+  if(
+    studyToday === 0 &&
+    runToday === 0 &&
+    completedTasks === 0
+  ) {
+    focus = "Start your first task today 🚀";
+  }
+  else if(studyToday === 0) {
+    focus = "Study session needed 📚";
+  }
+  else if(runToday === 0) {
+    focus = "Running session needed 🏃";
+  }
+  else if(targetAverage < 100) {
+    focus = "Push your targets 🎯";
+  }
+  else {
+    focus = "Excellent! Keep building 🔥";
+  }
+
+  document.getElementById("smartFocus").textContent =
+    focus;
+
+  // NEXT ACTION
+  let nextAction = "";
+
+  if(totalTasks === 0) {
+    nextAction = "Add today's first task.";
+  }
+  else if(completedTasks < totalTasks) {
+    nextAction =
+      "Complete your pending task(s).";
+  }
+  else if(studyToday === 0) {
+    nextAction =
+      "Do a focused study session.";
+  }
+  else if(runToday === 0) {
+    nextAction =
+      "Complete your running session.";
+  }
+  else {
+    nextAction =
+      "Review your targets and improve one thing.";
+  }
+
+  document.getElementById("smartNext").textContent =
+    "👉 " + nextAction;
+
+  // PENDING
+  let pending = [];
+
+  if(totalTasks > completedTasks) {
+    pending.push(
+      "✅ " +
+      (totalTasks - completedTasks) +
+      " task(s)"
+    );
+  }
+
+  if(studyToday === 0) {
+    pending.push("📚 Study");
+  }
+
+  if(runToday === 0) {
+    pending.push("🏃 Running");
+  }
+
+  if(targetAverage < 100) {
+    pending.push("🎯 Targets");
+  }
+
+  if(pending.length === 0) {
+    document.getElementById("smartPending").textContent =
+      "Nothing major pending. Great work! 🔥";
+  }
+  else {
+    document.getElementById("smartPending").textContent =
+      pending.join("  •  ");
+  }
+}
+</script>
+<!-- QUICK ACTIONS -->
+<section class="card">
+  <h2>⚡ Quick Actions</h2>
+  <p>Jump directly to the section you need.</p>
+
+  <div class="stats-grid">
+
+    <button onclick="quickGo('Task')">
+      ➕ Add Task
+    </button>
+
+    <button onclick="quickGo('Study')">
+      📚 Add Study
+    </button>
+
+    <button onclick="quickGo('Running')">
+      🏃 Add Run
+    </button>
+
+    <button onclick="quickGo('Money')">
+      💰 Add Money
+    </button>
+
+    <button onclick="quickGo('Diary')">
+      📔 Add Diary
+    </button>
+
+    <button onclick="quickGo('Goals & Targets')">
+      🎯 Set Targets
+    </button>
+
+  </div>
+</section>
+
+<script>
+function quickGo(searchText) {
+
+  const headings = document.querySelectorAll("h1, h2, h3");
+
+  let found = null;
+
+  headings.forEach(heading => {
+
+    if(found) return;
+
+    const text =
+      heading.textContent
+        .toLowerCase()
+        .trim();
+
+    if(text.includes(searchText.toLowerCase())) {
+      found = heading;
+    }
+  });
+
+  if(found) {
+
+    found.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  } else {
+
+    alert(
+      searchText +
+      " section not found."
+    );
+  }
+}
+</script>
+<!-- DAILY REMINDER & FOCUS SYSTEM -->
+<section class="card">
+  <h2>🔔 Daily Reminder & Focus</h2>
+  <p id="reminderDate"></p>
+
+  <div class="stats-grid">
+
+    <div class="stat-box">
+      <h3>🎯 Main Focus</h3>
+      <p id="reminderFocus">Loading...</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>📚 Study</h3>
+      <p id="reminderStudy">Not completed</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>🏃 Running</h3>
+      <p id="reminderRun">Not completed</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>✅ Tasks</h3>
+      <p id="reminderTasks">Loading...</p>
+    </div>
+
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3>⏰ Today's Reminder</h3>
+
+    <div id="dailyReminderMessage"
+         style="padding:15px;border-radius:12px;">
+      Loading...
+    </div>
+  </div>
+
+  <button onclick="updateDailyReminder()">
+    🔄 Refresh Reminder
+  </button>
+</section>
+
+<script>
+function updateDailyReminder() {
+
+  const now = new Date();
+
+  const todayDate =
+    now.toISOString().split("T")[0];
+
+  document.getElementById(
+    "reminderDate"
+  ).textContent =
+    now.toLocaleDateString("en-IN", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+
+  let completedTasks = 0;
+  let totalTasks = 0;
+  let studyToday = 0;
+  let runToday = 0;
+
+  // TASKS
+  if(typeof tasks !== "undefined") {
+
+    tasks.forEach(item => {
+
+      totalTasks++;
+
+      if(item.completed) {
+        completedTasks++;
+      }
+
+    });
+  }
+
+  // STUDY
+  if(typeof studyRecords !== "undefined") {
+
+    studyRecords.forEach(item => {
+
+      if(item.studyDate === todayDate) {
+        studyToday += Number(item.hours) || 0;
+      }
+
+    });
+  }
+
+  // RUNNING
+  if(typeof runRecords !== "undefined") {
+
+    runRecords.forEach(item => {
+
+      if(item.runDate === todayDate) {
+        runToday += Number(item.distance) || 0;
+      }
+
+    });
+  }
+
+  // TASK STATUS
+  let taskMessage;
+
+  if(totalTasks === 0) {
+
+    taskMessage =
+      "No tasks added yet.";
+
+  }
+  else if(completedTasks === totalTasks) {
+
+    taskMessage =
+      "All tasks completed 🎉";
+
+  }
+  else {
+
+    taskMessage =
+      completedTasks +
+      " / " +
+      totalTasks +
+      " completed";
+
+  }
+
+  document.getElementById(
+    "reminderTasks"
+  ).textContent = taskMessage;
+
+  // STUDY STATUS
+  document.getElementById(
+    "reminderStudy"
+  ).textContent =
+    studyToday > 0
+      ? studyToday.toFixed(1) + " hrs completed 📚"
+      : "Study session pending 📚";
+
+  // RUN STATUS
+  document.getElementById(
+    "reminderRun"
+  ).textContent =
+    runToday > 0
+      ? runToday.toFixed(1) + " km completed 🏃"
+      : "Running session pending 🏃";
+
+  // MAIN FOCUS
+  let focus =
+    "Complete your most important task 🎯";
+
+  if(totalTasks === 0) {
+
+    focus =
+      "Create today's first task.";
+
+  }
+  else if(completedTasks < totalTasks) {
+
+    focus =
+      "Finish your pending task.";
+
+  }
+  else if(studyToday === 0) {
+
+    focus =
+      "Focus on your study session.";
+
+  }
+  else if(runToday === 0) {
+
+    focus =
+      "Complete your running session.";
+
+  }
+  else {
+
+    focus =
+      "Great work! Review your progress.";
+
+  }
+
+  document.getElementById(
+    "reminderFocus"
+  ).textContent = focus;
+
+  // TIME BASED REMINDER
+  const hour = now.getHours();
+
+  let reminder = "";
+
+  if(hour < 6) {
+
+    reminder =
+      "🌅 Early morning — start calmly and focus.";
+
+  }
+  else if(hour < 12) {
+
+    reminder =
+      "☀️ Morning — finish your important work first.";
+
+  }
+  else if(hour < 17) {
+
+    reminder =
+      "🌤️ Afternoon — stay consistent and avoid distractions.";
+
+  }
+  else if(hour < 21) {
+
+    reminder =
+      "🌆 Evening — complete study/running before relaxing.";
+
+  }
+  else {
+
+    reminder =
+      "🌙 Night — review today's progress and prepare tomorrow.";
+
+  }
+
+  // PENDING ADDITION
+  if(studyToday === 0) {
+
+    reminder +=
+      " 📚 Study is still pending.";
+
+  }
+
+  if(runToday === 0) {
+
+    reminder +=
+      " 🏃 Running is still pending.";
+
+  }
+
+  document.getElementById(
+    "dailyReminderMessage"
+  ).textContent = reminder;
+}
+</script>
+<!-- DATA BACKUP & EXPORT -->
+<section class="card">
+  <h2>💾 Data Backup & Export</h2>
+  <p>Download a backup of your Life OS data.</p>
+
+  <button onclick="exportLifeOSData()">
+    📥 Download My Backup
+  </button>
+
+  <p id="backupStatus"></p>
+</section>
+
+<script>
+function exportLifeOSData() {
+
+  const backup = {
+    backupDate: new Date().toISOString(),
+
+    tasks:
+      typeof tasks !== "undefined"
+        ? tasks
+        : [],
+
+    goals:
+      typeof goals !== "undefined"
+        ? goals
+        : [],
+
+    plans:
+      typeof plans !== "undefined"
+        ? plans
+        : [],
+
+    study:
+      typeof studyRecords !== "undefined"
+        ? studyRecords
+        : [],
+
+    running:
+      typeof runRecords !== "undefined"
+        ? runRecords
+        : [],
+
+    money:
+      typeof moneyRecords !== "undefined"
+        ? moneyRecords
+        : [],
+
+    jobs:
+      typeof jobRecords !== "undefined"
+        ? jobRecords
+        : [],
+
+    diary:
+      typeof diaryRecords !== "undefined"
+        ? diaryRecords
+        : [],
+
+    targets:
+      typeof targets !== "undefined"
+        ? targets
+        : {}
+  };
+
+  const jsonData =
+    JSON.stringify(
+      backup,
+      null,
+      2
+    );
+
+  const blob =
+    new Blob(
+      [jsonData],
+      {
+        type: "application/json"
+      }
+    );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const link =
+    document.createElement("a");
+
+  const date =
+    new Date()
+      .toISOString()
+      .split("T")[0];
+
+  link.href = url;
+
+  link.download =
+    "vasanth-life-os-backup-" +
+    date +
+    ".json";
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  document.body.removeChild(link);
+
+  URL.revokeObjectURL(url);
+
+  document.getElementById(
+    "backupStatus"
+  ).textContent =
+    "✅ Backup downloaded successfully.";
+}
+</script>
+<!-- BACKUP PROTECTION -->
+<section class="card">
+  <h2 id="backupProtectionSection">🛡️ Backup Protection</h2>
+  <p id="backupProtectionStatus">
+    Checking backup status...
+  </p>
+
+  <button onclick="protectedBackup()">
+    💾 Create Protected Backup
+  </button>
+</section>
+
+<script>
+function protectedBackup() {
+
+  const confirmed = confirm(
+    "Create a new backup of your Life OS data?"
+  );
+
+  if(!confirmed) {
+    return;
+  }
+
+  if(typeof exportLifeOSData === "function") {
+
+    exportLifeOSData();
+
+    const now = new Date();
+
+    localStorage.setItem(
+      "lifeOS_lastBackup",
+      now.toISOString()
+    );
+
+    updateBackupProtectionStatus();
+
+  } else {
+
+    alert(
+      "Backup function not found. Please check the Backup Export section."
+    );
+  }
+}
+
+
+function updateBackupProtectionStatus() {
+
+  const status =
+    document.getElementById(
+      "backupProtectionStatus"
+    );
+
+  if(!status) return;
+
+  const lastBackup =
+    localStorage.getItem(
+      "lifeOS_lastBackup"
+    );
+
+  if(!lastBackup) {
+
+    status.textContent =
+      "⚠️ No protected backup recorded yet.";
+
+    return;
+  }
+
+  const backupDate =
+    new Date(lastBackup);
+
+  const now =
+    new Date();
+
+  const difference =
+    Math.floor(
+      (now - backupDate) /
+      (1000 * 60 * 60 * 24)
+    );
+
+  if(difference === 0) {
+
+    status.textContent =
+      "✅ Backup created today.";
+
+  }
+  else if(difference === 1) {
+
+    status.textContent =
+      "🟢 Last backup: yesterday.";
+
+  }
+  else if(difference <= 7) {
+
+    status.textContent =
+      "🟢 Last backup: " +
+      difference +
+      " days ago.";
+
+  }
+  else {
+
+    status.textContent =
+      "⚠️ Last backup was " +
+      difference +
+      " days ago. Create a fresh backup.";
+
+  }
+}
+
+
+// Check status when page loads
+updateBackupProtectionStatus();
+</script>
+<!-- 🔎 GLOBAL SEARCH -->
+<section class="card" id="globalSearchSection">
+  <h2>🔎 Global Search</h2>
+
+  <input
+    type="text"
+    id="lifeOSSearchInput"
+    placeholder="Search tasks, goals, study, running, money, career, diary..."
+    oninput="lifeOSSearch()"
+    style="width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#111;color:white;"
+  >
+
+  <div id="lifeOSSearchResults" style="margin-top:15px;">
+    <p style="opacity:0.6;">Type something to search your Life OS data...</p>
+  </div>
+</section>
+
+<script>
+function lifeOSSearch() {
+  const input = document.getElementById("lifeOSSearchInput");
+  const results = document.getElementById("lifeOSSearchResults");
+
+  const query = input.value.trim().toLowerCase();
+
+  if (!query) {
+    results.innerHTML =
+      '<p style="opacity:0.6;">Type something to search your Life OS data...</p>';
+    return;
+  }
+
+  const collections = [
+    { name: "📝 Tasks", data: typeof tasks !== "undefined" ? tasks : [] },
+    { name: "🎯 Goals", data: typeof goals !== "undefined" ? goals : [] },
+    { name: "📅 Planner", data: typeof plans !== "undefined" ? plans : [] },
+    { name: "📚 Study", data: typeof studyRecords !== "undefined" ? studyRecords : [] },
+    { name: "🏃 Running", data: typeof runRecords !== "undefined" ? runRecords : [] },
+    { name: "💰 Money", data: typeof moneyRecords !== "undefined" ? moneyRecords : [] },
+    { name: "💼 Career", data: typeof jobRecords !== "undefined" ? jobRecords : [] },
+    { name: "📔 Diary", data: typeof diaryRecords !== "undefined" ? diaryRecords : [] }
+  ];
+
+  let found = [];
+
+  collections.forEach(collection => {
+    if (!Array.isArray(collection.data)) return;
+
+    collection.data.forEach(item => {
+      const searchableText =
+        (collection.name + " " + JSON.stringify(item)).toLowerCase();
+
+      if (searchableText.includes(query)) {
+        found.push({
+          category: collection.name,
+          item: item
+        });
+      }
+    });
+  });
+
+  if (found.length === 0) {
+    results.innerHTML = `
+      <p style="opacity:0.7;">
+        ❌ No matching records found for "<b>${query}</b>"
+      </p>
+    `;
+    return;
+  }
+
+  results.innerHTML = `
+    <p>
+      🔎 Found <b>${found.length}</b> result(s)
+    </p>
+
+    ${found.map(result => `
+      <div style="
+        margin:10px 0;
+        padding:14px;
+        border:1px solid #333;
+        border-radius:12px;
+        background:#151515;
+      ">
+        <div style="
+          font-weight:bold;
+          margin-bottom:8px;
+          font-size:16px;
+        ">
+          ${result.category}
+        </div>
+
+        <div style="
+          font-size:13px;
+          line-height:1.7;
+          word-break:break-word;
+          opacity:0.9;
+        ">
+          ${lifeOSFormatSearchResult(result.item)}
+        </div>
+      </div>
+    `).join("")}
+  `;
+}
+function lifeOSFormatSearchResult(item) {
+  if (!item || typeof item !== "object") {
+    return String(item);
+  }
+
+  const values = [];
+
+  Object.entries(item).forEach(([key, value]) => {
+    if (
+      value !== null &&
+      value !== undefined &&
+      value !== "" &&
+      typeof value !== "object"
+    ) {
+      values.push(
+        `<b>${key}:</b> ${String(value)}`
+      );
+    }
+  });
+
+  return values.join(" &nbsp; | &nbsp; ");
+}
+</script>
+
+</div>
+</div>
 </body>
 </html>
