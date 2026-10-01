@@ -1845,38 +1845,87 @@ function lifeOSDateKey(date){
   return lifeOSLocalKey(date);
 }
 
+function lifeOSDayStatus(date){
+  const key=String(date||'');
+  if(!key) return 'future';
+
+  const now=new Date();
+  const todayKey=lifeOSTodayKey();
+  const dayStart=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const dayDate=new Date(`${key}T00:00:00`);
+  if(Number.isNaN(dayDate.getTime())) return 'future';
+  if(dayDate>dayStart) return 'future';
+
+  const target=targetHistory && targetHistory[key] ? targetHistory[key] : null;
+
+  const taskActual=(Array.isArray(window.tasks)?window.tasks:[]).filter(task=>{
+    if(!task || !task.completed) return false;
+    const taskKey=task.taskDate ? String(task.taskDate) : (task.createdAt ? lifeOSDateKey(task.createdAt) : '');
+    return taskKey===key;
+  }).length;
+
+  const studyActual=(Array.isArray(window.studies)?window.studies:[])
+    .filter(x=>x && String(x.studyDate||'')===key)
+    .reduce((sum,x)=>sum+Number(x.hours||0),0);
+
+  const runActual=(Array.isArray(window.runs)?window.runs:[])
+    .filter(x=>x && String(x.runDate||x.date||'')===key)
+    .reduce((sum,x)=>sum+Number(x.distance||0),0);
+
+  const incomeActual=(Array.isArray(window.money)?window.money:[])
+    .filter(x=>x && x.type==='income' && String(x.moneyDate||x.date||'')===key)
+    .reduce((sum,x)=>sum+Number(x.amount||0),0);
+
+  /* If targets were set for that day, ALL configured targets must be reached. */
+  if(target){
+    const checks=[];
+    const taskTarget=Number(target.taskTarget||0);
+    const studyTarget=Number(target.studyTarget||0);
+    const runTarget=Number(target.runTarget||0);
+    const moneyTarget=Number(target.moneyTarget||0);
+
+    if(taskTarget>0) checks.push(taskActual>=taskTarget);
+    if(studyTarget>0) checks.push(studyActual>=studyTarget);
+    if(runTarget>0) checks.push(runActual>=runTarget);
+    if(moneyTarget>0) checks.push(incomeActual>=moneyTarget);
+
+    if(checks.length) return checks.every(Boolean) ? 'done' : 'missed';
+  }
+
+  /* If no targets exist, use that day's planned work as the fallback. */
+  const scheduledTasks=(Array.isArray(window.tasks)?window.tasks:[]).filter(x=>{
+    if(!x) return false;
+    const k=x.taskDate ? String(x.taskDate) : (x.createdAt ? lifeOSDateKey(x.createdAt) : '');
+    return k===key;
+  });
+  const scheduledGoals=(Array.isArray(window.goals)?window.goals:[]).filter(x=>{
+    if(!x) return false;
+    const k=x.goalDate ? String(x.goalDate) : (x.targetDate ? String(x.targetDate) : '');
+    return k===key;
+  });
+  const scheduledPlans=(Array.isArray(window.plans)?window.plans:[]).filter(x=>String(x?.planDate||'')===key);
+  const scheduled=[...scheduledTasks,...scheduledGoals,...scheduledPlans];
+
+  if(scheduled.length){
+    return scheduled.every(x=>x && x.completed) ? 'done' : 'missed';
+  }
+
+  /* No recorded work = missed for past/current days. */
+  return 'missed';
+}
+
 function lifeOSCompletedDateSet(){
-  const set = new Set();
-  if(Array.isArray(window.tasks)){
-    window.tasks.forEach(x=>{
-      if(x && x.completed && x.createdAt) set.add(lifeOSDateKey(x.createdAt));
-      if(x && x.completed && x.taskDate) set.add(String(x.taskDate));
-    });
-  }
-  if(Array.isArray(window.goals)){
-    window.goals.forEach(x=>{
-      if(x && x.completed && x.goalDate) set.add(String(x.goalDate));
-      if(x && x.completed && x.targetDate) set.add(String(x.targetDate));
-    });
-  }
-  if(Array.isArray(window.plans)){
-    window.plans.forEach(x=>{
-      if(x && x.completed && x.planDate) set.add(String(x.planDate));
-    });
-  }
-  if(Array.isArray(window.studies)){
-    window.studies.forEach(x=>{
-      if(x && Number(x.hours||0)>0 && x.studyDate) set.add(String(x.studyDate));
-    });
-  }
-  if(Array.isArray(window.runs)){
-    window.runs.forEach(x=>{
-      if(x && Number(x.distance||0)>0 && (x.runDate||x.date)) set.add(String(x.runDate||x.date));
-    });
+  const set=new Set();
+  const now=new Date();
+  const year=now.getFullYear();
+  const month=now.getMonth();
+  const days=new Date(year,month+1,0).getDate();
+  for(let d=1;d<=days;d++){
+    const key=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    if(lifeOSDayStatus(key)==='done') set.add(key);
   }
   return set;
 }
-
 function updateLifeOSCalendar(){
   const monthEl=document.getElementById('lifeosCalendarMonth');
   const daysEl=document.getElementById('lifeosCalendarDays');
@@ -1898,17 +1947,15 @@ function updateLifeOSCalendar(){
 
   for(let d=1;d<=count;d++){
     const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isDone=done.has(key);
+    const status=lifeOSDayStatus(key);
     const isToday=key===today;
     const isSelected=key===selected;
-    const dayDate=new Date(y,m,d);
-    const past=dayDate < new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
     const cls=['lifeos-day'];
     if(isToday) cls.push('today');
     if(isSelected) cls.push('selected');
-    if(isDone) cls.push('done');
-    else if(past) cls.push('missed');
-    const mark=isDone?'✓':(past?'×':'');
+    if(status==='done') cls.push('done');
+    else if(status==='missed') cls.push('missed');
+    const mark=status==='done'?'✓':(status==='missed'?'×':'');
     html+=`<button type="button" class="${cls.join(' ')}" onclick="selectLifeOSCalendarDate('${key}')" aria-label="${key}"><span>${d}</span><span class="mark">${mark}</span></button>`;
   }
   daysEl.innerHTML=html;
@@ -1960,20 +2007,19 @@ function updateLifeOSWeeklySummary(){
   const doneBar=document.getElementById('redesignWeekDoneBar');
   const missBar=document.getElementById('redesignWeekMissedBar');
   if(!doneEl || !missEl) return;
-  const active=lifeOSCompletedDateSet();
   const now=new Date();
-  let done=0;
+  let done=0, missed=0;
   for(let i=0;i<7;i++){
     const d=new Date(now); d.setDate(now.getDate()-i);
-    if(active.has(lifeOSDateKey(d))) done++;
+    const status=lifeOSDayStatus(lifeOSDateKey(d));
+    if(status==='done') done++;
+    else if(status==='missed') missed++;
   }
-  const missed=7-done;
   doneEl.textContent=`${done} / 7`;
   missEl.textContent=`${missed} / 7`;
   if(doneBar) doneBar.style.width=(done/7*100)+'%';
   if(missBar) missBar.style.width=(missed/7*100)+'%';
 }
-
 function updateRedesignOverview(){
   const today=lifeOSTodayKey();
   const allTasks=Array.isArray(window.tasks)?window.tasks:[];
@@ -2112,6 +2158,7 @@ let jobs=[];
 let diaries=[];
 
 let currentTarget=null;
+let targetHistory={};
 
 let unsubscribeTasks=null;
 let unsubscribeGoals=null;
@@ -3893,34 +3940,30 @@ TARGET SYSTEM
 
 function loadTargets(){
 
-const ref=doc(
+const ref=collection(
 db,
 "users",
 currentUser.uid,
-"targets",
-today()
+"targets"
 );
 
 unsubscribeTargets=onSnapshot(
 ref,
 snapshot=>{
 
-if(snapshot.exists()){
+targetHistory={};
+snapshot.forEach(item=>{
+  targetHistory[item.id]={id:item.id,...item.data()};
+});
 
-currentTarget={
-id:snapshot.id,
-...snapshot.data()
-};
-
-}else{
-
-currentTarget=null;
-
-}
+currentTarget=targetHistory[today()] || null;
 
 renderTargetInputs();
 
 updateTargetDashboard();
+
+if(typeof updateRedesignOverview==='function') updateRedesignOverview();
+if(typeof updateLifeOSCalendar==='function') updateLifeOSCalendar();
 
 }
 );
@@ -4830,112 +4873,9 @@ message;
 }
 
 
-function isTargetCompletedForDate(
-date
-){
-
-if(date!==today())
-return false;
-
-if(!currentTarget)
-return false;
-
-
-const taskActual=
-tasks.filter(
-task=>{
-
-if(
-!task.completed ||
-!task.createdAt
-)
-return false;
-
-return new Date(
-task.createdAt
-)
-.toISOString()
-.split("T")[0]
-===date;
-
+function isTargetCompletedForDate(date){
+  return lifeOSDayStatus(date)==='done';
 }
-).length;
-
-
-const studyActual=
-studies
-.filter(
-x=>x.studyDate===date
-)
-.reduce(
-(s,x)=>
-s+Number(x.hours||0),
-0
-);
-
-
-const runActual=
-runs
-.filter(
-x=>x.runDate===date
-)
-.reduce(
-(s,x)=>
-s+Number(x.distance||0),
-0
-);
-
-
-const incomeActual=
-money
-.filter(
-x=>
-x.moneyDate===date &&
-x.type==="income"
-)
-.reduce(
-(s,x)=>
-s+Number(x.amount||0),
-0
-);
-
-
-if(
-Number(currentTarget.taskTarget||0)>0 &&
-taskActual<
-Number(currentTarget.taskTarget)
-)
-return false;
-
-
-if(
-Number(currentTarget.studyTarget||0)>0 &&
-studyActual<
-Number(currentTarget.studyTarget)
-)
-return false;
-
-
-if(
-Number(currentTarget.runTarget||0)>0 &&
-runActual<
-Number(currentTarget.runTarget)
-)
-return false;
-
-
-if(
-Number(currentTarget.moneyTarget||0)>0 &&
-incomeActual<
-Number(currentTarget.moneyTarget)
-)
-return false;
-
-
-return true;
-
-}
-
 
 /* =========================
 CHARTS
@@ -5300,9 +5240,7 @@ Object.defineProperties(window,{
 
  /* Target dashboard stores one document for today */
  targets:{
-   get:()=> currentTarget
-     ? {[today()]:currentTarget}
-     : {},
+   get:()=> targetHistory || {},
    configurable:true
  },
 
