@@ -530,18 +530,41 @@ body{
 #app{min-height:100vh;}
 #app>header{display:none!important;}
 
+/* Hamburger menu / collapsible sidebar */
+.lifeos-menu-toggle{
+  position:fixed;left:18px;top:18px;z-index:130;width:48px;height:48px;
+  display:grid;place-items:center;border:1px solid #24517f;border-radius:13px;
+  background:rgba(7,25,46,.96);color:#eef6ff;font-size:25px;cursor:pointer;
+  box-shadow:0 10px 28px rgba(0,0,0,.28);transition:.2s ease;
+}
+.lifeos-menu-toggle:hover{background:#0d3154;border-color:#3b82f6;transform:translateY(-1px);}
+.lifeos-menu-toggle .menu-lines{display:flex;flex-direction:column;gap:5px;width:22px;}
+.lifeos-menu-toggle .menu-lines span{display:block;height:2px;width:22px;background:#dcecff;border-radius:99px;transition:.2s ease;}
+.lifeos-menu-toggle.open .menu-lines span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.lifeos-menu-toggle.open .menu-lines span:nth-child(2){opacity:0;}
+.lifeos-menu-toggle.open .menu-lines span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.lifeos-menu-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,.48);backdrop-filter:blur(2px);
+  z-index:105;opacity:0;visibility:hidden;transition:.2s ease;
+}
+body.lifeos-sidebar-open .lifeos-menu-backdrop{opacity:1;visibility:visible;}
+
 /* Sidebar */
 .lifeos-sidebar{
   position:fixed;
   inset:0 auto 0 0;
   width:268px;
-  z-index:100;
+  z-index:110;
+  transform:translateX(-105%);
+  transition:transform .24s ease;
   padding:28px 16px 18px;
   background:rgba(3,16,32,.97);
   border-right:1px solid rgba(49,103,165,.55);
   display:flex;
   flex-direction:column;
 }
+body.lifeos-sidebar-open .lifeos-sidebar{transform:translateX(0);}
+
 .lifeos-brand{padding:0 12px 26px;}
 .lifeos-brand-row{display:flex;align-items:center;gap:12px;}
 .lifeos-brand-mark{
@@ -578,7 +601,7 @@ body{
 /* Topbar */
 .lifeos-topbar{
   position:sticky;top:0;z-index:80;
-  margin-left:268px;
+  margin-left:0;
   min-height:88px;padding:20px 30px;
   display:flex;align-items:center;justify-content:space-between;gap:20px;
   background:rgba(5,19,37,.84);backdrop-filter:blur(18px);
@@ -597,11 +620,14 @@ body{
 }
 .lifeos-datebox span{font-size:19px;}
 
+body.lifeos-sidebar-open .lifeos-topbar{margin-left:268px;}
+body.lifeos-sidebar-open .container{margin-left:268px!important;}
+
 /* Main layout */
 .container{
   max-width:none!important;
   width:auto!important;
-  margin:0 360px 0 268px!important;
+  margin:0 360px 0 0!important;
   padding:28px 24px 60px!important;
 }
 .card,.stat,.stat-box,.target-card{
@@ -718,13 +744,16 @@ button{border-radius:11px!important;}
   .lifeos-metric-grid{grid-template-columns:repeat(2,1fr);}
 }
 @media(max-width:760px){
-  .lifeos-sidebar{position:fixed;left:0;right:0;bottom:auto;width:100%;height:auto;padding:9px 10px;border-right:0;border-bottom:1px solid #19426e;}
-  .lifeos-brand{display:none;}
-  .lifeos-nav{flex-direction:row;overflow:auto;gap:5px;}
-  .lifeos-nav a{min-width:78px;justify-content:center;flex-direction:column;gap:2px;height:55px;padding:5px;font-size:9px;border-radius:10px;}
-  .lifeos-nav .nav-icon{font-size:17px;width:auto;}
-  .lifeos-side-quote{display:none;}
-  .lifeos-topbar{margin-left:0;padding:80px 14px 14px;display:block;}
+  .lifeos-sidebar{left:0;right:auto;top:0;bottom:0;width:270px;height:100vh;padding:28px 16px 18px;border-right:1px solid #19426e;border-bottom:0;transform:translateX(-105%);}
+  body.lifeos-sidebar-open .lifeos-sidebar{transform:translateX(0);}
+  .lifeos-brand{display:block;}
+  .lifeos-nav{flex-direction:column;overflow:visible;gap:6px;}
+  .lifeos-nav a{min-width:0;justify-content:flex-start;flex-direction:row;gap:14px;height:50px;padding:0 15px;font-size:14px;border-radius:13px;}
+  .lifeos-nav .nav-icon{font-size:20px;width:24px;}
+  .lifeos-side-quote{display:block;}
+  .lifeos-topbar{margin-left:0!important;padding:82px 14px 14px;display:block;}
+  body.lifeos-sidebar-open .lifeos-topbar{margin-left:0!important;}
+  body.lifeos-sidebar-open .container{margin-left:0!important;}
   .lifeos-page-title h1{font-size:23px;}
   .lifeos-page-title p{font-size:11px;}
   .lifeos-userbox{margin-top:10px;justify-content:space-between;}
@@ -745,6 +774,11 @@ button{border-radius:11px!important;}
 </head>
 
 <body>
+
+<button class="lifeos-menu-toggle" id="lifeosMenuToggle" type="button" aria-label="Open menu" aria-expanded="false" onclick="toggleLifeOSMenu()">
+  <span class="menu-lines"><span></span><span></span><span></span></span>
+</button>
+<div class="lifeos-menu-backdrop" id="lifeosMenuBackdrop" onclick="toggleLifeOSMenu(false)"></div>
 
 <!-- LOGIN -->
 
@@ -1763,9 +1797,21 @@ style="margin-top:15px">
    ========================================================= */
 let lifeOSCalendarCursor = new Date();
 
+function toggleLifeOSMenu(force){
+  const open = typeof force === "boolean" ? force : !document.body.classList.contains("lifeos-sidebar-open");
+  document.body.classList.toggle("lifeos-sidebar-open", open);
+  const btn = document.getElementById("lifeosMenuToggle");
+  if(btn){
+    btn.classList.toggle("open", open);
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  }
+}
+
 function setLifeOSNav(el){
   document.querySelectorAll('.lifeos-nav a').forEach(a=>a.classList.remove('active'));
   if(el) el.classList.add('active');
+  if(window.innerWidth <= 1200) toggleLifeOSMenu(false);
 }
 
 function lifeOSClampPercent(value){
