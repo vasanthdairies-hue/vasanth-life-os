@@ -2,1030 +2,325 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="1BjKdi7-t7Hp-rL7sTWdcpokWBCwXBq80KkjTkRadJE" />
-<title>Life OS</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="google-site-verification" content="1BjKdi7-t7Hp-rL7sTWdcpokWBCwXBq80KkjTkRadJE">
+<title>Vasanth Life OS</title>
 
 <style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#080d1a;--panel:#10182b;--panel2:#0d1425;--line:#26334f;
+--text:#f4f7ff;--muted:#96a2bd;--blue:#4f7cff;--green:#20c997;
+--red:#ef5350;--yellow:#f5b942;--purple:#9b7cff;
 }
+body{font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#080d1a,#0b1222);color:var(--text);min-height:100vh}
+button{border:0;border-radius:9px;padding:10px 14px;font-weight:700;cursor:pointer;color:#fff}
+button:hover{opacity:.88}
+.primary{background:var(--blue)}
+.success{background:var(--green)}
+.danger{background:var(--red)}
+.secondary{background:#26334f}
+.purple{background:var(--purple)}
+.hidden{display:none!important}
 
-body{
-font-family:Arial,Helvetica,sans-serif;
-background:#0b1020;
-color:#fff;
-line-height:1.5;
-}
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-box{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:32px;text-align:center;box-shadow:0 20px 60px #0008}
+.login-box h1{margin-bottom:8px}
+.login-box p{color:var(--muted);margin-bottom:22px}
 
-header{
-background:#11182d;
-padding:15px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-bottom:1px solid #293550;
-position:sticky;
-top:0;
-z-index:10;
-}
+header{background:#0e1527ee;border-bottom:1px solid var(--line);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20;backdrop-filter:blur(12px)}
+header h1{font-size:21px}
+.container{max-width:1250px;margin:auto;padding:20px}
 
-header h1{
-font-size:21px;
-}
+.main-nav{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-bottom:20px}
+.nav-btn{background:#18233a;border:1px solid var(--line)}
+.nav-btn.active{background:var(--blue)}
 
-button{
-border:none;
-padding:10px 15px;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
-}
+.card{background:linear-gradient(145deg,var(--panel),#0d1527);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:18px}
+.card h2{font-size:20px;margin-bottom:14px}
 
-.primary{
-background:#4f7cff;
-color:white;
-}
+.form{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin-bottom:14px}
+input,select,textarea{width:100%;background:#091225;border:1px solid #34415f;color:#fff;padding:11px;border-radius:9px;outline:0}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+textarea{min-height:100px;resize:vertical}
+label,.muted{color:var(--muted);font-size:13px}
 
-.success{
-background:#20b486;
-color:white;
-}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:15px;text-align:center}
+.stat small{display:block;color:var(--muted);margin-bottom:5px}
+.stat strong{font-size:23px}
 
-.danger{
-background:#e74c3c;
-color:white;
-}
+.target-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.target-card{background:#0b1427;border:1px solid var(--line);border-radius:14px;padding:16px}
+.target-card h3{font-size:15px;margin-bottom:9px}
+.target-value{font-size:23px;font-weight:800}
+.target-label{color:var(--muted);font-size:12px;margin-top:4px}
 
-.secondary{
-background:#293550;
-color:white;
-}
+.progress{height:9px;background:#26334f;border-radius:20px;overflow:hidden;margin-top:11px}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:20px;transition:.35s}
+.percent{font-size:12px;color:var(--muted);margin-top:5px}
 
-button:hover{
-opacity:.85;
-}
+.overall-target{margin-top:15px;background:#0b1427;border:1px solid var(--line);border-radius:14px;padding:18px}
+.overall-top{display:flex;justify-content:space-between;align-items:center}
+.overall-top strong{font-size:30px}
 
-.container{
-max-width:1200px;
-margin:auto;
-padding:20px;
-}
+.status-message{margin-top:12px;background:#15213a;border-radius:9px;padding:11px;color:#dbe4fa}
 
-.card{
-background:#11182d;
-border:1px solid #293550;
-border-radius:14px;
-padding:20px;
-margin-bottom:20px;
-}
+.item{background:#0b1427;border:1px solid var(--line);border-radius:11px;padding:13px;margin-bottom:9px}
+.item-title{font-weight:700}
+.item-info{color:var(--muted);font-size:13px;margin-top:5px}
+.item-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
 
-.card h2{
-margin-bottom:15px;
-font-size:20px;
-}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 
-.form{
-display:grid;
-grid-template-columns:1fr 1fr auto;
-gap:10px;
-margin-bottom:15px;
-}
+.run-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.run-stat{background:#0b1427;border:1px solid var(--line);padding:14px;border-radius:11px;text-align:center}
+.run-stat small{display:block;color:var(--muted);margin-bottom:4px}
+.run-stat strong{font-size:21px}
 
-input,select,textarea{
-width:100%;
-background:#0e162b;
-border:1px solid #34415f;
-color:#fff;
-padding:11px;
-border-radius:8px;
-outline:none;
-}
+.calendar-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}
+.calendar-actions{display:flex;gap:7px}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.calendar-weekday{text-align:center;color:var(--muted);font-size:12px;padding:6px}
 
-textarea{
-min-height:100px;
-resize:vertical;
-}
+.day{min-height:74px;background:#0b1427;border:1px solid var(--line);border-radius:10px;padding:8px;cursor:pointer;position:relative}
+.day:hover{border-color:var(--blue)}
+.day.empty{background:transparent;border:0;cursor:default}
+.day-number{font-weight:700}
+.day-mark{position:absolute;right:7px;top:6px;font-weight:900;font-size:17px}
+.day.done{border-color:#1b9b73;background:#0b211d}
+.day.done .day-mark{color:var(--green)}
+.day.missed{border-color:#9f3939;background:#251214}
+.day.missed .day-mark{color:var(--red)}
+.day.today{box-shadow:0 0 0 2px var(--blue) inset}
+.day.future{opacity:.55}
 
-input:focus,select:focus,textarea:focus{
-border-color:#4f7cff;
-}
+.calendar-legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:12px}
 
-.stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-margin-bottom:20px;
-}
+.detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.detail-box{background:#0b1427;border:1px solid var(--line);padding:12px;border-radius:10px}
 
-.stat{
-background:#11182d;
-border:1px solid #293550;
-padding:18px;
-border-radius:12px;
-text-align:center;
-}
+.empty-state{color:var(--muted);padding:14px;text-align:center}
 
-.stat small,
-.run-stat small{
-display:block;
-color:#9da8c2;
-margin-bottom:5px;
-}
-
-.stat strong,
-.run-stat strong{
-font-size:24px;
-}
-
-.item{
-background:#0e162b;
-border:1px solid #293550;
-border-radius:10px;
-padding:14px;
-margin-bottom:10px;
-}
-
-.item-title{
-font-weight:bold;
-font-size:16px;
-}
-
-.item-info{
-color:#9da8c2;
-font-size:14px;
-margin-top:5px;
-}
-
-.item-actions{
-display:flex;
-gap:7px;
-flex-wrap:wrap;
-margin-top:10px;
-}
-
-.progress{
-height:10px;
-background:#293550;
-border-radius:10px;
-overflow:hidden;
-margin-top:10px;
-}
-
-.progress-bar{
-height:100%;
-background:#4f7cff;
-border-radius:10px;
-transition:.3s;
-}
-
-.run-stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-}
-
-.run-stat{
-background:#0e162b;
-border:1px solid #293550;
-padding:15px;
-border-radius:10px;
-text-align:center;
-}
-
-.login-screen{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
-}
-
-.login-box{
-width:100%;
-max-width:420px;
-background:#11182d;
-border:1px solid #293550;
-border-radius:15px;
-padding:30px;
-text-align:center;
-}
-
-.login-box h1{
-margin-bottom:10px;
-}
-
-.login-box p{
-color:#9da8c2;
-margin-bottom:20px;
-}
-
-.hidden{
-display:none!important;
-}
-
-.chart-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-}
-
-.chart-box{
-background:#0e162b;
-border:1px solid #293550;
-border-radius:12px;
-padding:15px;
-}
-
-.chart-box h3{
-margin-bottom:12px;
-font-size:16px;
-}
-
-.chart-box canvas{
-width:100%!important;
-height:280px!important;
-}
-
-.target-grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:12px;
-margin-bottom:15px;
-}
-
-.target-card{
-background:#0e162b;
-border:1px solid #293550;
-border-radius:12px;
-padding:15px;
-}
-
-.target-card h3{
-font-size:15px;
-margin-bottom:8px;
-}
-
-.target-value{
-font-size:22px;
-font-weight:bold;
-margin-top:8px;
-}
-
-.target-label{
-font-size:13px;
-color:#9da8c2;
-}
-
-.target-progress{
-margin-top:10px;
-height:9px;
-background:#293550;
-border-radius:10px;
-overflow:hidden;
-}
-
-.target-progress-bar{
-height:100%;
-background:#20b486;
-border-radius:10px;
-transition:.3s;
-}
-
-.overall-target{
-background:#0e162b;
-border:1px solid #293550;
-border-radius:12px;
-padding:18px;
-margin-top:15px;
-}
-
-.overall-target strong{
-font-size:28px;
-}
-
-.status-message{
-margin-top:12px;
-padding:12px;
-border-radius:8px;
-background:#17223c;
-color:#d8def0;
-}
-
-.two-col{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-}
+.toast{position:fixed;right:18px;bottom:18px;background:#16233d;border:1px solid var(--line);padding:12px 16px;border-radius:10px;display:none;z-index:50}
 
 @media(max-width:800px){
-
-.stats{
-grid-template-columns:1fr 1fr;
+.main-nav{grid-template-columns:repeat(2,1fr)}
+.stats,.target-grid,.run-stats,.detail-grid{grid-template-columns:1fr 1fr}
+.form,.two-col{grid-template-columns:1fr}
+.calendar-grid{gap:4px}
+.day{min-height:62px;padding:6px}
 }
 
-.run-stats{
-grid-template-columns:1fr 1fr;
-}
-
-.target-grid{
-grid-template-columns:1fr 1fr;
-}
-
-.form{
-grid-template-columns:1fr;
-}
-
-.chart-grid{
-grid-template-columns:1fr;
-}
-
-.two-col{
-grid-template-columns:1fr;
-}
-
-}
-
-@media(max-width:500px){
-
-.container{
-padding:12px;
-}
-
-header{
-padding:12px;
-}
-
-header h1{
-font-size:18px;
-}
-
-.stats{
-grid-template-columns:1fr 1fr;
-gap:8px;
-}
-
-.stat{
-padding:12px;
-}
-
-.stat strong,
-.run-stat strong{
-font-size:20px;
-}
-
-.run-stats{
-grid-template-columns:1fr 1fr;
-gap:8px;
-}
-
-.target-grid{
-grid-template-columns:1fr;
-}
-
-}
-/* MOBILE RESPONSIVE DESIGN */
-@media (max-width: 768px) {
-
-  body {
-    padding: 10px !important;
-    font-size: 15px;
-  }
-
-  .container,
-  main,
-  .dashboard {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .card {
-    width: 100% !important;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-    padding: 15px !important;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 10px !important;
-  }
-
-  .stat-box {
-    min-width: 0 !important;
-    padding: 12px !important;
-    box-sizing: border-box;
-  }
-
-  .stat-box h3 {
-    font-size: 14px !important;
-  }
-
-  .stat-box p {
-    font-size: 14px !important;
-    word-break: break-word;
-  }
-
-  button {
-    width: 100%;
-    min-height: 46px;
-    margin-top: 8px;
-    font-size: 15px;
-    cursor: pointer;
-  }
-
-  input,
-  select,
-  textarea {
-    width: 100% !important;
-    box-sizing: border-box;
-    min-height: 44px;
-    font-size: 16px !important;
-  }
-
-  textarea {
-    min-height: 100px;
-  }
-
-  h1 {
-    font-size: 25px !important;
-  }
-
-  h2 {
-    font-size: 21px !important;
-  }
-
-  h3 {
-    font-size: 17px !important;
-  }
-
-  canvas {
-    max-width: 100% !important;
-  }
-
-  table {
-    display: block;
-    overflow-x: auto;
-    width: 100%;
-  }
-}
-
-/* SMALL PHONES */
-@media (max-width: 480px) {
-
-  .stats-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .card {
-    padding: 12px !important;
-  }
-
-  h1 {
-    font-size: 22px !important;
-  }
-
-  h2 {
-    font-size: 19px !important;
-  }
-
+@media(max-width:480px){
+.container{padding:12px}
+.stats,.target-grid,.run-stats,.detail-grid{grid-template-columns:1fr 1fr}
+.day{min-height:54px}
+.day-number{font-size:12px}
+.day-mark{font-size:14px}
+.calendar-weekday{font-size:10px}
+header h1{font-size:18px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-
 <div id="loginScreen" class="login-screen">
-
 <div class="login-box">
-
-<h1>🚀 Life OS</h1>
-
+<h1>🚀 Vasanth Life OS</h1>
 <p>Your personal life management dashboard</p>
-
-<button class="primary" onclick="loginWithGoogle()">
-🔐 Continue with Google
-</button>
-
+<button class="primary" onclick="loginWithGoogle()">🔐 Continue with Google</button>
 </div>
-
 </div>
-
-
-<!-- APP -->
 
 <div id="app" class="hidden">
 
 <header>
-
-<h1>🚀 Life OS</h1>
-
+<h1>🚀 Vasanth Life OS</h1>
 <div>
-
 <span id="userName"></span>
-
-<button class="secondary" onclick="logout()">
-Logout
-</button>
-
+<button class="secondary" onclick="logout()">Logout</button>
 </div>
-
 </header>
-
 
 <div class="container">
 
-<nav class="main-nav" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">
-<button type="button" onclick="showPage('lifePage')" class="nav-btn active">🏠 Life</button>
-<button type="button" onclick="showPage('fitnessPage')" class="nav-btn">🏃 Fitness</button>
-<button type="button" onclick="showPage('jobsPage')" class="nav-btn">💼 Jobs</button>
-<button type="button" onclick="showPage('statsPage')" class="nav-btn">📊 Statistics</button>
+<nav class="main-nav">
+<button class="nav-btn active" onclick="showPage('dashboardPage',this)">🏠 Dashboard</button>
+<button class="nav-btn" onclick="showPage('tasksPage',this)">✅ Tasks</button>
+<button class="nav-btn" onclick="showPage('trackPage',this)">📚 Trackers</button>
+<button class="nav-btn" onclick="showPage('calendarPage',this)">📅 Calendar</button>
+<button class="nav-btn" onclick="showPage('statsPage',this)">📊 Statistics</button>
 </nav>
 
-<div id="lifePage" class="os-page"></div>
-<div id="fitnessPage" class="os-page hidden"></div>
-<div id="jobsPage" class="os-page hidden"></div>
-<div id="statsPage" class="os-page hidden"></div>
-
-<div id="legacyContent" style="display:none"></div>
-
-
-<!-- DASHBOARD STATS -->
+<section id="dashboardPage" class="os-page">
 
 <div class="stats">
-
-<div class="stat">
-<small>Tasks</small>
-<strong id="taskStat">0/0</strong>
+<div class="stat"><small>Tasks Today</small><strong id="taskStat">0/0</strong></div>
+<div class="stat"><small>Goals</small><strong id="goalStat">0%</strong></div>
+<div class="stat"><small>Study Hours</small><strong id="studyHourStat">0</strong></div>
+<div class="stat"><small>Running KM</small><strong id="totalKmStat">0</strong></div>
 </div>
-
-<div class="stat">
-<small>Goals</small>
-<strong id="goalStat">0%</strong>
-</div>
-
-<div class="stat">
-<small>Study Hours</small>
-<strong id="studyHourStat">0</strong>
-</div>
-
-<div class="stat">
-<small>Running KM</small>
-<strong id="totalKmStat">0</strong>
-</div>
-
-</div>
-
-
-<!-- TARGET DASHBOARD -->
 
 <div class="card">
 
-<h2>🎯 Goals & Targets Dashboard</h2>
-
-<div class="item-info">
-Today: <strong id="targetToday"></strong>
-</div>
-
-<br>
+<h2>🎯 Goals & Targets</h2>
+<div class="item-info">Today: <strong id="targetToday"></strong></div><br>
 
 <div class="form">
 
 <div>
-<label class="target-label">
-✅ Daily Task Target
-</label>
-
-<input
-id="targetTasks"
-type="number"
-min="0"
-placeholder="Example: 3">
+<label>✅ Daily Task Target</label>
+<input id="targetTasks" type="number" min="0" placeholder="Example: 3">
 </div>
-
 
 <div>
-
-<label class="target-label">
-📚 Study Target (hours)
-</label>
-
-<input
-id="targetStudy"
-type="number"
-min="0"
-step="0.5"
-placeholder="Example: 2">
-
+<label>📚 Study Target (hours)</label>
+<input id="targetStudy" type="number" min="0" step="0.5" placeholder="Example: 2">
 </div>
-
 
 <div>
-
-<label class="target-label">
-🏃 Running Target (KM)
-</label>
-
-<input
-id="targetRun"
-type="number"
-min="0"
-step="0.1"
-placeholder="Example: 3">
-
+<label>🏃 Running Target (KM)</label>
+<input id="targetRun" type="number" min="0" step="0.1" placeholder="Example: 3">
 </div>
 
 </div>
-
 
 <div class="form">
 
 <div>
-
-<label class="target-label">
-💰 Income Target (₹)
-</label>
-
-<input
-id="targetMoney"
-type="number"
-min="0"
-placeholder="Example: 500">
-
+<label>💰 Income Target (₹)</label>
+<input id="targetMoney" type="number" min="0" placeholder="Example: 500">
 </div>
 
 <div></div>
 
 <div>
-
 <br>
-
-<button
-class="primary"
-onclick="saveTargets()">
-
-💾 Save Today's Targets
-
-</button>
-
+<button class="primary" onclick="saveTargets()">💾 Save Today's Targets</button>
 </div>
 
 </div>
-
 
 <div class="target-grid">
 
-
 <div class="target-card">
-
 <h3>✅ Tasks</h3>
-
-<div
-class="target-value"
-id="targetTaskActual">
-
-0 / 0
-
+<div class="target-value" id="targetTaskActual">0 / 0</div>
+<div class="target-label">Completed today</div>
+<div class="progress"><div id="targetTaskBar" class="progress-bar" style="width:0%"></div></div>
+<div id="targetTaskPercent" class="percent">0%</div>
 </div>
-
-<div class="target-label">
-Completed today
-</div>
-
-<div class="target-progress">
-
-<div
-id="targetTaskBar"
-class="target-progress-bar"
-style="width:0%">
-</div>
-
-</div>
-
-<div
-class="target-label"
-id="targetTaskPercent">
-
-0%
-
-</div>
-
-</div>
-
 
 <div class="target-card">
-
 <h3>📚 Study</h3>
-
-<div
-class="target-value"
-id="targetStudyActual">
-
-0 / 0
-
+<div class="target-value" id="targetStudyActual">0 / 0 h</div>
+<div class="target-label">Recorded today</div>
+<div class="progress"><div id="targetStudyBar" class="progress-bar" style="width:0%"></div></div>
+<div id="targetStudyPercent" class="percent">0%</div>
 </div>
-
-<div class="target-label">
-Hours today
-</div>
-
-<div class="target-progress">
-
-<div
-id="targetStudyBar"
-class="target-progress-bar"
-style="width:0%">
-</div>
-
-</div>
-
-<div
-class="target-label"
-id="targetStudyPercent">
-
-0%
-
-</div>
-
-</div>
-
 
 <div class="target-card">
-
 <h3>🏃 Running</h3>
-
-<div
-class="target-value"
-id="targetRunActual">
-
-0 / 0
-
+<div class="target-value" id="targetRunActual">0 / 0 km</div>
+<div class="target-label">Recorded today</div>
+<div class="progress"><div id="targetRunBar" class="progress-bar" style="width:0%"></div></div>
+<div id="targetRunPercent" class="percent">0%</div>
 </div>
-
-<div class="target-label">
-KM today
-</div>
-
-<div class="target-progress">
-
-<div
-id="targetRunBar"
-class="target-progress-bar"
-style="width:0%">
-</div>
-
-</div>
-
-<div
-class="target-label"
-id="targetRunPercent">
-
-0%
-
-</div>
-
-</div>
-
 
 <div class="target-card">
-
 <h3>💰 Income</h3>
-
-<div
-class="target-value"
-id="targetMoneyActual">
-
-₹0 / ₹0
-
-</div>
-
-<div class="target-label">
-Income today
-</div>
-
-<div class="target-progress">
-
-<div
-id="targetMoneyBar"
-class="target-progress-bar"
-style="width:0%">
+<div class="target-value" id="targetMoneyActual">₹0 / ₹0</div>
+<div class="target-label">Recorded today</div>
+<div class="progress"><div id="targetMoneyBar" class="progress-bar" style="width:0%"></div></div>
+<div id="targetMoneyPercent" class="percent">0%</div>
 </div>
 
 </div>
-
-<div
-class="target-label"
-id="targetMoneyPercent">
-
-0%
-
-</div>
-
-</div>
-
-</div>
-
 
 <div class="overall-target">
 
-<div>
+<div class="overall-top">
 <small>Overall Target Progress</small>
+<strong id="overallTargetPercent">0%</strong>
 </div>
-
-<strong id="overallTargetPercent">
-0%
-</strong>
 
 <div class="progress">
-
-<div
-id="overallTargetBar"
-class="progress-bar"
-style="width:0%">
+<div id="overallTargetBar" class="progress-bar" style="width:0%"></div>
 </div>
 
-</div>
-
-<div
-id="targetStatus"
-class="status-message">
-
+<div id="targetStatus" class="status-message">
 Set your targets for today 🚀
-
 </div>
 
 </div>
 
 </div>
+</section>
 
-
-<!-- TASKS -->
+<section id="tasksPage" class="os-page hidden">
 
 <div class="card">
-
-<h2>✅ Tasks</h2>
+<h2>✅ Tasks Board</h2>
 
 <div class="form">
-
-<input
-id="taskInput"
-placeholder="Enter your task">
-
-<button
-class="primary"
-onclick="addTask()">
-
-Add Task
-
-</button>
-
+<input id="taskInput" placeholder="Enter your task">
+<div></div>
+<button class="primary" onclick="addTask()">Add Task</button>
 </div>
 
 <div id="taskList"></div>
-
 </div>
-
-
-<!-- GOALS -->
 
 <div class="card">
 
 <h2>🎯 Goals</h2>
 
 <div class="form">
-
-<input
-id="goalInput"
-placeholder="Enter your goal">
-
-<input
-id="goalDate"
-type="date">
-
-<button
-class="primary"
-onclick="addGoal()">
-
-Add Goal
-
-</button>
-
+<input id="goalInput" placeholder="Enter your goal">
+<input id="goalDate" type="date">
+<button class="primary" onclick="addGoal()">Add Goal</button>
 </div>
 
 <div id="goalList"></div>
 
 </div>
+</section>
 
+<section id="trackPage" class="os-page hidden">
 
-<!-- DAILY PLANNER -->
-
-<div class="card">
-
-<h2>🗓️ Daily Planner</h2>
-
-<div class="form">
-
-<input
-id="planInput"
-placeholder="What do you need to do?">
-
-<input
-id="planTime"
-type="time">
-
-<button
-class="primary"
-onclick="addPlan()">
-
-Add Plan
-
-</button>
-
-</div>
-
-<div id="planList"></div>
-
-</div>
-
-
-<!-- STUDY -->
+<div class="two-col">
 
 <div class="card">
 
 <h2>📚 Study Tracker</h2>
 
 <div class="form">
-
-<input
-id="studySubject"
-placeholder="Subject">
-
-<input
-id="studyHours"
-type="number"
-min="0"
-step="0.5"
-placeholder="Hours">
-
-<button
-class="primary"
-onclick="addStudy()">
-
-Add Study
-
-</button>
-
+<input id="studySubject" placeholder="Subject">
+<input id="studyHours" type="number" min="0" step="0.25" placeholder="Hours">
+<button class="primary" onclick="addStudy()">Add Study</button>
 </div>
 
 <div id="studyList"></div>
 
 </div>
 
-
-<!-- RUNNING -->
-
 <div class="card">
 
 <h2>🏃 Fitness & Running</h2>
 
 <div class="form">
-
-<input
-id="runDistance"
-type="number"
-min="0"
-step="0.1"
-placeholder="Distance KM">
-
-<input
-id="runTime"
-placeholder="Time e.g. 6:30">
-
-<button
-class="primary"
-onclick="addRun()">
-
-Add Run
-
-</button>
-
+<input id="runDistance" type="number" min="0" step="0.1" placeholder="Distance KM">
+<input id="runTime" placeholder="Time e.g. 30 min">
+<button class="primary" onclick="addRun()">Add Run</button>
 </div>
 
 <div id="runList"></div>
 
 </div>
 
-
-<!-- MONEY + JOB -->
-
-<div class="two-col">
-
+</div>
 
 <div class="card">
 
@@ -1034,360 +329,157 @@ Add Run
 <div class="form">
 
 <select id="moneyType">
-
-<option value="income">
-Income
-</option>
-
-<option value="expense">
-Expense
-</option>
-
+<option value="income">Income</option>
+<option value="expense">Expense</option>
 </select>
 
-<input
-id="moneyAmount"
-type="number"
-min="0"
-placeholder="Amount ₹">
+<input id="moneyAmount" type="number" min="0" placeholder="Amount ₹">
 
-<button
-class="primary"
-onclick="addMoney()">
-
-Add
-
-</button>
+<button class="primary" onclick="addMoney()">Add</button>
 
 </div>
 
-<input
-id="moneyNote"
-placeholder="Note">
+<input id="moneyNote" placeholder="Note">
 
-<div
-id="moneyList"
-style="margin-top:15px">
-</div>
+<div id="moneyList" style="margin-top:15px"></div>
 
 <div class="run-stats">
 
 <div class="run-stat">
-
 <small>Income</small>
-
-<strong id="incomeStat">
-₹0
-</strong>
-
+<strong id="incomeStat">₹0</strong>
 </div>
 
 <div class="run-stat">
-
 <small>Expense</small>
-
-<strong id="expenseStat">
-₹0
-</strong>
-
+<strong id="expenseStat">₹0</strong>
 </div>
 
 <div class="run-stat">
-
 <small>Balance</small>
+<strong id="balanceStat">₹0</strong>
+</div>
 
-<strong id="balanceStat">
-₹0
-</strong>
-
+<div class="run-stat">
+<small>Today Income</small>
+<strong id="todayIncomeStat">₹0</strong>
 </div>
 
 </div>
 
 </div>
+</section>
 
+<section id="calendarPage" class="os-page hidden">
 
 <div class="card">
 
-<h2>💼 Job Applications</h2>
+<div class="calendar-head">
 
-<div class="form">
-
-<input
-id="jobCompany"
-placeholder="Company">
-
-<input
-id="jobRole"
-placeholder="Role">
-
-<button
-class="primary"
-onclick="addJob()">
-
-Add Job
-
-</button>
-
+<div>
+<h2>📅 Life Calendar</h2>
+<div class="muted">
+Past days are marked only after the day is over.
+</div>
 </div>
 
-<select id="jobStatus">
-
-<option>Applied</option>
-<option>Interview</option>
-<option>Selected</option>
-<option>Rejected</option>
-
-</select>
-
-<div
-id="jobList"
-style="margin-top:15px">
+<div class="calendar-actions">
+<button class="secondary" onclick="changeMonth(-1)">‹</button>
+<button class="secondary" onclick="goCurrentMonth()">Today</button>
+<button class="secondary" onclick="changeMonth(1)">›</button>
 </div>
 
 </div>
 
+<h3 id="calendarTitle" style="margin-bottom:10px"></h3>
+
+<div class="calendar-grid" id="calendarGrid"></div>
+
+<div class="calendar-legend">
+<span>🟢 ✓ Completed</span>
+<span>🔴 ✕ Target not completed</span>
+<span>🔵 Today</span>
+<span>⚪ Future</span>
 </div>
 
+</div>
 
-<!-- LIFE STATISTICS -->
+<div id="calendarDetail" class="card hidden">
+
+<h2 id="selectedDateTitle">Day Details</h2>
+
+<div class="detail-grid">
+
+<div class="detail-box">
+✅ Tasks<br>
+<strong id="detailTasks">0/0</strong>
+</div>
+
+<div class="detail-box">
+📚 Study<br>
+<strong id="detailStudy">0/0 h</strong>
+</div>
+
+<div class="detail-box">
+🏃 Running<br>
+<strong id="detailRun">0/0 km</strong>
+</div>
+
+<div class="detail-box">
+💰 Income<br>
+<strong id="detailMoney">₹0/₹0</strong>
+</div>
+
+</div>
+
+<div id="detailStatus" class="status-message"></div>
+
+</div>
+
+</section>
+
+<section id="statsPage" class="os-page hidden">
 
 <div class="card">
 
-<h2>📊 Life Statistics & Progress</h2>
+<h2>📊 Life Statistics</h2>
 
 <div class="run-stats">
 
 <div class="run-stat">
-
 <small>Life Score</small>
-
-<strong id="lifeScore">
-0%
-</strong>
-
+<strong id="lifeScore">0%</strong>
 </div>
 
 <div class="run-stat">
-
 <small>Tasks Done</small>
-
-<strong id="statsTasks">
-0%
-</strong>
-
+<strong id="statsTasks">0%</strong>
 </div>
 
 <div class="run-stat">
-
 <small>Goals Progress</small>
-
-<strong id="statsGoals">
-0%
-</strong>
-
+<strong id="statsGoals">0%</strong>
 </div>
 
 <div class="run-stat">
-
-<small>Diary Days</small>
-
-<strong id="statsDiary">
-0
-</strong>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- GRAPHS -->
-
-<div class="card">
-
-<h2>📈 Progress Graphs</h2>
-
-<div class="chart-grid">
-
-<div class="chart-box">
-
-<h3>
-📚 Study Hours — Last 7 Days
-</h3>
-
-<canvas id="studyChart"></canvas>
-
-</div>
-
-
-<div class="chart-box">
-
-<h3>
-🏃 Running KM — Last 7 Days
-</h3>
-
-<canvas id="runChart"></canvas>
-
-</div>
-
-
-<div class="chart-box">
-
-<h3>
-🚀 Overall Life Score
-</h3>
-
-<canvas id="lifeChart"></canvas>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- STREAK -->
-
-<div class="card">
-
-<h2>🔥 Streak Tracker</h2>
-
-<div class="run-stats">
-
-<div class="run-stat">
-
-<small>Current Streak</small>
-
-<strong id="currentStreak">
-0 days
-</strong>
-
-</div>
-
-
-<div class="run-stat">
-
-<small>Best Streak</small>
-
-<strong id="bestStreak">
-0 days
-</strong>
-
-</div>
-
-
-<div class="run-stat">
-
 <small>Active Days</small>
-
-<strong id="activeDays">
-0
-</strong>
-
-</div>
-
-
-<div class="run-stat">
-
-<small>Target Streak</small>
-
-<strong id="targetStreak">
-0 days
-</strong>
-
+<strong id="activeDays">0</strong>
 </div>
 
 </div>
-
-
-<div
-id="streakMessage"
-class="item-info"
-style="margin-top:20px;text-align:center">
-
-Start your streak today 🚀
-
 </div>
 
-</div>
-
-
-<!-- DIARY -->
-
-<div class="card">
-
-<h2>📔 Daily Diary</h2>
-
-<div class="form">
-
-<input
-id="diaryDate"
-type="date">
-
-<select id="diaryRating">
-
-<option value="1">1 ⭐</option>
-<option value="2">2 ⭐⭐</option>
-<option value="3">3 ⭐⭐⭐</option>
-<option value="4">4 ⭐⭐⭐⭐</option>
-<option value="5">5 ⭐⭐⭐⭐⭐</option>
-
-</select>
-
-<button
-class="primary"
-onclick="saveDiary()">
-
-Save Diary
-
-</button>
+</section>
 
 </div>
-
-
-<textarea
-id="diaryWork"
-placeholder="What did I do today?">
-</textarea>
-
-<br><br>
-
-<textarea
-id="diaryLearned"
-placeholder="What did I learn today?">
-</textarea>
-
-<br><br>
-
-<textarea
-id="diaryThoughts"
-placeholder="Thoughts / feelings">
-</textarea>
-
-<br>
-
-<div
-id="diaryList"
-style="margin-top:15px">
 </div>
 
-</div>
-
-
-</div>
-
-</div>
-
+<div id="toast" class="toast"></div>
 
 <script type="module">
 
-import {
-initializeApp
-}
+import {initializeApp}
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
 
 import {
 getAuth,
@@ -1398,7 +490,6 @@ signOut
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-
 import {
 getFirestore,
 collection,
@@ -1407,12 +498,10 @@ deleteDoc,
 updateDoc,
 doc,
 setDoc,
-onSnapshot
+onSnapshot,
+getDoc
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-/* FIREBASE CONFIG */
 
 const firebaseConfig={
 apiKey:"AIzaSyCoB2b7LwkzX7eWmMmy0J6pUJqFm4puHnE",
@@ -1424,5147 +513,322 @@ appId:"1:847181528785:web:f02eb43c041c9e90fc4ff0",
 measurementId:"G-WMPYW2EDLZ"
 };
 
-
 const app=initializeApp(firebaseConfig);
-
 const auth=getAuth(app);
-
 const db=getFirestore(app);
 
-
-/* DATA */
-
 let currentUser=null;
+let tasks=[],goals=[],studies=[],runs=[],money=[];
+let targetCache={};
+let unsubs=[];
+let calendarDate=new Date();
 
-let tasks=[];
-let goals=[];
-let plans=[];
-let studies=[];
-let runs=[];
-let money=[];
-let jobs=[];
-let diaries=[];
+const today=()=>{
+const d=new Date();
+return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+};
 
-let currentTarget=null;
+const dateFromTimestamp=v=>{
+if(!v)return today();
+if(typeof v==="string")return v.slice(0,10);
+if(v?.toDate)return v.toDate().toISOString().slice(0,10);
+if(typeof v==="number")return new Date(v).toISOString().slice(0,10);
+return today();
+};
 
-let unsubscribeTasks=null;
-let unsubscribeGoals=null;
-let unsubscribePlans=null;
-let unsubscribeStudies=null;
-let unsubscribeRuns=null;
-let unsubscribeMoney=null;
-let unsubscribeJobs=null;
-let unsubscribeDiaries=null;
-let unsubscribeTargets=null;
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[m]));
 
+const moneyFmt=n=>"₹"+Number(n||0).toLocaleString("en-IN",{maximumFractionDigits:2});
 
-/* CHARTS */
+const toast=m=>{
+const e=document.getElementById("toast");
+e.textContent=m;
+e.style.display="block";
+setTimeout(()=>e.style.display="none",1800);
+};
 
-let studyChart=null;
-let runChart=null;
-let lifeChart=null;
+const clamp=n=>Math.max(0,Math.min(100,n));
 
-
-/* DATE */
-
-function today(){
-
-return new Date()
-.toISOString()
-.split("T")[0];
-
-}
-
-
-/* LOGIN */
-
-window.loginWithGoogle=async function(){
-
+window.loginWithGoogle=async()=>{
 try{
-
-const provider=new GoogleAuthProvider();
-
-await signInWithPopup(
-auth,
-provider
-);
-
-}catch(error){
-
-alert(
-"Login failed: "+error.message
-);
-
+await signInWithPopup(auth,new GoogleAuthProvider());
+}catch(e){
+alert("Login failed: "+e.message);
 }
-
 };
 
+window.logout=()=>signOut(auth);
 
-window.logout=async function(){
+window.showPage=(id,btn)=>{
+document.querySelectorAll(".os-page").forEach(x=>x.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
 
-await signOut(auth);
+document.querySelectorAll(".nav-btn")
+.forEach(x=>x.classList.remove("active"));
 
+if(btn)btn.classList.add("active");
+
+if(id==="calendarPage")renderCalendar();
 };
 
+onAuthStateChanged(auth,user=>{
 
-/* AUTH */
-
-onAuthStateChanged(
-auth,
-user=>{
-
-if(user){
-
-currentUser=user;
-
-document
-.getElementById("loginScreen")
-.classList.add("hidden");
-
-document
-.getElementById("app")
-.classList.remove("hidden");
-
-document
-.getElementById("userName")
-.textContent=
-user.displayName || user.email;
-
-document
-.getElementById("diaryDate")
-.value=today();
-
-document
-.getElementById("targetToday")
-.textContent=today();
-
-loadCloudTasks();
-loadGoals();
-loadPlans();
-loadStudies();
-loadRuns();
-loadMoney();
-loadJobs();
-loadDiaries();
-loadTargets();
-
-}else{
+if(!user){
 
 currentUser=null;
 
-document
-.getElementById("loginScreen")
+document.getElementById("loginScreen")
 .classList.remove("hidden");
 
-document
-.getElementById("app")
+document.getElementById("app")
 .classList.add("hidden");
 
+return;
 }
+
+currentUser=user;
+
+document.getElementById("loginScreen")
+.classList.add("hidden");
+
+document.getElementById("app")
+.classList.remove("hidden");
+
+document.getElementById("userName")
+.textContent=user.displayName||user.email;
+
+document.getElementById("targetToday")
+.textContent=today();
+
+loadAll();
 
 });
 
+function col(name){
+return collection(db,"users",currentUser.uid,name);
+}
 
-/* =========================
-TASKS
-========================= */
+function listen(name,cb){
 
-function loadCloudTasks(){
-
-const ref=collection(
-db,
-"users",
-currentUser.uid,
-"tasks"
+const u=onSnapshot(
+col(name),
+s=>cb(s.docs.map(d=>({id:d.id,...d.data()}))),
+e=>console.error(name,e)
 );
 
-unsubscribeTasks=onSnapshot(
-ref,
-snapshot=>{
+unsubs.push(u);
+}
 
-tasks=snapshot.docs.map(
-d=>({
-id:d.id,
-...d.data()
-})
-);
+function loadAll(){
 
+unsubs.forEach(u=>u());
+unsubs=[];
+
+listen("tasks",v=>{
+tasks=v;
 renderTasks();
-
-updateStats();
-
-}
-);
-
-}
-
-
-function renderTasks(){
-
-const list=
-document.getElementById("taskList");
-
-list.innerHTML="";
-
-tasks.forEach(task=>{
-
-const div=document.createElement("div");
-
-div.className="item";
-
-div.innerHTML=`
-
-<div class="item-title"
-style="${
-task.completed
-?'text-decoration:line-through;color:#7f8ba8'
-:''
-}">
-${escapeHTML(task.name)}
-</div>
-
-<div class="item-info">
-${task.completed?"Completed":"Pending"}
-</div>
-
-<div class="item-actions">
-
-<button
-class="${
-task.completed
-?'secondary'
-:'success'
-}"
-onclick="toggleTask(
-'${task.id}',
-${task.completed}
-)">
-
-${task.completed?"Undo":"Complete"}
-
-</button>
-
-<button
-class="danger"
-onclick="deleteTask('${task.id}')">
-
-Delete
-
-</button>
-
-</div>
-`;
-
-list.appendChild(div);
-
+updateAll();
 });
 
-}
-
-
-window.addTask=async function(){
-
-const input=
-document.getElementById("taskInput");
-
-const name=input.value.trim();
-
-if(!name)return;
-
-await addDoc(
-collection(
-db,
-"users",
-currentUser.uid,
-"tasks"
-),
-{
-name,
-completed:false,
-createdAt:Date.now()
-}
-);
-
-input.value="";
-
-};
-
-
-window.toggleTask=async function(
-id,
-status
-){
-
-await updateDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"tasks",
-id
-),
-{
-completed:!status
-}
-);
-
-};
-
-
-window.deleteTask=async function(id){
-
-await deleteDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"tasks",
-id
-)
-);
-
-};
-
-
-/* =========================
-GOALS
-========================= */
-
-function loadGoals(){
-
-const ref=collection(
-db,
-"users",
-currentUser.uid,
-"goals"
-);
-
-unsubscribeGoals=onSnapshot(
-ref,
-snapshot=>{
-
-goals=snapshot.docs.map(
-d=>({
-id:d.id,
-...d.data()
-})
-);
-
+listen("goals",v=>{
+goals=v;
 renderGoals();
-
-updateStats();
-
-}
-);
-
-}
-
-
-function renderGoals(){
-
-const list=
-document.getElementById("goalList");
-
-list.innerHTML="";
-
-goals.forEach(goal=>{
-
-let progress=Math.min(
-100,
-Math.max(
-0,
-Number(goal.progress||0)
-)
-);
-
-const div=document.createElement("div");
-
-div.className="item";
-
-div.innerHTML=`
-
-<div class="item-title">
-
-${escapeHTML(goal.name)}
-
-</div>
-
-<div class="item-info">
-
-Target:
-${goal.targetDate || "No date"}
-
-</div>
-
-<div class="item-info">
-
-Progress:
-${progress}%
-
-</div>
-
-<div class="progress">
-
-<div
-class="progress-bar"
-style="width:${progress}%">
-</div>
-
-</div>
-
-<div class="item-actions">
-
-<button
-class="primary"
-onclick="editGoalProgress(
-'${goal.id}',
-${progress}
-)">
-
-Edit Progress
-
-</button>
-
-<button
-class="${
-goal.completed
-?'secondary'
-:'success'
-}"
-onclick="toggleGoal(
-'${goal.id}',
-${goal.completed}
-)">
-
-${
-goal.completed
-?"Undo"
-:"Complete"
-}
-
-</button>
-
-<button
-class="danger"
-onclick="deleteGoal('${goal.id}')">
-
-Delete
-
-</button>
-
-</div>
-`;
-
-list.appendChild(div);
-
+updateAll();
 });
 
-}
-
-
-window.addGoal=async function(){
-
-const input=
-document.getElementById("goalInput");
-
-const date=
-document.getElementById("goalDate");
-
-const name=input.value.trim();
-
-if(!name)return;
-
-await addDoc(
-collection(
-db,
-"users",
-currentUser.uid,
-"goals"
-),
-{
-name,
-targetDate:date.value,
-progress:0,
-completed:false,
-createdAt:Date.now()
-}
-);
-
-input.value="";
-date.value="";
-
-};
-
-
-window.editGoalProgress=async function(
-id,
-current
-){
-
-const value=prompt(
-"Enter progress percentage (0-100):",
-current
-);
-
-if(value===null)return;
-
-let progress=Math.min(
-100,
-Math.max(
-0,
-Number(value)
-)
-);
-
-await updateDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"goals",
-id
-),
-{
-progress,
-completed:progress>=100
-}
-);
-
-};
-
-
-window.toggleGoal=async function(
-id,
-status
-){
-
-await updateDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"goals",
-id
-),
-{
-completed:!status,
-progress:!status?100:0
-}
-);
-
-};
-
-
-window.deleteGoal=async function(id){
-
-await deleteDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"goals",
-id
-)
-);
-
-};
-
-
-/* =========================
-DAILY PLANNER
-========================= */
-
-function loadPlans(){
-
-const ref=collection(
-db,
-"users",
-currentUser.uid,
-"plans"
-);
-
-unsubscribePlans=onSnapshot(
-ref,
-snapshot=>{
-
-plans=snapshot.docs.map(
-d=>({
-id:d.id,
-...d.data()
-})
-);
-
-renderPlans();
-
-updateStats();
-
-}
-);
-
-}
-
-
-function renderPlans(){
-
-const list=
-document.getElementById("planList");
-
-list.innerHTML="";
-
-plans
-.sort(
-(a,b)=>
-(a.time||"")
-.localeCompare(b.time||"")
-)
-.forEach(plan=>{
-
-const div=document.createElement("div");
-
-div.className="item";
-
-div.innerHTML=`
-
-<div
-class="item-title"
-style="${
-plan.completed
-?'text-decoration:line-through'
-:''
-}">
-
-${plan.time ? plan.time+" — ":""}
-
-${escapeHTML(plan.text)}
-
-</div>
-
-<div class="item-info">
-
-${plan.planDate || ""}
-
-</div>
-
-<div class="item-actions">
-
-<button
-class="${
-plan.completed
-?'secondary'
-:'success'
-}"
-onclick="togglePlan(
-'${plan.id}',
-${plan.completed}
-)">
-
-${
-plan.completed
-?"Undo"
-:"Complete"
-}
-
-</button>
-
-<button
-class="primary"
-onclick="editPlan('${plan.id}')">
-
-Edit
-
-</button>
-
-<button
-class="danger"
-onclick="deletePlan('${plan.id}')">
-
-Delete
-
-</button>
-
-</div>
-`;
-
-list.appendChild(div);
-
-});
-
-}
-
-
-window.addPlan=async function(){
-
-const text=
-document.getElementById("planInput")
-.value.trim();
-
-const time=
-document.getElementById("planTime")
-.value;
-
-if(!text)return;
-
-await addDoc(
-collection(
-db,
-"users",
-currentUser.uid,
-"plans"
-),
-{
-text,
-time,
-planDate:today(),
-completed:false,
-createdAt:Date.now()
-}
-);
-
-document.getElementById(
-"planInput"
-).value="";
-
-document.getElementById(
-"planTime"
-).value="";
-
-};
-
-
-window.togglePlan=async function(
-id,
-status
-){
-
-await updateDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"plans",
-id
-),
-{
-completed:!status
-}
-);
-
-};
-
-
-window.editPlan=async function(id){
-
-const plan=
-plans.find(
-x=>x.id===id
-);
-
-if(!plan)return;
-
-const text=prompt(
-"Edit plan:",
-plan.text
-);
-
-if(text===null)return;
-
-await updateDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"plans",
-id
-),
-{
-text:text.trim()
-}
-);
-
-};
-
-
-window.deletePlan=async function(id){
-
-await deleteDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"plans",
-id
-)
-);
-
-};
-
-
-/* =========================
-STUDY
-========================= */
-
-function loadStudies(){
-
-const ref=collection(
-db,
-"users",
-currentUser.uid,
-"studies"
-);
-
-unsubscribeStudies=onSnapshot(
-ref,
-snapshot=>{
-
-studies=snapshot.docs.map(
-d=>({
-id:d.id,
-...d.data()
-})
-);
-
+listen("studies",v=>{
+studies=v;
 renderStudies();
-
-updateStats();
-
-}
-);
-
-}
-
-
-function renderStudies(){
-
-const list=
-document.getElementById("studyList");
-
-list.innerHTML="";
-
-studies.forEach(study=>{
-
-const div=document.createElement("div");
-
-div.className="item";
-
-div.innerHTML=`
-
-<div class="item-title">
-
-${escapeHTML(study.subject)}
-
-</div>
-
-<div class="item-info">
-
-${study.hours}
-hours —
-${study.studyDate}
-
-</div>
-
-<div class="item-actions">
-
-<button
-class="primary"
-onclick="editStudy('${study.id}')">
-
-Edit
-
-</button>
-
-<button
-class="danger"
-onclick="deleteStudy('${study.id}')">
-
-Delete
-
-</button>
-
-</div>
-`;
-
-list.appendChild(div);
-
+updateAll();
 });
 
-}
-
-
-window.addStudy=async function(){
-
-const subject=
-document.getElementById(
-"studySubject"
-).value.trim();
-
-const hours=Number(
-document.getElementById(
-"studyHours"
-).value
-);
-
-if(!subject || !hours)return;
-
-await addDoc(
-collection(
-db,
-"users",
-currentUser.uid,
-"studies"
-),
-{
-subject,
-hours,
-studyDate:today(),
-completed:true,
-createdAt:Date.now()
-}
-);
-
-document.getElementById(
-"studySubject"
-).value="";
-
-document.getElementById(
-"studyHours"
-).value="";
-
-};
-
-
-window.editStudy=async function(id){
-
-const study=
-studies.find(
-x=>x.id===id
-);
-
-if(!study)return;
-
-const hours=prompt(
-"Edit study hours:",
-study.hours
-);
-
-if(hours===null)return;
-
-await updateDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"studies",
-id
-),
-{
-hours:Number(hours)
-}
-);
-
-};
-
-
-window.deleteStudy=async function(id){
-
-await deleteDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"studies",
-id
-)
-);
-
-};
-
-
-/* =========================
-RUNNING
-========================= */
-
-function loadRuns(){
-
-const ref=collection(
-db,
-"users",
-currentUser.uid,
-"runs"
-);
-
-unsubscribeRuns=onSnapshot(
-ref,
-snapshot=>{
-
-runs=snapshot.docs.map(
-d=>({
-id:d.id,
-...d.data()
-})
-);
-
+listen("runs",v=>{
+runs=v;
 renderRuns();
-
-updateStats();
-
-}
-);
-
-}
-
-
-function renderRuns(){
-
-const list=
-document.getElementById("runList");
-
-list.innerHTML="";
-
-runs.forEach(run=>{
-
-const div=document.createElement("div");
-
-div.className="item";
-
-div.innerHTML=`
-
-<div class="item-title">
-
-🏃 ${run.distance} KM
-
-</div>
-
-<div class="item-info">
-
-Time:
-${escapeHTML(run.time || "-")}
-
-</div>
-
-<div class="item-info">
-
-Date:
-${run.runDate}
-
-</div>
-
-<div class="item-actions">
-
-<button
-class="primary"
-onclick="editRun('${run.id}')">
-
-Edit
-
-</button>
-
-<button
-class="danger"
-onclick="deleteRun('${run.id}')">
-
-Delete
-
-</button>
-
-</div>
-`;
-
-list.appendChild(div);
-
+updateAll();
 });
 
-}
-
-
-window.addRun=async function(){
-
-const distance=Number(
-document.getElementById(
-"runDistance"
-).value
-);
-
-const time=
-document.getElementById(
-"runTime"
-).value.trim();
-
-if(!distance)return;
-
-await addDoc(
-collection(
-db,
-"users",
-currentUser.uid,
-"runs"
-),
-{
-distance,
-time,
-runDate:today(),
-completed:true,
-createdAt:Date.now()
-}
-);
-
-document.getElementById(
-"runDistance"
-).value="";
-
-document.getElementById(
-"runTime"
-).value="";
-
-};
-
-
-window.editRun=async function(id){
-
-const run=
-runs.find(
-x=>x.id===id
-);
-
-if(!run)return;
-
-const distance=prompt(
-"Distance KM:",
-run.distance
-);
-
-if(distance===null)return;
-
-const time=prompt(
-"Time:",
-run.time || ""
-);
-
-await updateDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"runs",
-id
-),
-{
-distance:Number(distance),
-time:time || ""
-}
-);
-
-};
-
-
-window.deleteRun=async function(id){
-
-await deleteDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"runs",
-id
-)
-);
-
-};
-
-
-/* =========================
-MONEY
-========================= */
-
-function loadMoney(){
-
-const ref=collection(
-db,
-"users",
-currentUser.uid,
-"money"
-);
-
-unsubscribeMoney=onSnapshot(
-ref,
-snapshot=>{
-
-money=snapshot.docs.map(
-d=>({
-id:d.id,
-...d.data()
-})
-);
-
+listen("money",v=>{
+money=v;
 renderMoney();
-
-updateStats();
-
-}
-);
-
-}
-
-
-function renderMoney(){
-
-const list=
-document.getElementById(
-"moneyList"
-);
-
-list.innerHTML="";
-
-money.forEach(item=>{
-
-const div=document.createElement("div");
-
-div.className="item";
-
-div.innerHTML=`
-
-<div class="item-title">
-
-${item.type==="income"?"💵":"💸"}
-
-₹${Number(item.amount).toFixed(2)}
-
-</div>
-
-<div class="item-info">
-
-${escapeHTML(
-item.note || "No note"
-)}
-
-</div>
-
-<div class="item-info">
-
-${item.moneyDate}
-
-</div>
-
-<div class="item-actions">
-
-<button
-class="danger"
-onclick="deleteMoney('${item.id}')">
-
-Delete
-
-</button>
-
-</div>
-`;
-
-list.appendChild(div);
-
+updateAll();
 });
 
+loadTargets();
 }
 
-
-window.addMoney=async function(){
-
-const type=
-document.getElementById(
-"moneyType"
-).value;
-
-const amount=Number(
-document.getElementById(
-"moneyAmount"
-).value
-);
-
-const note=
-document.getElementById(
-"moneyNote"
-).value.trim();
-
-if(!amount)return;
-
-await addDoc(
-collection(
-db,
-"users",
-currentUser.uid,
-"money"
-),
-{
-type,
-amount,
-note,
-moneyDate:today(),
-createdAt:Date.now()
-}
-);
-
-document.getElementById(
-"moneyAmount"
-).value="";
-
-document.getElementById(
-"moneyNote"
-).value="";
-
-};
-
-
-window.deleteMoney=async function(id){
-
-await deleteDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"money",
-id
-)
-);
-
-};
-
-
-/* =========================
-JOBS
-========================= */
-
-function loadJobs(){
-
-const ref=collection(
-db,
-"users",
-currentUser.uid,
-"jobs"
-);
-
-unsubscribeJobs=onSnapshot(
-ref,
-snapshot=>{
-
-jobs=snapshot.docs.map(
-d=>({
-id:d.id,
-...d.data()
-})
-);
-
-renderJobs();
-
-}
-);
-
-}
-
-
-function renderJobs(){
-
-const list=
-document.getElementById(
-"jobList"
-);
-
-list.innerHTML="";
-
-jobs.forEach(job=>{
-
-const div=document.createElement("div");
-
-div.className="item";
-
-div.innerHTML=`
-
-<div class="item-title">
-
-${escapeHTML(job.company)}
-
-</div>
-
-<div class="item-info">
-
-${escapeHTML(job.role)}
-
-</div>
-
-<div class="item-info">
-
-Status:
-${escapeHTML(job.status)}
-
-</div>
-
-<div class="item-actions">
-
-<button
-class="primary"
-onclick="editJob('${job.id}')">
-
-Edit
-
-</button>
-
-<button
-class="danger"
-onclick="deleteJob('${job.id}')">
-
-Delete
-
-</button>
-
-</div>
-`;
-
-list.appendChild(div);
-
-});
-
-}
-
-
-window.addJob=async function(){
-
-const company=
-document.getElementById(
-"jobCompany"
-).value.trim();
-
-const role=
-document.getElementById(
-"jobRole"
-).value.trim();
-
-const status=
-document.getElementById(
-"jobStatus"
-).value;
-
-if(!company || !role)return;
-
-await addDoc(
-collection(
-db,
-"users",
-currentUser.uid,
-"jobs"
-),
-{
-company,
-role,
-status,
-applicationDate:today(),
-createdAt:Date.now()
-}
-);
-
-document.getElementById(
-"jobCompany"
-).value="";
-
-document.getElementById(
-"jobRole"
-).value="";
-
-};
-
-
-window.editJob=async function(id){
-
-const job=
-jobs.find(
-x=>x.id===id
-);
-
-if(!job)return;
-
-const status=prompt(
-"Enter status:",
-job.status
-);
-
-if(status===null)return;
-
-await updateDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"jobs",
-id
-),
-{
-status
-}
-);
-
-};
-
-
-window.deleteJob=async function(id){
-
-await deleteDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"jobs",
-id
-)
-);
-
-};
-
-
-/* =========================
-DIARY
-========================= */
-
-function loadDiaries(){
-
-const ref=collection(
-db,
-"users",
-currentUser.uid,
-"diary"
-);
-
-unsubscribeDiaries=onSnapshot(
-ref,
-snapshot=>{
-
-diaries=snapshot.docs.map(
-d=>({
-id:d.id,
-...d.data()
-})
-);
-
-renderDiaries();
-
-updateStats();
-
-}
-);
-
-}
-
-
-function renderDiaries(){
-
-const list=
-document.getElementById(
-"diaryList"
-);
-
-list.innerHTML="";
-
-diaries
-.sort(
-(a,b)=>
-(b.diaryDate||"")
-.localeCompare(
-a.diaryDate||""
-)
-)
-.forEach(diary=>{
-
-const div=document.createElement("div");
-
-div.className="item";
-
-div.innerHTML=`
-
-<div class="item-title">
-
-📅 ${diary.diaryDate}
-—
-${"⭐".repeat(
-Number(diary.rating)
-)}
-
-</div>
-
-<div class="item-info">
-
-<strong>
-What I did:
-</strong>
-<br>
-
-${escapeHTML(
-diary.work || "-"
-)}
-
-</div>
-
-<div class="item-info">
-
-<strong>
-What I learned:
-</strong>
-<br>
-
-${escapeHTML(
-diary.learned || "-"
-)}
-
-</div>
-
-<div class="item-info">
-
-<strong>
-Thoughts:
-</strong>
-<br>
-
-${escapeHTML(
-diary.thoughts || "-"
-)}
-
-</div>
-
-<div class="item-actions">
-
-<button
-class="primary"
-onclick="editDiary('${diary.id}')">
-
-Edit
-
-</button>
-
-<button
-class="danger"
-onclick="deleteDiary('${diary.id}')">
-
-Delete
-
-</button>
-
-</div>
-`;
-
-list.appendChild(div);
-
-});
-
-}
-
-
-window.saveDiary=async function(){
-
-const diaryDate=
-document.getElementById(
-"diaryDate"
-).value;
-
-const rating=Number(
-document.getElementById(
-"diaryRating"
-).value
-);
-
-const work=
-document.getElementById(
-"diaryWork"
-).value.trim();
-
-const learned=
-document.getElementById(
-"diaryLearned"
-).value.trim();
-
-const thoughts=
-document.getElementById(
-"diaryThoughts"
-).value.trim();
-
-if(!diaryDate)return;
-
-await addDoc(
-collection(
-db,
-"users",
-currentUser.uid,
-"diary"
-),
-{
-diaryDate,
-rating,
-work,
-learned,
-thoughts,
-createdAt:Date.now()
-}
-);
-
-document.getElementById(
-"diaryWork"
-).value="";
-
-document.getElementById(
-"diaryLearned"
-).value="";
-
-document.getElementById(
-"diaryThoughts"
-).value="";
-
-};
-
-
-window.editDiary=async function(id){
-
-const diary=
-diaries.find(
-x=>x.id===id
-);
-
-if(!diary)return;
-
-const rating=prompt(
-"Rating 1-5:",
-diary.rating
-);
-
-if(rating===null)return;
-
-const work=prompt(
-"What did you do?",
-diary.work || ""
-);
-
-if(work===null)return;
-
-const learned=prompt(
-"What did you learn?",
-diary.learned || ""
-);
-
-if(learned===null)return;
-
-const thoughts=prompt(
-"Thoughts:",
-diary.thoughts || ""
-);
-
-if(thoughts===null)return;
-
-await updateDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"diary",
-id
-),
-{
-rating:Number(rating),
-work,
-learned,
-thoughts
-}
-);
-
-};
-
-
-window.deleteDiary=async function(id){
-
-await deleteDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"diary",
-id
-)
-);
-
-};
-
-
-/* =========================
-TARGET SYSTEM
-========================= */
-
-function loadTargets(){
+async function loadTargets(){
 
 const ref=doc(
 db,
 "users",
 currentUser.uid,
-"targets",
-today()
+"settings",
+"dailyTargets"
 );
 
-unsubscribeTargets=onSnapshot(
-ref,
-snapshot=>{
+const snap=await getDoc(ref);
 
-if(snapshot.exists()){
+targetCache=snap.exists()?snap.data():{};
 
-currentTarget={
-id:snapshot.id,
-...snapshot.data()
+fillTargetInputs();
+updateAll();
+}
+
+function fillTargetInputs(){
+
+const t=targetCache[today()]||{};
+
+document.getElementById("targetTasks").value=t.tasks??"";
+document.getElementById("targetStudy").value=t.study??"";
+document.getElementById("targetRun").value=t.run??"";
+document.getElementById("targetMoney").value=t.money??"";
+
+}
+
+window.saveTargets=async()=>{
+
+const d=today();
+
+targetCache[d]={
+tasks:Number(document.getElementById("targetTasks").value)||0,
+study:Number(document.getElementById("targetStudy").value)||0,
+run:Number(document.getElementById("targetRun").value)||0,
+money:Number(document.getElementById("targetMoney").value)||0
 };
-
-}else{
-
-currentTarget=null;
-
-}
-
-renderTargetInputs();
-
-updateTargetDashboard();
-
-}
-);
-
-}
-
-
-function renderTargetInputs(){
-
-document.getElementById(
-"targetToday"
-).textContent=today();
-
-if(!currentTarget){
-
-document.getElementById(
-"targetTasks"
-).value="";
-
-document.getElementById(
-"targetStudy"
-).value="";
-
-document.getElementById(
-"targetRun"
-).value="";
-
-document.getElementById(
-"targetMoney"
-).value="";
-
-return;
-
-}
-
-document.getElementById(
-"targetTasks"
-).value=
-currentTarget.taskTarget ?? "";
-
-document.getElementById(
-"targetStudy"
-).value=
-currentTarget.studyTarget ?? "";
-
-document.getElementById(
-"targetRun"
-).value=
-currentTarget.runTarget ?? "";
-
-document.getElementById(
-"targetMoney"
-).value=
-currentTarget.moneyTarget ?? "";
-
-}
-
-
-window.saveTargets=async function(){
-
-if(!currentUser)return;
-
-const taskTarget=Number(
-document.getElementById(
-"targetTasks"
-).value || 0
-);
-
-const studyTarget=Number(
-document.getElementById(
-"targetStudy"
-).value || 0
-);
-
-const runTarget=Number(
-document.getElementById(
-"targetRun"
-).value || 0
-);
-
-const moneyTarget=Number(
-document.getElementById(
-"targetMoney"
-).value || 0
-);
-
-if(
-taskTarget<=0 &&
-studyTarget<=0 &&
-runTarget<=0 &&
-moneyTarget<=0
-){
-
-alert(
-"Set at least one target."
-);
-
-return;
-
-}
 
 await setDoc(
-doc(
-db,
-"users",
-currentUser.uid,
-"targets",
-today()
-),
-{
-targetDate:today(),
-taskTarget,
-studyTarget,
-runTarget,
-moneyTarget,
-updatedAt:Date.now()
-},
-{
-merge:true
-}
+doc(db,"users",currentUser.uid,"settings","dailyTargets"),
+targetCache
 );
 
-alert(
-"Today's targets saved successfully 🎯"
-);
+toast("Today's targets saved");
+
+updateAll();
+renderCalendar();
 
 };
 
+function getTarget(date){
+return targetCache[date]||{
+tasks:0,
+study:0,
+run:0,
+money:0
+};
+}
 
-function updateTargetDashboard(){
+function taskData(date){
 
-if(!currentTarget){
-
-document.getElementById(
-"targetTaskActual"
-).textContent="0 / 0";
-
-document.getElementById(
-"targetStudyActual"
-).textContent="0 / 0";
-
-document.getElementById(
-"targetRunActual"
-).textContent="0 / 0";
-
-document.getElementById(
-"targetMoneyActual"
-).textContent="₹0 / ₹0";
-
-setTargetProgress(
-"targetTaskBar",
-"targetTaskPercent",
-0
+const a=tasks.filter(
+x=>dateFromTimestamp(x.completedAt||x.createdAt)===date &&
+x.completed
 );
 
-setTargetProgress(
-"targetStudyBar",
-"targetStudyPercent",
-0
+const all=tasks.filter(
+x=>dateFromTimestamp(x.createdAt)===date
 );
 
-setTargetProgress(
-"targetRunBar",
-"targetRunPercent",
-0
-);
-
-setTargetProgress(
-"targetMoneyBar",
-"targetMoneyPercent",
-0
-);
-
-document.getElementById(
-"overallTargetPercent"
-).textContent="0%";
-
-document.getElementById(
-"overallTargetBar"
-).style.width="0%";
-
-document.getElementById(
-"targetStatus"
-).textContent=
-"Set your targets for today 🚀";
-
-return;
+return{
+done:a.length,
+all:all.length
+};
 
 }
 
+function studyData(date){
 
-/* TODAY TASKS */
-
-const todayTasks=
-tasks.filter(
-task=>{
-
-if(!task.completed)return false;
-
-if(!task.createdAt)return false;
-
-const date=
-new Date(task.createdAt)
-.toISOString()
-.split("T")[0];
-
-return date===today();
-
-}
-).length;
-
-
-/* TODAY STUDY */
-
-const todayStudy=
-studies
-.filter(
-x=>x.studyDate===today()
-)
-.reduce(
-(sum,x)=>
-sum+Number(x.hours||0),
-0
-);
-
-
-/* TODAY RUN */
-
-const todayRun=
-runs
-.filter(
-x=>x.runDate===today()
-)
-.reduce(
-(sum,x)=>
-sum+Number(x.distance||0),
-0
-);
-
-
-/* TODAY INCOME */
-
-const todayIncome=
-money
-.filter(
-x=>
-x.moneyDate===today() &&
-x.type==="income"
-)
-.reduce(
-(sum,x)=>
-sum+Number(x.amount||0),
-0
-);
-
-
-/* TARGETS */
-
-const taskTarget=
-Number(
-currentTarget.taskTarget||0
-);
-
-const studyTarget=
-Number(
-currentTarget.studyTarget||0
-);
-
-const runTarget=
-Number(
-currentTarget.runTarget||0
-);
-
-const moneyTarget=
-Number(
-currentTarget.moneyTarget||0
-);
-
-
-/* PERCENTAGES */
-
-const taskPercent=
-taskTarget>0
-?Math.min(
-100,
-(todayTasks/taskTarget)*100
-)
-:0;
-
-const studyPercent=
-studyTarget>0
-?Math.min(
-100,
-(todayStudy/studyTarget)*100
-)
-:0;
-
-const runPercent=
-runTarget>0
-?Math.min(
-100,
-(todayRun/runTarget)*100
-)
-:0;
-
-const moneyPercent=
-moneyTarget>0
-?Math.min(
-100,
-(todayIncome/moneyTarget)*100
-)
-:0;
-
-
-/* OVERALL */
-
-const percentages=[];
-
-if(taskTarget>0)
-percentages.push(taskPercent);
-
-if(studyTarget>0)
-percentages.push(studyPercent);
-
-if(runTarget>0)
-percentages.push(runPercent);
-
-if(moneyTarget>0)
-percentages.push(moneyPercent);
-
-const overall=
-percentages.length
-?
-Math.round(
-percentages.reduce(
-(a,b)=>a+b,
-0
-)/percentages.length
-)
-:0;
-
-
-/* DISPLAY */
-
-document.getElementById(
-"targetTaskActual"
-).textContent=
-`${todayTasks} / ${taskTarget}`;
-
-document.getElementById(
-"targetStudyActual"
-).textContent=
-`${todayStudy.toFixed(1)} / ${studyTarget}`;
-
-document.getElementById(
-"targetRunActual"
-).textContent=
-`${todayRun.toFixed(1)} / ${runTarget}`;
-
-document.getElementById(
-"targetMoneyActual"
-).textContent=
-`₹${todayIncome.toFixed(0)} / ₹${moneyTarget.toFixed(0)}`;
-
-
-setTargetProgress(
-"targetTaskBar",
-"targetTaskPercent",
-taskPercent
-);
-
-setTargetProgress(
-"targetStudyBar",
-"targetStudyPercent",
-studyPercent
-);
-
-setTargetProgress(
-"targetRunBar",
-"targetRunPercent",
-runPercent
-);
-
-setTargetProgress(
-"targetMoneyBar",
-"targetMoneyPercent",
-moneyPercent
-);
-
-
-document.getElementById(
-"overallTargetPercent"
-).textContent=
-overall+"%";
-
-document.getElementById(
-"overallTargetBar"
-).style.width=
-overall+"%";
-
-
-let message=
-"Keep pushing 🚀";
-
-if(overall>=100){
-
-message=
-"🔥 All today's targets completed! Excellent work!";
-
-}else if(overall>=75){
-
-message=
-"💪 You're close! Finish today's targets.";
-
-}else if(overall>=50){
-
-message=
-"⚡ Good progress. Keep going.";
-
-}else if(overall>0){
-
-message=
-"🚀 Start strong and build momentum today.";
-
-}else{
-
-message=
-"🎯 Your targets are waiting. Start now.";
+return studies
+.filter(x=>dateFromTimestamp(x.date||x.createdAt)===date)
+.reduce((s,x)=>s+Number(x.hours||0),0);
 
 }
 
-document.getElementById(
-"targetStatus"
-).textContent=message;
+function runData(date){
+
+return runs
+.filter(x=>dateFromTimestamp(x.date||x.createdAt)===date)
+.reduce((s,x)=>s+Number(x.distance||0),0);
 
 }
 
+function incomeData(date){
 
-function setTargetProgress(
-barId,
-textId,
-percent
-){
-
-document.getElementById(
-barId
-).style.width=
-Math.min(
-100,
-percent
-)+"%";
-
-document.getElementById(
-textId
-).textContent=
-Math.round(percent)+"%";
+return money
+.filter(x=>x.type==="income" &&
+dateFromTimestamp(x.date||x.createdAt)===date)
+.reduce((s,x)=>s+Number(x.amount||0),0);
 
 }
 
+function pct(actual,target){
 
-/* =========================
-STATS
-========================= */
+if(target<=0)return null;
 
-function updateStats(){
-
-const completedTasks=
-tasks.filter(
-x=>x.completed
-).length;
-
-const totalTasks=
-tasks.length;
-
-document.getElementById(
-"taskStat"
-).textContent=
-`${completedTasks}/${totalTasks}`;
-
-
-const taskPercent=
-totalTasks
-?
-Math.round(
-(completedTasks/totalTasks)*100
-)
-:0;
-
-
-const completedGoals=
-goals.filter(
-x=>x.completed
-).length;
-
-const goalPercent=
-goals.length
-?
-Math.round(
-(completedGoals/goals.length)*100
-)
-:0;
-
-
-const totalStudy=
-studies.reduce(
-(sum,x)=>
-sum+Number(x.hours||0),
-0
-);
-
-
-const totalKm=
-runs.reduce(
-(sum,x)=>
-sum+Number(x.distance||0),
-0
-);
-
-
-document.getElementById(
-"goalStat"
-).textContent=
-goalPercent+"%";
-
-document.getElementById(
-"studyHourStat"
-).textContent=
-totalStudy.toFixed(1);
-
-document.getElementById(
-"totalKmStat"
-).textContent=
-totalKm.toFixed(1);
-
-
-/* MONEY */
-
-const income=
-money
-.filter(
-x=>x.type==="income"
-)
-.reduce(
-(sum,x)=>
-sum+Number(x.amount||0),
-0
-);
-
-const expense=
-money
-.filter(
-x=>x.type==="expense"
-)
-.reduce(
-(sum,x)=>
-sum+Number(x.amount||0),
-0
-);
-
-const balance=
-income-expense;
-
-
-document.getElementById(
-"incomeStat"
-).textContent=
-"₹"+income.toFixed(0);
-
-document.getElementById(
-"expenseStat"
-).textContent=
-"₹"+expense.toFixed(0);
-
-document.getElementById(
-"balanceStat"
-).textContent=
-"₹"+balance.toFixed(0);
-
-
-/* LIFE SCORE */
-
-const studyScore=
-totalStudy>0
-?100
-:0;
-
-const runningScore=
-totalKm>0
-?100
-:0;
-
-const diaryScore=
-diaries.length>0
-?100
-:0;
-
-
-const lifeScore=
-Math.round(
-(
-taskPercent+
-goalPercent+
-studyScore+
-runningScore+
-diaryScore
-)/5
-);
-
-
-document.getElementById(
-"lifeScore"
-).textContent=
-lifeScore+"%";
-
-document.getElementById(
-"statsTasks"
-).textContent=
-taskPercent+"%";
-
-document.getElementById(
-"statsGoals"
-).textContent=
-goalPercent+"%";
-
-document.getElementById(
-"statsDiary"
-).textContent=
-diaries.length;
-
-
-updateStreak();
-
-updateCharts();
-
-updateTargetDashboard();
+return clamp(actual/target*100);
 
 }
 
+function dailyProgress(date){
 
-/* =========================
-STREAK
-========================= */
+const t=getTarget(date);
+const td=taskData(date);
+const st=studyData(date);
+const rd=runData(date);
+const inc=incomeData(date);
 
-function updateStreak(){
+const values=[
+pct(td.done,t.tasks),
+pct(st,t.study),
+pct(rd,t.run),
+pct(inc,t.money)
+].filter(x=>x!==null);
 
-const activeDates=
-new Set();
-
-
-tasks.forEach(
-task=>{
-
-if(
-task.completed &&
-task.createdAt
-){
-
-activeDates.add(
-new Date(
-task.createdAt
-)
-.toISOString()
-.split("T")[0]
-);
-
-}
-
-}
-);
-
-
-plans.forEach(
-plan=>{
-
-if(
-plan.completed &&
-plan.planDate
-){
-
-activeDates.add(
-plan.planDate
-);
+return{
+t,
+td,
+st,
+rd,
+inc,
+overall:values.length?
+values.reduce((a,b)=>a+b,0)/values.length:0,
+hasTarget:values.length>0
+};
 
 }
 
-}
-);
+function isDayComplete(date){
 
+const p=dailyProgress(date);
 
-studies.forEach(
-study=>{
-
-if(study.studyDate){
-
-activeDates.add(
-study.studyDate
-);
+return p.hasTarget && p.overall>=100;
 
 }
 
-}
-);
+function updateCard(id,actual,target,unit){
 
+const a=document.getElementById(id+"Actual");
+const bar=document.getElementById(id+"Bar");
+const per=document.getElementById(id+"Percent");
 
-runs.forEach(
-run=>{
+const p=target>0?
+clamp(actual/target*100):0;
 
-if(run.runDate){
-
-activeDates.add(
-run.runDate
-);
-
-}
-
-}
-);
-
-
-diaries.forEach(
-diary=>{
-
-if(diary.diaryDate){
-
-activeDates.add(
-diary.diaryDate
-);
+if(a)a.textContent=`${actual} / ${target}${unit}`;
+if(bar)bar.style.width=p+"%";
+if(per)per.textContent=Math.round(p)+"%";
 
 }
 
-}
-);
+function updateAll(){
 
+const d=today();
+const p=dailyProgress(d);
 
-const dates=
-[...activeDates].sort();
-
-document.getElementById(
-"activeDays"
-).textContent=
-dates.length;
-
-
-let best=0;
-
-let current=0;
-
-
-/* BEST */
-
-for(
-let i=0;
-i<dates.length;
-i++
-){
-
-let streak=1;
-
-let previous=
-new Date(
-dates[i]+"T00:00:00"
-);
-
-for(
-let j=i+1;
-j<dates.length;
-j++
-){
-
-let next=
-new Date(
-dates[j]+"T00:00:00"
-);
-
-const diff=
-(next-previous)/
-(1000*60*60*24);
-
-if(diff===1){
-
-streak++;
-
-previous=next;
-
-}else{
-
-break;
-
-}
-
-}
-
-best=
-Math.max(
-best,
-streak
-);
-
-}
-
-
-/* CURRENT */
-
-let check=
-new Date();
-
-while(true){
-
-const date=
-check
-.toISOString()
-.split("T")[0];
-
-if(activeDates.has(date)){
-
-current++;
-
-check.setDate(
-check.getDate()-1
-);
-
-}else{
-
-break;
-
-}
-
-}
-
-
-document.getElementById(
-"currentStreak"
-).textContent=
-current+" days";
-
-document.getElementById(
-"bestStreak"
-).textContent=
-best+" days";
-
-
-/* TARGET STREAK */
-
-let targetStreak=0;
-
-let targetDate=
-new Date();
-
-while(true){
-
-const date=
-targetDate
-.toISOString()
-.split("T")[0];
-
-if(
-isTargetCompletedForDate(date)
-){
-
-targetStreak++;
-
-targetDate.setDate(
-targetDate.getDate()-1
-);
-
-}else{
-
-break;
-
-}
-
-}
-
-document.getElementById(
-"targetStreak"
-).textContent=
-targetStreak+" days";
-
-
-let message=
-"Start your streak today 🚀";
-
-if(current>=7){
-
-message=
-"🔥 7+ day streak! Keep building.";
-
-}else if(current>=3){
-
-message=
-"💪 Great consistency! Keep going.";
-
-}else if(current>=1){
-
-message=
-"🔥 Streak started! Come back tomorrow.";
-
-}
-
-document.getElementById(
-"streakMessage"
-).textContent=
-message;
-
-}
-
-
-function isTargetCompletedForDate(
-date
-){
-
-if(date!==today())
-return false;
-
-if(!currentTarget)
-return false;
-
-
-const taskActual=
-tasks.filter(
-task=>{
-
-if(
-!task.completed ||
-!task.createdAt
-)
-return false;
-
-return new Date(
-task.createdAt
-)
-.toISOString()
-.split("T")[0]
-===date;
-
-}
-).length;
-
-
-const studyActual=
-studies
-.filter(
-x=>x.studyDate===date
-)
-.reduce(
-(s,x)=>
-s+Number(x.hours||0),
-0
-);
-
-
-const runActual=
-runs
-.filter(
-x=>x.runDate===date
-)
-.reduce(
-(s,x)=>
-s+Number(x.distance||0),
-0
-);
-
-
-const incomeActual=
-money
-.filter(
-x=>
-x.moneyDate===date &&
-x.type==="income"
-)
-.reduce(
-(s,x)=>
-s+Number(x.amount||0),
-0
-);
-
-
-if(
-Number(currentTarget.taskTarget||0)>0 &&
-taskActual<
-Number(currentTarget.taskTarget)
-)
-return false;
-
-
-if(
-Number(currentTarget.studyTarget||0)>0 &&
-studyActual<
-Number(currentTarget.studyTarget)
-)
-return false;
-
-
-if(
-Number(currentTarget.runTarget||0)>0 &&
-runActual<
-Number(currentTarget.runTarget)
-)
-return false;
-
-
-if(
-Number(currentTarget.moneyTarget||0)>0 &&
-incomeActual<
-Number(currentTarget.moneyTarget)
-)
-return false;
-
-
-return true;
-
-}
-
-
-/* =========================
-CHARTS
-========================= */
-
-function getLast7Dates(){
-
-const dates=[];
-
-for(
-let i=6;
-i>=0;
-i--
-){
-
-const d=
-new Date();
-
-d.setDate(
-d.getDate()-i
-);
-
-dates.push(
-d.toISOString()
-.split("T")[0]
-);
-
-}
-
-return dates;
-
-}
-
-
-function formatChartDate(
-date
-){
-
-const d=
-new Date(
-date+"T00:00:00"
-);
-
-return d.toLocaleDateString(
-"en-IN",
-{
-day:"2-digit",
-month:"short"
-}
-);
-
-}
-
-
-function updateCharts(){
-
-if(
-typeof Chart==="undefined"
-)
-return;
-
-const dates=
-getLast7Dates();
-
-
-/* STUDY */
-
-const studyValues=
-dates.map(
-date=>
-
-studies
-.filter(
-x=>x.studyDate===date
-)
-.reduce(
-(sum,x)=>
-sum+Number(x.hours||0),
-0
-)
-
-);
-
-
-if(studyChart){
-
-studyChart.destroy();
-
-}
-
-
-studyChart=
-new Chart(
-document.getElementById(
-"studyChart"
-),
-{
-type:"bar",
-
-data:{
-labels:
-dates.map(
-formatChartDate
-),
-
-datasets:[{
-
-label:"Study Hours",
-
-data:
-studyValues
-
-}]
-},
-
-options:{
-responsive:true,
-maintainAspectRatio:false
-}
-
-}
-);
-
-
-/* RUNNING */
-
-const runValues=
-dates.map(
-date=>
-
-runs
-.filter(
-x=>x.runDate===date
-)
-.reduce(
-(sum,x)=>
-sum+Number(x.distance||0),
-0
-)
-
-);
-
-
-if(runChart){
-
-runChart.destroy();
-
-}
-
-
-runChart=
-new Chart(
-document.getElementById(
-"runChart"
-),
-{
-type:"line",
-
-data:{
-labels:
-dates.map(
-formatChartDate
-),
-
-datasets:[{
-
-label:"Running KM",
-
-data:
-runValues,
-
-tension:.3
-
-}]
-},
-
-options:{
-responsive:true,
-maintainAspectRatio:false
-}
-
-}
-);
-
-
-/* LIFE */
-
-const taskPercent=
-tasks.length
-?
-Math.round(
-tasks.filter(
-x=>x.completed
-).length
-/tasks.length*100
-)
-:0;
-
-
-const goalPercent=
-goals.length
-?
-Math.round(
-goals.filter(
-x=>x.completed
-).length
-/goals.length*100
-)
-:0;
-
-
-const totalStudy=
-studies.reduce(
-(s,x)=>
-s+Number(x.hours||0),
-0
-);
-
-
-const totalKm=
-runs.reduce(
-(s,x)=>
-s+Number(x.distance||0),
-0
-);
-
-
-const studyScore=
-totalStudy>0
-?100
-:0;
-
-const runScore=
-totalKm>0
-?100
-:0;
-
-const diaryScore=
-diaries.length>0
-?100
-:0;
-
-
-const lifeScore=
-Math.round(
-(
-taskPercent+
-goalPercent+
-studyScore+
-runScore+
-diaryScore
-)/5
-);
-
-
-if(lifeChart){
-
-lifeChart.destroy();
-
-}
-
-
-lifeChart=
-new Chart(
-document.getElementById(
-"lifeChart"
-),
-{
-type:"doughnut",
-
-data:{
-
-labels:[
-"Completed",
-"Remaining"
-],
-
-datasets:[{
-
-data:[
-lifeScore,
-100-lifeScore
-]
-
-}]
-
-},
-
-options:{
-responsive:true,
-maintainAspectRatio:false
-}
-
-}
-);
-
-}
-
-
-/* =========================
-ESCAPE HTML
-========================= */
-
-function escapeHTML(
-value
-){
-
-return String(
-value ?? ""
-)
-.replace(
-/&/g,
-"&amp;"
-)
-.replace(
-/</g,
-"&lt;"
-)
-.replace(
-/>/g,
-"&gt;"
-)
-.replace(
-/"/g,
-"&quot;"
-)
-.replace(
-/'/g,
-"&#039;"
-);
-
-}
-
-
-/* =========================
-GLOBAL DATA BRIDGE
-=========================
-
-The main Firebase code runs inside a module.
-These live getters expose the current module data
-to the older dashboard sections that use normal scripts.
-They always return the latest Firebase-loaded arrays.
-========================= */
-
-Object.defineProperties(window,{
-
- tasks:{get:()=>tasks,configurable:true},
- goals:{get:()=>goals,configurable:true},
- plans:{get:()=>plans,configurable:true},
- studies:{get:()=>studies,configurable:true},
- runs:{get:()=>runs,configurable:true},
- money:{get:()=>money,configurable:true},
- jobs:{get:()=>jobs,configurable:true},
- diaries:{get:()=>diaries,configurable:true},
-
- /* Older feature names kept compatible */
- studyRecords:{get:()=>studies,configurable:true},
- runRecords:{get:()=>runs,configurable:true},
- moneyRecords:{get:()=>money,configurable:true},
- jobRecords:{get:()=>jobs,configurable:true},
- diaryRecords:{get:()=>diaries,configurable:true},
-
- /* Target dashboard stores one document for today */
- targets:{
-   get:()=> currentTarget
-     ? {[today()]:currentTarget}
-     : {},
-   configurable:true
- },
-
- /* Used by achievement/smart-dashboard sections */
- currentStreak:{
-   get:()=>{
-     const el=document.getElementById("currentStreak");
-     if(!el) return 0;
-     const match=String(el.textContent||"").match(/\d+/);
-     return match ? Number(match[0]) : 0;
-   },
-   configurable:true
- }
-
-});
-
-</script>
-
-<!-- WEEKLY PERFORMANCE REPORT -->
-<section class="card">
-  <h2>📈 Weekly Performance Report</h2>
-
-  <div class="stats-grid">
-    <div class="stat-box">
-      <h3>📚 Study</h3>
-      <p id="weeklyStudy">0 hrs</p>
-    </div>
-
-    <div class="stat-box">
-      <h3>🏃 Running</h3>
-      <p id="weeklyRun">0 km</p>
-    </div>
-
-    <div class="stat-box">
-      <h3>✅ Tasks</h3>
-      <p id="weeklyTasks">0</p>
-    </div>
-
-    <div class="stat-box">
-      <h3>🎯 Target</h3>
-      <p id="weeklyTarget">0%</p>
-    </div>
-  </div>
-
-  <div style="margin-top:20px;">
-    <h3>⭐ Weekly Life Score</h3>
-    <div class="progress-bar">
-      <div id="weeklyScoreBar" class="progress-fill" style="width:0%"></div>
-    </div>
-    <p id="weeklyScoreText">0 / 100</p>
-  </div>
-
-  <button onclick="updateWeeklyReport()">🔄 Update Weekly Report</button>
-</section>
-
-<script>
-function updateWeeklyReport() {
-
-  let studyTotal = 0;
-  let runTotal = 0;
-  let taskTotal = 0;
-  let targetTotal = 0;
-  let targetCount = 0;
-
-  const now = new Date();
-
-  // Last 7 days
-  const dates = [];
-
-  for(let i = 0; i < 7; i++){
-    const d = new Date(now);
-    d.setDate(now.getDate() - i);
-
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2,"0");
-    const dd = String(d.getDate()).padStart(2,"0");
-
-    dates.push(`${yyyy}-${mm}-${dd}`);
-  }
-
-  // STUDY
-  if(typeof studyRecords !== "undefined"){
-    studyRecords.forEach(item => {
-      if(dates.includes(item.studyDate)){
-        studyTotal += Number(item.hours) || 0;
-      }
-    });
-  }
-
-  // RUNNING
-  if(typeof runRecords !== "undefined"){
-    runRecords.forEach(item => {
-      if(dates.includes(item.runDate)){
-        runTotal += Number(item.distance) || 0;
-      }
-    });
-  }
-
-  // TASKS
-  if(typeof tasks !== "undefined"){
-    tasks.forEach(item => {
-      if(item.completed && item.createdAt){
-        const date = new Date(item.createdAt);
-
-        const yyyy = date.getFullYear();
-        const mm = String(date.getMonth() + 1).padStart(2,"0");
-        const dd = String(date.getDate()).padStart(2,"0");
-
-        const taskDate = `${yyyy}-${mm}-${dd}`;
-
-        if(dates.includes(taskDate)){
-          taskTotal++;
-        }
-      }
-    });
-  }
-
-  // TARGETS
-  if(typeof targets !== "undefined"){
-    Object.values(targets).forEach(item => {
-
-      if(Number(item.studyTarget) > 0){
-        targetTotal += Math.min(
-          100,
-          (Number(item.studyActual || 0) /
-          Number(item.studyTarget)) * 100
-        );
-        targetCount++;
-      }
-
-      if(Number(item.runTarget) > 0){
-        targetTotal += Math.min(
-          100,
-          (Number(item.runActual || 0) /
-          Number(item.runTarget)) * 100
-        );
-        targetCount++;
-      }
-
-      if(Number(item.taskTarget) > 0){
-        targetTotal += Math.min(
-          100,
-          (Number(item.taskActual || 0) /
-          Number(item.taskTarget)) * 100
-        );
-        targetCount++;
-      }
-    });
-  }
-
-  const targetPercent =
-    targetCount > 0
-      ? Math.round(targetTotal / targetCount)
-      : 0;
-
-  // WEEKLY SCORE
-  const studyScore = Math.min(100, studyTotal * 5);
-  const runScore = Math.min(100, runTotal * 10);
-  const taskScore = Math.min(100, taskTotal * 5);
-
-  const weeklyScore = Math.round(
-    (studyScore + runScore + taskScore + targetPercent) / 4
-  );
-
-  document.getElementById("weeklyStudy").textContent =
-    studyTotal.toFixed(1) + " hrs";
-
-  document.getElementById("weeklyRun").textContent =
-    runTotal.toFixed(1) + " km";
-
-  document.getElementById("weeklyTasks").textContent =
-    taskTotal;
-
-  document.getElementById("weeklyTarget").textContent =
-    targetPercent + "%";
-
-  document.getElementById("weeklyScoreBar").style.width =
-    weeklyScore + "%";
-
-  document.getElementById("weeklyScoreText").textContent =
-    weeklyScore + " / 100";
-}
-</script>
-<!-- MONTHLY LIFE SCORE DASHBOARD -->
-<section class="card">
-  <h2>🏆 Monthly Life Score</h2>
-  <p id="monthlyPeriod">This Month</p>
-
-  <div class="stats-grid">
-    <div class="stat-box">
-      <h3>📚 Study</h3>
-      <p id="monthlyStudy">0 hrs</p>
-    </div>
-
-    <div class="stat-box">
-      <h3>🏃 Running</h3>
-      <p id="monthlyRun">0 km</p>
-    </div>
-
-    <div class="stat-box">
-      <h3>✅ Tasks</h3>
-      <p id="monthlyTasks">0</p>
-    </div>
-
-    <div class="stat-box">
-      <h3>💰 Income</h3>
-      <p id="monthlyIncome">₹0</p>
-    </div>
-  </div>
-
-  <div style="margin-top:20px;">
-    <h3>🎯 Target Achievement</h3>
-
-    <div class="progress-bar">
-      <div
-        id="monthlyTargetBar"
-        class="progress-fill"
-        style="width:0%">
-      </div>
-    </div>
-
-    <p id="monthlyTargetText">0%</p>
-  </div>
-
-  <div style="margin-top:20px;">
-    <h3>⭐ Monthly Life Score</h3>
-
-    <div class="progress-bar">
-      <div
-        id="monthlyScoreBar"
-        class="progress-fill"
-        style="width:0%">
-      </div>
-    </div>
-
-    <p id="monthlyScoreText">0 / 100</p>
-  </div>
-
-  <button onclick="updateMonthlyReport()">
-    🔄 Update Monthly Score
-  </button>
-</section>
-
-<script>
-function updateMonthlyReport() {
-
-  const now = new Date();
-
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth();
-
-  const monthName = now.toLocaleString("en-US", {
-    month: "long"
-  });
-
-  document.getElementById("monthlyPeriod").textContent =
-    monthName + " " + currentYear;
-
-  let studyTotal = 0;
-  let runTotal = 0;
-  let taskTotal = 0;
-  let incomeTotal = 0;
-
-  // STUDY
-  if(typeof studyRecords !== "undefined") {
-
-    studyRecords.forEach(item => {
-
-      if(!item.studyDate) return;
-
-      const d = new Date(item.studyDate + "T00:00:00");
-
-      if(
-        d.getFullYear() === currentYear &&
-        d.getMonth() === currentMonth
-      ) {
-        studyTotal += Number(item.hours) || 0;
-      }
-
-    });
-  }
-
-  // RUNNING
-  if(typeof runRecords !== "undefined") {
-
-    runRecords.forEach(item => {
-
-      if(!item.runDate) return;
-
-      const d = new Date(item.runDate + "T00:00:00");
-
-      if(
-        d.getFullYear() === currentYear &&
-        d.getMonth() === currentMonth
-      ) {
-        runTotal += Number(item.distance) || 0;
-      }
-
-    });
-  }
-
-  // TASKS
-  if(typeof tasks !== "undefined") {
-
-    tasks.forEach(item => {
-
-      if(!item.completed || !item.createdAt) return;
-
-      const d = new Date(item.createdAt);
-
-      if(
-        d.getFullYear() === currentYear &&
-        d.getMonth() === currentMonth
-      ) {
-        taskTotal++;
-      }
-
-    });
-  }
-
-  // INCOME
-  if(typeof moneyRecords !== "undefined") {
-
-    moneyRecords.forEach(item => {
-
-      if(
-        item.type !== "income" ||
-        !item.moneyDate
-      ) return;
-
-      const d = new Date(
-        item.moneyDate + "T00:00:00"
-      );
-
-      if(
-        d.getFullYear() === currentYear &&
-        d.getMonth() === currentMonth
-      ) {
-        incomeTotal += Number(item.amount) || 0;
-      }
-
-    });
-  }
-
-  /*
-    TARGET SCORE
-
-    Uses the targets available in the current
-    target dashboard.
-  */
-
-  let targetScore = 0;
-  let targetCount = 0;
-
-  if(typeof targets !== "undefined") {
-
-    Object.values(targets).forEach(item => {
-
-      if(Number(item.taskTarget) > 0) {
-
-        targetScore += Math.min(
-          100,
-          (
-            Number(item.taskActual || 0) /
-            Number(item.taskTarget)
-          ) * 100
-        );
-
-        targetCount++;
-      }
-
-      if(Number(item.studyTarget) > 0) {
-
-        targetScore += Math.min(
-          100,
-          (
-            Number(item.studyActual || 0) /
-            Number(item.studyTarget)
-          ) * 100
-        );
-
-        targetCount++;
-      }
-
-      if(Number(item.runTarget) > 0) {
-
-        targetScore += Math.min(
-          100,
-          (
-            Number(item.runActual || 0) /
-            Number(item.runTarget)
-          ) * 100
-        );
-
-        targetCount++;
-      }
-
-      if(Number(item.incomeTarget) > 0) {
-
-        targetScore += Math.min(
-          100,
-          (
-            Number(item.incomeActual || 0) /
-            Number(item.incomeTarget)
-          ) * 100
-        );
-
-        targetCount++;
-      }
-
-    });
-  }
-
-  const targetPercent =
-    targetCount > 0
-      ? Math.round(targetScore / targetCount)
-      : 0;
-
-  /*
-    MONTHLY SCORE
-
-    These are normalized indicators,
-    not a financial or health measurement.
-  */
-
-  const studyScore = Math.min(
-    100,
-    studyTotal * 2
-  );
-
-  const runScore = Math.min(
-    100,
-    runTotal * 4
-  );
-
-  const taskScore = Math.min(
-    100,
-    taskTotal * 3
-  );
-
-  const incomeScore =
-    incomeTotal > 0 ? 100 : 0;
-
-  const monthlyScore = Math.round(
-    (
-      studyScore +
-      runScore +
-      taskScore +
-      incomeScore +
-      targetPercent
-    ) / 5
-  );
-
-  // UPDATE UI
-
-  document.getElementById("monthlyStudy").textContent =
-    studyTotal.toFixed(1) + " hrs";
-
-  document.getElementById("monthlyRun").textContent =
-    runTotal.toFixed(1) + " km";
-
-  document.getElementById("monthlyTasks").textContent =
-    taskTotal;
-
-  document.getElementById("monthlyIncome").textContent =
-    "₹" + incomeTotal.toFixed(0);
-
-  document.getElementById("monthlyTargetBar").style.width =
-    targetPercent + "%";
-
-  document.getElementById("monthlyTargetText").textContent =
-    targetPercent + "%";
-
-  document.getElementById("monthlyScoreBar").style.width =
-    monthlyScore + "%";
-
-  document.getElementById("monthlyScoreText").textContent =
-    monthlyScore + " / 100";
-}
-</script><!-- MONTHLY PROGRESS HISTORY -->
-<section class="card">
-  <h2>📊 Monthly Progress History</h2>
-  <p>Track your Life OS progress month by month.</p>
-
-  <div style="height:320px;">
-    <canvas id="monthlyHistoryChart"></canvas>
-  </div>
-
-  <button onclick="updateMonthlyHistory()">
-    🔄 Update Monthly History
-  </button>
-</section>
-
-<script>
-let monthlyHistoryChart = null;
-
-function updateMonthlyHistory() {
-
-  const now = new Date();
-
-  const labels = [];
-  const studyData = [];
-  const runData = [];
-  const taskData = [];
-
-  /*
-    Show the current month and previous
-    5 months.
-  */
-
-  for(let i = 5; i >= 0; i--) {
-
-    const d = new Date(
-      now.getFullYear(),
-      now.getMonth() - i,
-      1
-    );
-
-    const year = d.getFullYear();
-    const month = d.getMonth();
-
-    const label = d.toLocaleString("en-US", {
-      month: "short"
-    }) + " " + year;
-
-    labels.push(label);
-
-    let study = 0;
-    let run = 0;
-    let taskCount = 0;
-
-    // STUDY
-    if(typeof studyRecords !== "undefined") {
-
-      studyRecords.forEach(item => {
-
-        if(!item.studyDate) return;
-
-        const x = new Date(
-          item.studyDate + "T00:00:00"
-        );
-
-        if(
-          x.getFullYear() === year &&
-          x.getMonth() === month
-        ) {
-          study += Number(item.hours) || 0;
-        }
-
-      });
-    }
-
-    // RUNNING
-    if(typeof runRecords !== "undefined") {
-
-      runRecords.forEach(item => {
-
-        if(!item.runDate) return;
-
-        const x = new Date(
-          item.runDate + "T00:00:00"
-        );
-
-        if(
-          x.getFullYear() === year &&
-          x.getMonth() === month
-        ) {
-          run += Number(item.distance) || 0;
-        }
-
-      });
-    }
-
-    // TASKS
-    if(typeof tasks !== "undefined") {
-
-      tasks.forEach(item => {
-
-        if(!item.completed || !item.createdAt)
-          return;
-
-        const x = new Date(item.createdAt);
-
-        if(
-          x.getFullYear() === year &&
-          x.getMonth() === month
-        ) {
-          taskCount++;
-        }
-
-      });
-    }
-
-    studyData.push(Number(study.toFixed(1)));
-    runData.push(Number(run.toFixed(1)));
-    taskData.push(taskCount);
-  }
-
-  const canvas =
-    document.getElementById("monthlyHistoryChart");
-
-  if(!canvas) return;
-
-  if(monthlyHistoryChart) {
-    monthlyHistoryChart.destroy();
-  }
-
-  monthlyHistoryChart = new Chart(canvas, {
-
-    type: "line",
-
-    data: {
-
-      labels: labels,
-
-      datasets: [
-
-        {
-          label: "Study Hours",
-          data: studyData,
-          tension: 0.3
-        },
-
-        {
-          label: "Running KM",
-          data: runData,
-          tension: 0.3
-        },
-
-        {
-          label: "Completed Tasks",
-          data: taskData,
-          tension: 0.3
-        }
-
-      ]
-    },
-
-    options: {
-
-      responsive: true,
-
-      maintainAspectRatio: false,
-
-      plugins: {
-        legend: {
-          display: true
-        }
-      },
-
-      scales: {
-
-        y: {
-          beginAtZero: true
-        }
-
-      }
-
-    }
-
-  });
-}
-</script>
-<!-- PERSONAL ACHIEVEMENTS -->
-<section class="card">
-  <h2>🏅 Personal Achievements</h2>
-  <p id="achievementSummary">Keep building. Your milestones will unlock automatically.</p>
-
-  <div id="achievementGrid" class="stats-grid"></div>
-</section>
-
-<script>
-function updateAchievements() {
-
-  let completedTasks = 0;
-  let totalStudy = 0;
-  let totalRun = 0;
-  let maxStreak = 0;
-  let completedTargets = 0;
-  let totalIncome = 0;
-
-  // TASKS
-  if(typeof tasks !== "undefined") {
-    tasks.forEach(item => {
-      if(item.completed) {
-        completedTasks++;
-      }
-    });
-  }
-
-  // STUDY
-  if(typeof studyRecords !== "undefined") {
-    studyRecords.forEach(item => {
-      totalStudy += Number(item.hours) || 0;
-    });
-  }
-
-  // RUNNING
-  if(typeof runRecords !== "undefined") {
-    runRecords.forEach(item => {
-      totalRun += Number(item.distance) || 0;
-    });
-  }
-
-  // INCOME
-  if(typeof moneyRecords !== "undefined") {
-    moneyRecords.forEach(item => {
-      if(item.type === "income") {
-        totalIncome += Number(item.amount) || 0;
-      }
-    });
-  }
-
-  // TARGETS
-  if(typeof targets !== "undefined") {
-    Object.values(targets).forEach(item => {
-
-      if(
-        Number(item.taskTarget) > 0 &&
-        Number(item.taskActual || 0) >= Number(item.taskTarget)
-      ) {
-        completedTargets++;
-      }
-
-      if(
-        Number(item.studyTarget) > 0 &&
-        Number(item.studyActual || 0) >= Number(item.studyTarget)
-      ) {
-        completedTargets++;
-      }
-
-      if(
-        Number(item.runTarget) > 0 &&
-        Number(item.runActual || 0) >= Number(item.runTarget)
-      ) {
-        completedTargets++;
-      }
-
-      if(
-        Number(item.incomeTarget) > 0 &&
-        Number(item.incomeActual || 0) >= Number(item.incomeTarget)
-      ) {
-        completedTargets++;
-      }
-
-    });
-  }
-
-  // STREAK
-  if(typeof currentStreak !== "undefined") {
-    maxStreak = Number(currentStreak) || 0;
-  }
-
-  const achievements = [
-
-    {
-      icon: "🥇",
-      title: "100 Tasks",
-      requirement: "Complete 100 tasks",
-      value: completedTasks,
-      target: 100
-    },
-
-    {
-      icon: "📚",
-      title: "50 Study Hours",
-      requirement: "Study for 50 total hours",
-      value: totalStudy,
-      target: 50
-    },
-
-    {
-      icon: "🏃",
-      title: "100 KM Runner",
-      requirement: "Run 100 total KM",
-      value: totalRun,
-      target: 100
-    },
-
-    {
-      icon: "🔥",
-      title: "7 Day Streak",
-      requirement: "Reach a 7 day streak",
-      value: maxStreak,
-      target: 7
-    },
-
-    {
-      icon: "🎯",
-      title: "10 Targets",
-      requirement: "Complete 10 targets",
-      value: completedTargets,
-      target: 10
-    },
-
-    {
-      icon: "💰",
-      title: "₹10,000 Income",
-      requirement: "Track ₹10,000 income",
-      value: totalIncome,
-      target: 10000
-    }
-
-  ];
-
-  const grid =
-    document.getElementById("achievementGrid");
-
-  if(!grid) return;
-
-  grid.innerHTML = "";
-
-  let unlocked = 0;
-
-  achievements.forEach(a => {
-
-    const isUnlocked =
-      Number(a.value) >= Number(a.target);
-
-    if(isUnlocked) {
-      unlocked++;
-    }
-
-    const percentage = Math.min(
-      100,
-      Math.round(
-        (Number(a.value) / Number(a.target)) * 100
-      )
-    );
-
-    const box = document.createElement("div");
-
-    box.className = "stat-box";
-
-    box.style.opacity =
-      isUnlocked ? "1" : "0.65";
-
-    box.innerHTML = `
-
-      <div style="font-size:32px;">
-        ${isUnlocked ? "🏆" : a.icon}
-      </div>
-
-      <h3>
-        ${a.title}
-      </h3>
-
-      <p>
-        ${isUnlocked ? "UNLOCKED 🎉" : a.requirement}
-      </p>
-
-      <div class="progress-bar">
-
-        <div
-          class="progress-fill"
-          style="width:${percentage}%">
-        </div>
-
-      </div>
-
-      <small>
-        ${Number(a.value).toFixed(
-          Number(a.value) % 1 === 0 ? 0 : 1
-        )}
-        / ${a.target}
-      </small>
-
-    `;
-
-    grid.appendChild(box);
-  });
-
-  document.getElementById(
-    "achievementSummary"
-  ).textContent =
-    unlocked +
-    " / " +
-    achievements.length +
-    " achievements unlocked. Keep going! 🚀";
-}
-</script>
-<!-- SMART DAILY DASHBOARD -->
-<section class="card">
-  <h2>🧠 Smart Daily Dashboard</h2>
-  <p id="smartDate"></p>
-
-  <div class="stats-grid">
-
-    <div class="stat-box">
-      <h3>🎯 Today's Focus</h3>
-      <p id="smartFocus">Set your targets</p>
-    </div>
-
-    <div class="stat-box">
-      <h3>🔥 Streak</h3>
-      <p id="smartStreak">0 days</p>
-    </div>
-
-    <div class="stat-box">
-      <h3>📊 Target Progress</h3>
-      <p id="smartTarget">0%</p>
-    </div>
-
-    <div class="stat-box">
-      <h3>🏅 Achievements</h3>
-      <p id="smartAchievements">0 unlocked</p>
-    </div>
-
-  </div>
-
-  <div style="margin-top:20px;">
-    <h3>💡 What to do next?</h3>
-    <div id="smartNext"
-         style="padding:15px;border-radius:12px;">
-      Loading...
-    </div>
-  </div>
-
-  <div style="margin-top:20px;">
-    <h3>⚠️ Today's Pending</h3>
-    <div id="smartPending"
-         style="padding:15px;border-radius:12px;">
-      Loading...
-    </div>
-  </div>
-
-  <button onclick="updateSmartDashboard()">
-    🔄 Refresh Dashboard
-  </button>
-</section>
-
-<script>
-function updateSmartDashboard() {
-
-  const now = new Date();
-
-  document.getElementById("smartDate").textContent =
-    now.toLocaleDateString("en-IN", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
-
-  let completedTasks = 0;
-  let totalTasks = 0;
-
-  let studyToday = 0;
-  let runToday = 0;
-  let incomeToday = 0;
-
-  // TODAY
-  const todayDate =
-    now.toISOString().split("T")[0];
-
-  // TASKS
-  if(typeof tasks !== "undefined") {
-
-    tasks.forEach(item => {
-
-      totalTasks++;
-
-      if(item.completed) {
-        completedTasks++;
-      }
-
-    });
-  }
-
-  // STUDY
-  if(typeof studyRecords !== "undefined") {
-
-    studyRecords.forEach(item => {
-
-      if(item.studyDate === todayDate) {
-        studyToday += Number(item.hours) || 0;
-      }
-
-    });
-  }
-
-  // RUNNING
-  if(typeof runRecords !== "undefined") {
-
-    runRecords.forEach(item => {
-
-      if(item.runDate === todayDate) {
-        runToday += Number(item.distance) || 0;
-      }
-
-    });
-  }
-
-  // INCOME
-  if(typeof moneyRecords !== "undefined") {
-
-    moneyRecords.forEach(item => {
-
-      if(
-        item.type === "income" &&
-        item.moneyDate === todayDate
-      ) {
-        incomeToday += Number(item.amount) || 0;
-      }
-
-    });
-  }
-
-  // TARGET DATA
-  let targetPercent = 0;
-  let targetItems = 0;
-
-  if(typeof targets !== "undefined") {
-
-    Object.values(targets).forEach(item => {
-
-      if(Number(item.taskTarget) > 0) {
-
-        targetPercent += Math.min(
-          100,
-          (
-            Number(item.taskActual || 0) /
-            Number(item.taskTarget)
-          ) * 100
-        );
-
-        targetItems++;
-      }
-
-      if(Number(item.studyTarget) > 0) {
-
-        targetPercent += Math.min(
-          100,
-          (
-            Number(item.studyActual || 0) /
-            Number(item.studyTarget)
-          ) * 100
-        );
-
-        targetItems++;
-      }
-
-      if(Number(item.runTarget) > 0) {
-
-        targetPercent += Math.min(
-          100,
-          (
-            Number(item.runActual || 0) /
-            Number(item.runTarget)
-          ) * 100
-        );
-
-        targetItems++;
-      }
-
-      if(Number(item.incomeTarget) > 0) {
-
-        targetPercent += Math.min(
-          100,
-          (
-            Number(item.incomeActual || 0) /
-            Number(item.incomeTarget)
-          ) * 100
-        );
-
-        targetItems++;
-      }
-
-    });
-  }
-
-  const targetAverage =
-    targetItems > 0
-      ? Math.round(targetPercent / targetItems)
-      : 0;
-
-  // STREAK
-  let streak = 0;
-
-  if(typeof currentStreak !== "undefined") {
-    streak = Number(currentStreak) || 0;
-  }
-
-  // ACHIEVEMENTS
-  let unlocked = 0;
-
-  if(
-    typeof completedTasks !== "undefined" &&
-    completedTasks >= 100
-  ) unlocked++;
-
-  if(
-    typeof studyRecords !== "undefined"
-  ) {
-
-    let totalStudy = 0;
-
-    studyRecords.forEach(item => {
-      totalStudy += Number(item.hours) || 0;
-    });
-
-    if(totalStudy >= 50) unlocked++;
-  }
-
-  if(
-    typeof runRecords !== "undefined"
-  ) {
-
-    let totalRun = 0;
-
-    runRecords.forEach(item => {
-      totalRun += Number(item.distance) || 0;
-    });
-
-    if(totalRun >= 100) unlocked++;
-  }
-
-  if(streak >= 7) unlocked++;
-
-  // DISPLAY
-  document.getElementById("smartStreak").textContent =
-    streak + " days";
-
-  document.getElementById("smartTarget").textContent =
-    targetAverage + "%";
-
-  document.getElementById("smartAchievements").textContent =
-    unlocked + " unlocked";
-
-  // FOCUS
-  let focus = "Complete your targets 🎯";
-
-  if(
-    studyToday === 0 &&
-    runToday === 0 &&
-    completedTasks === 0
-  ) {
-    focus = "Start your first task today 🚀";
-  }
-  else if(studyToday === 0) {
-    focus = "Study session needed 📚";
-  }
-  else if(runToday === 0) {
-    focus = "Running session needed 🏃";
-  }
-  else if(targetAverage < 100) {
-    focus = "Push your targets 🎯";
-  }
-  else {
-    focus = "Excellent! Keep building 🔥";
-  }
-
-  document.getElementById("smartFocus").textContent =
-    focus;
-
-  // NEXT ACTION
-  let nextAction = "";
-
-  if(totalTasks === 0) {
-    nextAction = "Add today's first task.";
-  }
-  else if(completedTasks < totalTasks) {
-    nextAction =
-      "Complete your pending task(s).";
-  }
-  else if(studyToday === 0) {
-    nextAction =
-      "Do a focused study session.";
-  }
-  else if(runToday === 0) {
-    nextAction =
-      "Complete your running session.";
-  }
-  else {
-    nextAction =
-      "Review your targets and improve one thing.";
-  }
-
-  document.getElementById("smartNext").textContent =
-    "👉 " + nextAction;
-
-  // PENDING
-  let pending = [];
-
-  if(totalTasks > completedTasks) {
-    pending.push(
-      "✅ " +
-      (totalTasks - completedTasks) +
-      " task(s)"
-    );
-  }
-
-  if(studyToday === 0) {
-    pending.push("📚 Study");
-  }
-
-  if(runToday === 0) {
-    pending.push("🏃 Running");
-  }
-
-  if(targetAverage < 100) {
-    pending.push("🎯 Targets");
-  }
-
-  if(pending.length === 0) {
-    document.getElementById("smartPending").textContent =
-      "Nothing major pending. Great work! 🔥";
-  }
-  else {
-    document.getElementById("smartPending").textContent =
-      pending.join("  •  ");
-  }
-}
-</script>
-<!-- QUICK ACTIONS -->
-<section class="card">
-  <h2>⚡ Quick Actions</h2>
-  <p>Jump directly to the section you need.</p>
-
-  <div class="stats-grid">
-
-    <button onclick="quickGo('Task')">
-      ➕ Add Task
-    </button>
-
-    <button onclick="quickGo('Study')">
-      📚 Add Study
-    </button>
-
-    <button onclick="quickGo('Running')">
-      🏃 Add Run
-    </button>
-
-    <button onclick="quickGo('Money')">
-      💰 Add Money
-    </button>
-
-    <button onclick="quickGo('Diary')">
-      📔 Add Diary
-    </button>
-
-    <button onclick="quickGo('Goals & Targets')">
-      🎯 Set Targets
-    </button>
-
-  </div>
-</section>
-
-<script>
-function quickGo(searchText) {
-
-  const headings = document.querySelectorAll("h1, h2, h3");
-
-  let found = null;
-
-  headings.forEach(heading => {
-
-    if(found) return;
-
-    const text =
-      heading.textContent
-        .toLowerCase()
-        .trim();
-
-    if(text.includes(searchText.toLowerCase())) {
-      found = heading;
-    }
-  });
-
-  if(found) {
-
-    found.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-
-  } else {
-
-    alert(
-      searchText +
-      " section not found."
-    );
-  }
-}
-</script>
-<!-- DAILY REMINDER & FOCUS SYSTEM -->
-<section class="card">
-  <h2>🔔 Daily Reminder & Focus</h2>
-  <p id="reminderDate"></p>
-
-  <div class="stats-grid">
-
-    <div class="stat-box">
-      <h3>🎯 Main Focus</h3>
-      <p id="reminderFocus">Loading...</p>
-    </div>
-
-    <div class="stat-box">
-      <h3>📚 Study</h3>
-      <p id="reminderStudy">Not completed</p>
-    </div>
-
-    <div class="stat-box">
-      <h3>🏃 Running</h3>
-      <p id="reminderRun">Not completed</p>
-    </div>
-
-    <div class="stat-box">
-      <h3>✅ Tasks</h3>
-      <p id="reminderTasks">Loading...</p>
-    </div>
-
-  </div>
-
-  <div style="margin-top:20px;">
-    <h3>⏰ Today's Reminder</h3>
-
-    <div id="dailyReminderMessage"
-         style="padding:15px;border-radius:12px;">
-      Loading...
-    </div>
-  </div>
-
-  <button onclick="updateDailyReminder()">
-    🔄 Refresh Reminder
-  </button>
-</section>
-
-<script>
-function updateDailyReminder() {
-
-  const now = new Date();
-
-  const todayDate =
-    now.toISOString().split("T")[0];
-
-  document.getElementById(
-    "reminderDate"
-  ).textContent =
-    now.toLocaleDateString("en-IN", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
-
-  let completedTasks = 0;
-  let totalTasks = 0;
-  let studyToday = 0;
-  let runToday = 0;
-
-  // TASKS
-  if(typeof tasks !== "undefined") {
-
-    tasks.forEach(item => {
-
-      totalTasks++;
-
-      if(item.completed) {
-        completedTasks++;
-      }
-
-    });
-  }
-
-  // STUDY
-  if(typeof studyRecords !== "undefined") {
-
-    studyRecords.forEach(item => {
-
-      if(item.studyDate === todayDate) {
-        studyToday += Number(item.hours) || 0;
-      }
-
-    });
-  }
-
-  // RUNNING
-  if(typeof runRecords !== "undefined") {
-
-    runRecords.forEach(item => {
-
-      if(item.runDate === todayDate) {
-        runToday += Number(item.distance) || 0;
-      }
-
-    });
-  }
-
-  // TASK STATUS
-  let taskMessage;
-
-  if(totalTasks === 0) {
-
-    taskMessage =
-      "No tasks added yet.";
-
-  }
-  else if(completedTasks === totalTasks) {
-
-    taskMessage =
-      "All tasks completed 🎉";
-
-  }
-  else {
-
-    taskMessage =
-      completedTasks +
-      " / " +
-      totalTasks +
-      " completed";
-
-  }
-
-  document.getElementById(
-    "reminderTasks"
-  ).textContent = taskMessage;
-
-  // STUDY STATUS
-  document.getElementById(
-    "reminderStudy"
-  ).textContent =
-    studyToday > 0
-      ? studyToday.toFixed(1) + " hrs completed 📚"
-      : "Study session pending 📚";
-
-  // RUN STATUS
-  document.getElementById(
-    "reminderRun"
-  ).textContent =
-    runToday > 0
-      ? runToday.toFixed(1) + " km completed 🏃"
-      : "Running session pending 🏃";
-
-  // MAIN FOCUS
-  let focus =
-    "Complete your most important task 🎯";
-
-  if(totalTasks === 0) {
-
-    focus =
-      "Create today's first task.";
-
-  }
-  else if(completedTasks < totalTasks) {
-
-    focus =
-      "Finish your pending task.";
-
-  }
-  else if(studyToday === 0) {
-
-    focus =
-      "Focus on your study session.";
-
-  }
-  else if(runToday === 0) {
-
-    focus =
-      "Complete your running session.";
-
-  }
-  else {
-
-    focus =
-      "Great work! Review your progress.";
-
-  }
-
-  document.getElementById(
-    "reminderFocus"
-  ).textContent = focus;
-
-  // TIME BASED REMINDER
-  const hour = now.getHours();
-
-  let reminder = "";
-
-  if(hour < 6) {
-
-    reminder =
-      "🌅 Early morning — start calmly and focus.";
-
-  }
-  else if(hour < 12) {
-
-    reminder =
-      "☀️ Morning — finish your important work first.";
-
-  }
-  else if(hour < 17) {
-
-    reminder =
-      "🌤️ Afternoon — stay consistent and avoid distractions.";
-
-  }
-  else if(hour < 21) {
-
-    reminder =
-      "🌆 Evening — complete study/running before relaxing.";
-
-  }
-  else {
-
-    reminder =
-      "🌙 Night — review today's progress and prepare tomorrow.";
-
-  }
-
-  // PENDING ADDITION
-  if(studyToday === 0) {
-
-    reminder +=
-      " 📚 Study is still pending.";
-
-  }
-
-  if(runToday === 0) {
-
-    reminder +=
-      " 🏃 Running is still pending.";
-
-  }
-
-  document.getElementById(
-    "dailyReminderMessage"
-  ).textContent = reminder;
-}
-</script>
-<!-- DATA BACKUP & EXPORT -->
-<section class="card">
-  <h2>💾 Data Backup & Export</h2>
-  <p>Download a backup of your Life OS data.</p>
-
-  <button onclick="exportLifeOSData()">
-    📥 Download My Backup
-  </button>
-
-  <p id="backupStatus"></p>
-</section>
-
-<script>
-function exportLifeOSData() {
-
-  const backup = {
-    backupDate: new Date().toISOString(),
-
-    tasks:
-      typeof tasks !== "undefined"
-        ? tasks
-        : [],
-
-    goals:
-      typeof goals !== "undefined"
-        ? goals
-        : [],
-
-    plans:
-      typeof plans !== "undefined"
-        ? plans
-        : [],
-
-    study:
-      typeof studyRecords !== "undefined"
-        ? studyRecords
-        : [],
-
-    running:
-      typeof runRecords !== "undefined"
-        ? runRecords
-        : [],
-
-    money:
-      typeof moneyRecords !== "undefined"
-        ? moneyRecords
-        : [],
-
-    jobs:
-      typeof jobRecords !== "undefined"
-        ? jobRecords
-        : [],
-
-    diary:
-      typeof diaryRecords !== "undefined"
-        ? diaryRecords
-        : [],
-
-    targets:
-      typeof targets !== "undefined"
-        ? targets
-        : {}
-  };
-
-  const jsonData =
-    JSON.stringify(
-      backup,
-      null,
-      2
-    );
-
-  const blob =
-    new Blob(
-      [jsonData],
-      {
-        type: "application/json"
-      }
-    );
-
-  const url =
-    URL.createObjectURL(blob);
-
-  const link =
-    document.createElement("a");
-
-  const date =
-    new Date()
-      .toISOString()
-      .split("T")[0];
-
-  link.href = url;
-
-  link.download =
-    "vasanth-life-os-backup-" +
-    date +
-    ".json";
-
-  document.body.appendChild(link);
-
-  link.click();
-
-  document.body.removeChild(link);
-
-  URL.revokeObjectURL(url);
-
-  document.getElementById(
-    "backupStatus"
-  ).textContent =
-    "✅ Backup downloaded successfully.";
-}
-</script>
-<!-- BACKUP PROTECTION -->
-<section class="card">
-  <h2>🛡️ Backup Protection</h2>
-  <p id="backupProtectionStatus">
-    Checking backup status...
-  </p>
-
-  <button onclick="protectedBackup()">
-    💾 Create Protected Backup
-  </button>
-</section>
-
-<script>
-function protectedBackup() {
-
-  const confirmed = confirm(
-    "Create a new backup of your Life OS data?"
-  );
-
-  if(!confirmed) {
-    return;
-  }
-
-  if(typeof exportLifeOSData === "function") {
-
-    exportLifeOSData();
-
-    const now = new Date();
-
-    localStorage.setItem(
-      "lifeOS_lastBackup",
-      now.toISOString()
-    );
-
-    updateBackupProtectionStatus();
-
-  } else {
-
-    alert(
-      "Backup function not found. Please check the Backup Export section."
-    );
-  }
-}
-
-
-function updateBackupProtectionStatus() {
-
-  const status =
-    document.getElementById(
-      "backupProtectionStatus"
-    );
-
-  if(!status) return;
-
-  const lastBackup =
-    localStorage.getItem(
-      "lifeOS_lastBackup"
-    );
-
-  if(!lastBackup) {
-
-    status.textContent =
-      "⚠️ No protected backup recorded yet.";
-
-    return;
-  }
-
-  const backupDate =
-    new Date(lastBackup);
-
-  const now =
-    new Date();
-
-  const difference =
-    Math.floor(
-      (now - backupDate) /
-      (1000 * 60 * 60 * 24)
-    );
-
-  if(difference === 0) {
-
-    status.textContent =
-      "✅ Backup created today.";
-
-  }
-  else if(difference === 1) {
-
-    status.textContent =
-      "🟢 Last backup: yesterday.";
-
-  }
-  else if(difference <= 7) {
-
-    status.textContent =
-      "🟢 Last backup: " +
-      difference +
-      " days ago.";
-
-  }
-  else {
-
-    status.textContent =
-      "⚠️ Last backup was " +
-      difference +
-      " days ago. Create a fresh backup.";
-
-  }
-}
-
-
-// Check status when page loads
-updateBackupProtectionStatus();
-</script>
-<!-- 🔎 GLOBAL SEARCH -->
-<section class="card" id="globalSearchSection">
-  <h2>🔎 Global Search</h2>
-
-  <input
-    type="text"
-    id="lifeOSSearchInput"
-    placeholder="Search tasks, goals, study, running, money, career, diary..."
-    oninput="lifeOSSearch()"
-    style="width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#111;color:white;"
-  >
-
-  <div id="lifeOSSearchResults" style="margin-top:15px;">
-    <p style="opacity:0.6;">Type something to search your Life OS data...</p>
-  </div>
-</section>
-
-<script>
-function lifeOSSearch() {
-  const input = document.getElementById("lifeOSSearchInput");
-  const results = document.getElementById("lifeOSSearchResults");
-
-  const query = input.value.trim().toLowerCase();
-
-  if (!query) {
-    results.innerHTML =
-      '<p style="opacity:0.6;">Type something to search your Life OS data...</p>';
-    return;
-  }
-
-  const collections = [
-    { name: "📝 Tasks", data: typeof tasks !== "undefined" ? tasks : [] },
-    { name: "🎯 Goals", data: typeof goals !== "undefined" ? goals : [] },
-    { name: "📅 Planner", data: typeof plans !== "undefined" ? plans : [] },
-    { name: "📚 Study", data: typeof studyRecords !== "undefined" ? studyRecords : [] },
-    { name: "🏃 Running", data: typeof runRecords !== "undefined" ? runRecords : [] },
-    { name: "💰 Money", data: typeof moneyRecords !== "undefined" ? moneyRecords : [] },
-    { name: "💼 Career", data: typeof jobRecords !== "undefined" ? jobRecords : [] },
-    { name: "📔 Diary", data: typeof diaryRecords !== "undefined" ? diaryRecords : [] }
-  ];
-
-  let found = [];
-
-  collections.forEach(collection => {
-    if (!Array.isArray(collection.data)) return;
-
-    collection.data.forEach(item => {
-      const searchableText =
-        (collection.name + " " + JSON.stringify(item)).toLowerCase();
-
-      if (searchableText.includes(query)) {
-        found.push({
-          category: collection.name,
-          item: item
-        });
-      }
-    });
-  });
-
-  if (found.length === 0) {
-    results.innerHTML = `
-      <p style="opacity:0.7;">
-        ❌ No matching records found for "<b>${query}</b>"
-      </p>
-    `;
-    return;
-  }
-
-  results.innerHTML = `
-    <p>
-      🔎 Found <b>${found.length}</b> result(s)
-    </p>
-
-    ${found.map(result => `
-      <div style="
-        margin:10px 0;
-        padding:14px;
-        border:1px solid #333;
-        border-radius:12px;
-        background:#151515;
-      ">
-        <div style="
-          font-weight:bold;
-          margin-bottom:8px;
-          font-size:16px;
-        ">
-          ${result.category}
-        </div>
-
-        <div style="
-          font-size:13px;
-          line-height:1.7;
-          word-break:break-word;
-          opacity:0.9;
-        ">
-          ${lifeOSFormatSearchResult(result.item)}
-        </div>
-      </div>
-    `).join("")}
-  `;
-}
-function lifeOSFormatSearchResult(item) {
-  if (!item || typeof item !== "object") {
-    return String(item);
-  }
-
-  const values = [];
-
-  Object.entries(item).forEach(([key, value]) => {
-    if (
-      value !== null &&
-      value !== undefined &&
-      value !== "" &&
-      typeof value !== "object"
-    ) {
-      values.push(
-        `<b>${key}:</b> ${String(value)}`
-      );
-    }
-  });
-
-  return values.join(" &nbsp; | &nbsp; ");
-}
-</script>
-
-<script>
-/* ================= PAGE NAVIGATION ================= */
-
-function showPage(pageId) {
-  document.querySelectorAll(".os-page").forEach(page => {
-    page.classList.add("hidden");
-  });
-
-  const page = document.getElementById(pageId);
-  if (page) page.classList.remove("hidden");
-
-  document.querySelectorAll(".nav-btn").forEach(btn => {
-    btn.classList.remove("active");
-  });
-
-  const activeBtn = document.querySelector(
-    '.nav-btn[data-page="' + pageId + '"]'
-  );
-  if (activeBtn) activeBtn.classList.add("active");
-
-  localStorage.setItem("lifeOSCurrentPage", pageId);
-}
-
-function organizeLifeOSPages() {
-  const life = document.getElementById("lifePage");
-  const fitness = document.getElementById("fitnessPage");
-  const jobs = document.getElementById("jobsPage");
-  const stats = document.getElementById("statsPage");
-
-  if (!life || !fitness || !jobs || !stats) return;
-
-  const cards = Array.from(document.querySelectorAll(".container .card"));
-
-  const getTitle = card => {
-    const h2 = card.querySelector("h2");
-    return h2 ? h2.textContent.trim() : "";
-  };
-
-  cards.forEach(card => {
-    const title = getTitle(card);
-
-    if (title.includes("Fitness & Running")) {
-      fitness.appendChild(card);
-    } else if (title.includes("Job Applications")) {
-      jobs.appendChild(card);
-    } else if (
-      title.includes("Life Statistics") ||
-      title.includes("Progress Graphs") ||
-      title.includes("Streak Tracker") ||
-      title.includes("Weekly Performance") ||
-      title.includes("Monthly Life Score") ||
-      title.includes("Monthly Progress History") ||
-      title.includes("Personal Achievements") ||
-      title.includes("Smart Daily Dashboard") ||
-      title.includes("Life Analytics") ||
-      title.includes("Activity Calendar") ||
-      title.includes("Smart Insights") ||
-      title.includes("XP") ||
-      title.includes("Weekly Command Center")
-    ) {
-      stats.appendChild(card);
-    } else {
-      life.appendChild(card);
-    }
-  });
-
-  const topStats = document.querySelector(".container > .stats");
-  if (topStats) life.prepend(topStats);
-
-  const legacyTwoCol = document.querySelector(".container > .two-col");
-  if (legacyTwoCol && legacyTwoCol.children.length === 0) {
-    legacyTwoCol.remove();
-  }
-
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    const match = btn.getAttribute("onclick").match(/showPage\("([^"]+)"\)/);
-    if (match) btn.dataset.page = match[1];
-  });
-
-  const saved = localStorage.getItem("lifeOSCurrentPage");
-  showPage(saved && document.getElementById(saved) ? saved : "lifePage");
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", organizeLifeOSPages);
-} else {
-  organizeLifeOSPages();
-}
-</script>
-
-</body>
-</html>
+updateCar
