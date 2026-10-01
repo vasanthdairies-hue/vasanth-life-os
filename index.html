@@ -702,9 +702,18 @@ button{border-radius:11px!important;}
 .lifeos-rightbar-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;}
 .lifeos-rightbar-title h3{font-size:16px;}
 .lifeos-rightbar-title span{color:#78aaff;font-size:12px;}
-.lifeos-cal-head{display:flex;justify-content:space-between;align-items:center;color:#e7effb;margin-bottom:13px;}
+.lifeos-cal-head{display:grid;grid-template-columns:34px 1fr 34px;align-items:center;color:#e7effb;margin-bottom:7px;gap:7px;}
 .lifeos-cal-head button{padding:5px 8px!important;background:#0b2745!important;border:1px solid #1b456f!important;color:#bcd0e8!important;}
 .lifeos-cal-month{text-align:center;font-weight:750;}
+.lifeos-cal-live{display:flex;justify-content:center;align-items:center;gap:7px;color:#7fa9dc;font-size:10px;margin-bottom:10px;}
+.lifeos-cal-live-dot{width:7px;height:7px;border-radius:50%;background:#14d39a;box-shadow:0 0 9px #14d39a;animation:lifeosPulse 1.6s infinite;}
+@keyframes lifeosPulse{0%,100%{opacity:.45}50%{opacity:1}}
+.lifeos-cal-today{display:flex;justify-content:center;margin:9px 0 2px;}
+.lifeos-cal-today button{font-size:10px!important;padding:5px 11px!important;border-radius:999px!important;background:#123a64!important;border:1px solid #285d93!important;color:#d8e9ff!important;}
+.lifeos-day{cursor:pointer;transition:transform .15s ease,border-color .15s ease,background .15s ease;}
+.lifeos-day:not(.empty):hover{transform:translateY(-1px);border-color:#5598ff;}
+.lifeos-day.selected{box-shadow:0 0 0 2px rgba(85,152,255,.45) inset;border-color:#5598ff;}
+.lifeos-selected-date{text-align:center;color:#8ea5c4;font-size:10px;margin-top:9px;}
 .lifeos-weekdays,.lifeos-days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
 .lifeos-weekdays div{text-align:center;color:#7389a9;font-size:10px;padding:4px 0;}
 .lifeos-day{min-height:42px;border:1px solid #102f50;border-radius:9px;background:#07182b;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:#b7c8de;gap:2px;}
@@ -860,10 +869,13 @@ button{border-radius:11px!important;}
       <div class="lifeos-cal-month" id="lifeosCalendarMonth">—</div>
       <button onclick="changeLifeOSCalendar(1)" aria-label="Next month">›</button>
     </div>
+    <div class="lifeos-cal-live"><i class="lifeos-cal-live-dot"></i><span id="lifeosLiveClock">Live time —</span></div>
     <div class="lifeos-weekdays">
       <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
     </div>
     <div class="lifeos-days" id="lifeosCalendarDays"></div>
+    <div class="lifeos-cal-today"><button type="button" onclick="goLifeOSToday()">Today</button></div>
+    <div class="lifeos-selected-date" id="lifeosSelectedDate">Today —</div>
     <div class="lifeos-calendar-legend">
       <span><i class="lifeos-legend-bullet" style="background:#14d39a"></i>Completed</span>
       <span><i class="lifeos-legend-bullet" style="background:#ff4e6b"></i>Missed</span>
@@ -1819,14 +1831,18 @@ function lifeOSClampPercent(value){
   return Math.max(0, Math.min(100, n));
 }
 
+function lifeOSLocalKey(date=new Date()){
+  const d = new Date(date);
+  if(Number.isNaN(d.getTime())) return '';
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
 function lifeOSTodayKey(){
-  return new Date().toISOString().split('T')[0];
+  return lifeOSLocalKey(new Date());
 }
 
 function lifeOSDateKey(date){
-  const d = new Date(date);
-  if(Number.isNaN(d.getTime())) return '';
-  return d.toISOString().split('T')[0];
+  return lifeOSLocalKey(date);
 }
 
 function lifeOSCompletedDateSet(){
@@ -1864,33 +1880,78 @@ function lifeOSCompletedDateSet(){
 function updateLifeOSCalendar(){
   const monthEl=document.getElementById('lifeosCalendarMonth');
   const daysEl=document.getElementById('lifeosCalendarDays');
+  const selectedEl=document.getElementById('lifeosSelectedDate');
   if(!monthEl || !daysEl) return;
+
   const y=lifeOSCalendarCursor.getFullYear();
   const m=lifeOSCalendarCursor.getMonth();
   monthEl.textContent=lifeOSCalendarCursor.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+
   const first=new Date(y,m,1).getDay();
   const count=new Date(y,m+1,0).getDate();
   const today=lifeOSTodayKey();
   const done=lifeOSCompletedDateSet();
+  const selected=window.lifeOSSelectedDate || today;
   let html='';
+
   for(let i=0;i<first;i++) html+='<div class="lifeos-day empty"></div>';
+
   for(let d=1;d<=count;d++){
     const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const isDone=done.has(key);
     const isToday=key===today;
-    const past=key<today;
+    const isSelected=key===selected;
+    const dayDate=new Date(y,m,d);
+    const past=dayDate < new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
     const cls=['lifeos-day'];
     if(isToday) cls.push('today');
+    if(isSelected) cls.push('selected');
     if(isDone) cls.push('done');
-    else if(past && y===new Date().getFullYear() && m===new Date().getMonth()) cls.push('missed');
-    html+=`<div class="${cls.join(' ')}"><span>${d}</span><span class="mark">${isDone?'✓':(past&&m===new Date().getMonth()?'×':'')}</span></div>`;
+    else if(past) cls.push('missed');
+    const mark=isDone?'✓':(past?'×':'');
+    html+=`<button type="button" class="${cls.join(' ')}" onclick="selectLifeOSCalendarDate('${key}')" aria-label="${key}"><span>${d}</span><span class="mark">${mark}</span></button>`;
   }
   daysEl.innerHTML=html;
+
+  if(selectedEl){
+    const d=new Date(`${selected}T00:00:00`);
+    const label=Number.isNaN(d.getTime()) ? 'Today —' : d.toLocaleDateString('en-IN',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+    selectedEl.textContent=(selected===today?'Today · ':'Selected · ')+label;
+  }
 }
 
+function selectLifeOSCalendarDate(key){
+  window.lifeOSSelectedDate=key;
+  const d=new Date(`${key}T00:00:00`);
+  if(!Number.isNaN(d.getTime())){
+    lifeOSCalendarCursor=new Date(d.getFullYear(),d.getMonth(),1);
+  }
+  updateLifeOSCalendar();
+}
+
+function goLifeOSToday(){
+  const now=new Date();
+  lifeOSCalendarCursor=new Date(now.getFullYear(),now.getMonth(),1);
+  window.lifeOSSelectedDate=lifeOSTodayKey();
+  updateLifeOSCalendar();
+}
 function changeLifeOSCalendar(step){
   lifeOSCalendarCursor.setMonth(lifeOSCalendarCursor.getMonth()+step);
   updateLifeOSCalendar();
+}
+
+function updateLifeOSLiveClock(){
+  const el=document.getElementById('lifeosLiveClock');
+  if(!el) return;
+  const now=new Date();
+  el.textContent=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
+  const today=lifeOSTodayKey();
+  if(window.lifeOSLastCalendarDay!==today){
+    window.lifeOSLastCalendarDay=today;
+    lifeOSCalendarCursor=new Date(now.getFullYear(),now.getMonth(),1);
+    window.lifeOSSelectedDate=today;
+    updateLifeOSCalendar();
+  }
 }
 
 function updateLifeOSWeeklySummary(){
@@ -1971,9 +2032,18 @@ function updateRedesignOverview(){
 }
 
 window.addEventListener('load',()=>{
+  const now=new Date();
+  lifeOSCalendarCursor=new Date(now.getFullYear(),now.getMonth(),1);
+  window.lifeOSSelectedDate=lifeOSTodayKey();
   updateRedesignOverview();
   updateLifeOSCalendar();
   updateLifeOSWeeklySummary();
+  updateLifeOSLiveClock();
+  setInterval(updateLifeOSLiveClock,1000);
+  setInterval(()=>{
+    updateLifeOSCalendar();
+    updateLifeOSWeeklySummary();
+  },60000);
 });
 </script>
 
