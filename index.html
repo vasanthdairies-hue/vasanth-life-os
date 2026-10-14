@@ -598,6 +598,21 @@ body.lifeos-sidebar-open .lifeos-sidebar{transform:translateX(0);}
 .lifeos-side-meter{height:6px;background:#163454;border-radius:99px;overflow:hidden;margin-top:12px;}
 .lifeos-side-meter span{display:block;height:100%;width:38%;background:linear-gradient(90deg,#14d49b,#3b82f6);border-radius:99px;}
 
+
+.lifeos-logout-button{
+  min-height:42px;padding:10px 14px;border:1px solid #8a3445;border-radius:11px;
+  background:#3b1724;color:#ffe3e8;font-weight:750;font-size:13px;cursor:pointer;
+  white-space:nowrap;transition:background .18s ease,border-color .18s ease;
+}
+.lifeos-logout-button:hover{background:#572031;border-color:#d45c73;}
+@media(max-width:700px){
+  .lifeos-topbar{padding:14px 14px;gap:10px;align-items:flex-start;}
+  .lifeos-userbox{flex-wrap:wrap;justify-content:flex-end;max-width:48%;}
+  .lifeos-datebox{display:none;}
+  #redesignUserName{max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;}
+  .lifeos-logout-button{padding:8px 10px;min-height:38px;}
+}
+
 /* Topbar */
 .lifeos-topbar{
   position:sticky;top:0;z-index:80;
@@ -865,6 +880,7 @@ button{border-radius:11px!important;}
   <div class="lifeos-userbox">
     <div class="lifeos-datebox"><span>🗓️</span><div><b>Today</b><br><span id="redesignDate">—</span></div></div>
     <span id="redesignUserName"></span>
+    <button type="button" class="lifeos-logout-button" onclick="logout()" aria-label="Log out of Vasanth Life OS">↪ Logout</button>
   </div>
 </div>
 
@@ -2152,9 +2168,12 @@ alert(
 
 
 window.logout=async function(){
-
-await signOut(auth);
-
+  try{
+    await signOut(auth);
+    document.body.classList.remove("lifeos-sidebar-open");
+  }catch(error){
+    alert("Logout failed: " + (error?.message || "Please try again."));
+  }
 };
 
 
