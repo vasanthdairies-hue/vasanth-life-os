@@ -600,9 +600,10 @@ body.lifeos-sidebar-open .lifeos-sidebar{transform:translateX(0);}
 
 
 .lifeos-logout-button{
+  position:relative;z-index:1000;pointer-events:auto;
   min-height:42px;padding:10px 14px;border:1px solid #8a3445;border-radius:11px;
   background:#3b1724;color:#ffe3e8;font-weight:750;font-size:13px;cursor:pointer;
-  white-space:nowrap;transition:background .18s ease,border-color .18s ease;
+  white-space:nowrap;touch-action:manipulation;transition:background .18s ease,border-color .18s ease;
 }
 .lifeos-logout-button:hover{background:#572031;border-color:#d45c73;}
 @media(max-width:700px){
@@ -880,7 +881,7 @@ button{border-radius:11px!important;}
   <div class="lifeos-userbox">
     <div class="lifeos-datebox"><span>🗓️</span><div><b>Today</b><br><span id="redesignDate">—</span></div></div>
     <span id="redesignUserName"></span>
-    <button type="button" class="lifeos-logout-button" onclick="logout()" aria-label="Log out of Vasanth Life OS">↪ Logout</button>
+    <button type="button" id="lifeOSLogoutButton" class="lifeos-logout-button" aria-label="Log out of Vasanth Life OS">↪ Logout</button>
   </div>
 </div>
 
@@ -2168,13 +2169,41 @@ alert(
 
 
 window.logout=async function(){
+  const buttons = [
+    document.getElementById("lifeOSLogoutButton"),
+    document.getElementById("lifeOSLegacyLogoutButton")
+  ].filter(Boolean);
   try{
+    buttons.forEach(button => {
+      button.disabled = true;
+      button.dataset.originalText = button.textContent;
+      button.textContent = "Logging out…";
+      button.style.cursor = "wait";
+    });
     await signOut(auth);
     document.body.classList.remove("lifeos-sidebar-open");
   }catch(error){
     alert("Logout failed: " + (error?.message || "Please try again."));
+    buttons.forEach(button => {
+      button.disabled = false;
+      if(button.dataset.originalText) button.textContent = button.dataset.originalText;
+      button.style.cursor = "pointer";
+    });
   }
 };
+
+// Bind directly after Firebase module initialization; do not rely on inline handlers.
+for (const id of ["lifeOSLogoutButton", "lifeOSLegacyLogoutButton"]) {
+  const button = document.getElementById(id);
+  if (button && !button.dataset.logoutBound) {
+    button.dataset.logoutBound = "true";
+    button.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      window.logout();
+    });
+  }
+}
 
 
 /* AUTH */
