@@ -826,7 +826,7 @@ button{border-radius:11px!important;}
 
   <nav class="lifeos-nav" aria-label="Life OS navigation">
     <a href="#redesignOverview" class="active" onclick="setLifeOSNav(this)"><span class="nav-icon">⌂</span>Home</a>
-    <a href="#targetDashboardCard" onclick="setLifeOSNav(this)"><span class="nav-icon">🎯</span>Goals</a>
+    <a href="#goalsSection" onclick="setLifeOSNav(this)"><span class="nav-icon">🎯</span>Goals</a>
     <a href="#tasksSection" onclick="setLifeOSNav(this)"><span class="nav-icon">☑</span>Tasks</a>
     <a href="#studySection" onclick="setLifeOSNav(this)"><span class="nav-icon">📖</span>Study</a>
     <a href="#runningSection" onclick="setLifeOSNav(this)"><span class="nav-icon">🏃</span>Running</a>
@@ -848,8 +848,8 @@ button{border-radius:11px!important;}
   <div class="lifeos-page-title">
     <span class="page-icon">🎯</span>
     <div>
-      <h1>Goals &amp; Targets</h1>
-      <p>Track your daily progress. Your targets are set for today, and progress updates automatically.</p>
+      <h1>Vasanth Life OS</h1>
+      <p>Plan your day, track your progress, and build consistency.</p>
     </div>
   </div>
   <div class="lifeos-userbox">
@@ -996,9 +996,9 @@ Logout
 </div>
 
 
-<!-- TARGET DASHBOARD -->
+<!-- TARGET DASHBOARD (hidden from the main dashboard as requested; data and logic retained) -->
 
-<div class="card">
+<div class="card" id="targetDashboardSection" style="display:none !important;">
 
 <h2 id="targetDashboardCard">🎯 Goals &amp; Targets Dashboard</h2>
 
@@ -1307,7 +1307,7 @@ Add Task
 
 <!-- GOALS -->
 
-<div class="card">
+<div class="card" id="goalsSection">
 
 <h2>🎯 Goals</h2>
 
@@ -1352,6 +1352,12 @@ placeholder="What do you need to do?">
 id="planTime"
 type="time">
 
+<input
+id="planDate"
+type="date"
+aria-label="Schedule date"
+onchange="selectLifeOSCalendarDate(this.value)">
+
 <button
 class="primary"
 onclick="addPlan()">
@@ -1362,6 +1368,7 @@ Add Plan
 
 </div>
 
+<p class="item-info" id="plannerSelectedDateLabel" style="margin:8px 0 12px;">Showing schedule for today.</p>
 <div id="planList"></div>
 
 </div>
@@ -1968,19 +1975,26 @@ function updateLifeOSCalendar(){
 }
 
 function selectLifeOSCalendarDate(key){
+  if(!key) return;
   window.lifeOSSelectedDate=key;
   const d=new Date(`${key}T00:00:00`);
   if(!Number.isNaN(d.getTime())){
     lifeOSCalendarCursor=new Date(d.getFullYear(),d.getMonth(),1);
   }
+  const dateInput=document.getElementById('planDate');
+  if(dateInput && dateInput.value!==key) dateInput.value=key;
+  const label=document.getElementById('plannerSelectedDateLabel');
+  if(label){
+    label.textContent='Showing schedule for '+d.toLocaleDateString('en-IN',{weekday:'long',day:'2-digit',month:'short',year:'numeric'})+'.';
+  }
+  if(typeof window.renderPlans==='function') window.renderPlans();
   updateLifeOSCalendar();
 }
 
 function goLifeOSToday(){
   const now=new Date();
   lifeOSCalendarCursor=new Date(now.getFullYear(),now.getMonth(),1);
-  window.lifeOSSelectedDate=lifeOSTodayKey();
-  updateLifeOSCalendar();
+  selectLifeOSCalendarDate(lifeOSTodayKey());
 }
 function changeLifeOSCalendar(step){
   lifeOSCalendarCursor.setMonth(lifeOSCalendarCursor.getMonth()+step);
@@ -2081,6 +2095,10 @@ window.addEventListener('load',()=>{
   const now=new Date();
   lifeOSCalendarCursor=new Date(now.getFullYear(),now.getMonth(),1);
   window.lifeOSSelectedDate=lifeOSTodayKey();
+  const plannerDateInput=document.getElementById('planDate');
+  if(plannerDateInput) plannerDateInput.value=window.lifeOSSelectedDate;
+  const plannerDateLabel=document.getElementById('plannerSelectedDateLabel');
+  if(plannerDateLabel) plannerDateLabel.textContent='Showing schedule for today.';
   updateRedesignOverview();
   updateLifeOSCalendar();
   updateLifeOSWeeklySummary();
@@ -2181,11 +2199,8 @@ let lifeChart=null;
 /* DATE */
 
 function today(){
-
-return new Date()
-.toISOString()
-.split("T")[0];
-
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
 }
 
 
@@ -2724,7 +2739,14 @@ document.getElementById("planList");
 
 list.innerHTML="";
 
-plans
+const selectedDate=String(window.lifeOSSelectedDate || today());
+const visiblePlans=plans.filter(plan=>String(plan.planDate || today())===selectedDate);
+if(visiblePlans.length===0){
+  list.innerHTML='<div class="item-info" style="padding:12px 0;">No schedule added for this date yet. Add a task above.</div>';
+  return;
+}
+
+visiblePlans
 .sort(
 (a,b)=>
 (a.time||"")
@@ -2803,6 +2825,7 @@ list.appendChild(div);
 });
 
 }
+window.renderPlans = renderPlans;
 
 
 window.addPlan=async function(){
@@ -2814,6 +2837,8 @@ document.getElementById("planInput")
 const time=
 document.getElementById("planTime")
 .value;
+const planDateInput=document.getElementById("planDate");
+const planDate=(planDateInput && planDateInput.value) || window.lifeOSSelectedDate || today();
 
 if(!text)return;
 
@@ -2827,7 +2852,7 @@ currentUser.uid,
 {
 text,
 time,
-planDate:today(),
+planDate,
 completed:false,
 createdAt:Date.now()
 }
@@ -2988,6 +3013,12 @@ ${study.studyDate}
 <div class="item-actions">
 
 <button
+class="${study.completed ? 'secondary' : 'success'}"
+onclick="toggleStudy('${study.id}', ${Boolean(study.completed)})">
+${study.completed ? '✓ Completed · Undo' : '✓ Complete'}
+</button>
+
+<button
 class="primary"
 onclick="editStudy('${study.id}')">
 
@@ -3114,6 +3145,19 @@ completed:progress>=100
 };
 
 
+window.toggleStudy=async function(id, status){
+  const study=studies.find(x=>x.id===id);
+  if(!study || !currentUser) return;
+  const completed=!status;
+  let progress=Number(study.progress ?? 0);
+  if(completed) progress=100;
+  else if(progress>=100) progress=99;
+  await updateDoc(doc(db,"users",currentUser.uid,"studies",id),{
+    completed,
+    progress
+  });
+};
+
 window.deleteStudy=async function(id){
 
 await deleteDoc(
@@ -3201,6 +3245,12 @@ ${run.runDate}
 <div class="item-actions">
 
 <button
+class="${run.completed ? 'secondary' : 'success'}"
+onclick="toggleRun('${run.id}', ${Boolean(run.completed)})">
+${run.completed ? '✓ Completed · Undo' : '✓ Complete'}
+</button>
+
+<button
 class="primary"
 onclick="editRun('${run.id}')">
 
@@ -3252,7 +3302,7 @@ currentUser.uid,
 distance,
 time,
 runDate:today(),
-completed:true,
+completed:false,
 createdAt:Date.now()
 }
 );
@@ -3267,6 +3317,13 @@ document.getElementById(
 
 };
 
+
+window.toggleRun=async function(id, status){
+  if(!currentUser) return;
+  await updateDoc(doc(db,"users",currentUser.uid,"runs",id),{
+    completed:!status
+  });
+};
 
 window.editRun=async function(id){
 
@@ -6482,9 +6539,6 @@ function updateSmartDashboard() {
       📔 Add Diary
     </button>
 
-    <button onclick="quickGo('Goals & Targets')">
-      🎯 Set Targets
-    </button>
 
   </div>
 </section>
