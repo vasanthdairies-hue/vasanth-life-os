@@ -1369,44 +1369,6 @@ Add Goal
 </div>
 
 
-<!-- DAILY PLANNER -->
-
-<div class="card">
-
-<h2>🗓️ Daily Planner</h2>
-
-<div class="form">
-
-<input
-id="planInput"
-placeholder="What do you need to do?">
-
-<input
-id="planTime"
-type="time">
-
-<input
-id="planDate"
-type="date"
-aria-label="Schedule date"
-onchange="selectLifeOSCalendarDate(this.value)">
-
-<button
-class="primary"
-onclick="addPlan()">
-
-Add Plan
-
-</button>
-
-</div>
-
-<p class="item-info" id="plannerSelectedDateLabel" style="margin:8px 0 12px;">Showing schedule for today.</p>
-<div id="planList"></div>
-
-</div>
-
-
 <!-- STUDY -->
 
 <div class="card">
@@ -1479,6 +1441,45 @@ Add Run
 </div>
 
 <div id="runList"></div>
+
+</div>
+
+
+
+<!-- DAILY PLANNER -->
+
+<div class="card">
+
+<h2>🗓️ Daily Planner</h2>
+
+<div class="form">
+
+<input
+id="planInput"
+placeholder="What do you need to do?">
+
+<input
+id="planTime"
+type="time">
+
+<input
+id="planDate"
+type="date"
+aria-label="Schedule date"
+onchange="selectLifeOSCalendarDate(this.value)">
+
+<button
+class="primary"
+onclick="addPlan()">
+
+Add Plan
+
+</button>
+
+</div>
+
+<p class="item-info" id="plannerSelectedDateLabel" style="margin:8px 0 12px;">Showing schedule for today.</p>
+<div id="planList"></div>
 
 </div>
 
@@ -2238,8 +2239,10 @@ id:d.id,
 ...d.data()
 })
 );
+window.tasks=tasks;
 
 renderTasks();
+if(typeof updateRedesignOverview==='function') updateRedesignOverview();
 
 updateStats();
 
@@ -2882,6 +2885,7 @@ id:d.id,
 ...d.data()
 })
 );
+window.studies=studies;
 
 renderStudies();
 
@@ -3119,6 +3123,7 @@ id:d.id,
 ...d.data()
 })
 );
+window.runs=runs;
 
 renderRuns();
 
@@ -3325,6 +3330,7 @@ id:d.id,
 ...d.data()
 })
 );
+window.money=money;
 
 renderMoney();
 
@@ -3939,6 +3945,8 @@ snapshot.forEach(item=>{
 });
 
 currentTarget=targetHistory[today()] || null;
+window.targets=targetHistory;
+window.currentTarget=currentTarget;
 
 renderTargetInputs();
 
@@ -4068,6 +4076,9 @@ merge:true
 }
 );
 
+currentTarget={targetDate:today(),taskTarget,studyTarget,runTarget,moneyTarget};
+window.currentTarget=currentTarget;
+if(typeof updateRedesignOverview==='function') updateRedesignOverview();
 alert(
 "Today's targets saved successfully 🎯"
 );
